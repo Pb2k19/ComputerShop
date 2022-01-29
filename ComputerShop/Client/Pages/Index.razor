@@ -1,9 +1,37 @@
-﻿@page "/"
+﻿@inject ICategoryService CategoryService
+@page "/{category}"
+@page "/"
 
-<PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@if (currentCategory == null)
+{
+    <PageTitle>Index</PageTitle>
+    <DisplayProducts />
+}
+else
+{
+    <PageTitle>@currentCategory.Name</PageTitle>
+    <DisplayProducts CategoryID="@currentCategory.Id" />
+}
+
+
+@code
+{
+    [Parameter] public string? Category { get; set; }
+    private Category? currentCategory;
+
+    protected override void OnParametersSet()
+    {
+        if (Category == null)
+        {
+            currentCategory = null;
+        }
+        else
+        {
+            currentCategory = CategoryService.Categories.FirstOrDefault(x => x.Url.ToLower().Equals(Category.ToLower()));
+        }
+        base.OnParametersSet();
+    }
+}

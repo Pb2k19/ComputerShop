@@ -34,6 +34,72 @@ a, .btn-link {
     color: red;
 }
 
+.card {
+    display: inline-block;
+    width: 375px;
+    vertical-align: bottom;
+    margin: 5px
+}
+
+.card-columns .card-img {
+    height: 375px;
+    vertical-align: bottom;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card-columns .card-body {
+    height: 175px;
+    font-family: 'Roboto', sans-serif;
+    background: #fbfafd;
+}
+
+.card-columns .card-body .card-name{
+    height: 65px;
+    overflow: hidden;
+}
+
+.card-columns .card-body .card-price {
+    height: 100px;
+    width: 100%;
+}
+
+.card-columns .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(37,33,82,.12), 0 4px 8px rgba(37,33,82,.06);
+}
+
+.cursorHand {
+    cursor: pointer;
+}
+
+.price{
+    text-align: right;
+}
+
+.price-befor-discount {
+    text-align: right;    
+    text-decoration: line-through;
+    padding-bottom: 0px;
+}
+
+.carousel-inner img {
+    object-fit: contain;
+    width: 100%;
+}
+
+#carouselComponent .carousel-item img{
+    object-fit: cover;
+    object-position: center;
+    height: 50vh;
+    overflow: hidden;
+}
+
+#carouselComponent .carousel-indicators button {
+    margin-left: 15px;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

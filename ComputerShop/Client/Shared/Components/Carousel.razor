@@ -1,0 +1,43 @@
+﻿<div id="carouselComponent" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        @if (slideCss.Count > 1)
+        {
+            @foreach (var item in slideCss.Select((value, i) => (value, i)))
+            {
+                if (Math.Abs(currentPosition % Images.Count) == item.i)
+                {
+                    <button 
+                        type="button"
+                        class="btn btn-outline-dark border-2 opacity-75 active shadow-none"
+                        @onclick="() => GoToSelectedSlide(item.i)">
+                    </button>
+                }
+                else
+                {
+                    <button 
+                        type="button"
+                        class="btn btn-outline-dark opacity-75 border-2 shadow-none"
+                        @onclick="() => GoToSelectedSlide(item.i)">
+                    </button>
+                }
+            }
+        }
+    </div>
+    <div class="carousel-inner">
+        @for (int i = 0; i < Images.Count; i++)
+        {
+            <div class="carousel-item @slideCss[i]">
+                <img class="d-block w-100" src="@Images[i]" alt="@i slide">
+            </div>
+        }
+    </div>
+    @if (slideCss.Count > 1)
+     {
+        <a class="carousel-control-prev" role="button" data-slide="prev" @onclick="()=>GoToNext(true)">
+            <span class="carousel-control-prev-icon bg-black rounded" style="width: 40px; height: 40px; " aria-hidden="true"></span>
+        </a>
+        <a class="carousel-control-next" role="button" data-slide="next" @onclick="()=>GoToNext(false)">
+            <span class="carousel-control-next-icon bg-dark rounded" style="width: 40px; height: 40px;" aria-hidden="true"></span>
+        </a>
+     }
+</div>

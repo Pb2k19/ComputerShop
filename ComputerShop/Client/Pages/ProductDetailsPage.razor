@@ -1,0 +1,15 @@
+﻿@page "/product/{id}"
+
+<div class="container-fluid">
+    <div class="row">
+        <h1>@currentProdcut?.Name</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4"><Carousel Images="@currentProdcut?.Images?.Select(x => x.Location).ToList()" /></div>
+        <div class="col-sm-8 col-md-8 col-lg-8"><p>@currentProdcut?.Description</p></div>
+    </div>
+</div>
+
+    
+
+
