@@ -16,6 +16,10 @@ namespace ComputerShop.Client.Shared.Components
 
         protected override void OnInitialized()
         {
+            if(Images == null)
+            {
+                Images = new List<string>();
+            }
             ct = cts.Token;
             if(Images.Count > 0)
             {
@@ -31,7 +35,7 @@ namespace ComputerShop.Client.Shared.Components
                 await Task.Delay(4000, ct);
                 currentPosition++;
                 ChangeSlide();
-                await InvokeAsync(() => this.StateHasChanged());
+                await InvokeAsync(() => StateHasChanged());
             }
         }
         public void GoToNext(bool backwards)
@@ -42,7 +46,6 @@ namespace ComputerShop.Client.Shared.Components
                 currentPosition--;
             else
                 currentPosition++;
-
             ChangeSlide();
         }
         private void GoToSelectedSlide(int slideNumber)

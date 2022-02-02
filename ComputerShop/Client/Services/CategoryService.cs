@@ -1,19 +1,31 @@
 ﻿using ComputerShop.Shared.Models;
+using System.Net.Http.Json;
 
 namespace ComputerShop.Client.Services
 {
     public class CategoryService : ICategoryService
     {
+        private readonly HttpClient httpClient;
         public List<Category> Categories { get; set; } = new();
 
-        public void Load()
+        public CategoryService(HttpClient httpClient)
         {
-            Categories = new()
-            {
-                new Category { Id = 1, Name = "Computers", Url = "computers", Icon = "book" },
-                new Category { Id = 2, Name = "Smartphones", Url = "smartphones", Icon = "aperture" },
-                new Category { Id = 3, Name = "GPUs", Url = "gpus", Icon = "camera-slr" },
-            };
+            this.httpClient = httpClient;
+        }
+
+        public async Task LoadAsync()
+        {
+            Categories = await httpClient.GetFromJsonAsync<List<Category>>("api/categories") ?? new List<Category>();
+        }
+
+        public async Task<Category?> GetCategoryById(int categoryId)
+        {
+            return await httpClient.GetFromJsonAsync<Category>($"api/categories/getCategoryById/{categoryId}");
+        }
+
+        public async Task<Category?> GetCategoryByUrl(string categoryUrl)
+        {
+            return await httpClient.GetFromJsonAsync<Category>($"api/categories/getCategoryByUrl/{categoryUrl}");
         }
     }
 }

@@ -36,7 +36,8 @@ a, .btn-link {
 
 .card {
     display: inline-block;
-    width: 375px;
+    width: 20vw;
+    min-width: 250px;
     vertical-align: bottom;
     margin: 5px
 }
@@ -60,7 +61,7 @@ a, .btn-link {
     overflow: hidden;
 }
 
-.card-columns .card-body .card-price {
+.card-columns .card-body .card-container {
     height: 100px;
     width: 100%;
 }
@@ -87,6 +88,16 @@ a, .btn-link {
 .carousel-inner img {
     object-fit: contain;
     width: 100%;
+}
+
+#cart-button {
+    min-width: 50px;
+}
+
+#cart-button span{
+    font-size: 25px;
+    text-align: center;
+    vertical-align: central;
 }
 
 #carouselComponent .carousel-item img{

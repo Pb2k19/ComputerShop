@@ -6,18 +6,16 @@ namespace ComputerShop.Client.Shared.Components
 {
     public partial class DisplayProducts
     {
-        [Parameter] public int CategoryId { get; set; } = -1;
         [Inject] NavigationManager? NavigationManager { get; set; }
-        [Inject] IProductsService? ProductsService { get; set; }
+        [Parameter] public List<Product> Products { get; set;} = new();
 
         private void OnProductCardClicked(int productId)
         {
             NavigationManager?.NavigateTo($"/product/{productId}", false);
         }
-        protected override void OnInitialized()
+        private void AddProductToCard(int productId)
         {
-            base.OnInitialized();
-            ProductsService?.Load();
+            Console.WriteLine($"New product in card of id:{productId}");
         }
     }
 }

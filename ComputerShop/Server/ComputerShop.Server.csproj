@@ -15,5 +15,9 @@
     <ProjectReference Include="..\Shared\ComputerShop.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 
 </Project>

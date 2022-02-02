@@ -9,7 +9,7 @@ namespace ComputerShop.Shared.Models
     public class Image
     {
         public int Id { get; set; }
-        public string Name { get; set; } = "default_image";
-        public string Location = "images/default_image";
+        public string Location { get; set; } = "images/default_image.png";
+        public string Name { get; set; } = "default_image";        
     }
 }

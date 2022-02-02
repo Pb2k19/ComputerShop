@@ -1,22 +1,44 @@
 ﻿<div class="card-columns">
-    @foreach (var product in CategoryId == -1 ? 
-                ProductsService?.Products ?? Enumerable.Empty<Product>() : 
-                ProductsService?.Products.Where(x => x.CategoryId == CategoryId) ?? Enumerable.Empty<Product>())
+    @foreach (var product in Products)
     {
-        <div class="cursorHand card" @onclick="e => OnProductCardClicked(product.Id)">
-            <div class="card-img" style="background-image: url('@product.Images?.FirstOrDefault()?.Location');"> </div>
+        <div class="card">
+            <div class="card-img cursorHand"
+                 style="background-image: url('@product.Images?.FirstOrDefault()?.Location');"
+                 @onclick="e => OnProductCardClicked(product.Id)">
+            </div>
             <div class="card-body">
-                <div class="card-name">
+                <div class="card-name cursorHand" @onclick="e => OnProductCardClicked(product.Id)">
                     <h3 class="card-title">@product.Name</h3>
-                </div>                
-                <div class="d-flex card-price flex-column justify-content-center ">
-                    @if (product.Price < product.PriceBeforeDiscount)
-                     {
-                        <h6 class="text-muted price-befor-discount">@product.PriceBeforeDiscount zł</h6>
-                     }
-                    <h4 class="justify-content-end price">@product.Price zł</h4>
                 </div>
+                <div class="container card-container">
+                    <div class="row h-100 align-items-center">
+                        <div class="col">
+                            <button id="cart-button"
+                                    type="button"
+                                    class="btn btn-outline-dark w-50 h-75 shadow-none"
+                                    @onclick="e => AddProductToCard(product.Id)">
+                                <span class="oi oi-cart" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div class="col">
+                            @if (product.Price < product.PriceBeforeDiscount)
+                            {
+                                <h6 class="text-muted price-befor-discount">@product.PriceBeforeDiscount zł</h6>
+                            }
+                            <h4 class="price">@product.Price zł</h4>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="d-flex card-price flex-column justify-content-center ">
+                        <button type="button" class="btn btn-outline-dark">Dodaj do koszyka</button>
+                        @if (product.Price < product.PriceBeforeDiscount)
+                        {
+                            <h6 class="text-muted price-befor-discount">@product.PriceBeforeDiscount zł</h6>
+                        }
+                        <h4 class="justify-content-end price">@product.Price zł</h4>
+                    </div>*@
             </div>
         </div>
-     }
+    }
 </div>

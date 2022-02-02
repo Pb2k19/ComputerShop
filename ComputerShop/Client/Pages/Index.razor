@@ -1,4 +1,5 @@
-﻿@inject ICategoryService CategoryService
+﻿@inject IProductsService ProductsService
+@inject ICategoryService CategoryService
 @page "/{category}"
 @page "/"
 
@@ -8,12 +9,12 @@
 @if (currentCategory == null)
 {
     <PageTitle>Index</PageTitle>
-    <DisplayProducts />
+    <DisplayProducts Products="ProductsService.Products"/>
 }
 else
 {
     <PageTitle>@currentCategory.Name</PageTitle>
-    <DisplayProducts CategoryID="@currentCategory.Id" />
+    <DisplayProducts Products="ProductsService.Products" />
 }
 
 
@@ -22,7 +23,7 @@ else
     [Parameter] public string? Category { get; set; }
     private Category? currentCategory;
 
-    protected override void OnParametersSet()
+    protected override async Task OnParametersSetAsync()
     {
         if (Category == null)
         {
@@ -30,8 +31,17 @@ else
         }
         else
         {
-            currentCategory = CategoryService.Categories.FirstOrDefault(x => x.Url.ToLower().Equals(Category.ToLower()));
+            currentCategory = await CategoryService.GetCategoryByUrl(Category);
         }
+        if(currentCategory != null)
+        {
+            await ProductsService.LoadAsync(currentCategory.Id);
+        }
+        else
+        {
+            await ProductsService.LoadAsync();
+        }
+
         base.OnParametersSet();
     }
 }
