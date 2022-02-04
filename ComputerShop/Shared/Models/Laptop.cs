@@ -8,5 +8,7 @@ namespace ComputerShop.Shared.Models
 {
     internal class Laptop : Computer
     {
+        public decimal DisplaySize { get; set; }
+
     }
 }
