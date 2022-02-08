@@ -1,0 +1,17 @@
+﻿@if (motherboardProduct != null)
+{
+    <h1>@motherboardProduct.Manufacturer</h1>
+}
+
+@code
+{
+    [Parameter] public IProduct? Product { get; set; }
+    private IDesktopMotherboardProduct? motherboardProduct;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null)
+            motherboardProduct = Product as IDesktopMotherboardProduct;
+        base.OnParametersSet();
+    }
+}

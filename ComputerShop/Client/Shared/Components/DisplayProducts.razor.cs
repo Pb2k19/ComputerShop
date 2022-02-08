@@ -11,7 +11,11 @@ namespace ComputerShop.Client.Shared.Components
 
         private void OnProductCardClicked(int productId)
         {
-            NavigationManager?.NavigateTo($"/product/{productId}", false);
+            Product? product = Products?.FirstOrDefault(x => x.Id == productId);
+            if(product == null || product.Category == null)
+                NavigationManager?.NavigateTo($"/product/{productId}", false);
+            else
+                NavigationManager?.NavigateTo($"/product/{product.Category.Name}/{productId}", false);
         }
         private void AddProductToCard(int productId)
         {

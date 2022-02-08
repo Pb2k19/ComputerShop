@@ -1,0 +1,17 @@
+﻿@if (gpuProduct != null)
+{
+    <div></div>
+}
+
+@code
+{
+    [Parameter] public IProduct? Product { get; set; }
+    private IDesktopGpuProduct? gpuProduct;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null)
+            gpuProduct = Product as IDesktopGpuProduct;
+        base.OnParametersSet();
+    }
+}

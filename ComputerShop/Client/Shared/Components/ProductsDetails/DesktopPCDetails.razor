@@ -1,0 +1,208 @@
+﻿@if (desktopPC != null)
+{
+    <div style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-sm-6 text-end" style="margin-left: auto;">
+                Procesor
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Cpu.Manufacturer @desktopPC.Cpu.Name
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Taktowanie
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Cpu.FrequencyMHz MHz
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Liczba rdzeni/wątków
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Cpu.CoresCount/@desktopPC.Cpu.ThreadsCount
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Pamięć cache L3
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Cpu.L3CacheMB MB
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                TDP
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Cpu.Tdp W
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Karta graficzna
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Gpu.ChipManufacturer @desktopPC.Gpu.Manufacturer @desktopPC.Gpu.Name
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Taktowanie GPU
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Gpu.FrequencyMHz MHz
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Rozmiar pamięci VRAM
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Gpu.VramSizeGB GB
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Rodzaj pamięci
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Gpu.VramType
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Takowanie pamięci
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Gpu.MemoryFrequencyMHz MHz
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                TDP
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Gpu.Tdp W
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                RAM
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Ram.Manufacturer @desktopPC.Ram.Name
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Liczba modułów
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Ram.ModulesNumber
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Taktowanie
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Ram.FrequencyMHz MHz
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Opóźnienia
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Ram.LatencyCL CL
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Typ pamęci
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Ram.RamTechnology
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Zasilacza
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Psu.Manufacturer
+            </div>
+            <div class="row">
+                <div class="col-sm-6 text-end">
+                    Moc
+                </div>
+                <div class="col-sm-6">
+                    @desktopPC.Psu.Power W
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Producent
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Manufacturer Place holder
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Wymiary
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Lenghtmm/@desktopPC.Widthmm/@desktopPC.Heightmm mm
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Pobór energii
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.PowerConsumption W
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-end">
+                Długość gwarancji
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.WarantyMonths mies.
+            </div>
+        </div>
+    </div>
+}
+
+@code
+{
+    [Parameter] public IProduct? Product { get; set; }
+    private IDesktopPcProduct? desktopPC;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null)
+        {
+            desktopPC = Product as IDesktopPcProduct;
+        }
+        base.OnParametersSet();
+    }
+}

@@ -1,0 +1,17 @@
+﻿@if (ramProduct != null)
+{
+    <h1>Producent: @ramProduct.Manufacturer</h1>
+}
+
+@code
+{
+    [Parameter] public IProduct? Product { get; set; }
+    private IRamProduct? ramProduct;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null)
+            ramProduct = Product as IRamProduct;
+        base.OnParametersSet();
+    }
+}

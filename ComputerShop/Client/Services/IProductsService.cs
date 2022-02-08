@@ -8,5 +8,6 @@ namespace ComputerShop.Client.Services
         Task LoadAsync();
         Task LoadAsync(int id);
         Task<Product?> GetProductById(int id);
+        public Task<T?> GetProductGeneric<T>(int id) where T : Product;
     }
 }

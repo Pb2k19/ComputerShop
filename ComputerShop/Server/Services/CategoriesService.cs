@@ -11,9 +11,9 @@ namespace ComputerShop.Server.Services
             {
                 Categories = new List<Category>()
                 {
-                    new Category { Id = 1, Name = "Computers", Url = "computers", Icon = "book" },
-                    new Category { Id = 2, Name = "Smartphones", Url = "smartphones", Icon = "aperture" },
-                    new Category { Id = 3, Name = "GPUs", Url = "gpus", Icon = "camera-slr" },
+                    new Category { Id = "1", Name = "Computers", Url = "computers", Icon = "fas fa-desktop" },
+                    new Category { Id = "2", Name = "Smartphones", Url = "smartphones", Icon = "fas fa-mobile-alt" },
+                    new Category { Id = "3", Name = "GPUs", Url = "gpus", Icon = "fas fa-server" },
                 };
             });
             return Categories;
@@ -29,7 +29,7 @@ namespace ComputerShop.Server.Services
                     return null;
                 }
             }
-            return Categories.FirstOrDefault(x => x.Id == id);
+            return Categories.FirstOrDefault(x => x.Id == id.ToString()); //tmp to string
         }
 
         public async Task<Category?> GetCategoryByUrlAsync(string url)

@@ -90,6 +90,18 @@ a, .btn-link {
     width: 100%;
 }
 
+.text-end{
+    text-align: end;
+}
+
+.text-start {
+    text-align: start;
+}
+
+.text-center {
+    text-align: center;
+}
+
 #cart-button {
     min-width: 50px;
 }

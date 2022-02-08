@@ -1,0 +1,17 @@
+﻿@if(desktopPsu != null)
+{
+   <h1>@desktopPsu.Manufacturer</h1>
+}
+
+@code
+{
+    [Parameter] public IProduct? Product { get; set; }
+    private IDesktopPsuProduct? desktopPsu;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null)
+            desktopPsu = Product as IDesktopPsuProduct;
+        base.OnParametersSet();
+    }
+}

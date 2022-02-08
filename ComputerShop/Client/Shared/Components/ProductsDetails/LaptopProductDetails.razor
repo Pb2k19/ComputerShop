@@ -1,0 +1,17 @@
+﻿@if (laptop != null)
+{
+    <h1>@laptop.Cpu.Name</h1>
+}
+
+@code
+{
+    [Parameter] public IProduct? Product { get; set; }
+    private ILaptopProduct? laptop;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null)
+            laptop = Product as ILaptopProduct;
+        base.OnParametersSet();
+    }
+}

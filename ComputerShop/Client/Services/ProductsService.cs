@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Products;
 using System.Net.Http.Json;
 
 namespace ComputerShop.Client.Services
@@ -12,7 +13,6 @@ namespace ComputerShop.Client.Services
         {
             this.httpClient = httpClient;
         }
-
         public async Task LoadAsync(int id)
         {
             Products = await httpClient.GetFromJsonAsync<List<Product>>($"api/products/getByCategoryId/{id}") ?? new List<Product>();
@@ -23,7 +23,11 @@ namespace ComputerShop.Client.Services
         }
         public async Task<Product?> GetProductById(int id)
         {
-            return await httpClient.GetFromJsonAsync<Product>($"api/products/getProductById/{id}");
+            return await httpClient.GetFromJsonAsync<DesktopPcProduct>($"api/products/getProductById/{id}");
+        }
+        public async Task<T?> GetProductGeneric<T>(int id) where T : Product
+        {
+            return await httpClient.GetFromJsonAsync<T>($"api/products/getProductById/{id}");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿@page "/product/{id}"
+@page "/product/{categoryname}/{id}"
 @inject IProductsService ProductsService
 
 <div class="container-fluid">
@@ -13,6 +14,7 @@
             </div>
          }
         <div class="col-sm-8 col-md-8 col-lg-8"><p>@currentProdcut?.Description</p></div>
+        <ProductDetails Product="currentProdcut"/>
     </div>
 </div>
 

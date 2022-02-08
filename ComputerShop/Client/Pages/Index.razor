@@ -14,7 +14,7 @@
 else
 {
     <PageTitle>@currentCategory.Name</PageTitle>
-    <DisplayProducts Products="ProductsService.Products" />
+    <DisplayProducts Products="ProductsService.Products"/>
 }
 
 
@@ -35,7 +35,7 @@ else
         }
         if(currentCategory != null)
         {
-            await ProductsService.LoadAsync(currentCategory.Id);
+            await ProductsService.LoadAsync(int.Parse(currentCategory.Id)); //tmp parse
         }
         else
         {

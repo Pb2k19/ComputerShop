@@ -1,0 +1,42 @@
+﻿@using ComputerShop.Client.Shared.Components.ProductsDetails
+
+<style>
+    .details-font{
+        font-size: 1.75rem;
+    }
+</style>
+
+@if (Product != null)
+{
+    <div class="container details-font">
+        <h2 class="text-center" style="font-size: 2.5rem;">Specyfikacja</h2>
+        @if (Product is IDesktopPcProduct)
+        {
+            <DesktopPCDetails Product="Product" />
+        }
+        else if (Product is IDesktopPsuProduct)
+        {
+            <DesktopPsuProductDetails Product="Product" />
+        }
+        else if (Product is ILaptopProduct)
+        {
+            <LaptopProductDetails Product="Product" />
+        }
+        else if (Product is IDesktopGpuProduct)
+        {
+            <DesktopGpuProductDetails Product="Product" />
+        }
+        else if (Product is IDesktopMotherboardProduct)
+        {
+            <MotherboardProductDetails Product="Product" />
+        }
+        else if (Product is IRamProduct)
+        {
+            <RamProductDetails Product="Product" />
+        }
+        else
+        {
+        }
+    </div>
+}
+

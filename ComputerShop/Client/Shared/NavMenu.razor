@@ -1,5 +1,12 @@
 ﻿@inject ICategoryService CategoryService
 
+<style>
+    .fas-icon {
+        font-size: 1.1rem;
+        width: 2rem;
+    }
+</style>
+
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">ComputerShop</a>
@@ -20,7 +27,7 @@
          {
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="@category.Url">
-                    <span class="oi oi-@category.Icon" aria-hidden="true"></span> @category.Name
+                    <span class="fas-icon @category.Icon" aria-hidden="true"></span> @category.Name
                 </NavLink>
             </div>
          }
