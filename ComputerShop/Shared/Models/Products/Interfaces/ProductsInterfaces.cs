@@ -1,13 +1,13 @@
-﻿using ComputerShop.Shared.Models.Interfaces;
+﻿using ComputerShop.Shared.Models.Components;
+using ComputerShop.Shared.Models.Interfaces;
 
 namespace ComputerShop.Shared.Models.Products.Interfaces
 {
     public interface IDesktopPcProduct : IProduct, IComputer
     {
         public int PowerConsumption { get; set; }
-        public int Widthmm { get; set; }
-        public int Heightmm { get; set; }
-        public int Lenghtmm { get; set; }
+        public DesktopCase DesktopCase { get; set; }
+        public Cooler Cooler { get; set; }
     }
     public interface IDesktopPsuProduct : IProduct, IDesktopPsu
     {

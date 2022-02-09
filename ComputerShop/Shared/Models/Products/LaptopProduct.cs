@@ -12,5 +12,6 @@ namespace ComputerShop.Shared.Models.Products
         public List<Drive> Drives { get; set; }
         public Psu Psu { get; set; }
         public int BatteryCapacitymAh { get; set; }
+        public Motherboard Motherboard { get; set; }
     }
 }

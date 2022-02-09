@@ -24,5 +24,8 @@ namespace ComputerShop.Shared.Models.Products
         public int Widthmm { get; set; }
         public int Heightmm { get; set; }
         public int Lenghtmm { get; set; }
+        public Motherboard Motherboard { get; set; }
+        public DesktopCase DesktopCase { get; set; }
+        public Cooler Cooler { get; set; }
     }
 }

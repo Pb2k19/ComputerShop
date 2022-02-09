@@ -8,6 +8,7 @@ namespace ComputerShop.Shared.Models.Interfaces
         public Gpu Gpu { get; set; }
         public Ram Ram { get; set; }
         public Psu Psu { get; set; }
+        public Motherboard Motherboard { get; set; }
         public List<Drive> Drives { get; set; }
     }
 }

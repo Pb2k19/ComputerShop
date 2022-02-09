@@ -1,4 +1,5 @@
-﻿using ComputerShop.Shared.Models.Products.Interfaces;
+﻿using ComputerShop.Shared.Models.Interfaces;
+using ComputerShop.Shared.Models.Products.Interfaces;
 
 namespace ComputerShop.Shared.Models.Products
 {
@@ -15,6 +16,7 @@ namespace ComputerShop.Shared.Models.Products
         public int Usb3Gen1Count { get; set; }
         public int Usb3Gen2Count { get; set; }
         public string Size { get; set; }
+        public int Usb2Count { get; set; }
     }
 
     public static class MotherboardSizes

@@ -1,24 +1,30 @@
 ﻿@if (desktopPC != null)
 {
-    <div style="margin-top: 20px;">
-        <div class="row">
-            <div class="col-sm-6 text-end" style="margin-left: auto;">
-                Procesor
+    <style>
+        h4 {
+            margin-top: 10px;
+        }
+    </style>
+    <h4>Procesor</h4>
+    <div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Model
             </div>
             <div class="col-sm-6">
                 @desktopPC.Cpu.Manufacturer @desktopPC.Cpu.Name
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-6 text-md-end">
                 Taktowanie
             </div>
             <div class="col-sm-6">
                 @desktopPC.Cpu.FrequencyMHz MHz
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 text-end">
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
                 Liczba rdzeni/wątków
             </div>
             <div class="col-sm-6">
@@ -26,15 +32,15 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-6 text-md-end">
                 Pamięć cache L3
             </div>
             <div class="col-sm-6">
                 @desktopPC.Cpu.L3CacheMB MB
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 text-end">
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
                 TDP
             </div>
             <div class="col-sm-6">
@@ -42,34 +48,26 @@
             </div>
         </div>
     </div>
-
-    <div style="margin-top: 20px;">
-        <div class="row">
-            <div class="col-sm-6 text-end">
-                Karta graficzna
+    <h4>Karta graficzna</h4>
+    <div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Model
             </div>
             <div class="col-sm-6">
                 @desktopPC.Gpu.ChipManufacturer @desktopPC.Gpu.Manufacturer @desktopPC.Gpu.Name
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 text-end">
-                Taktowanie GPU
+            <div class="col-sm-6 text-md-end">
+                Taktowanie
             </div>
             <div class="col-sm-6">
                 @desktopPC.Gpu.FrequencyMHz MHz
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 text-end">
-                Rozmiar pamięci VRAM
-            </div>
-            <div class="col-sm-6">
-                @desktopPC.Gpu.VramSizeGB GB
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6 text-end">
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
                 Rodzaj pamięci
             </div>
             <div class="col-sm-6">
@@ -77,15 +75,23 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-6 text-md-end">
                 Takowanie pamięci
             </div>
             <div class="col-sm-6">
                 @desktopPC.Gpu.MemoryFrequencyMHz MHz
             </div>
         </div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Rozmiar pamięci
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Gpu.VramSizeGB GB
+            </div>
+        </div>
         <div class="row">
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-6 text-md-end">
                 TDP
             </div>
             <div class="col-sm-6">
@@ -93,10 +99,77 @@
             </div>
         </div>
     </div>
-
-    <div style="margin-top: 20px;">
+    <h4>Płyta główna</h4>
+    <div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Model
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Motherboard.Manufacturer @desktopPC.Motherboard.Name
+            </div>
+        </div>
         <div class="row">
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-6 text-md-end">
+                Chipset
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Motherboard.Chipset
+            </div>
+        </div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Typ wspieranej pamięci
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Motherboard.RamType
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Liczba slotów dla pamięci
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Motherboard.RamSlotsCount
+            </div>
+        </div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Liczba gniazd USB-C
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Motherboard.UsbCCount
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Liczba gniazd USB 2.0
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Motherboard.Usb2Count
+            </div>
+        </div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Liczba gniazd USB 3.2 gen 1
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Motherboard.Usb3Gen1Count
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Liczba gniazd USB 3.2 gen 2
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Motherboard.Usb3Gen2Count
+            </div>
+        </div>
+    </div>
+    <h4>Pamięć RAM</h4>
+    <div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
                 RAM
             </div>
             <div class="col-sm-6">
@@ -104,7 +177,15 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-6 text-md-end">
+                Typ pamęci
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Ram.RamTechnology
+            </div>
+        </div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
                 Liczba modułów
             </div>
             <div class="col-sm-6">
@@ -112,69 +193,124 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-6 text-md-end">
                 Taktowanie
             </div>
             <div class="col-sm-6">
                 @desktopPC.Ram.FrequencyMHz MHz
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 text-end">
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
                 Opóźnienia
             </div>
             <div class="col-sm-6">
                 @desktopPC.Ram.LatencyCL CL
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 text-end">
-                Typ pamęci
+    </div>
+    <h4>Dyski</h4>
+    <div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Zainstalowane dyski
             </div>
             <div class="col-sm-6">
-                @desktopPC.Ram.RamTechnology
+                @foreach (var drive in @desktopPC.Drives)
+                {
+                    <p style="margin: 0px;">@drive.Manufacturer @drive.Type @drive.CapacityGB GB</p>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-sm-center text-md-end">
+                Szybkość odczytu / zapisu
+            </div>
+            <div class="col-sm-6">
+                @foreach (var drive in @desktopPC.Drives)
+                {
+                    <p style="margin: 0px;">@drive.ReadSpeedMBs / @drive.WriteSpeedMBs MB/s</p>
+                }
             </div>
         </div>
     </div>
-
-    <div style="margin-top: 20px;">
-        <div class="row">
-            <div class="col-sm-6 text-end">
-                Zasilacza
+    <h4>Zasilacz</h4>
+    <div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Producent
             </div>
             <div class="col-sm-6">
                 @desktopPC.Psu.Manufacturer
             </div>
-            <div class="row">
-                <div class="col-sm-6 text-end">
-                    Moc
-                </div>
-                <div class="col-sm-6">
-                    @desktopPC.Psu.Power W
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Moc
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Psu.Power W
             </div>
         </div>
     </div>
-
-    <div style="margin-top: 20px;">
-        <div class="row">
-            <div class="col-sm-6 text-end">
-                Producent
+    <h4>Obudowa</h4>
+    <div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Model
             </div>
             <div class="col-sm-6">
-                @desktopPC.Manufacturer Place holder
+                @desktopPC.DesktopCase.Manufacturer @desktopPC.DesktopCase.Name
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-6 text-md-end">
                 Wymiary
             </div>
             <div class="col-sm-6">
-                @desktopPC.Lenghtmm/@desktopPC.Widthmm/@desktopPC.Heightmm mm
+                @desktopPC.DesktopCase.Lenghtmm/@desktopPC.DesktopCase.Widthmm/@desktopPC.DesktopCase.Heightmm mm
+            </div>
+        </div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Liczba portów USB
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.DesktopCase.UsbPorts
+            </div>
+        </div>
+    </div>
+    <h4>Chłodzenie</h4>
+    <div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
+                Model
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Cooler.Manufacturer @desktopPC.Cooler.Name
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-6 text-md-end">
+                Typ
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Cooler.Type
+            </div>
+        </div>
+    </div>
+    <h4>Pozostałe</h4>
+    <div style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Producent komputera
+            </div>
+            <div class="col-sm-6">
+                @desktopPC.Manufacturer
+            </div>
+        </div>
+        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+            <div class="col-sm-6 text-md-end">
                 Pobór energii
             </div>
             <div class="col-sm-6">
@@ -182,7 +318,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 text-end">
+            <div class="col-sm-6 text-md-end">
                 Długość gwarancji
             </div>
             <div class="col-sm-6">

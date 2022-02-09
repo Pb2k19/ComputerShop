@@ -17,7 +17,7 @@
                                     type="button"
                                     class="btn btn-outline-dark w-50 h-75 shadow-none"
                                     @onclick="e => AddProductToCard(product.Id)">
-                                <span class="oi oi-cart" aria-hidden="true"></span>
+                                <span class="fas-icon fas fa-shopping-cart align-middle" aria-hidden="true"></span>
                             </button>
                         </div>
                         <div class="col">
@@ -29,15 +29,6 @@
                         </div>
                     </div>
                 </div>
-
-                @*<div class="d-flex card-price flex-column justify-content-center ">
-                        <button type="button" class="btn btn-outline-dark">Dodaj do koszyka</button>
-                        @if (product.Price < product.PriceBeforeDiscount)
-                        {
-                            <h6 class="text-muted price-befor-discount">@product.PriceBeforeDiscount zł</h6>
-                        }
-                        <h4 class="justify-content-end price">@product.Price zł</h4>
-                    </div>*@
             </div>
         </div>
     }

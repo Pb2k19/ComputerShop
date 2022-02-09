@@ -74,6 +74,37 @@ namespace ComputerShop.Server.Services
                     ModulesNumber = 2, 
                     RamTechnology = RamTechnologies.DDR4.ToString()
                 },
+                Motherboard = new Motherboard
+                {
+                    Manufacturer = "Asus",
+                    Chipset = "B550",
+                    Name = "Pro Art",
+                    RamType = RamTechnologies.DDR4.ToString(),
+                    Socket = "AM4",
+                    Usb3Gen1Count = 1,
+                    Usb3Gen2Count = 2,
+                    UsbCCount = 3
+                },
+                Cooler = new Cooler
+                {
+                    Manufacturer = "SPC",
+                    CompatibleSockets = new List<string>{"AM4" },
+                    FansCount = 2,
+                    MaxTdp = 130,
+                    Name = "GRANDIS 3"
+                },
+                DesktopCase = new DesktopCase
+                {
+                    Manufacturer = "Phanteks",
+                    Name = "P400",
+                    Widthmm = 200,
+                    Heightmm = 400,
+                    Lenghtmm = 500,
+                    MaxCoolerHeightmm = 165,
+                    MaxFanCount = 4,
+                    MaxRadiatorSizemm = 280,
+                    SupportedMoboSizes = new List<string>{"ATX", MotherboardSizes.MiniATX}
+                }
             }
         };
                 
