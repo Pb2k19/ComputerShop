@@ -1,6 +1,113 @@
 ﻿@if(desktopPsu != null)
 {
-   <h1>@desktopPsu.Manufacturer</h1>
+<div>
+    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="col-sm-6 text-md-end">
+            Producent
+        </div>
+        <div class="col-sm-6">
+            @desktopPsu.Manufacturer
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Model
+        </div>
+        <div class="col-sm-6">
+            @desktopPsu.Name
+        </div>
+    </div>
+    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="col-sm-6 text-md-end">
+            Certyfikat
+        </div>
+        <div class="col-sm-6">
+            @desktopPsu.Certificate
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Moc
+        </div>
+        <div class="col-sm-6">
+            @desktopPsu.Power W
+        </div>
+    </div>
+    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="col-sm-6 text-md-end">
+             Liczba złączy 6 pin PCIe
+        </div>
+        <div class="col-sm-6">
+              @desktopPsu.Pcie6pinCount
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Liczba złączy 8 pin PCIe
+        </div>
+        <div class="col-sm-6">
+            @desktopPsu.Pcie8pinCount
+        </div>
+    </div>
+    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="col-sm-6 text-md-end">
+            Liczba złączy Molex
+        </div>
+        <div class="col-sm-6">
+            @desktopPsu.MolexCount
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Liczba złączy SATA
+        </div>
+        <div class="col-sm-6">
+            @desktopPsu.SataCount
+        </div>
+    </div>
+    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="col-sm-6 text-md-end">
+            Zabezpieczenia
+        </div>
+        <div class="col-sm-6">
+            @foreach (var protection in desktopPsu.Protections)
+             {
+                <p class="m-0">@protection</p>
+             }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Liczba wentylatorów
+        </div>
+        <div class="col-sm-6">
+            @desktopPsu.FansCount
+        </div>
+    </div>
+    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="col-sm-6 text-md-end">
+            Modularne okablowanie
+        </div>
+        <div class="col-sm-6">
+            @if(@desktopPsu.IsModular)
+             {
+                <span class="m-0">Tak</span>
+             }
+             else 
+             {
+                <span class="m-0">Nie</span>
+             }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Gwarancja
+        </div>
+        <div class="col-sm-6">
+            @desktopPsu.WarantyMonths mies.
+        </div>
+    </div>
+</div>
 }
 
 @code

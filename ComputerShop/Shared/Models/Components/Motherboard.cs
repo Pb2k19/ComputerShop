@@ -15,4 +15,14 @@ namespace ComputerShop.Shared.Models.Components
         public string Manufacturer { get; set; }
         public int Usb2Count { get; set; }
     }
+    public enum MotherboardManufcaturers
+    {
+        MSI,
+        ASUS,
+        Gigabyte,
+        Biostar,
+        Evga,
+        ASRock,
+        EVGA
+    }
 }

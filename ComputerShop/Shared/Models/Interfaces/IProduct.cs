@@ -20,5 +20,6 @@ namespace ComputerShop.Shared.Models.Interfaces
         public Category Category { get; set; }
         public List<Image> Images { get; set; }
         public int WarantyMonths { get; set; }
+        public List<Prop> ExtraInfo { get; set; }
     }
 }

@@ -19,4 +19,19 @@ namespace ComputerShop.Shared.Models
         DDR4,
         DDR5,
     }
+    public enum RamManufacturers
+    {
+        ADATA,
+        Asus,
+        Corsair,
+        HyperX,
+        IBM,
+        Kingston,
+        Lenovo,
+        Curcial,
+        Mushkin,
+        PNY,
+        Hynix,
+        Toshiba
+    }
 }

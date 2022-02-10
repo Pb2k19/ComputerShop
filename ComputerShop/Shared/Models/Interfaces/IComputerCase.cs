@@ -1,6 +1,6 @@
 ﻿namespace ComputerShop.Shared.Models.Interfaces
 {
-    public interface ICase
+    public interface IComputerCase
     {
         public string Name { get; set; }
         public string Manufacturer { get; set; }
@@ -12,5 +12,6 @@
         public int MaxFanCount { get; set; }
         public int MaxCoolerHeightmm { get; set; }
         public int MaxRadiatorSizemm { get; set; }
+        public int MaxGpuLenght { get; set; }
     }
 }

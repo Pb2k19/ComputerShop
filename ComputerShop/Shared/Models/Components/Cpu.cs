@@ -11,5 +11,21 @@ namespace ComputerShop.Shared.Models
         public int ThreadsCount { get; set; }
         public int CoresCount { get; set; }
         public int L3CacheMB { get; set; }
+        public string Architecture { get; set; }
+    }
+    public enum CpuManufacturers
+    {
+        Amd,
+        Intel,
+        Samsung,
+        Apple,
+        IBM,
+        Qualcomm,
+        MediaTek,
+    }
+    public enum CpuArchitecuters
+    {
+        x86,
+        ARM
     }
 }

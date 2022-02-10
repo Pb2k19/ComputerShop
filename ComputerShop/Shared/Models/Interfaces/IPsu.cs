@@ -11,8 +11,10 @@
         public int Pcie8pinCount { get; set; }
         public int MolexCount { get; set; }
         public int Pcie6pinCount { get; set; }
+        public int SataCount { get; set; }
         public bool IsModular { get; set; }
         public int FansCount { get; set; }
         public string Certificate { get; set; }
+        public List<string> Protections { get; set; }
     }
 }

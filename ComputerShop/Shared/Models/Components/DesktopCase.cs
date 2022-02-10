@@ -2,7 +2,7 @@
 
 namespace ComputerShop.Shared.Models.Components
 {
-    public class DesktopCase : ICase
+    public class DesktopCase : IComputerCase
     {
         public string Name { get; set; }
         public string Manufacturer { get; set; }
@@ -14,5 +14,20 @@ namespace ComputerShop.Shared.Models.Components
         public int MaxFanCount { get; set; }
         public int MaxCoolerHeightmm { get; set; }
         public int MaxRadiatorSizemm { get; set; }
+        public int MaxGpuLenght { get; set; }
+    }
+
+    public enum DesktopCaseManufacturers
+    {
+        Thermaltake,
+        CoolerMaster,
+        Aerocool,
+        Chieftec,
+        Phanteks,
+        LianLi,
+        BeQuiet,
+        SilentiumPC,
+        Nzxt,
+        Corsair,
     }
 }

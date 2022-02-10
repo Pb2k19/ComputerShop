@@ -14,10 +14,23 @@ namespace ComputerShop.Shared.Models.Components
 
     public static class CoolerTypes
     {
-        static string WaterCooler { get; } = "Chłodzenie wodne";
-        static string AirCooler { get; } = "Chłodzenie powietrzne";
-        static string BoxCooler { get; } = "Chłodzenie BOX";
-        static string Passive { get; } = "Chłodzenie Pasywne";
+        public static string WaterCooler { get; } = "Chłodzenie wodne";
+        public static string AirCooler { get; } = "Chłodzenie powietrzne";
+        public static string BoxCooler { get; } = "Chłodzenie BOX";
+        public static string Passive { get; } = "Chłodzenie pasywne";
+        public static List<string> List => new() { WaterCooler, AirCooler, BoxCooler, Passive };
     }
-
+    
+    public enum CoolerManufacturers
+    {
+        Noctua,
+        Arctic,
+        CoolerMaster,
+        Thermaltake,
+        BeQuiet,
+        SilentiumPC,
+        Nzxt,
+        Asus,
+        Corsair,
+    }
 }

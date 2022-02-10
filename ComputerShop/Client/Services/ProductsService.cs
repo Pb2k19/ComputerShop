@@ -23,7 +23,7 @@ namespace ComputerShop.Client.Services
         }
         public async Task<Product?> GetProductById(int id)
         {
-            return await httpClient.GetFromJsonAsync<DesktopPcProduct>($"api/products/getProductById/{id}");
+            return await httpClient.GetFromJsonAsync<Product>($"api/products/getProductById/{id}");
         }
         public async Task<T?> GetProductGeneric<T>(int id) where T : Product
         {

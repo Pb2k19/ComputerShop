@@ -19,6 +19,7 @@ namespace ComputerShop.Client.Pages
                     currentProdcut = Categoryname switch
                     {
                         "Computers" => await ProductsService.GetProductGeneric<DesktopPcProduct>(id),
+                        "PSU" => await ProductsService.GetProductGeneric<DesktopPsuProduct>(id),
                         _ => await ProductsService.GetProductById(id),
                     };
                 }

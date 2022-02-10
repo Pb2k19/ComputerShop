@@ -10,4 +10,20 @@ namespace ComputerShop.Shared.Models.Components
         public string Type { get; set; }
         public int CapacityGB { get; set; }
     }
+    public enum DriveManufacturers
+    {
+        Wd,
+        Toshiba,
+        Seagate,
+        Kingston,
+        Adata,
+        Sandisk,
+        Transcend,
+        Lexar,
+    }
+    public enum DrivesTypes
+    {
+        HDD,
+        SSD
+    }
 }

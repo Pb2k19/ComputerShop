@@ -40,6 +40,20 @@
         else
         {
         }
+        @if (Product?.ExtraInfo?.Count > 0)
+        {
+            @foreach (var item in Product.ExtraInfo)
+            {
+                <div class="row">
+                    <div class="col-6">
+                        @item.Name
+                    </div>
+                    <div class="col-6">
+                        @item.Value
+                    </div>
+                </div>
+            }
+        }
     </div>
-}
+ }
 

@@ -4,7 +4,7 @@ using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Server.Services
 {
-    public class ProductsServicecs : IProductsService
+    public class ProductsService : IProductsService
     {
         public List<Product> Products { get; set; } = new List<Product>
         {
@@ -104,6 +104,32 @@ namespace ComputerShop.Server.Services
                     MaxFanCount = 4,
                     MaxRadiatorSizemm = 280,
                     SupportedMoboSizes = new List<string>{"ATX", MotherboardSizes.MiniATX}
+                }
+            },
+            new DesktopPsuProduct
+            {
+                Manufacturer = PsuManufacturers.SilverStone.ToString(),
+                Name = "SUPER TURBO",
+                WarantyMonths = 1,
+                FansCount = 0,
+                Description = "wspaniały zasilacz rodem z bawarii szlakiem kukurydzy",
+                Certificate = PsuCertificates.Titanium,
+                MolexCount = 4,
+                Images = new List<Image>
+                {
+                    new Image { Location = "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2017/12/pr_2017_12_22_11_13_23_114_03.jpg"},
+                },
+                Power = 600,
+                Price = 400,
+                SataCount = 69,
+                Id = 66,
+                Pcie6pinCount = 6,
+                Protections = PsuProtections.List,
+                ExtraInfo = new()
+                {
+                    new Prop{Name = "BLABLEBUCHA", Value = "40"},
+                    new Prop{Name = "AKWKWAD", Value = "nice"},
+                    new Prop{Name = "BLABdawdawdawdLEBUCHA", Value = "2"},
                 }
             }
         };
