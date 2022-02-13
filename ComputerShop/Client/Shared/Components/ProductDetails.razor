@@ -12,7 +12,6 @@
 @if (Product != null)
 {
     <div class="container" id="details">
-        <h2 class="text-center" style="font-size: 2.5rem;">Specyfikacja</h2>
         @if (Product is IDesktopPcProduct)
         {
             <DesktopPCDetails Product="Product" />
@@ -40,20 +39,7 @@
         else
         {
         }
-        @if (Product?.ExtraInfo?.Count > 0)
-        {
-            @foreach (var item in Product.ExtraInfo)
-            {
-                <div class="row">
-                    <div class="col-6">
-                        @item.Name
-                    </div>
-                    <div class="col-6">
-                        @item.Value
-                    </div>
-                </div>
-            }
-        }
+        <ExtraInfo Properties="Product.ExtraInfo"/>
     </div>
  }
 

@@ -1,4 +1,5 @@
-﻿using ComputerShop.Shared.Models;
+﻿using ComputerShop.Client.Helpers;
+using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.Products;
 using Microsoft.AspNetCore.Components;
 
@@ -29,6 +30,24 @@ namespace ComputerShop.Client.Pages
                 }
             }
             base.OnInitialized();
+        }
+
+        protected async Task OnListItemClick(int num)
+        {
+            switch (num)
+            {
+                case 0:
+                    await JS.ScrollToElement("product-description");
+                    break;
+                case 1:
+                    await JS.ScrollToElement("product-details");
+                    break;
+                case 2:
+                    await JS.ScrollToElement("product-opinions");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

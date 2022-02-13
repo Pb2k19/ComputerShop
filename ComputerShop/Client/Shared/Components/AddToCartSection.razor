@@ -1,0 +1,48 @@
+﻿@if (Product != null)
+ {
+    <div class="container-fluid">
+        @if (Product.Price < Product.PriceBeforeDiscount)
+        {
+            <h3 class="text-muted price-befor-discount">@Product.PriceBeforeDiscount zł</h3>
+        }
+        <h3 style=" font-size: 2.25rem;" class="price">@Product.Price zł</h3>
+        <div class="d-flex justify-content-end">
+            <div>
+                <div class="border shadow h-100 justify-content-end" style=" width: 75px;">
+                    <input @bind="Quantity"
+                           max="99" min="1"
+                           type="number"
+                           id="typeNumber"
+                           class="form-control shadow-none h-100 input-number"/>
+                </div>
+            </div>
+            <div>
+                <button @onclick="OnButtonClick"
+                        type="button"
+                        class="btn btn-primary shadow-none btn-lg ms-1"
+                        >
+                    Do koszyka
+                </button>
+            </div>
+        </div>
+
+        @if (!Product.IsRemoved)
+         {
+             <div class="mt-3 text-center">
+                @if ((today.DayOfWeek == DayOfWeek.Friday || today.DayOfWeek == DayOfWeek.Saturday
+                     || today.DayOfWeek == DayOfWeek.Sunday))
+                 {
+                    <h5>Zamów teraz, aby odbrać w najbliższy wtorek</h5>
+                 }
+                 else if(DateTime.UtcNow < DateTime.Today.AddHours(HourToSendTheseDay))
+                 {
+                     <h5>Zamów w ciągu @time, aby odbrać jutro</h5>
+                 }
+                 else
+                 {
+                     <h5>Zamów teraz, aby odbrać pojutrze</h5>
+                 }
+             </div>
+         }
+     </div>
+ }
