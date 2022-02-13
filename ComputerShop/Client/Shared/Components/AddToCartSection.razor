@@ -3,7 +3,10 @@
     <div class="container-fluid">
         @if (Product.Price < Product.PriceBeforeDiscount)
         {
-            <h3 class="text-muted price-befor-discount">@Product.PriceBeforeDiscount zł</h3>
+            <div class="d-flex justify-content-end align-items-center">
+                <h3 style="color: #0b5ed7; font-size: 2rem;">-@discountPerc%&ensp;</h3>
+                <h3 class="text-muted price-befor-discount">@Product.PriceBeforeDiscount zł</h3>
+            </div>           
         }
         <h3 style=" font-size: 2.25rem;" class="price">@Product.Price zł</h3>
         <div class="d-flex justify-content-end">
@@ -43,6 +46,12 @@
                      <h5>Zamów teraz, aby odbrać pojutrze</h5>
                  }
              </div>
+                if(Product.Price > MinPriceForFreeShipping)
+                {
+                    <div class="text-center">
+                        <h4>Darmowa dostawa!</h4>
+                    </div>
+                }
          }
      </div>
  }

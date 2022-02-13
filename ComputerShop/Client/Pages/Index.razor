@@ -5,17 +5,21 @@
 
 
 
+<div class="container">
+    <div class="d-flex align-items-center">
+        @if (currentCategory == null)
+        {
+            <PageTitle>Index</PageTitle>
+            <DisplayProducts Products="ProductsService.Products" />
+        }
+        else
+        {
+            <PageTitle>@currentCategory.Name</PageTitle>
+            <DisplayProducts Products="ProductsService.Products" />
+        }
+    </div>    
+</div>
 
-@if (currentCategory == null)
-{
-    <PageTitle>Index</PageTitle>
-    <DisplayProducts Products="ProductsService.Products"/>
-}
-else
-{
-    <PageTitle>@currentCategory.Name</PageTitle>
-    <DisplayProducts Products="ProductsService.Products"/>
-}
 
 
 @code

@@ -7,9 +7,11 @@ namespace ComputerShop.Client.Shared.Components
     {
         [Parameter] public IProduct? Product { get; set; }
         [Parameter] public int HourToSendTheseDay { get; set; } = 15;
+        [Parameter] public int MinPriceForFreeShipping { get; set; } = 100;
         private int quantity = 1;
         private string? time;
         private DateTime today = DateTime.Today;
+        public int discountPerc;
 
         readonly CancellationTokenSource cts = new();
         CancellationToken ct;
@@ -31,6 +33,13 @@ namespace ComputerShop.Client.Shared.Components
             base.OnParametersSet();
             ct = cts.Token;
             Task.Run(() => UpdateTime(ct));
+            if(Product != null)
+            {
+                if (Product.Price < Product.PriceBeforeDiscount)
+                {
+                    discountPerc = decimal.ToInt32((Product.PriceBeforeDiscount - Product.Price) / Product.PriceBeforeDiscount * 100);
+                }
+            }
         }
 
         protected async Task UpdateTime(CancellationToken ct)

@@ -2,44 +2,55 @@
 
 <style>
     .fas-icon {
-        font-size: 1.1rem;
-        width: 2rem;
+        font-size: 1.75rem;
+    }
+    .navbar{
+        max-height: 65px;
+    }
+    .font-size{
+        font-size: 1.2rem;
     }
 </style>
 
-<div class="top-row ps-3 navbar navbar-dark">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light shadow">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">ComputerShop</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+        <a class="navbar-brand" href=""><img src="images/logo.png" width="180" height="35" /></a>
+        <button class="navbar-toggler shadow-none" type="button" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
-    </div>
-</div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
+        <div class="@NavMenuCssClass navbar-collapse bg-light" @onclick="ToggleNavMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-link px-3">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <div class="d-flex align-items-center font-size">                            
+                                <span class="fas-icon fas fa-home me-2" aria-hidden="true"></span>
+                                Home
+                        </div>                                               
+                    </NavLink>
+                </li>
+                @foreach (var category in CategoryService.Categories)
+                {
+                    <li class="nav-link px-3">
+                        <NavLink class="nav-link" href="@category.Url">
+                            <div class="d-flex align-items-center font-size">
+                                <span class="fas-icon @category.Icon me-2" aria-hidden="true"></span> 
+                                @category.Name
+                            </div>
+                        </NavLink>
+                    </li>
+                }
+            </ul>
         </div>
-        @foreach (var category in CategoryService.Categories)
-         {
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="@category.Url">
-                    <span class="fas-icon @category.Icon" aria-hidden="true"></span> @category.Name
-                </NavLink>
-            </div>
-         }
-    </nav>
-</div>
+    </div>
+</nav>
 
 @code {
-    private bool collapseNavMenu = true;
+    bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
-    private void ToggleNavMenu()
+    string NavMenuCssClass =>  collapseNavMenu ? " collapse" : "";
+
+    void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
