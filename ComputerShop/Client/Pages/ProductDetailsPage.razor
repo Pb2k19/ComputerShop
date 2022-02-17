@@ -3,55 +3,56 @@
 @inject IProductsService ProductsService
 @inject IJSRuntime JS
 
-    <style>
-        h2 {
-            font-size: 2.5rem;
-            margin: 10px;
-        }
-        .scroll-std {
-            scroll-margin: 65px;
-        }
-    </style>
+<style>
+    h2 {
+        font-size: 2.5rem;
+        margin: 10px;
+    }
+    .scroll-std {
+        scroll-margin: 65px;
+    }
+</style>
 
-    <div class="container-fluid mb-5" style="max-width: 1500px;">
-        <div class="row">
-            <h1>@currentProdcut?.Name</h1>
-        </div>
-        <div class="row justify-content-around">
-            @if (currentProdcut?.Images?.Count > 0)
-            {
-                <div class="col-sm col-lg-6 shadow p-2 border rounded d-flex align-items-center" 
-                     style="min-width: 200px; min-height: 200px;">
-                    <Carousel Images="@currentProdcut?.Images?.Select(x => x.Location).ToList()" />
-                </div>
-            }
-            <div class="col-sm col-lg-4">
-                <div class="shadow px-2 py-4 border rounded">
-                    <AddToCartSection Product="currentProdcut" />
-                </div>
+<div class="container-fluid mb-5" style="max-width: 1500px;">
+    <div class="row" id="product-name">
+        <h1>@currentProdcut?.Name</h1>
+    </div>
+    <div class="row justify-content-around">
+        @if (currentProdcut?.Images?.Count > 0)
+        {
+            <div class="col-sm col-lg-6 shadow p-2 border rounded d-flex align-items-center" 
+                 style="min-width: 200px; min-height: 200px;">
+                <Carousel Images="@currentProdcut?.Images?.Select(x => x.Location).ToList()" />
             </div>
-        </div>
-
-        <div class="mt-3 navbar navbar-light bg-transparent sticky-top" style="top: 3em;">
-            <div class="list-group list-group-horizontal">
-                <a class="list-group-item shadow" role="button" @onclick="()=>OnListItemClick(0)">Opis</a>
-                <a class="list-group-item shadow" role="button" @onclick="()=>OnListItemClick(1)">Specyfikacja</a>
-                <a class="list-group-item shadow" role="button" @onclick="()=>OnListItemClick(2)">Opinie</a>
+        }
+        <div class="col-sm col-lg-4">
+            <div class="shadow px-2 py-4 border rounded">
+                <AddToCartSection Product="currentProdcut" />
             </div>
-        </div>
-        
-        <div id="product-description" class="text-center shadow p-3 mb-3 border rounded" style="scroll-margin: 100px;">
-            <h2>Opis</h2>
-            <p>@currentProdcut?.Description</p>
-        </div>
-        <div id="product-details" class="shadow p-3 pb-0 mb-0 border rounded scroll-std">
-            <h2 class="text-center">Specyfikacja</h2>
-            <ProductDetails Product="currentProdcut" />
-        </div>
-        <div id="product-opinions" class="scroll-std" style="height: 2000px;">
-            <h2>Komenty</h2>
         </div>
     </div>
+
+    <div class="mt-3 navbar navbar-light bg-transparent sticky-top" style="top: 3em;">
+        <div class="list-group list-group-horizontal">
+            <a class="list-group-item shadow" role="button" @onclick="()=>OnListItemClick(0)">Zdjęcia</a>
+            <a class="list-group-item shadow" role="button" @onclick="()=>OnListItemClick(1)">Opis</a>
+            <a class="list-group-item shadow" role="button" @onclick="()=>OnListItemClick(2)">Specyfikacja</a>
+            <a class="list-group-item shadow" role="button" @onclick="()=>OnListItemClick(3)">Opinie</a>
+        </div>
+    </div>
+    
+    <div id="product-description" class="text-center shadow p-3 mb-3 border rounded" style="scroll-margin: 100px;">
+        <h2>Opis</h2>
+        <p>@currentProdcut?.Description</p>
+    </div>
+    <div id="product-details" class="shadow p-3 pb-0 mb-0 border rounded scroll-std">
+        <h2 class="text-center">Specyfikacja</h2>
+        <ProductDetails Product="currentProdcut" />
+    </div>
+    <div id="product-opinions" class="scroll-std" style="height: 2000px;">
+        <h2>Komenty</h2>
+    </div>
+</div>
 
 
 

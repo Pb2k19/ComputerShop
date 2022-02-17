@@ -1,5 +1,4 @@
-﻿using ComputerShop.Client.Services;
-using ComputerShop.Shared.Models;
+﻿using ComputerShop.Shared.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace ComputerShop.Client.Shared.Components

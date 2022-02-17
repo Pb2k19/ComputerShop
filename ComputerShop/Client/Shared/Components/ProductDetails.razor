@@ -1,20 +1,29 @@
 ﻿@using ComputerShop.Client.Shared.Components.ProductsDetails
 
-<style>
-    #details {
-        max-width: 1000px;
-        font-size: 1.25rem;
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
-</style>
-
 @if (Product != null)
 {
+    <style>
+        #details {
+            max-width: 1000px;
+            font-size: 1.25rem;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        #details h4 {
+            margin-top: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+    </style>
     <div class="container" id="details">
         @if (Product is IDesktopPcProduct)
         {
             <DesktopPCDetails Product="Product" />
+        }
+        else if (Product is ICpuProduct)
+        {
+            <DesktopCpuProductDetails Product="Product" />
         }
         else if (Product is IDesktopPsuProduct)
         {
@@ -38,8 +47,9 @@
         }
         else
         {
+            //tmp display something went wrong
         }
-        <ExtraInfo Properties="Product.ExtraInfo"/>
+        <ExtraInfo Properties="Product.ExtraInfo" />
     </div>
  }
 

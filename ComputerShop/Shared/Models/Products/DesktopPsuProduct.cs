@@ -8,10 +8,10 @@ namespace ComputerShop.Shared.Models.Products
         {
             Category = new Category
             {
-                Id = "1", //tmp
+                Id = "65", //tmp
                 Icon = "fas fa-desktop",
                 Name = "PSU",
-                Url = "computers"
+                Url = "psu"
             };
         }
         public int Pcie8pinCount { get; set; }

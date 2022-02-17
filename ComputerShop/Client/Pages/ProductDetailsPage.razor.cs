@@ -19,8 +19,12 @@ namespace ComputerShop.Client.Pages
                 {
                     currentProdcut = Categoryname switch
                     {
-                        "Computers" => await ProductsService.GetProductGeneric<DesktopPcProduct>(id),
+                        "PC" => await ProductsService.GetProductGeneric<DesktopPcProduct>(id),
                         "PSU" => await ProductsService.GetProductGeneric<DesktopPsuProduct>(id),
+                        "GPU" => await ProductsService.GetProductGeneric<DesktopGpuProduct>(id),
+                        "Laptop" => await ProductsService.GetProductGeneric<LaptopProduct>(id),
+                        "CPU" => await ProductsService.GetProductGeneric<CpuProduct>(id),
+                        "Motherboard" => await ProductsService.GetProductGeneric<MotherboardProduct>(id),
                         _ => await ProductsService.GetProductById(id),
                     };
                 }
@@ -37,12 +41,15 @@ namespace ComputerShop.Client.Pages
             switch (num)
             {
                 case 0:
-                    await JS.ScrollToElement("product-description");
+                    await JS.ScrollToElement("product-name");
                     break;
                 case 1:
-                    await JS.ScrollToElement("product-details");
+                    await JS.ScrollToElement("product-description");
                     break;
                 case 2:
+                    await JS.ScrollToElement("product-details");
+                    break;
+                case 3:
                     await JS.ScrollToElement("product-opinions");
                     break;
                 default:

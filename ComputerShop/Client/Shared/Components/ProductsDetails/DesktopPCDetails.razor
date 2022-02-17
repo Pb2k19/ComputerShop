@@ -1,13 +1,8 @@
 ﻿@if (desktopPC != null)
 {
-    <style>
-        h4 {
-            margin-top: 10px;
-        }
-    </style>
     <h4>Procesor</h4>
     <div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Model
             </div>
@@ -23,7 +18,7 @@
                 @desktopPC.Cpu.FrequencyMHz MHz
             </div>
         </div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Liczba rdzeni/wątków
             </div>
@@ -39,7 +34,7 @@
                 @desktopPC.Cpu.L3CacheMB MB
             </div>
         </div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 TDP
             </div>
@@ -50,7 +45,7 @@
     </div>
     <h4>Karta graficzna</h4>
     <div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Model
             </div>
@@ -66,7 +61,7 @@
                 @desktopPC.Gpu.FrequencyMHz MHz
             </div>
         </div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Rodzaj pamięci
             </div>
@@ -82,7 +77,7 @@
                 @desktopPC.Gpu.MemoryFrequencyMHz MHz
             </div>
         </div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Rozmiar pamięci
             </div>
@@ -101,7 +96,7 @@
     </div>
     <h4>Płyta główna</h4>
     <div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Model
             </div>
@@ -117,7 +112,7 @@
                 @desktopPC.Motherboard.Chipset
             </div>
         </div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Typ wspieranej pamięci
             </div>
@@ -133,7 +128,7 @@
                 @desktopPC.Motherboard.RamSlotsCount
             </div>
         </div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Liczba gniazd USB-C
             </div>
@@ -149,7 +144,7 @@
                 @desktopPC.Motherboard.Usb2Count
             </div>
         </div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Liczba gniazd USB 3.2 gen 1
             </div>
@@ -168,7 +163,7 @@
     </div>
     <h4>Pamięć RAM</h4>
     <div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 RAM
             </div>
@@ -184,7 +179,7 @@
                 @desktopPC.Ram.RamTechnology
             </div>
         </div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Liczba modułów
             </div>
@@ -200,7 +195,7 @@
                 @desktopPC.Ram.FrequencyMHz MHz
             </div>
         </div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Opóźnienia
             </div>
@@ -211,7 +206,7 @@
     </div>
     <h4>Dyski</h4>
     <div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Zainstalowane dyski
             </div>
@@ -236,7 +231,7 @@
     </div>
     <h4>Zasilacz</h4>
     <div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Producent
             </div>
@@ -255,7 +250,7 @@
     </div>
     <h4>Obudowa</h4>
     <div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Model
             </div>
@@ -271,7 +266,7 @@
                 @desktopPC.DesktopCase.Lenghtmm/@desktopPC.DesktopCase.Widthmm/@desktopPC.DesktopCase.Heightmm mm
             </div>
         </div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Liczba portów USB
             </div>
@@ -282,7 +277,7 @@
     </div>
     <h4>Chłodzenie</h4>
     <div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Model
             </div>
@@ -300,8 +295,8 @@
         </div>
     </div>
     <h4>Pozostałe</h4>
-    <div style="margin-top: 20px;">
-        <div class="row">
+    <div class="row">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Producent komputera
             </div>
@@ -309,7 +304,7 @@
                 @desktopPC.Manufacturer
             </div>
         </div>
-        <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+        <div class="row">
             <div class="col-sm-6 text-md-end">
                 Pobór energii
             </div>
@@ -317,7 +312,7 @@
                 @desktopPC.PowerConsumption W
             </div>
         </div>
-        <div class="row">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Długość gwarancji
             </div>

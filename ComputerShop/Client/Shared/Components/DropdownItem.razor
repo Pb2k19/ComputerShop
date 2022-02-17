@@ -1,0 +1,24 @@
+﻿@typeparam TItem
+
+<a class="dropdown-item"
+   Item="@Item"
+   @onmousedown="OnClick">
+   @if (Item != null && ChildContent != null)
+    {
+       @ChildContent(Item)
+    }
+</a>
+
+@code {
+    [CascadingParameter(Name = "Dropdown")]
+    public DropdownMenu<TItem>? Dropdown { get; set; }
+
+    [Parameter] public TItem? Item { get; set; }
+    [Parameter] public RenderFragment<TItem>? ChildContent { get; set; }
+
+    protected void OnClick()
+    {
+        if(Item != null && ChildContent != null)
+            Dropdown?.HandleSelect(Item, ChildContent);
+    }
+}

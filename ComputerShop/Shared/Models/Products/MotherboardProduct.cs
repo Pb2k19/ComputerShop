@@ -5,6 +5,16 @@ namespace ComputerShop.Shared.Models.Products
 {
     public class MotherboardProduct : Product, IDesktopMotherboardProduct
     {
+        public MotherboardProduct()
+        {
+            Category = new()
+            {
+                Id = "3", //tmp
+                Icon = "fas fa-desktop",
+                Name = "Motherboard",
+                Url = "motherboard"
+            };
+        }
         public int PcieX16SlotsCount { get; set; }
         public int RamSlotsCount { get; set; }
         public int M2SlotsCount { get; set; }

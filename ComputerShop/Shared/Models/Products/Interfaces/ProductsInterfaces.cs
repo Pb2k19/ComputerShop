@@ -18,6 +18,11 @@ namespace ComputerShop.Shared.Models.Products.Interfaces
     {
         public decimal DisplaySize { get; set; }
         public int BatteryCapacitymAh { get; set; }
+        public int BatteryLifeIdleMin { get; set; }
+        public int BatteryLifeUnderLoadMin { get; set; }
+        public int Widthmm { get; set; }
+        public int Heightmm { get; set; }
+        public int Lenghtmm { get; set; }
     }
     public interface IDesktopGpuProduct : IProduct, IDesktopGpu
     {
@@ -33,5 +38,12 @@ namespace ComputerShop.Shared.Models.Products.Interfaces
     {
         public new string Name { get; set; }
         public new string Manufacturer { get; set; }
+    }
+    public interface ICpuProduct : IProduct, ICpu
+    {
+        public new string Name { get; set; }
+        public new string Manufacturer { get; set; }
+        public string SupportedSocket { get; set; }
+        public List<string> SupportedChipsets { get; set; }
     }
 }

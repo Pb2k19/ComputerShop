@@ -11,8 +11,8 @@ namespace ComputerShop.Shared.Models.Products
             {
                 Id = "1", //tmp
                 Icon = "fas fa-desktop",
-                Name = "Computers",
-                Url = "computers"
+                Name = "PC",
+                Url = "pc"
             };
         }
         public Cpu Cpu { get; set; }

@@ -3,13 +3,11 @@
 @page "/{category}"
 @page "/"
 
-
-
 <div class="container">
     <div class="d-flex align-items-center">
         @if (currentCategory == null)
         {
-            <PageTitle>Index</PageTitle>
+            <PageTitle>SuperPC</PageTitle>
             <DisplayProducts Products="ProductsService.Products" />
         }
         else
@@ -19,8 +17,6 @@
         }
     </div>    
 </div>
-
-
 
 @code
 {

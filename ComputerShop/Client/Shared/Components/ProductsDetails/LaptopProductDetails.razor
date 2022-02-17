@@ -1,6 +1,320 @@
 ﻿@if (laptop != null)
 {
-    <h1>@laptop.Cpu.Name</h1>
+    <style>
+        h4 {
+            margin-top: 10px;
+        }
+    </style>
+    <h4>Procesor</h4>
+    <div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Model
+            </div>
+            <div class="col-sm-6">
+                @laptop.Cpu.Manufacturer @laptop.Cpu.Name
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Taktowanie
+            </div>
+            <div class="col-sm-6">
+                @laptop.Cpu.FrequencyMHz MHz
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Liczba rdzeni/wątków
+            </div>
+            <div class="col-sm-6">
+                @laptop.Cpu.CoresCount/@laptop.Cpu.ThreadsCount
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Pamięć cache L3
+            </div>
+            <div class="col-sm-6">
+                @laptop.Cpu.L3CacheMB MB
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                TDP
+            </div>
+            <div class="col-sm-6">
+                @laptop.Cpu.Tdp W
+            </div>
+        </div>
+    </div>
+    <h4>Karta graficzna</h4>
+    <div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Model
+            </div>
+            <div class="col-sm-6">
+                @laptop.Gpu.ChipManufacturer @laptop.Gpu.Name
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Taktowanie
+            </div>
+            <div class="col-sm-6">
+                @laptop.Gpu.FrequencyMHz MHz
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Rodzaj pamięci
+            </div>
+            <div class="col-sm-6">
+                @laptop.Gpu.VramType
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Takowanie pamięci
+            </div>
+            <div class="col-sm-6">
+                @laptop.Gpu.MemoryFrequencyMHz MHz
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Rozmiar pamięci
+            </div>
+            <div class="col-sm-6">
+                @laptop.Gpu.VramSizeGB GB
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                TDP
+            </div>
+            <div class="col-sm-6">
+                @laptop.Gpu.Tdp W
+            </div>
+        </div>
+    </div>
+    <h4>Płyta główna</h4>
+    <div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Producent
+            </div>
+            <div class="col-sm-6">
+                @laptop.Motherboard.Manufacturer
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Chipset
+            </div>
+            <div class="col-sm-6">
+                @laptop.Motherboard.Chipset
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Typ wspieranej pamięci
+            </div>
+            <div class="col-sm-6">
+                @laptop.Motherboard.RamType
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Liczba slotów dla pamięci
+            </div>
+            <div class="col-sm-6">
+                @laptop.Motherboard.RamSlotsCount
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Liczba gniazd USB-C
+            </div>
+            <div class="col-sm-6">
+                @laptop.Motherboard.UsbCCount
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Liczba gniazd USB 2.0
+            </div>
+            <div class="col-sm-6">
+                @laptop.Motherboard.Usb2Count
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Liczba gniazd USB 3.2 gen 1
+            </div>
+            <div class="col-sm-6">
+                @laptop.Motherboard.Usb3Gen1Count
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Liczba gniazd USB 3.2 gen 2
+            </div>
+            <div class="col-sm-6">
+                @laptop.Motherboard.Usb3Gen2Count
+            </div>
+        </div>
+    </div>
+    <h4>Pamięć RAM</h4>
+    <div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                RAM
+            </div>
+            <div class="col-sm-6">
+                @laptop.Ram.Manufacturer @laptop.Ram.Name
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Typ pamęci
+            </div>
+            <div class="col-sm-6">
+                @laptop.Ram.RamTechnology
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Liczba modułów
+            </div>
+            <div class="col-sm-6">
+                @laptop.Ram.ModulesNumber
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Taktowanie
+            </div>
+            <div class="col-sm-6">
+                @laptop.Ram.FrequencyMHz MHz
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Opóźnienia
+            </div>
+            <div class="col-sm-6">
+                @laptop.Ram.LatencyCL CL
+            </div>
+        </div>
+    </div>
+    <h4>Dyski</h4>
+    <div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Zainstalowane dyski
+            </div>
+            <div class="col-sm-6">
+                @foreach (var drive in laptop.Drives)
+                {
+                    <p style="margin: 0px;">@drive.Manufacturer @drive.Type @drive.CapacityGB GB</p>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-sm-center text-md-end">
+                Szybkość odczytu / zapisu
+            </div>
+            <div class="col-sm-6">
+                @foreach (var drive in laptop.Drives)
+                {
+                    <p style="margin: 0px;">@drive.ReadSpeedMBs / @drive.WriteSpeedMBs MB/s</p>
+                }
+            </div>
+        </div>
+    </div>
+    <h4>Zasilacz</h4>
+    <div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Producent
+            </div>
+            <div class="col-sm-6">
+                @laptop.Psu.Manufacturer
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Moc
+            </div>
+            <div class="col-sm-6">
+                @laptop.Psu.Power W
+            </div>
+        </div>
+    </div>
+    <h4>Bateria</h4>
+    <div class="row">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Pojemność
+            </div>
+            <div class="col-sm-6">
+                @laptop.BatteryCapacitymAh mAh
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Długość pracy podczas spoczynku
+            </div>
+            <div class="col-sm-6">
+                @laptop.BatteryLifeIdleMin min
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Długość pracy podczas obciążenia
+            </div>
+            <div class="col-sm-6">
+                @laptop.BatteryLifeUnderLoadMin min
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Wymiary
+            </div>
+            <div class="col-sm-6">
+                @laptop.BatteryLifeUnderLoadMin min
+            </div>
+        </div>
+    </div>
+    <h4>Pozostałe</h4>
+    <div class="row">
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Producent laptopa
+            </div>
+            <div class="col-sm-6">
+                @laptop.Manufacturer
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Wymiary
+            </div>
+            <div class="col-sm-6">
+                @laptop.Lenghtmm/@laptop.Widthmm/@laptop.Heightmm mm
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Długość gwarancji
+            </div>
+            <div class="col-sm-6">
+                @laptop.WarantyMonths mies.
+            </div>
+        </div>
+    </div>
 }
 
 @code

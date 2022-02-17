@@ -1,0 +1,12 @@
+﻿.fas-icon {
+    font-size: 1.75rem;
+}
+
+.navbar {
+    max-height: 65px;
+}
+
+li {
+    overflow: auto;
+    white-space: nowrap;
+}

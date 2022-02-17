@@ -27,7 +27,10 @@ namespace ComputerShop.Server.Controllers
         [HttpGet("getCategoryByUrl/{url}")]
         public async Task<ActionResult<Category>> GetCategoryByIdAsync([FromRoute] string url)
         {
-            return Ok(await categoryService.GetCategoryByUrlAsync(url));
+            var x = await categoryService.GetCategoryByUrlAsync(url);
+            if(x == null)
+                return NotFound();
+            return Ok(x);
         }
     }
 }

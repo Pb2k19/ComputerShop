@@ -34,54 +34,8 @@ a, .btn-link {
     color: red;
 }
 
-.card {
-    display: inline-block;
-    min-width: 250px;
-    vertical-align: bottom;
-    margin: 5px
-}
-
-.card-columns .card-img {
-    height: 375px;
-    vertical-align: bottom;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-.card-columns .card-body {
-    height: 175px;
-    font-family: 'Roboto', sans-serif;
-    background: #fbfafd;
-}
-
-.card-columns .card-body .card-name{
-    height: 65px;
-    overflow: hidden;
-}
-
-.card-columns .card-body .card-container {
-    height: 100px;
-    width: 100%;
-}
-
-.card-columns .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(37,33,82,.12), 0 4px 8px rgba(37,33,82,.06);
-}
-
 .cursorHand {
     cursor: pointer;
-}
-
-.price{
-    text-align: right;
-}
-
-.price-befor-discount {
-    text-align: right;    
-    text-decoration: line-through;
-    padding-bottom: 0px;
 }
 
 .carousel-inner img {

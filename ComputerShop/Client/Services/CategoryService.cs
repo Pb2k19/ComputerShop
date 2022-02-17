@@ -1,5 +1,6 @@
 ﻿using ComputerShop.Shared.Models;
 using System.Net.Http.Json;
+using System.Net;
 
 namespace ComputerShop.Client.Services
 {
@@ -25,7 +26,16 @@ namespace ComputerShop.Client.Services
 
         public async Task<Category?> GetCategoryByUrl(string categoryUrl)
         {
-            return await httpClient.GetFromJsonAsync<Category>($"api/categories/getCategoryByUrl/{categoryUrl}");
+            try
+            {
+                return await httpClient.GetFromJsonAsync<Category>($"api/categories/getCategoryByUrl/{categoryUrl}");
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == HttpStatusCode.NotFound)
+                    return null;
+                throw;
+            }
         }
     }
 }

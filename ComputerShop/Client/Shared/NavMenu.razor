@@ -1,63 +1,87 @@
 ﻿@inject ICategoryService CategoryService
+@inject NavigationManager NavigationManager
 
 <style>
-    .fas-icon {
-        font-size: 1.75rem;
-    }
-    .navbar{
-        max-height: 65px;
-    }
-    .font-size{
+    .navbar-font-size {
         font-size: 1.2rem;
     }
 </style>
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light shadow">
+<nav class="navbar navbar-expand-xxl fixed-top navbar-light bg-light shadow justify-content-between">
     <div class="container-fluid">
         <a class="navbar-brand" href=""><img src="images/logo.png" width="180" height="35" /></a>
+
         <button class="navbar-toggler shadow-none" type="button" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="@NavMenuCssClass navbar-collapse bg-light" @onclick="ToggleNavMenu">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-link px-3">
-                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                        <div class="d-flex align-items-center font-size">                            
-                                <span class="fas-icon fas fa-home me-2" aria-hidden="true"></span>
-                                Home
-                        </div>                                               
+            <form class="d-flex w-100 mt-sm-4 mt-xxl-0">
+                <input class="form-control" type="search" placeholder="Szukaj" aria-label="Search">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 categories">
+                <li class="nav-link">
+                    <NavLink class="nav-link" href="pc">
+                        <div class="d-flex align-items-center navbar-font-size">
+                            Komputery
+                        </div>
                     </NavLink>
                 </li>
-                @foreach (var category in CategoryService.Categories)
-                {
-                    <li class="nav-link px-3">
-                        <NavLink class="nav-link" href="@category.Url">
-                            <div class="d-flex align-items-center font-size">
-                                <span class="fas-icon @category.Icon me-2" aria-hidden="true"></span> 
-                                @category.Name
-                            </div>
-                        </NavLink>
-                    </li>
-                }
+                <li class="nav-link">
+                    <NavLink class="nav-link" href="laptop">
+                        <div class="d-flex align-items-center navbar-font-size">
+                            Laptopy
+                        </div>
+                    </NavLink>
+                </li>
+                <li class="nav-link ms-sm-0 ms-xxl-2" style="overflow: visible;">
+                    <div class="d-flex align-items-center navbar-font-size">
+                        <DropdownMenu TItem="string"
+                                      Items="ComponentsList"
+                                      ChangeTitleToSelectedValue="false"
+                                      OnSelected="OnPartsClicked"
+                                      ButtonClassCss="bg-transparent navbar-font-size px-0">
+                            <InitTitle>Podzespoły</InitTitle>
+                        </DropdownMenu>
+                    </div>
+                </li>
+                <li class="nav-link ms-sm-0 ms-xxl-2" style="overflow: visible;">
+                    <div class="d-flex align-items-center navbar-font-size">
+                        <DropdownMenu TItem="string"
+                                      Items="list"
+                                      ChangeTitleToSelectedValue="false"
+                                      OnSelected="OnPeripheriesClicked"
+                                      ButtonClassCss="bg-transparent navbar-font-size px-0">
+                            <InitTitle>Peryferia</InitTitle>
+                        </DropdownMenu>
+                    </div>
+                </li>
+                <li class="nav-link ms-sm-0 ms-xxl-1">
+                    <NavLink class="nav-link" href="tool">
+                        <div class="d-flex align-items-center navbar-font-size">
+                            Narzędzia
+                        </div>
+                    </NavLink>
+                </li>
+                <li class="nav-link ms-sm-0 ms-xxl-2">
+                    <NavLink class="nav-link" href="account">
+                        <div class="d-flex align-items-center navbar-font-size text-primary">
+                            @if (!isLogIn)
+                            {
+                                <span>Zaloguj się</span>
+                            }
+                            else
+                            {
+                                <span>@username</span>
+                            }
+                            <span class="fas-icon fas fa-user ms-2" aria-hidden="true"></span>
+                        </div>
+                    </NavLink>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 
-@code {
-    bool collapseNavMenu = true;
-
-
-    string NavMenuCssClass =>  collapseNavMenu ? " collapse" : "";
-
-    void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await CategoryService.LoadAsync();
-        base.OnInitialized();
-    }
-}

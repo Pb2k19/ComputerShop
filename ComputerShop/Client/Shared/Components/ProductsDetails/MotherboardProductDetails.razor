@@ -1,6 +1,117 @@
 ﻿@if (motherboardProduct != null)
 {
-    <h1>@motherboardProduct.Manufacturer</h1>
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="col-sm-6 text-md-end">
+            Producent
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.Manufacturer
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Model
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.Name
+        </div>
+    </div>
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="col-sm-6 text-md-end">
+            Chipset
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.Chipset
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Gniazdo procesora
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.Socket
+        </div>
+    </div>
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="col-sm-6 text-md-end">
+            Rozmiar płyty
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.Size
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Typ wspieranej pamięci
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.RamType
+        </div>
+    </div>
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="col-sm-6 text-md-end">
+            Liczba slotów dla pamięci
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.RamSlotsCount
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Liczba slotów dla dysków M.2
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.M2SlotsCount
+        </div>
+    </div>
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="col-sm-6 text-md-end">
+            Liczba slotów PCIe X16
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.PcieX16SlotsCount
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Liczba złącz SATA
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.SataConnectorsCount
+        </div>
+    </div>
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="col-sm-6 text-md-end">
+            Liczba gniazd USB-C
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.UsbCCount
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Liczba gniazd USB 2.0
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.Usb2Count
+        </div>
+    </div>
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="col-sm-6 text-md-end">
+            Liczba gniazd USB 3.2 gen 1
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.Usb3Gen1Count
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Liczba gniazd USB 3.2 gen 2
+        </div>
+        <div class="col-sm-6">
+            @motherboardProduct.Usb3Gen2Count
+        </div>
+    </div>
 }
 
 @code
@@ -10,7 +121,7 @@
 
     protected override void OnParametersSet()
     {
-        if (Product != null)
+        if (Product != null && Product is IDesktopMotherboard)
             motherboardProduct = Product as IDesktopMotherboardProduct;
         base.OnParametersSet();
     }

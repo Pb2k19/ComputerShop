@@ -4,6 +4,16 @@ namespace ComputerShop.Shared.Models.Products
 {
     public class RamProduct : Product, IRamProduct
     {
+        public RamProduct()
+        {
+            Category = new Category()
+            {
+                Id = "5", //tmp
+                Icon = "fas fa-desktop",
+                Name = "RAM",
+                Url = "ram"
+            };
+        }
         public int ModulesNumber { get; set; }
         public int FrequencyMHz { get; set; }
         public int LatencyCL { get; set; }

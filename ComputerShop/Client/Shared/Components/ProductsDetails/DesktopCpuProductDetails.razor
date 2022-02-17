@@ -1,68 +1,71 @@
-﻿@if (gpuProduct != null)
+﻿@if(cpuProduct != null)
 {
     <div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Producent i model
+                Producent
             </div>
             <div class="col-sm-6">
-                @gpuProduct.Manufacturer @gpuProduct.Name
+                @cpuProduct.Manufacturer 
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Producent GPU
+                Model
             </div>
             <div class="col-sm-6">
-                @gpuProduct.ChipManufacturer
+                @cpuProduct.Name
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Taktowanie GPU
+                Taktowanie
             </div>
             <div class="col-sm-6">
-                @gpuProduct.FrequencyMHz MHz
+                @cpuProduct.FrequencyMHz MHz
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Takowanie pamięci
+                Liczba rdzeni/wątków
             </div>
             <div class="col-sm-6">
-                @gpuProduct.MemoryFrequencyMHz MHz
+                @cpuProduct.CoresCount/@cpuProduct.ThreadsCount
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Rozmiar pamięci
+                Gniazdo
             </div>
             <div class="col-sm-6">
-                @gpuProduct.VramSizeGB GB
+                @cpuProduct.SupportedSocket
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Rodzaj pamięci
+                Wspierane chipsety
             </div>
             <div class="col-sm-6">
-                @gpuProduct.VramType
+                @foreach (var item in cpuProduct.SupportedChipsets)
+                {
+                    @item
+                }
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Pamięć cache L3
+            </div>
+            <div class="col-sm-6">
+                @cpuProduct.L3CacheMB MB
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-6 text-md-end">
                 TDP
             </div>
             <div class="col-sm-6">
-                @gpuProduct.Tdp W
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6 text-md-end">
-                Długość
-            </div>
-            <div class="col-sm-6">
-                @gpuProduct.Lenghtmm mm
+                @cpuProduct.Tdp W
             </div>
         </div>
     </div>
@@ -71,14 +74,12 @@
 @code
 {
     [Parameter] public IProduct? Product { get; set; }
-    private IDesktopGpuProduct? gpuProduct;
+    private ICpuProduct? cpuProduct;
 
     protected override void OnParametersSet()
     {
-        if (Product != null)
-            gpuProduct = Product as IDesktopGpuProduct;
+        if (Product != null && Product is ICpuProduct)
+            cpuProduct = Product as ICpuProduct;
         base.OnParametersSet();
     }
 }
-
-

@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Server.Services
 {
@@ -11,9 +12,13 @@ namespace ComputerShop.Server.Services
             {
                 Categories = new List<Category>()
                 {
-                    new Category { Id = "1", Name = "Computers", Url = "computers", Icon = "fas fa-desktop" },
-                    new Category { Id = "2", Name = "Smartphones", Url = "smartphones", Icon = "fas fa-mobile-alt" },
-                    new Category { Id = "3", Name = "GPUs", Url = "gpus", Icon = "fas fa-server" },
+                    new LaptopProduct().Category,
+                    new DesktopPcProduct().Category,
+                    new DesktopGpuProduct().Category,
+                    new DesktopPsuProduct().Category,
+                    new MotherboardProduct().Category,
+                    new RamProduct().Category,
+                    new CpuProduct().Category,
                 };
             });
             return Categories;
