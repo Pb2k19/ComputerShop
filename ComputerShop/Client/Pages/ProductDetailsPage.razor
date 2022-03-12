@@ -15,7 +15,7 @@
 
 <div class="container-fluid mb-5" style="max-width: 1500px;">
     <div class="row" id="product-name">
-        <h1>@currentProdcut?.Name</h1>
+        <h1>@currentProdcut?.Manufacturer @currentProdcut?.Name</h1>
     </div>
     <div class="row justify-content-around">
         @if (currentProdcut?.Images?.Count > 0)
@@ -47,7 +47,7 @@
     </div>
     <div id="product-details" class="shadow p-3 pb-0 mb-0 border rounded scroll-std">
         <h2 class="text-center">Specyfikacja</h2>
-        <ProductDetails Product="currentProdcut" />
+        <DisplayProductDetails Product="currentProdcut" />
     </div>
     <div id="product-opinions" class="scroll-std" style="height: 2000px;">
         <h2>Komenty</h2>

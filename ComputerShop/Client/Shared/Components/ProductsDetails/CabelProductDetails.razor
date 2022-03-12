@@ -1,4 +1,4 @@
-﻿@if(cpuProduct != null)
+﻿@if (cabelProduct != null)
 {
     <div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
@@ -6,7 +6,7 @@
                 Producent
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Manufacturer 
+                @cabelProduct.Manufacturer
             </div>
         </div>
         <div class="row">
@@ -14,63 +14,47 @@
                 Model
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Name
+                @cabelProduct.Name
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Taktowanie
+                Typ
             </div>
             <div class="col-sm-6">
-                @cpuProduct.FrequencyMHz MHz
+                @cabelProduct.CabelType
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Liczba rdzeni/wątków
+                Złącza
             </div>
             <div class="col-sm-6">
-                @cpuProduct.CoresCount/@cpuProduct.ThreadsCount
+                @cabelProduct.ConnectorA / @cabelProduct.ConnectorB
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gniazdo
+                Długość
             </div>
             <div class="col-sm-6">
-                @cpuProduct.SupportedSocket
+               @cabelProduct.Lenghtmm mm
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Wspierane chipsety
+                Kolor
             </div>
             <div class="col-sm-6">
-                <PrintList List="cpuProduct.SupportedChipsets"/>
+               @cabelProduct.Color
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Pamięć cache L3
+                Długość gwarancji
             </div>
             <div class="col-sm-6">
-                @cpuProduct.L3CacheMB MB
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6 text-md-end">
-                TDP
-            </div>
-            <div class="col-sm-6">
-                @cpuProduct.Tdp W
-            </div>
-        </div>
-        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
-            <div class="col-sm-6 text-md-end">
-                Gwarancja
-            </div>
-            <div class="col-sm-6">
-                @cpuProduct.WarantyMonths mies.
+                @cabelProduct.WarantyMonths mies.
             </div>
         </div>
     </div>
@@ -79,12 +63,12 @@
 @code
 {
     [Parameter] public IProduct? Product { get; set; }
-    private ICpuProduct? cpuProduct;
+    private ICableProduct? cabelProduct;
 
     protected override void OnParametersSet()
     {
-        if (Product != null && Product is ICpuProduct)
-            cpuProduct = Product as ICpuProduct;
+        if (Product != null && Product is ICableProduct)
+            cabelProduct = Product as ICableProduct;
         base.OnParametersSet();
     }
 }

@@ -19,6 +19,17 @@ namespace ComputerShop.Server.Services
                     new MotherboardProduct().Category,
                     new RamProduct().Category,
                     new CpuProduct().Category,
+                    new SsdProduct().Category,
+                    new HddProduct().Category,
+                    new DesktopCaseProduct().Category,
+                    new ComputerMouseProduct().Category,
+                    new KeyboardProduct().Category,
+                    new HeadphonesProduct().Category,
+                    new MonitorProduct().Category,
+                    new PrinterProduct().Category,
+                    new CableProduct().Category,
+                    new ToolProduct().Category,
+                    new DesktopCoolerProduct().Category,
                 };
             });
             return Categories;

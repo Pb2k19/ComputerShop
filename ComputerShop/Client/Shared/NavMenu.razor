@@ -14,7 +14,7 @@
         <button class="navbar-toggler shadow-none" type="button" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="@NavMenuCssClass navbar-collapse bg-light" @onclick="ToggleNavMenu">
+        <div class="@NavMenuCssClass navbar-collapse bg-light">
             <form class="d-flex w-100 mt-sm-4 mt-xxl-0">
                 <input class="form-control" type="search" placeholder="Szukaj" aria-label="Search">
                 <button class="btn btn-primary" type="submit">
@@ -23,14 +23,14 @@
             </form>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 categories">
                 <li class="nav-link">
-                    <NavLink class="nav-link" href="pc">
+                    <NavLink class="nav-link" href="pc" @onclick="CollapseNavMenu">
                         <div class="d-flex align-items-center navbar-font-size">
                             Komputery
                         </div>
                     </NavLink>
                 </li>
                 <li class="nav-link">
-                    <NavLink class="nav-link" href="laptop">
+                    <NavLink class="nav-link" href="laptop" @onclick="CollapseNavMenu">
                         <div class="d-flex align-items-center navbar-font-size">
                             Laptopy
                         </div>
@@ -50,7 +50,7 @@
                 <li class="nav-link ms-sm-0 ms-xxl-2" style="overflow: visible;">
                     <div class="d-flex align-items-center navbar-font-size">
                         <DropdownMenu TItem="string"
-                                      Items="list"
+                                      Items="PeripheryList"
                                       ChangeTitleToSelectedValue="false"
                                       OnSelected="OnPeripheriesClicked"
                                       ButtonClassCss="bg-transparent navbar-font-size px-0">
@@ -59,13 +59,20 @@
                     </div>
                 </li>
                 <li class="nav-link ms-sm-0 ms-xxl-1">
-                    <NavLink class="nav-link" href="tool">
+                    <NavLink class="nav-link" href="tool" @onclick="CollapseNavMenu">
                         <div class="d-flex align-items-center navbar-font-size">
                             Narzędzia
                         </div>
                     </NavLink>
                 </li>
-                <li class="nav-link ms-sm-0 ms-xxl-2">
+                <li class="nav-link ms-sm-0 ms-xxl-1">
+                    <NavLink class="nav-link" href="configurator" @onclick="CollapseNavMenu">
+                        <div class="d-flex align-items-center navbar-font-size">
+                            Konfigurator PC
+                        </div>
+                    </NavLink>
+                </li>
+                <li class="nav-link ms-sm-0 ms-xxl-2" @onclick="CollapseNavMenu">
                     <NavLink class="nav-link" href="account">
                         <div class="d-flex align-items-center navbar-font-size text-primary">
                             @if (!isLogIn)

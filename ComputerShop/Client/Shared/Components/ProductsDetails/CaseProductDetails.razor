@@ -1,4 +1,4 @@
-﻿@if(cpuProduct != null)
+﻿@if(caseProduct != null)
 {
     <div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
@@ -6,7 +6,7 @@
                 Producent
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Manufacturer 
+                @caseProduct.Manufacturer
             </div>
         </div>
         <div class="row">
@@ -14,63 +14,63 @@
                 Model
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Name
+                @caseProduct.Name
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Taktowanie
+                Wymiary
             </div>
             <div class="col-sm-6">
-                @cpuProduct.FrequencyMHz MHz
+                @caseProduct.Lenghtmm/@caseProduct.Widthmm/@caseProduct.Heightmm mm
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Liczba rdzeni/wątków
+                Maksymalna długość karty graficznej
             </div>
             <div class="col-sm-6">
-                @cpuProduct.CoresCount/@cpuProduct.ThreadsCount
+                @caseProduct.MaxGpuLenghtmm mm
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gniazdo
+                Maksymalna wysokość chłodzenia
             </div>
             <div class="col-sm-6">
-                @cpuProduct.SupportedSocket
+                @caseProduct.MaxCoolerHeightmm mm
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Wspierane chipsety
+                Maksymalny rozmiar radiatora
             </div>
             <div class="col-sm-6">
-                <PrintList List="cpuProduct.SupportedChipsets"/>
+                @caseProduct.MaxRadiatorSizemm mm
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Pamięć cache L3
+                Liczba portów USB
             </div>
             <div class="col-sm-6">
-                @cpuProduct.L3CacheMB MB
+                @caseProduct.UsbPorts
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                TDP
+                Kolor
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Tdp W
+                @caseProduct.Color
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gwarancja
+                Długość gwarancji
             </div>
             <div class="col-sm-6">
-                @cpuProduct.WarantyMonths mies.
+                @caseProduct.WarantyMonths mies.
             </div>
         </div>
     </div>
@@ -79,12 +79,12 @@
 @code
 {
     [Parameter] public IProduct? Product { get; set; }
-    private ICpuProduct? cpuProduct;
+    private IComputerCaseProduct? caseProduct;
 
     protected override void OnParametersSet()
     {
-        if (Product != null && Product is ICpuProduct)
-            cpuProduct = Product as ICpuProduct;
+        if (Product != null && Product is IComputerCaseProduct)
+            caseProduct = Product as IComputerCaseProduct;
         base.OnParametersSet();
     }
 }

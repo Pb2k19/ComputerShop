@@ -1,4 +1,4 @@
-﻿@if(cpuProduct != null)
+﻿@if (mouseProduct != null)
 {
     <div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
@@ -6,7 +6,7 @@
                 Producent
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Manufacturer 
+                @mouseProduct.Manufacturer
             </div>
         </div>
         <div class="row">
@@ -14,63 +14,79 @@
                 Model
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Name
+                @mouseProduct.Name
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Taktowanie
+                Bezprzewodowa
             </div>
             <div class="col-sm-6">
-                @cpuProduct.FrequencyMHz MHz
+                <PrintTrueFalse Value="mouseProduct.IsWireless"/>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Liczba rdzeni/wątków
+                Odświeżanie
             </div>
             <div class="col-sm-6">
-                @cpuProduct.CoresCount/@cpuProduct.ThreadsCount
+                @mouseProduct.PollingRateHz Hz
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gniazdo
+                Sensor (typ)
             </div>
             <div class="col-sm-6">
-                @cpuProduct.SupportedSocket
+                @mouseProduct.Sensor (@mouseProduct.SensorType)
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Wspierane chipsety
+                Maksymalne DPI
             </div>
             <div class="col-sm-6">
-                <PrintList List="cpuProduct.SupportedChipsets"/>
+                @mouseProduct.MaxDpi
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Pamięć cache L3
+                Interfejs
             </div>
             <div class="col-sm-6">
-                @cpuProduct.L3CacheMB MB
+                @mouseProduct.Interface
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                TDP
+                Rozmiar
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Tdp W
+                @mouseProduct.Lenghtmm / @mouseProduct.Widthmm / @mouseProduct.Heightmm mm
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gwarancja
+                Waga
             </div>
             <div class="col-sm-6">
-                @cpuProduct.WarantyMonths mies.
+                @mouseProduct.Weightg g
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Kolor
+            </div>
+            <div class="col-sm-6">
+                @mouseProduct.Color
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Długość gwarancji
+            </div>
+            <div class="col-sm-6">
+                @mouseProduct.WarantyMonths mies.
             </div>
         </div>
     </div>
@@ -79,12 +95,12 @@
 @code
 {
     [Parameter] public IProduct? Product { get; set; }
-    private ICpuProduct? cpuProduct;
+    private IComputerMouseProduct? mouseProduct;
 
     protected override void OnParametersSet()
     {
-        if (Product != null && Product is ICpuProduct)
-            cpuProduct = Product as ICpuProduct;
+        if (Product != null && Product is IComputerMouseProduct)
+            mouseProduct = Product as IComputerMouseProduct;
         base.OnParametersSet();
     }
 }

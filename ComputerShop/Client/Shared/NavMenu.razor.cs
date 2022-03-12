@@ -2,13 +2,32 @@
 {
     public partial class NavMenu
     {
-        List<string> list = new List<string> { "Myszy", "Klawiatury", "Słuchawki", "Monitory", "Drukarki", "Wszystko" };
+        List<string> PeripheryList = new List<string> 
+        { 
+            "Myszy", 
+            "Klawiatury", 
+            "Słuchawki", 
+            "Monitory", 
+            "Drukarki",
+        };
 
-        List<string> ComponentsList = new() { "Procesory", "Karty graficzne", "Płyty główne", "Pamięci RAM", "Zasilacze", "Dyski", "Obudowy", "Chłodzenie", "Wszystko" };
+        List<string> ComponentsList = new() 
+        { 
+            "Procesory", 
+            "Karty graficzne", 
+            "Płyty główne", 
+            "Pamięci RAM", 
+            "Zasilacze", 
+            "Dyski HDD",
+            "Dyski SSD",
+            "Obudowy", 
+            "Chłodzenie",
+            "Przewody" 
+        };
 
 
         bool collapseNavMenu = true;
-        bool isLogIn = false;
+        bool isLogIn = true;
         string username = "test";
 
         string NavMenuCssClass => collapseNavMenu ? " collapse" : "";
@@ -17,15 +36,18 @@
         {
             collapseNavMenu = !collapseNavMenu;
         }
-
+        void CollapseNavMenu()
+        {
+            collapseNavMenu = true;
+        }
         protected override async Task OnInitializedAsync()
         {
             await CategoryService.LoadAsync();
             base.OnInitialized();
         }
-
         protected void OnPartsClicked(int id)
         {
+            collapseNavMenu = true;
             switch (id)
             {
                 case 0:
@@ -44,16 +66,21 @@
                     NavigationManager.NavigateTo("psu");
                     break;
                 case 5:
-                    NavigationManager.NavigateTo("drive");
+                    NavigationManager.NavigateTo("hdd");
                     break;
                 case 6:
-                    NavigationManager.NavigateTo("case");
+                    NavigationManager.NavigateTo("ssd");
                     break;
                 case 7:
-                    NavigationManager.NavigateTo("cooling");
+                    NavigationManager.NavigateTo("case");
+                    break;
+                case 8:
+                    NavigationManager.NavigateTo("cooler");
+                    break;
+                case 9:
+                    NavigationManager.NavigateTo("cabel");
                     break;
                 default:
-                    NavigationManager.NavigateTo("part");
                     break;
             }
         }
@@ -63,22 +90,21 @@
             switch (id)
             {
                 case 0:
-                    NavigationManager.NavigateTo("mice");
+                    NavigationManager.NavigateTo("mouse");
                     break;
                 case 1:
-                    NavigationManager.NavigateTo("keyboards");
+                    NavigationManager.NavigateTo("keyboard");
                     break;
                 case 2:
                     NavigationManager.NavigateTo("headphones");
                     break;
                 case 3:
-                    NavigationManager.NavigateTo("monitors");
+                    NavigationManager.NavigateTo("montior");
                     break;
                 case 4:
-                    NavigationManager.NavigateTo("printers");
+                    NavigationManager.NavigateTo("printer");
                     break;
                 default:
-                    NavigationManager.NavigateTo("periphery");
                     break;
             }
         }

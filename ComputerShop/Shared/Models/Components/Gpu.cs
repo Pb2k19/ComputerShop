@@ -12,6 +12,16 @@ namespace ComputerShop.Shared.Models
         public int Tdp { get; set; }
         public string ChipManufacturer { get; set; }
         public int MemoryFrequencyMHz { get; set; }
+        public List<string> PortsList { get; set; }
+        public int BusWidth { get; set; }
+    }
+    public enum GpuPorts
+    {
+        DVI,
+        VGA,
+        HDMI,
+        DispalyPort,
+        USB
     }
     public enum GpuManufacturers
     {

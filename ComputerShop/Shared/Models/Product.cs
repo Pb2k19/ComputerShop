@@ -19,7 +19,7 @@ namespace ComputerShop.Shared.Models
         public DateTime CareationDate { get; set; }
         public DateTime LastUpdateDate { get; set; }
         public Category Category { get; set; }
-        public List<Image> Images { get; set; }
+        public List<Image> Images { get; set; } = new List<Image> { new Image()};
         public int WarantyMonths { get; set; } = 12;
         public List<Prop> ExtraInfo { get; set; }
     }

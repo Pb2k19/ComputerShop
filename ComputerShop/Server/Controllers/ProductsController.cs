@@ -1,6 +1,5 @@
 ﻿using ComputerShop.Server.Services;
 using ComputerShop.Shared.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComputerShop.Server.Controllers
@@ -16,26 +15,49 @@ namespace ComputerShop.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProductsAll()
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsAll()
         {
-            return Ok(await productsService.GetAllProductsAsync());
+            ServiceResponse<List<Product>> serviceResponse = new()
+            {
+                Data = await productsService.GetAllProductsAsync()
+            };
+            return Ok(serviceResponse);
         }
 
         [HttpGet("getByCategoryId/{id}")]
-        public async Task<ActionResult<List<Product>>> GetProductsByCategoryIdAsync([FromRoute]int id)
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsByCategoryIdAsync([FromRoute] int id)
         {
-            return Ok(await productsService.GetProductsByCategoryIdAsync(id));
+            ServiceResponse<List<Product>> serviceResponse = new()
+            {
+                Data = await productsService.GetProductsByCategoryIdAsync(id)
+            };
+            return Ok(serviceResponse);
         }
 
         [HttpGet("getByUrl/{url}")]
-        public async Task<ActionResult<List<Product>>> GetProductsByCategoryUrlAsync([FromRoute] string url)
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsByCategoryUrlAsync([FromRoute] string url)
         {
-            return Ok(await productsService.GetProductsByCategoryUrlAsync(url));
+            ServiceResponse<List<Product>> serviceResponse = new()
+            {
+                Data = await productsService.GetProductsByCategoryUrlAsync(url)
+            };
+            return Ok(serviceResponse);
         }
         [HttpGet("getProductById/{id}")]
-        public async Task<ActionResult<Product>> GetProductByIdAsync([FromRoute] int id)
+        public async Task<ActionResult<ServiceResponse<Product>>> GetProductByIdAsync([FromRoute] int id)
         {
-            return Ok(await productsService.GetProductByIdAsync(id));
+            Product? product = await productsService.GetProductByIdAsync(id);
+            ServiceResponse<object> serviceResponse = new();
+            if(product == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Nie znaleziono produktu";
+            }
+            else
+            {
+                serviceResponse.Data = product;
+            }
+            return Ok(serviceResponse);
         }
     }
 }

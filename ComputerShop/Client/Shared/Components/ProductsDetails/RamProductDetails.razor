@@ -1,6 +1,61 @@
 ﻿@if (ramProduct != null)
 {
-    <h1>Producent: @ramProduct.Manufacturer</h1>
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="col-sm-6 text-md-end">
+            Producent
+        </div>
+        <div class="col-sm-6">
+            @ramProduct.Manufacturer
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Model
+        </div>
+        <div class="col-sm-6">
+            @ramProduct.Name
+        </div>
+    </div>
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="col-sm-6 text-md-end">
+            Typ pamęci
+        </div>
+        <div class="col-sm-6">
+            @ramProduct.RamTechnology
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Liczba modułów
+        </div>
+        <div class="col-sm-6">
+            @ramProduct.ModulesNumber
+        </div>
+    </div>
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="col-sm-6 text-md-end">
+            Taktowanie
+        </div>
+        <div class="col-sm-6">
+            @ramProduct.FrequencyMHz MHz
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 text-md-end">
+            Opóźnienia
+        </div>
+        <div class="col-sm-6">
+            CL @ramProduct.LatencyCL
+        </div>
+    </div>
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="col-sm-6 text-md-end">
+            Gwarancja
+        </div>
+        <div class="col-sm-6">
+            @ramProduct.WarantyMonths mies.
+        </div>
+    </div>
 }
 
 @code
@@ -10,7 +65,7 @@
 
     protected override void OnParametersSet()
     {
-        if (Product != null)
+        if (Product != null && Product is IRamProduct)
             ramProduct = Product as IRamProduct;
         base.OnParametersSet();
     }

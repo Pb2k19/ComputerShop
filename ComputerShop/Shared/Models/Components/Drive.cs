@@ -9,6 +9,7 @@ namespace ComputerShop.Shared.Models.Components
         public int WriteSpeedMBs { get; set; }
         public string Type { get; set; }
         public int CapacityGB { get; set; }
+        public string Interface { get; set; }
     }
     public enum DriveManufacturers
     {

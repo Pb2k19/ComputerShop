@@ -1,4 +1,4 @@
-﻿@if(cpuProduct != null)
+﻿@if (printerProduct != null)
 {
     <div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
@@ -6,7 +6,7 @@
                 Producent
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Manufacturer 
+                @printerProduct.Manufacturer
             </div>
         </div>
         <div class="row">
@@ -14,63 +14,79 @@
                 Model
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Name
+                @printerProduct.Name
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Taktowanie
+                Posiada Wi-Fi
             </div>
             <div class="col-sm-6">
-                @cpuProduct.FrequencyMHz MHz
+                <PrintTrueFalse Value="printerProduct.HasWiFi" />
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Liczba rdzeni/wątków
+                Kolorowy wydruk
             </div>
             <div class="col-sm-6">
-                @cpuProduct.CoresCount/@cpuProduct.ThreadsCount
+                <PrintTrueFalse Value="printerProduct.HasMulticolour" />
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gniazdo
+                Posiada skaner
             </div>
             <div class="col-sm-6">
-                @cpuProduct.SupportedSocket
+                <PrintTrueFalse Value="printerProduct.HasScanner" />
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Wspierane chipsety
+                Interfejsy
             </div>
             <div class="col-sm-6">
-                <PrintList List="cpuProduct.SupportedChipsets"/>
+                <PrintList List="printerProduct.Interfaces"/>
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Pamięć cache L3
+                Prędkość drukowania
             </div>
             <div class="col-sm-6">
-                @cpuProduct.L3CacheMB MB
+                @printerProduct.PrintSpeedPgpmin stron/min
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                TDP
+                Typ drukarki
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Tdp W
+                @printerProduct.Technology
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gwarancja
+                Wspierane rozmiary papieru
             </div>
             <div class="col-sm-6">
-                @cpuProduct.WarantyMonths mies.
+                <PrintList List="printerProduct.SupportedFormats" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Rozmiar
+            </div>
+            <div class="col-sm-6">
+                @printerProduct.Lenghtmm / @printerProduct.Widthmm / @printerProduct.Heightmm mm
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Długość gwarancji
+            </div>
+            <div class="col-sm-6">
+                @printerProduct.WarantyMonths mies.
             </div>
         </div>
     </div>
@@ -79,12 +95,12 @@
 @code
 {
     [Parameter] public IProduct? Product { get; set; }
-    private ICpuProduct? cpuProduct;
+    private IPrinterProduct? printerProduct;
 
     protected override void OnParametersSet()
     {
-        if (Product != null && Product is ICpuProduct)
-            cpuProduct = Product as ICpuProduct;
+        if (Product != null && Product is IPrinterProduct)
+            printerProduct = Product as IPrinterProduct;
         base.OnParametersSet();
     }
 }

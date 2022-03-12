@@ -1,4 +1,4 @@
-﻿@if(cpuProduct != null)
+﻿@if (keyboardProduct != null)
 {
     <div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
@@ -6,7 +6,7 @@
                 Producent
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Manufacturer 
+                @keyboardProduct.Manufacturer
             </div>
         </div>
         <div class="row">
@@ -14,63 +14,71 @@
                 Model
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Name
+                @keyboardProduct.Name
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Taktowanie
+                Bezprzewodowa
             </div>
             <div class="col-sm-6">
-                @cpuProduct.FrequencyMHz MHz
+                <PrintTrueFalse Value="keyboardProduct.IsWireless" />
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Liczba rdzeni/wątków
+                Rodzaj
             </div>
             <div class="col-sm-6">
-                @cpuProduct.CoresCount/@cpuProduct.ThreadsCount
+                @keyboardProduct.KeyboardType
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gniazdo
+                Rozmiar
             </div>
             <div class="col-sm-6">
-                @cpuProduct.SupportedSocket
+                @keyboardProduct.Size
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Wspierane chipsety
+                Interfejs
             </div>
             <div class="col-sm-6">
-                <PrintList List="cpuProduct.SupportedChipsets"/>
+                @keyboardProduct.Interface
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Pamięć cache L3
+                Rozmiar
             </div>
             <div class="col-sm-6">
-                @cpuProduct.L3CacheMB MB
+                @keyboardProduct.Lenghtmm / @keyboardProduct.Widthmm / @keyboardProduct.Heightmm mm
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                TDP
+                Waga
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Tdp W
+                @keyboardProduct.Weightg g
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gwarancja
+                Kolor
             </div>
             <div class="col-sm-6">
-                @cpuProduct.WarantyMonths mies.
+                @keyboardProduct.Color
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Długość gwarancji
+            </div>
+            <div class="col-sm-6">
+                @keyboardProduct.WarantyMonths mies.
             </div>
         </div>
     </div>
@@ -79,12 +87,12 @@
 @code
 {
     [Parameter] public IProduct? Product { get; set; }
-    private ICpuProduct? cpuProduct;
+    private IKeyboardProduct? keyboardProduct;
 
     protected override void OnParametersSet()
     {
-        if (Product != null && Product is ICpuProduct)
-            cpuProduct = Product as ICpuProduct;
+        if (Product != null && Product is IKeyboardProduct)
+            keyboardProduct = Product as IKeyboardProduct;
         base.OnParametersSet();
     }
 }

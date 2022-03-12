@@ -1,4 +1,4 @@
-﻿@if(cpuProduct != null)
+﻿@if (headphonesProduct != null)
 {
     <div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
@@ -6,7 +6,7 @@
                 Producent
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Manufacturer 
+                @headphonesProduct.Manufacturer
             </div>
         </div>
         <div class="row">
@@ -14,63 +14,71 @@
                 Model
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Name
+                @headphonesProduct.Name
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Taktowanie
+                Bezprzewodowe
             </div>
             <div class="col-sm-6">
-                @cpuProduct.FrequencyMHz MHz
+                <PrintTrueFalse Value="headphonesProduct.IsWireless" />
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Liczba rdzeni/wątków
+                Rodzaj słuchawek
             </div>
             <div class="col-sm-6">
-                @cpuProduct.CoresCount/@cpuProduct.ThreadsCount
+                @headphonesProduct.HeadphonesType
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gniazdo
+                Impedancja
             </div>
             <div class="col-sm-6">
-                @cpuProduct.SupportedSocket
+                @headphonesProduct.ImpedanceOhm Ohm
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Wspierane chipsety
+                Impedancja
             </div>
             <div class="col-sm-6">
-                <PrintList List="cpuProduct.SupportedChipsets"/>
+                @headphonesProduct.MinFrequencyResponseHz Hz - @headphonesProduct.MaxFrequencyResponsekHz kHz
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Pamięć cache L3
+                Interfejs
             </div>
             <div class="col-sm-6">
-                @cpuProduct.L3CacheMB MB
+                @headphonesProduct.Interface
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                TDP
+                Rozmiar
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Tdp W
+                @headphonesProduct.Lenghtmm / @headphonesProduct.Widthmm / @headphonesProduct.Heightmm mm
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gwarancja
+                Waga
             </div>
             <div class="col-sm-6">
-                @cpuProduct.WarantyMonths mies.
+                @headphonesProduct.Weightg g
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Długość gwarancji
+            </div>
+            <div class="col-sm-6">
+                @headphonesProduct.WarantyMonths mies.
             </div>
         </div>
     </div>
@@ -79,12 +87,12 @@
 @code
 {
     [Parameter] public IProduct? Product { get; set; }
-    private ICpuProduct? cpuProduct;
+    private IHeadphonesProduct? headphonesProduct;
 
     protected override void OnParametersSet()
     {
-        if (Product != null && Product is ICpuProduct)
-            cpuProduct = Product as ICpuProduct;
+        if (Product != null && Product is IHeadphonesProduct)
+            headphonesProduct = Product as IHeadphonesProduct;
         base.OnParametersSet();
     }
 }

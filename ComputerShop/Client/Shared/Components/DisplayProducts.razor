@@ -1,67 +1,76 @@
-﻿<style>
-    .cart-button {
-        width: 70px;
-        height: 50px;
-    }
+﻿@if (Products != null && Products?.Count > 0)
+{
+    <style>
+        .cart-button {
+            width: 70px;
+            height: 50px;
+        }
 
-    .card img {
-        object-fit: cover;
-    }
+        .card img {
+            object-fit: cover;
+            min-height: 300px;
+        }
 
-    .cart-button span {
-        font-size: 25px;
-        text-align: center;
-        vertical-align: central;
-    }
+        .cart-button span {
+            font-size: 25px;
+            text-align: center;
+            vertical-align: central;
+        }
 
-    .row .col .card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 20px rgba(37,33,82,.12), 0 4px 8px rgba(37,33,82,.06);
-    }
+        .row .col .card:hover {
+            transform: scale(1.07);
+            box-shadow: 0 10px 20px rgba(37,33,82,.12), 0 4px 8px rgba(37,33,82,.06);
+        }
 
-    .price {
-        text-align: right;
-        margin: 0px;
-    }
+        .price {
+            text-align: right;
+            margin: 0px;
+        }
 
-    .price-befor-discount {
-        text-align: right;
-        text-decoration: line-through;
-        padding-bottom: 0px;
-    }
-</style>
-
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    @foreach (var product in Products)
-    {
-        <div class="col" style="min-width: 300px;">
-            <div class="card h-100 shadow">
-                <img src="@product.Images?.FirstOrDefault()?.Location" class="card-img-top cursorHand"
-                     @onclick="e => OnProductCardClicked(product.Id)" height="300">
-                <div class="card-body h-100 d-flex flex-column  mb-3">
-                    <div class="row card-name cursorHand mb-auto" @onclick="e => OnProductCardClicked(product.Id)">
-                        <div class="col">
-                            <h3 class="card-title">@product.Name</h3>
-                        </div>                        
-                    </div>
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <button type="button"
-                                    class="btn btn-outline-dark shadow-none cart-button"
-                                    @onclick="e => AddProductToCard(product.Id)">
-                                <span class="fas-icon fas fa-shopping-cart align-middle" aria-hidden="true"></span>
-                            </button>
+        .price-befor-discount {
+            text-align: right;
+            text-decoration: line-through;
+            padding-bottom: 0px;
+        }
+    </style>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var product in Products)
+        {
+            <div class="col" style="min-width: 300px;">
+                <div class="card h-100 shadow">
+                    <img src="@product.Images?.FirstOrDefault()?.Location" class="card-img-top cursorHand"
+                         @onclick="e => OnProductCardClicked(product.Id)" height="300">
+                    <div class="card-body h-100 d-flex flex-column  mb-3">
+                        <div class="row card-name cursorHand mb-auto" @onclick="e => OnProductCardClicked(product.Id)">
+                            <div class="col">
+                                <h3 class="card-title">@product.Manufacturer @product.Name</h3>
+                            </div>
                         </div>
-                        <div class="col">
-                            @if (product.Price < product.PriceBeforeDiscount)
-                            {
-                                <h6 class="text-muted price-befor-discount">@product.PriceBeforeDiscount zł</h6>
-                            }
-                            <h3 class="price">@product.Price zł</h3>
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <button type="button"
+                                        class="btn btn-outline-dark shadow-none cart-button"
+                                        @onclick="e => AddProductToCard(product.Id)">
+                                    <span class="fas-icon fas fa-shopping-cart align-middle" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <div class="col">
+                                @if (product.Price < product.PriceBeforeDiscount)
+                                {
+                                    <h6 class="text-muted price-befor-discount">@product.PriceBeforeDiscount zł</h6>
+                                }
+                                <h3 class="price">@product.Price zł</h3>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
+}
+else
+{
+    <div class="container h-100" style="height: 200px">
+        <h3>Brak danych produktów</h3>
+    </div>
+}

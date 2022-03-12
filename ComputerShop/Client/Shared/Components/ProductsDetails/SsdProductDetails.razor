@@ -1,4 +1,4 @@
-﻿@if(cpuProduct != null)
+﻿@if (ssdProduct != null)
 {
     <div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
@@ -6,7 +6,7 @@
                 Producent
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Manufacturer 
+                @ssdProduct.Manufacturer
             </div>
         </div>
         <div class="row">
@@ -14,63 +14,55 @@
                 Model
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Name
+                @ssdProduct.Name
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Taktowanie
+                Typ
             </div>
             <div class="col-sm-6">
-                @cpuProduct.FrequencyMHz MHz
+                @ssdProduct.Type
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Liczba rdzeni/wątków
+                Prędkość odczytu
             </div>
             <div class="col-sm-6">
-                @cpuProduct.CoresCount/@cpuProduct.ThreadsCount
+                @ssdProduct.ReadSpeedMBs MB/s
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gniazdo
+                Prędkość zapisu
             </div>
             <div class="col-sm-6">
-                @cpuProduct.SupportedSocket
+                @ssdProduct.WriteSpeedMBs MB/s
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Wspierane chipsety
+                Interfejs
             </div>
             <div class="col-sm-6">
-                <PrintList List="cpuProduct.SupportedChipsets"/>
+                @ssdProduct.Interface
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Pamięć cache L3
+                TBW
             </div>
             <div class="col-sm-6">
-                @cpuProduct.L3CacheMB MB
+                @ssdProduct.Tbw TB
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 text-md-end">
-                TDP
-            </div>
-            <div class="col-sm-6">
-                @cpuProduct.Tdp W
-            </div>
-        </div>
-        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
                 Gwarancja
             </div>
             <div class="col-sm-6">
-                @cpuProduct.WarantyMonths mies.
+                @ssdProduct.WarantyMonths mies.
             </div>
         </div>
     </div>
@@ -79,12 +71,12 @@
 @code
 {
     [Parameter] public IProduct? Product { get; set; }
-    private ICpuProduct? cpuProduct;
+    private ISsdProduct? ssdProduct;
 
     protected override void OnParametersSet()
     {
-        if (Product != null && Product is ICpuProduct)
-            cpuProduct = Product as ICpuProduct;
+        if (Product != null && Product is ISsdProduct)
+            ssdProduct = Product as ISsdProduct;
         base.OnParametersSet();
     }
 }

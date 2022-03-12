@@ -1,4 +1,4 @@
-﻿@if(cpuProduct != null)
+﻿@if (monitorProduct != null)
 {
     <div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
@@ -6,7 +6,7 @@
                 Producent
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Manufacturer 
+                @monitorProduct.Manufacturer
             </div>
         </div>
         <div class="row">
@@ -14,63 +14,87 @@
                 Model
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Name
+                @monitorProduct.Name
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Taktowanie
+                Panel
             </div>
             <div class="col-sm-6">
-                @cpuProduct.FrequencyMHz MHz
+                @monitorProduct.PanelType
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Liczba rdzeni/wątków
+                Proporcje ekranu
             </div>
             <div class="col-sm-6">
-                @cpuProduct.CoresCount/@cpuProduct.ThreadsCount
+                @monitorProduct.AspectRatio
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gniazdo
+                Odświeżanie
             </div>
             <div class="col-sm-6">
-                @cpuProduct.SupportedSocket
+                @monitorProduct.RefreshRateHz Hz               
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Wspierane chipsety
+                Rozdzielczość
             </div>
             <div class="col-sm-6">
-                <PrintList List="cpuProduct.SupportedChipsets"/>
+                @monitorProduct.ResolutionXpx x @monitorProduct.ResolutionYpx px
             </div>
         </div>
-        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+        <div class="row  bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Pamięć cache L3
+                Kontrast
             </div>
             <div class="col-sm-6">
-                @cpuProduct.L3CacheMB MB
+                @monitorProduct.Contrast : 1            
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                TDP
+                Pokrycie przestrzeni SRGB
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Tdp W
+                @monitorProduct.SrgbColorSpacePerc% SRGB
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gwarancja
+                Czas reakcji
             </div>
             <div class="col-sm-6">
-                @cpuProduct.WarantyMonths mies.
+                @monitorProduct.ResponseTimems ms    
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Porty
+            </div>
+            <div class="col-sm-6">
+                <PrintList List="@monitorProduct.Ports" />
+            </div>
+        </div>
+        <div class="row  bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Waga
+            </div>
+            <div class="col-sm-6">
+                @monitorProduct.Lenghtmm / @monitorProduct.Widthmm / @monitorProduct.Heightmm mm
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Długość gwarancji
+            </div>
+            <div class="col-sm-6">
+                @monitorProduct.WarantyMonths mies.
             </div>
         </div>
     </div>
@@ -79,12 +103,12 @@
 @code
 {
     [Parameter] public IProduct? Product { get; set; }
-    private ICpuProduct? cpuProduct;
+    private IMonitorProduct? monitorProduct;
 
     protected override void OnParametersSet()
     {
-        if (Product != null && Product is ICpuProduct)
-            cpuProduct = Product as ICpuProduct;
+        if (Product != null && Product is IMonitorProduct)
+            monitorProduct = Product as IMonitorProduct;
         base.OnParametersSet();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using ComputerShop.Shared.Models;
-using ComputerShop.Shared.Models.Products;
 using System.Net.Http.Json;
 
 namespace ComputerShop.Client.Services
@@ -15,19 +14,23 @@ namespace ComputerShop.Client.Services
         }
         public async Task LoadAsync(int id)
         {
-            Products = await httpClient.GetFromJsonAsync<List<Product>>($"api/products/getByCategoryId/{id}") ?? new List<Product>();
+            var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/products/getByCategoryId/{id}");
+            Products = response?.Data ?? new List<Product>();
         }
         public async Task LoadAsync()
         {
-            Products = await httpClient.GetFromJsonAsync<List<Product>>($"api/products/") ?? new List<Product>();
+            var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/products/");
+            Products = response?.Data ?? new List<Product>();
         }
         public async Task<Product?> GetProductById(int id)
         {
-            return await httpClient.GetFromJsonAsync<Product>($"api/products/getProductById/{id}");
+            var response = await httpClient.GetFromJsonAsync<ServiceResponse<Product>>($"api/products/getProductById/{id}");
+            return response?.Data;
         }
         public async Task<T?> GetProductGeneric<T>(int id) where T : Product
         {
-            return await httpClient.GetFromJsonAsync<T>($"api/products/getProductById/{id}");
+            var response = await httpClient.GetFromJsonAsync<ServiceResponse<T>>($"api/products/getProductById/{id}");
+            return response?.Data;
         }
     }
 }

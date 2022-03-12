@@ -7,12 +7,12 @@
         public int WriteSpeedMBs { get; set; }
         public string Type { get; set; }
         public int CapacityGB { get; set; }
+        public string Interface { get; set; }
     }
 
     public interface ISsd : IDrive
     {
-        public int Tbw { get; set; }
-        public string Interface { get; set; }
+        public int Tbw { get; set; }        
     }
     public interface IHdd : IDrive
     {

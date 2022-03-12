@@ -1,4 +1,6 @@
-﻿@if(cpuProduct != null)
+﻿@using ComputerShop.Shared.Models.Components;
+
+@if (coolerProduct != null)
 {
     <div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
@@ -6,7 +8,7 @@
                 Producent
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Manufacturer 
+                @coolerProduct.Manufacturer
             </div>
         </div>
         <div class="row">
@@ -14,63 +16,54 @@
                 Model
             </div>
             <div class="col-sm-6">
-                @cpuProduct.Name
+                @coolerProduct.Name
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Taktowanie
+                Rodzaj chłodzenia
             </div>
             <div class="col-sm-6">
-                @cpuProduct.FrequencyMHz MHz
+                @coolerProduct.CoolerType
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Liczba rdzeni/wątków
+                Kompatybilne gniazda
             </div>
             <div class="col-sm-6">
-                @cpuProduct.CoresCount/@cpuProduct.ThreadsCount
+                <PrintList List="coolerProduct.CompatibleSockets"/>
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Gniazdo
+                Liczba wentylatorów
             </div>
             <div class="col-sm-6">
-                @cpuProduct.SupportedSocket
+                @coolerProduct.FansCount
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 text-md-end">
-                Wspierane chipsety
+                @if (coolerProduct.CoolerType == CoolerTypes.WaterCooler)
+                {
+                    <span>Rozmiar chłodnicy</span>
+                }
+                else
+                {
+                    <span>Wysokość</span>
+                }
             </div>
             <div class="col-sm-6">
-                <PrintList List="cpuProduct.SupportedChipsets"/>
+                @coolerProduct.Sizemm mm
             </div>
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
-                Pamięć cache L3
+                Długość gwarancji
             </div>
             <div class="col-sm-6">
-                @cpuProduct.L3CacheMB MB
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6 text-md-end">
-                TDP
-            </div>
-            <div class="col-sm-6">
-                @cpuProduct.Tdp W
-            </div>
-        </div>
-        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
-            <div class="col-sm-6 text-md-end">
-                Gwarancja
-            </div>
-            <div class="col-sm-6">
-                @cpuProduct.WarantyMonths mies.
+                @coolerProduct.WarantyMonths mies.
             </div>
         </div>
     </div>
@@ -79,12 +72,12 @@
 @code
 {
     [Parameter] public IProduct? Product { get; set; }
-    private ICpuProduct? cpuProduct;
+    private IDesktopCoolerProduct? coolerProduct;
 
     protected override void OnParametersSet()
     {
-        if (Product != null && Product is ICpuProduct)
-            cpuProduct = Product as ICpuProduct;
+        if (Product != null && Product is IDesktopCoolerProduct)
+            coolerProduct = Product as IDesktopCoolerProduct;
         base.OnParametersSet();
     }
 }

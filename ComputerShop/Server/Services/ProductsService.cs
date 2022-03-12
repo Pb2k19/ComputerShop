@@ -261,9 +261,182 @@ namespace ComputerShop.Server.Services
                 Name = "Gaming Plus Max",
                 Size = MotherboardSizes.FlexATX,
                 Socket = "LGA 2011"
+            },
+            new RamProduct
+            {
+                LatencyCL = 50,
+                Description = "RAMMMMAAMAMMAMAMA",
+                FrequencyMHz = 3200,
+                Id = 7868,
+                Images = new(){new Image {Location="https://www.corsair.com/medias/sys_master/images/images/hf5/h6f/9110987210782/-CMK16GX4M2B3200C16-Gallery-VENG-LPX-BLK-00.png"}},
+                ModulesNumber = 2,
+                RamTechnology = RamTechnologies.DDR4.ToString(),
+                Name = "LPX 100",
+                Manufacturer = RamManufacturers.HyperX.ToString(),
+                Price= 700,
+                PriceBeforeDiscount = 760,
+            },
+            new SsdProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id=948,
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Interface = "M.2",
+                Manufacturer = "Transcend",
+                ReadSpeedMBs = 500,
+                Name = "MX500",
+                Tbw = 500,
+                Price = 600,
+            },
+            new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id=98,
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Transcend",
+                ReadSpeedMBs = 500,
+                Name = "P300",
+                Price = 600,
+                Rpm = 7200,
+            },
+            new DesktopCaseProduct
+            {
+                WarantyMonths = 12,
+                Widthmm = 400,
+                Description = "ahjeihaefjhi uhijafijhsfjiashfi huasijhfhsasiu hojafssfaouafhoaf ohuiasosaf",
+                Id = 5454,
+                Heightmm = 564,
+                Images = new List<Image>{new Image { Location= "https://www.phanteks.com/images/product/Eclipse-P400-TG/Special%20Edition%20Red/P400-1.jpg" } },
+                Lenghtmm = 645,
+                Manufacturer = DesktopCaseManufacturers.Phanteks.ToString(),
+                MaxCoolerHeightmm = 160,
+                MaxFanCount = 4,
+                MaxGpuLenghtmm = 400,
+                MaxRadiatorSizemm = 280,
+                Name = "P400A",
+                Price = 500,
+                PriceBeforeDiscount = 500,
+                SupportedMoboSizes = new List<string>{ MotherboardSizes.MicroATX, MotherboardSizes.ExtendedAtx, MotherboardSizes.StandardAtx},
+                UsbPorts = 4,
+            },
+            new DesktopCoolerProduct
+            {
+                WarantyMonths= 12,
+                CompatibleSockets = new(){"AM4", "AM3", "AM3+"},
+                FansCount = 1,
+                CoolerType = CoolerTypes.BoxCooler,
+                Manufacturer = CoolerManufacturers.CoolerMaster.ToString(),
+                MaxTdp = 120,
+                Name = "Turbo Cooler",
+                Price = 200,
+                PriceBeforeDiscount = 400,
+                Sizemm = 200,
+
+            },
+            new CableProduct
+            {
+                CabelType = "HDMI",
+                Color = "Czarny",
+                ConnectorA = "HDMI",
+                ConnectorB = "HDMI",
+                Price = 200,
+                PriceBeforeDiscount = 500,
+                Manufacturer = "ZOTAC",
+                Lenghtmm = 400,
+                Name = "HDMI KABEL",
+                Id = 578646785
+            },
+            new ComputerMouseProduct
+            {
+                Weightg = 120,
+                Widthmm = 20,
+                IsWireless = true,
+                Color = "Czarny",
+                Heightmm = 25,
+                Lenghtmm = 50,
+                Manufacturer = "Logitech",
+                Id = 75383,
+                Sensor = "Pixart 3061",
+                SensorType = "Laser",
+                Interface = "USB",
+                Name = "G503",
+                PollingRateHz = 5000,
+                Price = 400
+            },
+            new KeyboardProduct
+            {
+                Weightg = 500,
+                IsWireless = true,
+                Widthmm = 500,
+                Color = "black",
+                Id = 645564,
+                KeyboardType = "Membranowa",
+                Manufacturer = "HyperX",
+                Price = 540,
+                Size = "TKL",
+                Name = "Alloy Origin"
+            },
+            new HeadphonesProduct
+            {
+                Weightg = 400,
+                Widthmm = 500,
+                ImpedanceOhm = 40,
+                Id = 841,
+                Manufacturer = "Beyerdynamic",
+                Name = "BT990",
+                PriceBeforeDiscount = 500,
+                Price = 400,
+                MaxFrequencyResponsekHz = 40,
+                MinFrequencyResponseHz = 5,
+                Interface = "Jack",
+                HeadphonesType = "Otwarte",
+            },
+            new MonitorProduct
+            {
+                BrightnessCdm = 40,
+                Manufacturer = "ASUS",
+                Name = "PRO ART @&!27272",
+                Id = 451221554,
+                PanelSizeInch = 45,
+                Ports = new List<string>{ GpuPorts.VGA.ToString(), GpuPorts.DispalyPort.ToString()},
+                Contrast = 4000,
+                PanelType = "IPS",
+                RefreshRateHz = 60,
+                ResponseTimems =  4,
+                Price = 60,
+                ResolutionXpx = 1600,
+                ResolutionYpx = 800,
+                SrgbColorSpacePerc = 99,
+            },
+            new PrinterProduct
+            {
+                HasWiFi = true,
+                Color = "Black",
+                HasMulticolour = true,
+                HasScanner = false,
+                Id = 978132645,
+                Interfaces = new List<string>{"USB", "Blutucz"},
+                Manufacturer = "Brother",
+                Name = "Ładnie drukuje",
+                Technology = "Laserowo",
+                Price = 6000,
+                SupportedFormats = new List<string>{"A4", "A3", "A2"},
+                PrintSpeedPgpmin = 500,
+            },
+            new ToolProduct
+            {
+                Manufacturer = "InLine",
+                Price = 5600,
+                ToolType = "Powietrze sprynżone",
+                PriceBeforeDiscount = 200,
+                Name = "Silne powietrze jak Kielce",
+                Id = 465465,
             }
         };
-                
 
         public async Task<Product?> GetProductByIdAsync(int id)
         {

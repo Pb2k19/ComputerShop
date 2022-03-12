@@ -1,0 +1,17 @@
+﻿@if(List != null && List.Count > 0)
+{
+    <ul class="m-0 p-0" style="list-style: none;">
+        @foreach (var item in List)
+        {
+            <li class="m-0">@item</li>
+        }
+    </ul>
+}
+else
+{
+    <span class="m-0">Brak danych</span>
+}
+
+@code {
+    [Parameter] public List<string>? List { get; set; }
+}

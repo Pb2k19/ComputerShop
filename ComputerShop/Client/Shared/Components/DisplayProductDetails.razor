@@ -1,0 +1,109 @@
+﻿@using ComputerShop.Client.Shared.Components.ProductsDetails
+
+@if (Product != null && Product is IProduct)
+{
+    <style>
+        #details {
+            max-width: 1000px;
+            font-size: 1.25rem;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+            #details h4 {
+                margin-top: 1rem;
+                font-size: 1.5rem;
+                font-weight: 600;
+            }
+    </style>
+
+    <div class="container" id="details">
+        @if (Product is IDesktopPcProduct)
+        {
+            <DesktopPCDetails Product="Product"/>
+        }
+        else if (Product is ICpuProduct)
+        {
+            <DesktopCpuProductDetails Product="Product"/>
+        }
+        else if (Product is IDesktopPsuProduct)
+        {
+            <DesktopPsuProductDetails Product="Product"/>
+        }
+        else if (Product is ILaptopProduct)
+        {
+            <LaptopProductDetails Product="Product"/>
+        }
+        else if (Product is IDesktopGpuProduct)
+        {
+            <DesktopGpuProductDetails Product="Product"/>
+        }
+        else if (Product is IDesktopMotherboardProduct)
+        {
+            <MotherboardProductDetails Product="Product"/>
+        }
+        else if (Product is IRamProduct)
+        {
+            <RamProductDetails Product="Product"/>
+        }
+        else if (Product is IHddProduct)
+        {
+            <HddProductDetails Product="Product"/>
+        }
+        else if (Product is ISsdProduct)
+        {
+            <SsdProductDetails Product="Product"/>
+        }
+        else if (Product is IComputerCaseProduct)
+        {
+            <CaseProductDetails Product="Product"/>
+        }
+        else if (Product is IDesktopCoolerProduct)
+        {
+            <CoolerDetails Product="Product"/>
+        }
+        else if (Product is IComputerMouseProduct)
+        {
+            <MouseProductDetails Product="Product"/>
+        }
+        else if (Product is IKeyboardProduct)
+        {
+            <KeyboardProductDetails Product="Product"/>
+        }
+        else if (Product is IHeadphonesProduct)
+        {
+            <HeadphonesProductDetails Product="Product"/>
+        }
+        else if (Product is IMonitorProduct)
+        {
+            <MonitorProductDetails Product="Product"/>
+        }
+        else if (Product is IPrinterProduct)
+        {
+            <PrinterProductDetails Product="Product"/>
+        }
+        else if (Product is ICableProduct)
+        {
+            <CabelProductDetails Product="Product"/>
+        }
+        else if (Product is IToolProduct)
+        {
+            <ToolProductDetails Product="Product"/>
+        }
+        else
+        {
+            <ProductDetails Product="Product"/>
+        }
+        <ExtraInfo Properties="Product.ExtraInfo" />
+    </div>
+}
+else
+{
+    <div class="text-center p-5 m-5">
+        <h1>Coś poszło nie tak</h1>
+    </div>
+}
+
+@code {
+    [Parameter] public IProduct? Product { get; set; }
+}

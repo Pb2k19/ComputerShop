@@ -9,11 +9,14 @@
         public int FrequencyMHz { get; set; }
         public int MemoryFrequencyMHz { get; set; }
         public int Tdp { get; set; }
+        public List<string> PortsList { get; set; }
+        public int BusWidth { get; set; }
     }
 
     public interface IDesktopGpu : IGpu
     {
         public string Manufacturer { get; set; }
         public int Lenghtmm { get; set; }
+        public List<string> PowerConnectors { get; set; }
     }
 }

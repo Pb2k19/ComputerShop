@@ -14,7 +14,8 @@ namespace ComputerShop.Shared.Models.Components
         public int MaxFanCount { get; set; }
         public int MaxCoolerHeightmm { get; set; }
         public int MaxRadiatorSizemm { get; set; }
-        public int MaxGpuLenght { get; set; }
+        public int MaxGpuLenghtmm { get; set; }
+        public string Color { get; set; }
     }
 
     public enum DesktopCaseManufacturers

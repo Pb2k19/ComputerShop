@@ -51,6 +51,22 @@
         </div>
         <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
             <div class="col-sm-6 text-md-end">
+                Porty
+            </div>
+            <div class="col-sm-6">
+                <PrintList List="gpuProduct.PortsList"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Zasilanie
+            </div>
+            <div class="col-sm-6">
+                <PrintList List="gpuProduct.PowerConnectors" />
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
                 TDP
             </div>
             <div class="col-sm-6">
@@ -63,6 +79,14 @@
             </div>
             <div class="col-sm-6">
                 @gpuProduct.Lenghtmm mm
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Gwarancja
+            </div>
+            <div class="col-sm-6">
+                @gpuProduct.WarantyMonths mies.
             </div>
         </div>
     </div>

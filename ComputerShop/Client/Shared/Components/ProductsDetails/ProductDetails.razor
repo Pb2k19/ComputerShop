@@ -1,0 +1,34 @@
+﻿@if (Product != null)
+{
+    <div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Producent
+            </div>
+            <div class="col-sm-6">
+                @Product.Manufacturer
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 text-md-end">
+                Model
+            </div>
+            <div class="col-sm-6">
+                @Product.Name
+            </div>
+        </div>
+        <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
+            <div class="col-sm-6 text-md-end">
+                Długość gwarancji
+            </div>
+            <div class="col-sm-6">
+                @Product.WarantyMonths mies.
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter] public IProduct? Product { get; set; }
+}

@@ -1,7 +1,7 @@
 ﻿@if(desktopPsu != null)
 {
 <div>
-    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15; ">
         <div class="col-sm-6 text-md-end">
             Producent
         </div>
@@ -17,7 +17,7 @@
             @desktopPsu.Name
         </div>
     </div>
-    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
         <div class="col-sm-6 text-md-end">
             Certyfikat
         </div>
@@ -33,7 +33,7 @@
             @desktopPsu.Power W
         </div>
     </div>
-    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
         <div class="col-sm-6 text-md-end">
              Liczba złączy 6 pin PCIe
         </div>
@@ -49,7 +49,7 @@
             @desktopPsu.Pcie8pinCount
         </div>
     </div>
-    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
         <div class="col-sm-6 text-md-end">
             Liczba złączy Molex
         </div>
@@ -65,15 +65,12 @@
             @desktopPsu.SataCount
         </div>
     </div>
-    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
         <div class="col-sm-6 text-md-end">
             Zabezpieczenia
         </div>
         <div class="col-sm-6">
-            @foreach (var protection in desktopPsu.Protections)
-             {
-                <p class="m-0">@protection</p>
-             }
+            <PrintList List="desktopPsu.Protections"/>
         </div>
     </div>
     <div class="row">
@@ -84,7 +81,7 @@
             @desktopPsu.FansCount
         </div>
     </div>
-    <div class="row bg-primary rounded" style="--bs-bg-opacity: .2;">
+    <div class="row bg-secondary rounded" style="--bs-bg-opacity: .15;">
         <div class="col-sm-6 text-md-end">
             Modularne okablowanie
         </div>

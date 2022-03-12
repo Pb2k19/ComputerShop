@@ -211,9 +211,18 @@
                 Zainstalowane dyski
             </div>
             <div class="col-sm-6">
-                @foreach (var drive in @desktopPC.Drives)
+                @if (desktopPC.Drives != null && desktopPC.Drives.Count > 0)
                 {
-                    <p style="margin: 0px;">@drive.Manufacturer @drive.Type @drive.CapacityGB GB</p>
+                    <ul class="m-0 p-0" style="list-style: none;">
+                         @foreach (var drive in @desktopPC.Drives)
+                          {
+                              <li class="m-0">@drive.Manufacturer @drive.Type @drive.CapacityGB GB</li>
+                          }
+                    </ul>
+                }
+                else
+                {
+                    <span class="m-0">Brak danych</span>
                 }
             </div>
         </div>
@@ -222,9 +231,18 @@
                 Szybkość odczytu / zapisu
             </div>
             <div class="col-sm-6">
-                @foreach (var drive in @desktopPC.Drives)
+                @if (desktopPC.Drives != null && desktopPC.Drives.Count > 0)
                 {
-                    <p style="margin: 0px;">@drive.ReadSpeedMBs / @drive.WriteSpeedMBs MB/s</p>
+                    <ul class="m-0 p-0" style="list-style: none;">
+                        @foreach (var drive in @desktopPC.Drives)
+                        {
+                            <li class="m-0">@drive.ReadSpeedMBs / @drive.WriteSpeedMBs MB/s</li>
+                        }
+                    </ul>                    
+                }
+                else
+                {
+                    <span class="m-0">Brak danych</span>
                 }
             </div>
         </div>
