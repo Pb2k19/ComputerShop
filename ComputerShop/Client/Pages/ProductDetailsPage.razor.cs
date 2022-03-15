@@ -20,7 +20,7 @@ namespace ComputerShop.Client.Pages
                 }
                 else
                 {
-                    currentProdcut = await ProductsService.GetProductById(id);
+                    currentProdcut = await ProductsService.GetProductByIdAsync(id);
                 }
             }
             base.OnInitialized();

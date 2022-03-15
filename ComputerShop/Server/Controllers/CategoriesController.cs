@@ -20,12 +20,12 @@ namespace ComputerShop.Server.Controllers
             return Ok(await categoryService.GetCategoriesAsync());
         }
         [HttpGet("getCategoryById/{id}")]
-        public async Task<ActionResult<Category>> GetCategoryByIdAsync([FromRoute] int id)
+        public async Task<ActionResult<Category>> GetCategoryByIdAsync([FromRoute] string id)
         {
             return Ok(await categoryService.GetCategoryByIdAsync(id));
         }
         [HttpGet("getCategoryByUrl/{url}")]
-        public async Task<ActionResult<Category>> GetCategoryByIdAsync([FromRoute] string url)
+        public async Task<ActionResult<Category>> GetCategoryByUrlAsync([FromRoute] string url)
         {
             var x = await categoryService.GetCategoryByUrlAsync(url);
             if(x == null)

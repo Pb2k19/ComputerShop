@@ -9,7 +9,6 @@ namespace ComputerShop.Shared.Models.Products
             Category = new Category()
             {
                 Id = "8998", //tmp
-                Icon = "fas fa-desktop",
                 Name = "GPU",
                 Url = "gpu"
             };

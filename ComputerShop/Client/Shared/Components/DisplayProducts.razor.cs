@@ -8,15 +8,15 @@ namespace ComputerShop.Client.Shared.Components
         [Inject] NavigationManager? NavigationManager { get; set; }
         [Parameter] public List<Product> Products { get; set;} = new();
 
-        private void OnProductCardClicked(int productId)
+        private void OnProductCardClicked(string productId)
         {
-            Product? product = Products?.FirstOrDefault(x => x.Id == productId);
+            Product? product = Products?.FirstOrDefault(x => x.Id != null && x.Id.Equals(productId));
             if(product == null || product.Category == null)
                 NavigationManager?.NavigateTo($"/product/{productId}", false);
             else
                 NavigationManager?.NavigateTo($"/product/{product.Category.Name}/{productId}", false);
         }
-        private void AddProductToCard(int productId)
+        private void AddProductToCard(string productId)
         {
             Console.WriteLine($"New product in card of id:{productId}");
         }

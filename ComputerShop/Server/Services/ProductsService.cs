@@ -9,8 +9,8 @@ namespace ComputerShop.Server.Services
         public List<Product> Products { get; set; } = new List<Product>
         {
             new DesktopPcProduct
-            { 
-                Id = 1,
+            {
+                Id = "1",
                 WarantyMonths = 24,
                 Cpu = new Cpu
                 {
@@ -24,12 +24,12 @@ namespace ComputerShop.Server.Services
                 },
                 Description = " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quis orci semper, convallis purus ut, hendrerit enim. Proin suscipit, nunc sit amet sollicitudin gravida, tellus mi feugiat dolor, porta dignissim ante felis eu quam. In tincidunt sollicitudin eros vel vulputate. Fusce augue massa, interdum ut consectetur feugiat, laoreet ut erat. Mauris eleifend bibendum rutrum. Ut vel bibendum sapien, ut facilisis lorem. Quisque rhoncus consequat arcu nec vestibulum. Nullam sit amet congue arcu. Vestibulum sit amet luctus lectus. Duis maximus elit a est tristique, eu eleifend leo viverra. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam ut euismod felis. Nullam ullamcorper, dolor et ullamcorper dictum, sem augue ultricies lorem, at pretium quam dolor at nisl. Phasellus sit amet ex efficitur, vehicula arcu vel, efficitur eros. Aliquam quis tortor sed mi egestas vehicula. Mauris pellentesque lorem feugiat quam faucibus, at dapibus nulla sagittis. Phasellus nec suscipit mauris, sed gravida orci. In ultrices urna est, ac dapibus mauris dignissim quis. Cras dui odio, elementum quis fringilla in, rutrum nec nisi. Curabitur in lobortis nunc, ut ornare lectus. Etiam eget mollis metus. Aliquam placerat turpis eu dictum ultricies. Integer interdum dictum tellus non consequat. Aliquam erat quam, commodo non ipsum id, molestie pellentesque enim. Etiam egestas, diam ut accumsan blandit, lorem nisi imperdiet lacus, eu semper nunc lacus id arcu. Donec sit amet cursus mi, nec mattis purus. Sed ut tellus nec purus faucibus molestie ut id turpis. Morbi ut metus suscipit sem pharetra iaculis eu eu nisl. Phasellus dignissim auctor purus nec placerat. Proin ullamcorper, odio suscipit fringilla dictum, arcu elit luctus nibh, in gravida dui metus nec enim. Mauris auctor congue malesuada. Cras gravida sit amet diam mollis malesuada. Curabitur sollicitudin magna scelerisque lectus malesuada, quis pulvinar diam pharetra. Donec eget eros vitae nisl suscipit iaculis. Nunc et volutpat quam, at ullamcorper nibh. Nulla facilisi. Donec eget aliquam lorem, sit amet placerat mauris. Sed consectetur, felis nec blandit laoreet, tortor libero posuere purus, sed auctor risus lectus non tortor. Pellentesque nec arcu vehicula, finibus leo ut, venenatis purus. Vivamus vitae pretium enim. Duis eu elementum augue. Vestibulum ultrices massa non risus pulvinar mollis. Vestibulum non elit enim. Quisque ac odio sem. Nulla facilisi. In nec mi sit amet leo semper ornare sed at ante. Duis non quam finibus, consequat ante quis, finibus magna. Maecenas vestibulum elit orci, sit amet congue sem posuere nec. Integer et ultricies lectus. Donec id pharetra tortor, quis feugiat risus. Nulla consectetur mattis justo. Nulla consectetur hendrerit risus, sed pretium urna commodo sit amet. Nullam ut neque finibus, bibendum nunc eget, placerat libero. Nam at varius ex, ac pretium felis. Sed est sem, feugiat vitae sem sit amet, cursus facilisis erat. ",
                 Drives = new List<Drive>
-                { 
-                    new Ssd 
+                {
+                    new Ssd
                     {
-                        WriteSpeedMBs=500, 
-                        Interface = "sata", 
-                        ReadSpeedMBs = 500, 
+                        WriteSpeedMBs=500,
+                        Interface = "sata",
+                        ReadSpeedMBs = 500,
                         Manufacturer = "WD",
                         Tbw = 500
                     },
@@ -65,13 +65,13 @@ namespace ComputerShop.Server.Services
                 Price = 5000.25m,
                 Psu = new Psu {Manufacturer = "Seasonic", Power = 500},
                 PriceBeforeDiscount = 6000,
-                Ram = new Ram 
+                Ram = new Ram
                 {
-                    Manufacturer = "Corsair", 
-                    Name = "LPX 100", 
-                    FrequencyMHz = 3000, 
-                    LatencyCL = 17, 
-                    ModulesNumber = 2, 
+                    Manufacturer = "Corsair",
+                    Name = "LPX 100",
+                    FrequencyMHz = 3000,
+                    LatencyCL = 17,
+                    ModulesNumber = 2,
                     RamTechnology = RamTechnologies.DDR4.ToString()
                 },
                 Motherboard = new Motherboard
@@ -122,7 +122,7 @@ namespace ComputerShop.Server.Services
                 Power = 600,
                 Price = 400,
                 SataCount = 69,
-                Id = 66,
+                Id = "66",
                 Pcie6pinCount = 6,
                 Protections = PsuProtections.List,
                 ExtraInfo = new()
@@ -138,7 +138,7 @@ namespace ComputerShop.Server.Services
                 ChipManufacturer = GpuManufacturers.Amd.ToString(),
                 Description = "AMAMAMMAMMAAMMMAAZING GPU FOR GEJMERS",
                 FrequencyMHz = 5000,
-                Id = 698,
+                Id = "698",
                 Images = new(){ new Image { Location = "https://asset.msi.com/resize/image/global/product/product_0_20180417114910_5ad56eb6add6d.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png"},
                                 new Image { Location = "https://asset.msi.com/resize/image/global/product/product_5_20160630092113_5774740910945.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png"},},
                 IsPublic = true,
@@ -204,7 +204,7 @@ namespace ComputerShop.Server.Services
                     new Image { Location = "https://dlcdnwebimgs.asus.com/gain/d4080303-afe4-4cac-a91c-305a56b63455/"},
                     new Image { Location = "https://dlcdnwebimgs.asus.com/gain/EA122891-9FE2-4ECF-AAAE-5DAC22E34B1E/w717/h525"},
                 },
-                 Id = 55,
+                 Id = "55",
                  Name = "VIVO BOOOK",
                  Motherboard = new Motherboard()
                  {
@@ -224,7 +224,7 @@ namespace ComputerShop.Server.Services
                     ModulesNumber = 2,
                     RamTechnology = RamTechnologies.DDR4.ToString()
                 },
-                 
+
             },
             new CpuProduct
             {
@@ -232,7 +232,7 @@ namespace ComputerShop.Server.Services
                 CoresCount = 18,
                 Description = "CPU GAMING AMDAAWDAD",
                 FrequencyMHz = 6000,
-                Id = 456654,
+                Id = "456654",
                 Images = new List<Image>{new Image { Location= "https://www.intel.pl/content/dam/www/central-libraries/us/en/images/12thgen-promo.jpg.rendition.intel.web.480.270.jpg" } },
                 L3CacheMB = 50,
                 Manufacturer = "AMD",
@@ -248,7 +248,7 @@ namespace ComputerShop.Server.Services
             {
                 Chipset = "B660",
                 Description = "MOBO",
-                Id = 5462,
+                Id = "5462",
                 Images = new(){new Image { Location="https://asset.msi.com/resize/image/global/product/product_3_20190716132640_5d2d6010d11e8.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png"},
                                new Image { Location="https://asset.msi.com/resize/image/global/product/product_1_20190716132640_5d2d60107d8bc.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png"}},
                 M2SlotsCount = 2,
@@ -267,7 +267,7 @@ namespace ComputerShop.Server.Services
                 LatencyCL = 50,
                 Description = "RAMMMMAAMAMMAMAMA",
                 FrequencyMHz = 3200,
-                Id = 7868,
+                Id = "7868",
                 Images = new(){new Image {Location="https://www.corsair.com/medias/sys_master/images/images/hf5/h6f/9110987210782/-CMK16GX4M2B3200C16-Gallery-VENG-LPX-BLK-00.png"}},
                 ModulesNumber = 2,
                 RamTechnology = RamTechnologies.DDR4.ToString(),
@@ -281,7 +281,7 @@ namespace ComputerShop.Server.Services
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id=948,
+                Id="948",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Interface = "M.2",
                 Manufacturer = "Transcend",
@@ -295,7 +295,7 @@ namespace ComputerShop.Server.Services
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id=98,
+                Id="98",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Transcend",
                 ReadSpeedMBs = 500,
@@ -308,7 +308,7 @@ namespace ComputerShop.Server.Services
                 WarantyMonths = 12,
                 Widthmm = 400,
                 Description = "ahjeihaefjhi uhijafijhsfjiashfi huasijhfhsasiu hojafssfaouafhoaf ohuiasosaf",
-                Id = 5454,
+                Id = "5454",
                 Heightmm = 564,
                 Images = new List<Image>{new Image { Location= "https://www.phanteks.com/images/product/Eclipse-P400-TG/Special%20Edition%20Red/P400-1.jpg" } },
                 Lenghtmm = 645,
@@ -348,7 +348,7 @@ namespace ComputerShop.Server.Services
                 Manufacturer = "ZOTAC",
                 Lenghtmm = 400,
                 Name = "HDMI KABEL",
-                Id = 578646785
+                Id = "578646785"
             },
             new ComputerMouseProduct
             {
@@ -359,7 +359,7 @@ namespace ComputerShop.Server.Services
                 Heightmm = 25,
                 Lenghtmm = 50,
                 Manufacturer = "Logitech",
-                Id = 75383,
+                Id = "75383",
                 Sensor = "Pixart 3061",
                 SensorType = "Laser",
                 Interface = "USB",
@@ -373,7 +373,7 @@ namespace ComputerShop.Server.Services
                 IsWireless = true,
                 Widthmm = 500,
                 Color = "black",
-                Id = 645564,
+                Id = "645564",
                 KeyboardType = "Membranowa",
                 Manufacturer = "HyperX",
                 Price = 540,
@@ -385,7 +385,7 @@ namespace ComputerShop.Server.Services
                 Weightg = 400,
                 Widthmm = 500,
                 ImpedanceOhm = 40,
-                Id = 841,
+                Id = "841",
                 Manufacturer = "Beyerdynamic",
                 Name = "BT990",
                 PriceBeforeDiscount = 500,
@@ -400,7 +400,7 @@ namespace ComputerShop.Server.Services
                 BrightnessCdm = 40,
                 Manufacturer = "ASUS",
                 Name = "PRO ART @&!27272",
-                Id = 451221554,
+                Id = "451221554",
                 PanelSizeInch = 45,
                 Ports = new List<string>{ GpuPorts.VGA.ToString(), GpuPorts.DispalyPort.ToString()},
                 Contrast = 4000,
@@ -418,7 +418,7 @@ namespace ComputerShop.Server.Services
                 Color = "Black",
                 HasMulticolour = true,
                 HasScanner = false,
-                Id = 978132645,
+                Id = "978132645",
                 Interfaces = new List<string>{"USB", "Blutucz"},
                 Manufacturer = "Brother",
                 Name = "Ładnie drukuje",
@@ -434,33 +434,79 @@ namespace ComputerShop.Server.Services
                 ToolType = "Powietrze sprynżone",
                 PriceBeforeDiscount = 200,
                 Name = "Silne powietrze jak Kielce",
-                Id = 465465,
+                Id = "465465",
             }
         };
 
-        public async Task<Product?> GetProductByIdAsync(int id)
+        public async Task<Product?> GetProductByIdAsync(string id)
         {
-            if(Products == null || Products.Count == 0)
+            if (Products == null || Products.Count == 0)
             {
                 await GetAllProductsAsync();
                 if (Products == null || Products.Count == 0)
                 {
                     return null;
-                }                
+                }
             }
-            return Products.FirstOrDefault(x => x.Id == id);
+            return Products.FirstOrDefault(x => x.Id != null && x.Id.Equals(id));
         }
         public async Task<List<Product>> GetAllProductsAsync()
         {
             return Products;
         }
-        public async Task<List<Product>> GetProductsByCategoryIdAsync(int id)
+        public async Task<List<Product>> GetProductsByCategoryIdAsync(string id)
         {
-            return Products.Where(x => x.Category.Id == id.ToString()).ToList(); //tmp to string
+            return Products.Where(x => x.Category.Id.Equals(id)).ToList();
         }
         public async Task<List<Product>> GetProductsByCategoryUrlAsync(string url)
         {
             return Products.Where(x => x.Category?.Name == url).ToList();
+        }
+        public async Task<List<Product>> FindProductsByTextAsync(string text)
+        {
+            text = text.ToLower();
+            string[]? words = text.Split(' ');
+            List<Product> products = new();
+            foreach (var word in words)
+            {
+                products.AddRange(
+                    Products.Where(x => (x.Manufacturer != null && x.Manufacturer.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
+                                        (x.Name != null && x.Name.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
+                                        (x.Description != null && x.Description.Contains(word, StringComparison.OrdinalIgnoreCase))));
+            }
+            return products.Distinct().ToList();
+        }
+
+        public async Task<List<string>> GetProductsSuggestionsByTextAsync(string text)
+        {
+            text = text.ToLower();
+            List<string> suggestions = new();
+            List<Product> products = await FindProductsByTextAsync(text);
+            if(products == null || products.Count == 0)
+            {
+                return suggestions;
+            }
+
+            suggestions.AddRange(products
+                .Select(p => p.Name)?
+                .Where(s => s != null && s.Contains(text, StringComparison.OrdinalIgnoreCase))
+                .ToList() ?? new List<string>());
+
+            suggestions.AddRange(products
+                .Select(p => p.Manufacturer)?
+                .Where(s => s != null && s.Contains(text, StringComparison.OrdinalIgnoreCase))
+                .ToList() ?? new List<string>());
+
+            //Search in descryption
+            //List<string> words = new();
+            //products.ForEach(p => words.
+            //    AddRange(p.Description?.
+            //    Split(' ').ToList() ?? new List<string>()));
+
+            //suggestions.AddRange(words.
+            //    Where(w => w.Contains(text, StringComparison.OrdinalIgnoreCase)));
+
+            return suggestions.Distinct().ToList();
         }
     }
 }

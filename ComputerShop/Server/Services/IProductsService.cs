@@ -5,9 +5,11 @@ namespace ComputerShop.Server.Services
     public interface IProductsService
     {
         List<Product> Products { get; set; }
-        Task<Product?> GetProductByIdAsync(int id);
+        Task<Product?> GetProductByIdAsync(string id);
         Task<List<Product>> GetAllProductsAsync();
         Task<List<Product>> GetProductsByCategoryUrlAsync(string url);
-        Task<List<Product>> GetProductsByCategoryIdAsync(int id);
+        Task<List<Product>> GetProductsByCategoryIdAsync(string id);
+        Task<List<Product>> FindProductsByTextAsync(string text);
+        Task<List<string>> GetProductsSuggestionsByTextAsync(string text);
     }
 }

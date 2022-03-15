@@ -14,6 +14,23 @@ namespace ComputerShop.Server.Controllers
             this.productsService = productsService;
         }
 
+        [HttpGet("getProductById/{id}")]
+        public async Task<ActionResult<ServiceResponse<Product>>> GetProductByIdAsync([FromRoute] string id)
+        {
+            Product? product = await productsService.GetProductByIdAsync(id);
+            ServiceResponse<object> serviceResponse = new();
+            if (product == null)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Nie znaleziono produktu";
+            }
+            else
+            {
+                serviceResponse.Data = product;
+            }
+            return Ok(serviceResponse);
+        }
+
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsAll()
         {
@@ -25,7 +42,7 @@ namespace ComputerShop.Server.Controllers
         }
 
         [HttpGet("getByCategoryId/{id}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsByCategoryIdAsync([FromRoute] int id)
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsByCategoryIdAsync([FromRoute] string id)
         {
             ServiceResponse<List<Product>> serviceResponse = new()
             {
@@ -43,20 +60,23 @@ namespace ComputerShop.Server.Controllers
             };
             return Ok(serviceResponse);
         }
-        [HttpGet("getProductById/{id}")]
-        public async Task<ActionResult<ServiceResponse<Product>>> GetProductByIdAsync([FromRoute] int id)
+
+        [HttpGet("find/{text}")]
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> FindProductsByTextAsync([FromRoute] string text)
         {
-            Product? product = await productsService.GetProductByIdAsync(id);
-            ServiceResponse<object> serviceResponse = new();
-            if(product == null)
+            ServiceResponse<List<Product>> serviceResponse = new()
             {
-                serviceResponse.Success = false;
-                serviceResponse.Message = "Nie znaleziono produktu";
-            }
-            else
+                Data = await productsService.FindProductsByTextAsync(text)
+            };
+            return Ok(serviceResponse);
+        }
+        [HttpGet("getProductSuggestions/{text}")]
+        public async Task<ActionResult<ServiceResponse<List<string>>>> GetProductSuggestionsByTextAsync([FromRoute] string text)
+        {
+            ServiceResponse<List<string>> serviceResponse = new()
             {
-                serviceResponse.Data = product;
-            }
+                Data = await productsService.GetProductsSuggestionsByTextAsync(text)
+            };
             return Ok(serviceResponse);
         }
     }

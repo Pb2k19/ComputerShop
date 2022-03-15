@@ -1,7 +1,9 @@
 ﻿@inject IProductsService ProductsService
 @inject ICategoryService CategoryService
-@page "/{category}"
 @page "/"
+@page "/{category}"
+@page "/find/{text}"
+
 
 <div class="container">
     <div class="d-flex align-items-center">
@@ -21,11 +23,12 @@
 @code
 {
     [Parameter] public string? Category { get; set; }
+    [Parameter] public string? Text { get; set; }
     private Category? currentCategory;
 
     protected override async Task OnParametersSetAsync()
     {
-        if (Category == null)
+        if (string.IsNullOrWhiteSpace(Category))
         {
             currentCategory = null;
         }
@@ -33,13 +36,17 @@
         {
             currentCategory = await CategoryService.GetCategoryByUrl(Category);
         }
-        if(currentCategory != null)
+        if (currentCategory != null)
         {
-            await ProductsService.LoadAsync(int.Parse(currentCategory.Id)); //tmp parse
+            await ProductsService.LoadByCategoryIdAsync(currentCategory.Id);
+        }
+        else if (!string.IsNullOrWhiteSpace(Text))
+        {
+            await ProductsService.LoadByTextAsync(Text);
         }
         else
         {
-            await ProductsService.LoadAsync();
+            await ProductsService.LoadAllAsync();
         }
         base.OnParametersSet();
     }

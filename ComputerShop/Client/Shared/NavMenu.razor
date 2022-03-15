@@ -15,12 +15,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="@NavMenuCssClass navbar-collapse bg-light">
-            <form class="d-flex w-100 mt-sm-4 mt-xxl-0">
-                <input class="form-control" type="search" placeholder="Szukaj" aria-label="Search">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
+            <ProductSearch />
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 categories">
                 <li class="nav-link">
                     <NavLink class="nav-link" href="pc" @onclick="CollapseNavMenu">

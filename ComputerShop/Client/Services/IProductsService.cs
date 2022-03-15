@@ -5,9 +5,11 @@ namespace ComputerShop.Client.Services
     public interface IProductsService
     {
         List<Product> Products { get; set; }
-        Task LoadAsync();
-        Task LoadAsync(int id);
-        Task<Product?> GetProductById(int id);
-        public Task<T?> GetProductGeneric<T>(int id) where T : Product;
+        Task LoadAllAsync();
+        Task LoadByCategoryIdAsync(string id);
+        Task LoadByTextAsync(string text);
+        Task<Product?> GetProductByIdAsync(int id);
+        Task<T?> GetProductByIdAsync<T>(int id) where T : Product;
+        Task<List<string>> GetProductSuggestionsAsync(string text);
     }
 }

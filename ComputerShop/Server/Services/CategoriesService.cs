@@ -35,7 +35,7 @@ namespace ComputerShop.Server.Services
             return Categories;
         }
 
-        public async Task<Category?> GetCategoryByIdAsync(int id)
+        public async Task<Category?> GetCategoryByIdAsync(string id)
         {
             if(Categories == null || Categories.Count == 0)
             {
@@ -45,7 +45,7 @@ namespace ComputerShop.Server.Services
                     return null;
                 }
             }
-            return Categories.FirstOrDefault(x => x.Id == id.ToString()); //tmp to string
+            return Categories.FirstOrDefault(x => x.Id != null && x.Id.Equals(id));
         }
 
         public async Task<Category?> GetCategoryByUrlAsync(string url)
