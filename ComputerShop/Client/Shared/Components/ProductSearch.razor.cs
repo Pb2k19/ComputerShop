@@ -23,7 +23,7 @@ namespace ComputerShop.Client.Shared.Components
             NavigationManager.NavigateTo($"find/{Text}");
         }
 
-        public async Task OnSearch(KeyboardEventArgs keyboardEventArgs)
+        protected async Task OnSearch(KeyboardEventArgs keyboardEventArgs)
         {
             if(keyboardEventArgs.Key == "Enter")
             {
@@ -46,18 +46,18 @@ namespace ComputerShop.Client.Shared.Components
             }
         }
 
-        public void OnFocusOut()
+        protected void OnFocusOut()
         {
             isSuggestionsVisable = false;
         }
 
-        public void OnFocus()
+        protected void OnFocus()
         {
             if(suggestions != null && suggestions.Count > 0)
                 isSuggestionsVisable = true;
         }
 
-        public void OnMouseDown(string text)
+        protected void OnMouseDown(string text)
         {
             Text = text;
             isSuggestionsVisable = false;

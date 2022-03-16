@@ -6,6 +6,7 @@ namespace ComputerShop.Server.Services
 {
     public class ProductsService : IProductsService
     {
+        //check if load is needed
         public List<Product> Products { get; set; } = new List<Product>
         {
             new DesktopPcProduct
@@ -454,34 +455,32 @@ namespace ComputerShop.Server.Services
         {
             return Products;
         }
-        public async Task<List<Product>> GetProductsByCategoryIdAsync(string id)
+        public async Task<List<Product>> GetHiglightedProductsAsync()
         {
-            return Products.Where(x => x.Category.Id.Equals(id)).ToList();
+            return Products.Where(p => p.IsHiglighted).ToList();
         }
-        public async Task<List<Product>> GetProductsByCategoryUrlAsync(string url)
+        public async Task<ProductsResponse> GetProductsByCategoryIdAsync(string id, int pageNumber)
         {
-            return Products.Where(x => x.Category?.Name == url).ToList();
+            List<Product>? products = Products.Where(x => x.Category.Id.Equals(id)).ToList();
+            return GetProductsResponse(products, pageNumber);
         }
-        public async Task<List<Product>> FindProductsByTextAsync(string text)
+    
+        public async Task<ProductsResponse> GetProductsByCategoryUrlAsync(string url, int pageNumber)
         {
-            text = text.ToLower();
-            string[]? words = text.Split(' ');
-            List<Product> products = new();
-            foreach (var word in words)
-            {
-                products.AddRange(
-                    Products.Where(x => (x.Manufacturer != null && x.Manufacturer.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
-                                        (x.Name != null && x.Name.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
-                                        (x.Description != null && x.Description.Contains(word, StringComparison.OrdinalIgnoreCase))));
-            }
-            return products.Distinct().ToList();
+            List<Product>? products = Products.Where(x => x.Category?.Name == url).ToList();
+            return GetProductsResponse(products, pageNumber);
+        }
+        public async Task<ProductsResponse> FindProductsByTextAsync(string text, int pageNumber)
+        {
+            List<Product>? foundProducts = FindProducts(text);
+            return GetProductsResponse(foundProducts, pageNumber);
         }
 
         public async Task<List<string>> GetProductsSuggestionsByTextAsync(string text)
         {
             text = text.ToLower();
             List<string> suggestions = new();
-            List<Product> products = await FindProductsByTextAsync(text);
+            List<Product> products = FindProducts(text);
             if(products == null || products.Count == 0)
             {
                 return suggestions;
@@ -497,16 +496,44 @@ namespace ComputerShop.Server.Services
                 .Where(s => s != null && s.Contains(text, StringComparison.OrdinalIgnoreCase))
                 .ToList() ?? new List<string>());
 
-            //Search in descryption
-            //List<string> words = new();
-            //products.ForEach(p => words.
-            //    AddRange(p.Description?.
-            //    Split(' ').ToList() ?? new List<string>()));
-
-            //suggestions.AddRange(words.
-            //    Where(w => w.Contains(text, StringComparison.OrdinalIgnoreCase)));
-
             return suggestions.Distinct().ToList();
+        }
+
+        private List<Product> FindProducts(string text)
+        {
+            text = text.ToLower();
+            string[]? words = text.Split(' ');
+            List<Product> products = new();
+            foreach (var word in words)
+            {
+                products.AddRange(
+                    Products.Where(x => (x.Manufacturer != null && x.Manufacturer.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
+                                        (x.Name != null && x.Name.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
+                                        (x.Description != null && x.Description.Contains(word, StringComparison.OrdinalIgnoreCase))));
+            }
+            return products;
+        }
+
+        private ProductsResponse GetProductsResponse(List<Product> products, int pageNumber)
+        {
+            int maxProductsOnPage = 10;
+            int pageCount = 0;
+            if (products != null && products.Count > 0)
+            {
+                float x = products.Count / maxProductsOnPage;
+                pageCount = (int)Math.Ceiling(x);
+                products = products.Skip(pageNumber - 1 * pageCount).Take(maxProductsOnPage).ToList();
+            }
+            else if(products == null)
+            {
+                products = new List<Product>();
+            }
+            return new ProductsResponse()
+            {
+                Products = products,
+                CurrentPage = pageNumber,
+                PagesCount = pageCount
+            };
         }
     }
 }

@@ -41,32 +41,42 @@ namespace ComputerShop.Server.Controllers
             return Ok(serviceResponse);
         }
 
-        [HttpGet("getByCategoryId/{id}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsByCategoryIdAsync([FromRoute] string id)
+        [HttpGet("getHighlightedProduscts")]
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetHiglightedProducts()
         {
             ServiceResponse<List<Product>> serviceResponse = new()
             {
-                Data = await productsService.GetProductsByCategoryIdAsync(id)
+                Data = await productsService.GetHiglightedProductsAsync()
             };
             return Ok(serviceResponse);
         }
 
-        [HttpGet("getByUrl/{url}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsByCategoryUrlAsync([FromRoute] string url)
+        [HttpGet("getByCategoryId/{id}/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> GetProductsByCategoryIdAsync([FromRoute] string id, [FromRoute] int page)
         {
-            ServiceResponse<List<Product>> serviceResponse = new()
+            ServiceResponse<ProductsResponse> serviceResponse = new()
             {
-                Data = await productsService.GetProductsByCategoryUrlAsync(url)
+                Data = await productsService.GetProductsByCategoryIdAsync(id, page)
             };
             return Ok(serviceResponse);
         }
 
-        [HttpGet("find/{text}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> FindProductsByTextAsync([FromRoute] string text)
+        [HttpGet("getByUrl/{url}/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> GetProductsByCategoryUrlAsync([FromRoute] string url, [FromRoute] int page)
         {
-            ServiceResponse<List<Product>> serviceResponse = new()
+            ServiceResponse<ProductsResponse> serviceResponse = new()
             {
-                Data = await productsService.FindProductsByTextAsync(text)
+                Data = await productsService.GetProductsByCategoryUrlAsync(url, page)
+            };
+            return Ok(serviceResponse);
+        }
+
+        [HttpGet("find/{text}/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> FindProductsByTextAsync([FromRoute] string text, [FromRoute] int page = 1)
+        {
+            ServiceResponse<ProductsResponse> serviceResponse = new()
+            {
+                Data = await productsService.FindProductsByTextAsync(text, page)
             };
             return Ok(serviceResponse);
         }

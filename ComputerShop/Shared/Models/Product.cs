@@ -15,6 +15,7 @@ namespace ComputerShop.Shared.Models
         public decimal Price { get; set; }
         public decimal PriceBeforeDiscount { get; set; }
         public bool IsPublic { get; set; }
+        public bool IsHiglighted { get; set; } = false;
         public bool IsRemoved { get; set; }
         public DateTime CareationDate { get; set; }
         public DateTime LastUpdateDate { get; set; }
