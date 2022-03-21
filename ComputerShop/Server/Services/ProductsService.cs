@@ -447,6 +447,19 @@ namespace ComputerShop.Server.Services
                 Price = 600,
                 Rpm = 7200,
             },
+              new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="4354520753",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "ROMAND",
+                ReadSpeedMBs = 500,
+                Name = "FTP",
+                Price = 600,
+                Rpm = 7200,
+            },
             new DesktopCaseProduct
             {
                 WarantyMonths = 12,

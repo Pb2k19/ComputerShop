@@ -2,7 +2,9 @@
 @inject ICategoryService CategoryService
 @page "/"
 @page "/{category}"
+@page "/{category}/{page:int}"
 @page "/find/{text}"
+@page "/find/{text}/{page:int}"
 
 
 <div class="container">
@@ -18,14 +20,16 @@
             <DisplayProducts Products="ProductsService.Products" />
         }
     </div>
+    <PagesComponent PagesCount="pageCount" CurrentPage="Page" OnPageChanged="ChangePageAsync"/>
 </div>
 
 @code
 {
     [Parameter] public string? Category { get; set; }
     [Parameter] public string? Text { get; set; }
+    [Parameter] public int Page { get; set; } = 1;
     private Category? currentCategory;
-    int pageCount, currentPage;
+    int pageCount;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -37,11 +41,25 @@
         {
             currentCategory = await CategoryService.GetCategoryByUrl(Category);
         }
+        await LoadProductsAsync();
+        base.OnParametersSet();
+    }
+
+    protected async Task ChangePageAsync(int page)
+    {
+        Page = page;
+        await LoadProductsAsync();
+    }
+
+    private async Task LoadProductsAsync()
+    {
         if (currentCategory != null)
         {
-            var re = await ProductsService.LoadByCategoryIdAsync(currentCategory.Id, 1);
+            if (Page < 1)
+                Page = 1;
+            var re = await ProductsService.LoadByCategoryIdAsync(currentCategory.Id, Page);
             pageCount = re.PagesCount;
-            currentPage = re.CurrentPage;
+            Page = re.CurrentPage;
         }
         else if (!string.IsNullOrWhiteSpace(Text))
         {
@@ -51,6 +69,5 @@
         {
             await ProductsService.LoadAllAsync();
         }
-        base.OnParametersSet();
     }
 }

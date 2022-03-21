@@ -1,0 +1,28 @@
+﻿<style>
+    #pages-component a{
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+</style>
+
+<div class="d-flex justify-content-center mt-5" id="pages-component">
+    @for (int i = 1; i <= PagesCount; i++)
+    {
+        var tmp = i;
+        <a class="btn m-2 border-2 @(CurrentPage == i ? "btn-dark":"btn-outline-dark")" @onclick="()=>ChangePage(tmp)">@(i)</a>
+    }
+</div>
+
+@code {
+    [Parameter] public int PagesCount { get; set; }
+    [Parameter] public int CurrentPage { get; set; }
+    [Parameter] public EventCallback<int> OnPageChanged { get; set; }
+
+    protected async Task ChangePage(int page)
+    {
+        if(page != CurrentPage && page > 0 && page<=PagesCount)
+        {
+            await OnPageChanged.InvokeAsync(page);
+        }
+    }
+}
