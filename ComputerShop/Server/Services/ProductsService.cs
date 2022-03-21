@@ -304,6 +304,149 @@ namespace ComputerShop.Server.Services
                 Price = 600,
                 Rpm = 7200,
             },
+            new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="351294786",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Transcend",
+                ReadSpeedMBs = 500,
+                Name = "HTTP",
+                Price = 600,
+                Rpm = 7200,
+            },
+            new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="2140075896",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Transcend",
+                ReadSpeedMBs = 500,
+                Name = "SADAM",
+                Price = 600,
+                Rpm = 7200,
+            },
+            new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="9875424508",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Transcend",
+                ReadSpeedMBs = 500,
+                Name = "HTTPS",
+                Price = 600,
+                Rpm = 7200,
+            },
+            new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="1007204785",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Transcend",
+                ReadSpeedMBs = 500,
+                Name = "SSL",
+                Price = 600,
+                Rpm = 7200,
+            },
+            new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="47562012",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Transcend",
+                ReadSpeedMBs = 500,
+                Name = "FTP",
+                Price = 600,
+                Rpm = 7200,
+            },
+            new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="2450075215",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Transcend",
+                ReadSpeedMBs = 500,
+                Name = "Kjeny",
+                Price = 600,
+                Rpm = 7200,
+            },
+            new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="78420287",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Transcend",
+                ReadSpeedMBs = 500,
+                Name = "Kajl",
+                Price = 600,
+                Rpm = 7200,
+            },
+            new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="12045270",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Transcend",
+                ReadSpeedMBs = 500,
+                Name = "Kartman",
+                Price = 600,
+                Rpm = 7200,
+            },
+            new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="04246021",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Stan",
+                ReadSpeedMBs = 500,
+                Name = "Kajls Mom",
+                Price = 600,
+                Rpm = 7200,
+            },
+            new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="4354520753",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Szef",
+                ReadSpeedMBs = 500,
+                Name = "FTP",
+                Price = 600,
+                Rpm = 7200,
+            },
+             new HddProduct
+            {
+                WriteSpeedMBs = 200,
+                CapacityGB = 40,
+                Description = "FAST SSD",
+                Id="4354520753",
+                Images = new List<Image>{new Image { Location= "images/default_image.png" } },
+                Manufacturer = "Gayfish",
+                ReadSpeedMBs = 500,
+                Name = "FTP",
+                Price = 600,
+                Rpm = 7200,
+            },
             new DesktopCaseProduct
             {
                 WarantyMonths = 12,
@@ -459,18 +602,18 @@ namespace ComputerShop.Server.Services
         {
             return Products.Where(p => p.IsHiglighted).ToList();
         }
-        public async Task<ProductsResponse> GetProductsByCategoryIdAsync(string id, int pageNumber)
+        public async Task<ProductsResponse> GetProductsByCategoryIdAsync(string id, int pageNumber = 1)
         {
             List<Product>? products = Products.Where(x => x.Category.Id.Equals(id)).ToList();
             return GetProductsResponse(products, pageNumber);
         }
     
-        public async Task<ProductsResponse> GetProductsByCategoryUrlAsync(string url, int pageNumber)
+        public async Task<ProductsResponse> GetProductsByCategoryUrlAsync(string url, int pageNumber = 1)
         {
             List<Product>? products = Products.Where(x => x.Category?.Name == url).ToList();
             return GetProductsResponse(products, pageNumber);
         }
-        public async Task<ProductsResponse> FindProductsByTextAsync(string text, int pageNumber)
+        public async Task<ProductsResponse> FindProductsByTextAsync(string text, int pageNumber = 1)
         {
             List<Product>? foundProducts = FindProducts(text);
             return GetProductsResponse(foundProducts, pageNumber);
@@ -516,13 +659,15 @@ namespace ComputerShop.Server.Services
 
         private ProductsResponse GetProductsResponse(List<Product> products, int pageNumber)
         {
-            int maxProductsOnPage = 10;
+            if (pageNumber < 1)
+                return new ProductsResponse() { };
+            int maxProductsOnPage = 12;
             int pageCount = 0;
             if (products != null && products.Count > 0)
             {
-                float x = products.Count / maxProductsOnPage;
+                float x = products.Count / (float)maxProductsOnPage;
                 pageCount = (int)Math.Ceiling(x);
-                products = products.Skip(pageNumber - 1 * pageCount).Take(maxProductsOnPage).ToList();
+                products = products.Skip((pageNumber - 1) * maxProductsOnPage).Take(maxProductsOnPage).ToList();
             }
             else if(products == null)
             {

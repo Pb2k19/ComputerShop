@@ -12,10 +12,11 @@ namespace ComputerShop.Client.Services
         {
             this.httpClient = httpClient;
         }
-        public async Task LoadByCategoryIdAsync(string id)
+        public async Task<ProductsResponse> LoadByCategoryIdAsync(string id, int page)
         {
-            var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/products/getByCategoryId/{id}");
-            Products = response?.Data ?? new List<Product>();
+            var response = await httpClient.GetFromJsonAsync<ServiceResponse<ProductsResponse>>($"api/products/getByCategoryId/{id}/{page}");
+            Products = response?.Data?.Products ?? new List<Product>();
+            return response?.Data ?? new ProductsResponse();
         }
         public async Task LoadAllAsync()
         {

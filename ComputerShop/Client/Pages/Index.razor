@@ -25,6 +25,7 @@
     [Parameter] public string? Category { get; set; }
     [Parameter] public string? Text { get; set; }
     private Category? currentCategory;
+    int pageCount, currentPage;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -38,7 +39,9 @@
         }
         if (currentCategory != null)
         {
-            await ProductsService.LoadByCategoryIdAsync(currentCategory.Id);
+            var re = await ProductsService.LoadByCategoryIdAsync(currentCategory.Id, 1);
+            pageCount = re.PagesCount;
+            currentPage = re.CurrentPage;
         }
         else if (!string.IsNullOrWhiteSpace(Text))
         {

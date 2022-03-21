@@ -52,7 +52,7 @@ namespace ComputerShop.Server.Controllers
         }
 
         [HttpGet("getByCategoryId/{id}/{page}")]
-        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> GetProductsByCategoryIdAsync([FromRoute] string id, [FromRoute] int page)
+        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> GetProductsByCategoryIdAndPageAsync([FromRoute] string id, [FromRoute] int page)
         {
             ServiceResponse<ProductsResponse> serviceResponse = new()
             {
