@@ -1,89 +1,93 @@
 ﻿@inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
 
-<style>
-    .navbar-font-size {
-        font-size: 1.2rem;
-    }
-</style>
-
-<nav class="navbar navbar-expand-xxl fixed-top navbar-light bg-light shadow justify-content-between">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-xl fixed-top navbar-light bg-light shadow pb-0">
+    <div class="container-fluid bg-light">
         <a class="navbar-brand" href=""><img src="images/logo.png" width="180" height="35" /></a>
 
         <button class="navbar-toggler shadow-none" type="button" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="@NavMenuCssClass navbar-collapse bg-light">
-            <ProductSearch />
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 categories">
-                <li class="nav-link">
-                    <NavLink class="nav-link" href="pc" @onclick="CollapseNavMenu">
-                        <div class="d-flex align-items-center navbar-font-size">
-                            Komputery
-                        </div>
-                    </NavLink>
-                </li>
-                <li class="nav-link">
-                    <NavLink class="nav-link" href="laptop" @onclick="CollapseNavMenu">
-                        <div class="d-flex align-items-center navbar-font-size">
-                            Laptopy
-                        </div>
-                    </NavLink>
-                </li>
-                <li class="nav-link ms-sm-0 ms-xxl-2" style="overflow: visible;">
-                    <div class="d-flex align-items-center navbar-font-size">
-                        <DropdownMenu TItem="string"
-                                      Items="ComponentsList"
-                                      ChangeTitleToSelectedValue="false"
-                                      OnSelected="OnPartsClicked"
-                                      ButtonClassCss="bg-transparent navbar-font-size px-0">
-                            <InitTitle>Podzespoły</InitTitle>
-                        </DropdownMenu>
+        <div class="@NavMenuCssClass navbar-collapse bg-light mt-sm-4 mt-xl-0">
+            <div class="row w-100">
+                <div class="col-md-10">
+                    <ProductSearch />
+                </div>
+                <div class="col-md-2">
+                    <div class="d-flex justify-content-md-end">
+                        <NavLink class="nav-link" href="account">
+                            <div class="d-flex align-items-center navbar-font-size text-primary">
+                                @if (!isLogIn)
+                                {
+                                    <span>Zaloguj się</span>
+                                }
+                                else
+                                {
+                                    <span>@username</span>
+                                }
+                                <span class="fas-icon fas fa-user ms-2" aria-hidden="true"></span>
+                            </div>
+                        </NavLink>
                     </div>
-                </li>
-                <li class="nav-link ms-sm-0 ms-xxl-2" style="overflow: visible;">
-                    <div class="d-flex align-items-center navbar-font-size">
-                        <DropdownMenu TItem="string"
-                                      Items="PeripheryList"
-                                      ChangeTitleToSelectedValue="false"
-                                      OnSelected="OnPeripheriesClicked"
-                                      ButtonClassCss="bg-transparent navbar-font-size px-0">
-                            <InitTitle>Peryferia</InitTitle>
-                        </DropdownMenu>
-                    </div>
-                </li>
-                <li class="nav-link ms-sm-0 ms-xxl-1">
-                    <NavLink class="nav-link" href="tool" @onclick="CollapseNavMenu">
-                        <div class="d-flex align-items-center navbar-font-size">
-                            Narzędzia
+                </div>
+            </div>
+            <div id="categories-bar" class="bg-light position-absolute w-100 shadow">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 categories-font  justify-content-center">
+                    <li class="nav-link">
+                        <NavLink class="nav-link" href="pc" @onclick="CollapseNavMenu">
+                            <div class="d-flex align-items-center navbar-font-size">
+                                Komputery
+                            </div>
+                        </NavLink>
+                    </li>
+                    <li class="nav-link">
+                        <NavLink class="nav-link" href="laptop" @onclick="CollapseNavMenu">
+                            <div class="d-flex align-items-center navbar-font-size">
+                                Laptopy
+                            </div>
+                        </NavLink>
+                    </li>
+                    <li class="nav-link ms-sm-0 ms-xl-2" style="overflow: visible; font-size: 1.2rem;">
+                        <div class="d-flex align-items-center">
+                            <DropdownMenu TItem="string"
+                                          Items="ComponentsList"
+                                          ChangeTitleToSelectedValue="false"
+                                          OnSelected="OnPartsClicked"
+                                          ButtonClassCss="bg-transparent navbar-font-size px-0">
+                                <InitTitle>Podzespoły</InitTitle>
+                            </DropdownMenu>
                         </div>
-                    </NavLink>
-                </li>
-                <li class="nav-link ms-sm-0 ms-xxl-1">
-                    <NavLink class="nav-link" href="configurator" @onclick="CollapseNavMenu">
-                        <div class="d-flex align-items-center navbar-font-size">
-                            Konfigurator PC
+                    </li>
+                    <li class="nav-link ms-sm-0 ms-xl-2" style="overflow: visible;">
+                        <div class="d-flex align-items-center">
+                            <DropdownMenu TItem="string"
+                                          Items="PeripheryList"
+                                          ChangeTitleToSelectedValue="false"
+                                          OnSelected="OnPeripheriesClicked"
+                                          ButtonClassCss="bg-transparent navbar-font-size px-0">
+                                <InitTitle>Peryferia</InitTitle>
+                            </DropdownMenu>
                         </div>
-                    </NavLink>
-                </li>
-                <li class="nav-link ms-sm-0 ms-xxl-2" @onclick="CollapseNavMenu">
-                    <NavLink class="nav-link" href="account">
-                        <div class="d-flex align-items-center navbar-font-size text-primary">
-                            @if (!isLogIn)
-                            {
-                                <span>Zaloguj się</span>
-                            }
-                            else
-                            {
-                                <span>@username</span>
-                            }
-                            <span class="fas-icon fas fa-user ms-2" aria-hidden="true"></span>
-                        </div>
-                    </NavLink>
-                </li>
-            </ul>
+                    </li>
+                    <li class="nav-link ms-sm-0 ms-xl-1">
+                        <NavLink class="nav-link" href="tool" @onclick="CollapseNavMenu">
+                            <div class="d-flex align-items-center navbar-font-size">
+                                Narzędzia
+                            </div>
+                        </NavLink>
+                    </li>
+                    <li class="nav-link ms-sm-0 ms-xl-1">
+                        <NavLink class="nav-link" href="configurator" @onclick="CollapseNavMenu">
+                            <div class="d-flex align-items-center navbar-font-size">
+                                Konfigurator PC
+                            </div>
+                        </NavLink>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </div>
+    <div>
     </div>
 </nav>
 

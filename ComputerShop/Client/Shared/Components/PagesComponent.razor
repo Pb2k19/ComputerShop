@@ -3,13 +3,16 @@
         font-size: 1.2rem;
         font-weight: 600;
     }
+    #pages-component .btn {
+        width: 50px;
+    }
 </style>
 
 <div class="d-flex justify-content-center mt-5" id="pages-component">
     @for (int i = 1; i <= PagesCount; i++)
     {
         var tmp = i;
-        <a class="btn m-2 border-2 @(CurrentPage == i ? "btn-dark":"btn-outline-dark")" @onclick="()=>ChangePage(tmp)">@(i)</a>
+        <a class="btn m-2 border-2 @(CurrentPage == i ? "btn-primary":"btn-outline-dark")" @onclick="()=>ChangePage(tmp)">@(i)</a>
     }
 </div>
 

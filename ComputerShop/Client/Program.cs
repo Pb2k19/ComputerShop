@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using ComputerShop.Client;
 using ComputerShop.Client.Services;
 using Microsoft.AspNetCore.Components.Web;
@@ -10,5 +11,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<IProductsService, ProductsService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddBlazoredLocalStorage();
 
 await builder.Build().RunAsync();
