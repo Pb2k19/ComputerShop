@@ -1,4 +1,6 @@
-﻿@if (Products != null && Products?.Count > 0)
+﻿@inject ICartService CartService
+
+@if (Products != null && Products?.Count > 0)
 {
     <style>
         .cart-button {
@@ -50,7 +52,7 @@
                             <div class="col-auto">
                                 <button type="button"
                                         class="btn btn-outline-dark shadow-none cart-button"
-                                        @onclick="e => AddProductToCard(product.Id)">
+                                        @onclick="e => AddProductToCart(product.Id, product.Price)">
                                     <span class="fas-icon fas fa-shopping-cart align-middle" aria-hidden="true"></span>
                                 </button>
                             </div>

@@ -16,9 +16,9 @@ namespace ComputerShop.Client.Shared.Components
             else
                 NavigationManager?.NavigateTo($"/product/{product.Category.Name}/{productId}", false);
         }
-        private void AddProductToCard(string productId)
+        private void AddProductToCart(string productId, decimal price)
         {
-            Console.WriteLine($"New product in card of id:{productId}");
+            CartService.AddItemToCartAsync(new CartItem { ProductId = productId, Price = price });
         }
     }
 }

@@ -1,34 +1,44 @@
-﻿@inject ICategoryService CategoryService
+﻿@inject ICartService CartService
+@inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
+@implements IDisposable
 
-<nav class="navbar navbar-expand-xl fixed-top navbar-light bg-light shadow pb-0">
+<nav class="navbar navbar-expand-xl fixed-top navbar-light bg-light pb-0">
     <div class="container-fluid bg-light">
         <a class="navbar-brand" href=""><img src="images/logo.png" width="180" height="35" /></a>
 
         <button class="navbar-toggler shadow-none" type="button" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="@NavMenuCssClass navbar-collapse bg-light mt-sm-4 mt-xl-0">
+        <div class="@NavMenuCssClass navbar-collapse bg-light mt-4 mt-xl-0">
             <div class="row w-100">
-                <div class="col-md-10">
-                    <ProductSearch />
+                <div class="col-md-7">
+                    <div class="w-100 justify-content-center">
+                        <ProductSearch />
+                    </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-5">
                     <div class="d-flex justify-content-md-end">
+                        <NavLink class="nav-link" href="cart">
+                            <div class="d-flex align-items-center navbar-font-size text-black">
+                                <span class="fas-icon fas fa-shopping-cart me-2" aria-hidden="true"></span>
+                                <span>@cartValue zł</span>
+                            </div>
+                        </NavLink>
                         <NavLink class="nav-link" href="account">
-                            <div class="d-flex align-items-center navbar-font-size text-primary">
+                            <div class="d-flex align-items-center navbar-font-size text-black">
+                                <span class="fas-icon fas fa-user me-2" aria-hidden="true"></span>
                                 @if (!isLogIn)
                                 {
                                     <span>Zaloguj się</span>
                                 }
                                 else
                                 {
-                                    <span>@username</span>
+                                    <span>Konto</span>
                                 }
-                                <span class="fas-icon fas fa-user ms-2" aria-hidden="true"></span>
                             </div>
                         </NavLink>
-                    </div>
+                    </div>                    
                 </div>
             </div>
             <div id="categories-bar" class="bg-light position-absolute w-100 shadow">
@@ -86,8 +96,6 @@
                 </ul>
             </div>
         </div>
-    </div>
-    <div>
     </div>
 </nav>
 

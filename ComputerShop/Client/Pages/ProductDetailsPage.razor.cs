@@ -31,7 +31,7 @@ namespace ComputerShop.Client.Pages
             switch (num)
             {
                 case 0:
-                    await JS.ScrollToElement("product-name");
+                    await JS.ScrollToElement("nav-bar");
                     break;
                 case 1:
                     await JS.ScrollToElement("product-description");

@@ -10,7 +10,6 @@
             "Monitory", 
             "Drukarki",
         };
-
         List<string> ComponentsList = new() 
         { 
             "Procesory", 
@@ -25,25 +24,33 @@
             "Przewody" 
         };
 
-
         bool collapseNavMenu = true;
         bool isLogIn = true;
-        string username = "test";
-
+        decimal cartValue = 0m;
         string NavMenuCssClass => collapseNavMenu ? " collapse" : "";
 
-        void ToggleNavMenu()
+        public void Dispose()
+        {
+            CartService.OnUpdate -= UpdateCart;
+        }
+        protected void ToggleNavMenu()
         {
             collapseNavMenu = !collapseNavMenu;
         }
-        void CollapseNavMenu()
+        protected void CollapseNavMenu()
         {
             collapseNavMenu = true;
-        }
+        }        
         protected override async Task OnInitializedAsync()
         {
             await CategoryService.LoadAsync();
+            CartService.OnUpdate += UpdateCart;
             base.OnInitialized();
+        }
+        protected async void UpdateCart()
+        {
+            cartValue = await CartService.GetCartValueAsync();
+            StateHasChanged();
         }
         protected void OnPartsClicked(int id)
         {
@@ -84,7 +91,6 @@
                     break;
             }
         }
-
         protected void OnPeripheriesClicked(int id)
         {
             switch (id)
