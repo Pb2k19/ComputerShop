@@ -12,15 +12,15 @@ namespace ComputerShop.Client.Pages
         private IProduct? currentProdcut;
         protected override async Task OnInitializedAsync()
         {
-            if(int.TryParse(Id, out int id))
+            if(!string.IsNullOrWhiteSpace(Id))
             {                
                 if (!string.IsNullOrWhiteSpace(Categoryname))
                 {
-                    currentProdcut = await ProductHelper.GetProductByCategoryAndIdAsync(ProductsService, Categoryname, id);
+                    currentProdcut = await ProductHelper.GetProductByCategoryAndIdAsync(ProductsService, Categoryname, Id);
                 }
                 else
                 {
-                    currentProdcut = await ProductsService.GetProductByIdAsync(id);
+                    currentProdcut = await ProductsService.GetProductByIdAsync(Id);
                 }
             }
             base.OnInitialized();
@@ -31,7 +31,7 @@ namespace ComputerShop.Client.Pages
             switch (num)
             {
                 case 0:
-                    await JS.ScrollToElement("nav-bar");
+                    await JS.ScrollToElement("product-name");
                     break;
                 case 1:
                     await JS.ScrollToElement("product-description");

@@ -1,0 +1,23 @@
+﻿@page "/cart"
+@inject ICartService CartService
+
+<div class="row">
+    <div class="col-7">
+        @if (products != null && products.Count > 0)
+        {
+            <span>Twój koszyk</span>
+            @foreach (var product in products)
+            {
+                <span>@product.Manufacturer @product.Name</span>
+            }
+        }
+        else
+        {
+            <span>Twój koszyk jest pusty</span>
+        }
+    </div>
+    <div class="col-5">
+        <span>Do zapłaty</span>
+        <span>Wybierz opcję dostawy</span>
+    </div>
+</div>

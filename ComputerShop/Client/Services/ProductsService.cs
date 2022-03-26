@@ -23,12 +23,12 @@ namespace ComputerShop.Client.Services
             var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/products/");
             Products = response?.Data ?? new List<Product>();
         }
-        public async Task<Product?> GetProductByIdAsync(int id)
+        public async Task<Product?> GetProductByIdAsync(string id)
         {
             var response = await httpClient.GetFromJsonAsync<ServiceResponse<Product>>($"api/products/getProductById/{id}");
             return response?.Data;
         }
-        public async Task<T?> GetProductByIdAsync<T>(int id) where T : Product
+        public async Task<T?> GetProductByIdAsync<T>(string id) where T : Product
         {
             var response = await httpClient.GetFromJsonAsync<ServiceResponse<T>>($"api/products/getProductById/{id}");
             return response?.Data;

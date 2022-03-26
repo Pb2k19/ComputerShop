@@ -6,7 +6,7 @@ namespace ComputerShop.Client.Helpers
 {
     public static class ProductHelper
     {
-        public static async Task<IProduct?> GetProductByCategoryAndIdAsync(IProductsService productsService, string categoryName, int id)
+        public static async Task<IProduct?> GetProductByCategoryAndIdAsync(IProductsService productsService, string categoryName, string id)
         {
              return categoryName.ToLower() switch
             {

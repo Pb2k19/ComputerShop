@@ -9,5 +9,6 @@ namespace ComputerShop.Client.Services
         public Task AddItemToCartAsync(CartItem item);
         public Task RemoveItemFromCartAsync(CartItem item);
         public Task<decimal> GetCartValueAsync();
+        public Task<List<Product>> GetCartProductsAsync();
     }
 }

@@ -1,4 +1,6 @@
-﻿@if (Product != null)
+﻿@inject ICartService CartService
+
+@if (Product != null)
  {
     <div class="container-fluid">
         @if (Product.Price < Product.PriceBeforeDiscount)

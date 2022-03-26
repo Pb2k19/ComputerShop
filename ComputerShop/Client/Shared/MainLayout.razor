@@ -1,11 +1,24 @@
 ﻿@inherits LayoutComponentBase
 
+<style>
+    @@media (max-width: 1199px) {
+        #body {
+            margin-top: 75px;
+        }
+    }
+
+    @@media (min-width: 1200px) {
+        #body {
+            margin-top: 150px;
+        }
+    }
+</style>
 
 <header>
     <NavMenu />
 </header>
 
-<div class="container-fluid" style="margin-top: 150px;">
+<div id="body" class="container-fluid">
     <main role="main" class="pb-3">
         @Body
     </main>

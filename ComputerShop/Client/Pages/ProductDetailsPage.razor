@@ -8,13 +8,30 @@
         font-size: 2.5rem;
         margin: 10px;
     }
+
     .scroll-std {
-        scroll-margin: 65px;
+        scroll-margin: 120px;
+    }
+
+    .list-group .list-group-item {
+        width: 130px;
+    }
+
+    @@media (max-width: 1199px) {
+        #go-to-element-nav {
+            top: 3em;
+        }
+    }
+
+    @@media (min-width: 1200px) {
+        #go-to-element-nav {
+            top: 7em;
+        }
     }
 </style>
 
 <div class="container-fluid mb-5" style="max-width: 1500px;">
-    <div class="row" id="product-name">
+    <div class="row scroll-std" id="product-name">
         <h1>@currentProdcut?.Manufacturer @currentProdcut?.Name</h1>
     </div>
     <div class="row justify-content-around">
@@ -32,12 +49,12 @@
         </div>
     </div>
 
-    <div class="mt-3 navbar navbar-light bg-transparent sticky-top" style="top: 3em;">
+    <div id="go-to-element-nav" class="mt-3 navbar navbar-light bg-transparent sticky-top">
         <div class="list-group list-group-horizontal">
-            <a class="list-group-item shadow" role="button" @onclick="()=>OnListItemClick(0)">Zdjęcia</a>
-            <a class="list-group-item shadow" role="button" @onclick="()=>OnListItemClick(1)">Opis</a>
-            <a class="list-group-item shadow" role="button" @onclick="()=>OnListItemClick(2)">Specyfikacja</a>
-            <a class="list-group-item shadow" role="button" @onclick="()=>OnListItemClick(3)">Opinie</a>
+            <a class="list-group-item shadow text-center" role="button" @onclick="()=>OnListItemClick(0)">Zdjęcia</a>
+            <a class="list-group-item shadow text-center" role="button" @onclick="()=>OnListItemClick(1)">Opis</a>
+            <a class="list-group-item shadow text-center" role="button" @onclick="()=>OnListItemClick(2)">Specyfikacja</a>
+            <a class="list-group-item shadow text-center" role="button" @onclick="()=>OnListItemClick(3)">Opinie</a>
         </div>
     </div>
     

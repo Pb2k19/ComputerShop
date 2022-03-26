@@ -8,8 +8,8 @@ namespace ComputerShop.Client.Services
         Task LoadAllAsync();
         Task<ProductsResponse> LoadByCategoryIdAsync(string id, int page);
         Task LoadByTextAsync(string text);
-        Task<Product?> GetProductByIdAsync(int id);
-        Task<T?> GetProductByIdAsync<T>(int id) where T : Product;
+        Task<Product?> GetProductByIdAsync(string id);
+        Task<T?> GetProductByIdAsync<T>(string id) where T : Product;
         Task<List<string>> GetProductSuggestionsAsync(string text);
     }
 }

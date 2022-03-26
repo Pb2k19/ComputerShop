@@ -43,8 +43,8 @@
         }        
         protected override async Task OnInitializedAsync()
         {
-            await CategoryService.LoadAsync();
             CartService.OnUpdate += UpdateCart;
+            cartValue = await CartService.GetCartValueAsync();
             base.OnInitialized();
         }
         protected async void UpdateCart()

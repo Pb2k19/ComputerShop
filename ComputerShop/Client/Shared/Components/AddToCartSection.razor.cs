@@ -1,4 +1,5 @@
-﻿using ComputerShop.Shared.Models.Interfaces;
+﻿using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Interfaces;
 using Microsoft.AspNetCore.Components;
 
 namespace ComputerShop.Client.Shared.Components
@@ -53,9 +54,11 @@ namespace ComputerShop.Client.Shared.Components
             }
         }
 
-        public void OnButtonClick()
+        public async void OnButtonClick()
         {
-            Console.WriteLine($"{Quantity} {Product?.Id}");
+            if(Product == null)
+                return;
+            await CartService.AddItemToCartAsync(new CartItem() { Price = Product.Price, ProductId = Product.Id });
         }
     }
 }
