@@ -20,8 +20,15 @@
                     <div class="d-flex justify-content-md-end">
                         <NavLink class="nav-link" href="cart">
                             <div class="d-flex align-items-center navbar-font-size text-black">
-                                <span class="fas-icon fas fa-shopping-cart me-2" aria-hidden="true"></span>
-                                <span>@cartValue zł</span>
+                                <div class="position-relative">
+                                    <span class="fas-icon fas fa-shopping-cart icon" aria-hidden="true"></span>
+                                    @if(cartCount > 0)
+                                    {
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" 
+                                              aria-hidden="true">@(cartCount > 99 ? "+99":cartCount)</span>
+                                    }                                    
+                                </div>    
+                                <span class="ms-2">@cartValue zł</span>
                             </div>
                         </NavLink>
                         <NavLink class="nav-link" href="account">

@@ -11,21 +11,16 @@
             </div>           
         }
         <h3 style="font-size: 2.25rem;" class="text-end">@Product.Price zł</h3>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end align-items-center">
             <div>
-                <div class="border shadow h-100 justify-content-end" style=" width: 75px;">
-                    <input @bind="Quantity"
-                           max="99" min="1"
-                           type="number"
-                           id="typeNumber"
-                           class="form-control shadow-none h-100 input-number"/>
+                <div class="shadow h-100 justify-content-end" style=" max-width: 125px;">
+                    <NumericUpDown InitValue="Quantity" MaxValue="99" MinValue="1" OnValueChanged="OnValueChanged"/>
                 </div>
             </div>
             <div>
                 <button @onclick="OnButtonClick"
                         type="button"
-                        class="btn btn-primary shadow-none btn-lg ms-1"
-                        >
+                        class="btn btn-primary shadow-none btn-lg ms-1">
                     Do koszyka
                 </button>
             </div>

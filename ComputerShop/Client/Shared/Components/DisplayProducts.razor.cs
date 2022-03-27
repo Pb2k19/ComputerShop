@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models;
+using ComputerShop.Client.Helpers;
 using Microsoft.AspNetCore.Components;
 
 namespace ComputerShop.Client.Shared.Components
@@ -11,14 +12,11 @@ namespace ComputerShop.Client.Shared.Components
         private void OnProductCardClicked(string productId)
         {
             Product? product = Products?.FirstOrDefault(x => x.Id != null && x.Id.Equals(productId));
-            if(product == null || product.Category == null)
-                NavigationManager?.NavigateTo($"/product/{productId}", false);
-            else
-                NavigationManager?.NavigateTo($"/product/{product.Category.Name}/{productId}", false);
+            NavigationManager?.GoToProductPage(productId, product?.Category?.Name);
         }
         private void AddProductToCart(string productId, decimal price)
         {
-            CartService.AddItemToCartAsync(new CartItem { ProductId = productId, Price = price });
+            CartService.AddItemToCartAsync(new CartItem { ProductId = productId, Price = price, Quantity=1 });
         }
     }
 }

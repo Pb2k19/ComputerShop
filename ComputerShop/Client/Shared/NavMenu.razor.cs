@@ -27,11 +27,12 @@
         bool collapseNavMenu = true;
         bool isLogIn = true;
         decimal cartValue = 0m;
+        int cartCount = 0;
         string NavMenuCssClass => collapseNavMenu ? " collapse" : "";
 
         public void Dispose()
         {
-            CartService.OnUpdate -= UpdateCart;
+            CartService.OnUpdate -= OnCartUpdate;
         }
         protected void ToggleNavMenu()
         {
@@ -43,13 +44,19 @@
         }        
         protected override async Task OnInitializedAsync()
         {
-            CartService.OnUpdate += UpdateCart;
-            cartValue = await CartService.GetCartValueAsync();
+            CartService.OnUpdate += OnCartUpdate;
+            await UpdateCartIconAsync();
             base.OnInitialized();
         }
-        protected async void UpdateCart()
+        protected async void OnCartUpdate()
         {
-            cartValue = await CartService.GetCartValueAsync();
+            await UpdateCartIconAsync();
+        }
+        private async Task UpdateCartIconAsync()
+        {
+            var cart = await CartService.GetCartInfoAsync();
+            cartValue = cart.Item1;
+            cartCount = cart.Item2;
             StateHasChanged();
         }
         protected void OnPartsClicked(int id)

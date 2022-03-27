@@ -58,7 +58,12 @@ namespace ComputerShop.Client.Shared.Components
         {
             if(Product == null)
                 return;
-            await CartService.AddItemToCartAsync(new CartItem() { Price = Product.Price, ProductId = Product.Id });
+            await CartService.AddItemToCartAsync(new CartItem() { Price = Product.Price, ProductId = Product.Id, Quantity=Quantity });
+        }
+
+        protected void OnValueChanged(int value)
+        {
+            Quantity = value;
         }
     }
 }

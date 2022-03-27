@@ -10,7 +10,7 @@ namespace ComputerShop.Client.Services
 
         public string Key => "shoppingCart";
 
-        public event Action OnUpdate;
+        public event Action? OnUpdate;
 
         public CartService(ILocalStorageService localStorageService, IProductsService productsService)
         {
@@ -25,16 +25,26 @@ namespace ComputerShop.Client.Services
 
         public async Task AddItemToCartAsync(CartItem item)
         {
+            if (item.Quantity < 1)
+                return;
             List<CartItem> cart = await OpenCartAsync();
-            cart.Add(item);
+            CartItem? cartItem = cart.FirstOrDefault(x => x.ProductId.Equals(item.ProductId));
+            if (cartItem == null)
+            {
+                cart.Add(item);
+            }
+            else
+            {
+                cartItem.Quantity += item.Quantity;
+            }
             await localStorageService.SetItemAsync(Key, cart);
             OnUpdate?.Invoke();
         }
 
-        public async Task RemoveItemFromCartAsync(CartItem item)
+        public async Task RemoveItemFromCartAsync(string productId)
         {
             List<CartItem> cart = await OpenCartAsync();
-            CartItem? toRemove = cart.FirstOrDefault(x => x.ProductId == item.ProductId);
+            CartItem? toRemove = cart.FirstOrDefault(x => x.ProductId == productId);
             if (toRemove == null)
                 return;
             cart.Remove(toRemove);
@@ -42,10 +52,10 @@ namespace ComputerShop.Client.Services
             OnUpdate?.Invoke();
         }
 
-        public async Task<decimal> GetCartValueAsync()
+        public async Task<(decimal, int)> GetCartInfoAsync()
         {
             List<CartItem> cart = await OpenCartAsync();
-            return cart.Sum(x => x.Price);
+            return (cart.Sum(x => x.Price * x.Quantity), cart.Sum(x => x.Quantity));
         }
 
         private async Task<List<CartItem>> OpenCartAsync()
@@ -58,22 +68,33 @@ namespace ComputerShop.Client.Services
             return cart;
         }
 
-        public async Task<List<Product>> GetCartProductsAsync()
+        public async Task<List<ProductCartItem>> GetCartProductsAsync()
         {
             List<CartItem> cart = await OpenCartAsync();
-            List<Task> tasks = new List<Task>();
-            List<Product> result = new();
+            List<Task> tasks = new();
+            List<ProductCartItem> result = new();
             foreach (var item in cart)
             {
                 tasks.Add(Task.Run(async () =>
                 {
                     var prod = await productsService.GetProductByIdAsync(item.ProductId);
                     if (prod != null)
-                        result.Add(prod);
+                        result.Add(new ProductCartItem { Product = prod, Quantity = item.Quantity});
                 }));
             }
             await Task.WhenAll(tasks);
             return result;
+        }
+
+        public async Task UpdateCartItemQuantityAsync(int quantity, string productId)
+        {
+            List<CartItem> cart = await OpenCartAsync();
+            CartItem? cartItem = cart.FirstOrDefault(x => x.ProductId == productId);
+            if (cartItem == null)
+                return;
+            cartItem.Quantity = quantity;
+            await localStorageService.SetItemAsync(Key, cart);
+            OnUpdate?.Invoke();
         }
     }
 }

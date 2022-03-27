@@ -7,8 +7,9 @@ namespace ComputerShop.Client.Services
         public event Action OnUpdate;
         public Task<List<CartItem>> GetAllCartItemsAsync();
         public Task AddItemToCartAsync(CartItem item);
-        public Task RemoveItemFromCartAsync(CartItem item);
-        public Task<decimal> GetCartValueAsync();
-        public Task<List<Product>> GetCartProductsAsync();
+        public Task RemoveItemFromCartAsync(string productId);
+        public Task<(decimal, int)> GetCartInfoAsync();
+        public Task<List<ProductCartItem>> GetCartProductsAsync();
+        public Task UpdateCartItemQuantityAsync(int quantity, string productId );
     }
 }
