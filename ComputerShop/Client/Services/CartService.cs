@@ -44,7 +44,7 @@ namespace ComputerShop.Client.Services
         public async Task RemoveItemFromCartAsync(string productId)
         {
             List<CartItem> cart = await OpenCartAsync();
-            CartItem? toRemove = cart.FirstOrDefault(x => x.ProductId == productId);
+            CartItem? toRemove = cart.FirstOrDefault(x => x.ProductId.Equals(productId));
             if (toRemove == null)
                 return;
             cart.Remove(toRemove);
@@ -85,7 +85,7 @@ namespace ComputerShop.Client.Services
         public async Task UpdateCartItemQuantityAsync(int quantity, string productId)
         {
             List<CartItem> cart = await OpenCartAsync();
-            CartItem? cartItem = cart.FirstOrDefault(x => x.ProductId == productId);
+            CartItem? cartItem = cart.FirstOrDefault(x => x.ProductId.Equals(productId));
             if (cartItem == null)
                 return;
             cartItem.Quantity = quantity;

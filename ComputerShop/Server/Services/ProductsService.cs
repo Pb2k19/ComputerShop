@@ -623,7 +623,7 @@ namespace ComputerShop.Server.Services
     
         public async Task<ProductsResponse> GetProductsByCategoryUrlAsync(string url, int pageNumber = 1)
         {
-            List<Product>? products = Products.Where(x => x.Category?.Name == url).ToList();
+            List<Product>? products = Products.Where(x => x.Category?.Name?.Equals(url) ?? false).ToList();
             return GetProductsResponse(products, pageNumber);
         }
         public async Task<ProductsResponse> FindProductsByTextAsync(string text, int pageNumber = 1)
