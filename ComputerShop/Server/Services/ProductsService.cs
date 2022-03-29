@@ -6,7 +6,7 @@ namespace ComputerShop.Server.Services
 {
     public class ProductsService : IProductsService
     {
-        //check if load is needed
+        //tmp check if load is needed
         public List<Product> Products { get; set; } = new List<Product>
         {
             new DesktopPcProduct
@@ -104,7 +104,7 @@ namespace ComputerShop.Server.Services
                     MaxCoolerHeightmm = 165,
                     MaxFanCount = 4,
                     MaxRadiatorSizemm = 280,
-                    SupportedMoboSizes = new List<string>{"ATX", MotherboardSizes.MiniATX}
+                    SupportedMoboSizes = new List<string>{"ATX", MotherboardSizes.MiniATX},
                 }
             },
             new DesktopPsuProduct
@@ -434,7 +434,7 @@ namespace ComputerShop.Server.Services
                 Price = 600,
                 Rpm = 7200,
             },
-             new HddProduct
+            new HddProduct
             {
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
@@ -447,7 +447,7 @@ namespace ComputerShop.Server.Services
                 Price = 600,
                 Rpm = 7200,
             },
-              new HddProduct
+            new HddProduct
             {
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
@@ -492,7 +492,7 @@ namespace ComputerShop.Server.Services
                 Price = 200,
                 PriceBeforeDiscount = 400,
                 Sizemm = 200,
-
+                Id="978231368681"
             },
             new CableProduct
             {

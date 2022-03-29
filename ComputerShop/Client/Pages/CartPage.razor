@@ -40,7 +40,7 @@
                             <div class="col-6 col-lg-2 py-4 text-end text-lg-center">
                                 @if (p.Product.Price < p.Product.PriceBeforeDiscount)
                                 {
-                                    <div class="d-flex justify-content-end align-items-center">
+                                    <div class="d-flex justify-content-center align-items-center">
                                         <span class="text-muted text-decoration-line-through">@p.Product.PriceBeforeDiscount</span>
                                         <span style="color: #0b5ed7;">&ensp;-@(decimal.ToInt32((p.Product.PriceBeforeDiscount - p.Product.Price) / p.Product.PriceBeforeDiscount * 100))%</span>
                                     </div>

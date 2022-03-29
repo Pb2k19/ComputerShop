@@ -71,19 +71,15 @@ namespace ComputerShop.Client.Services
         public async Task<List<ProductCartItem>> GetCartProductsAsync()
         {
             List<CartItem> cart = await OpenCartAsync();
-            List<Task> tasks = new();
-            List<ProductCartItem> result = new();
-            foreach (var item in cart)
-            {
-                tasks.Add(Task.Run(async () =>
-                {
-                    var prod = await productsService.GetProductByIdAsync(item.ProductId);
-                    if (prod != null)
-                        result.Add(new ProductCartItem { Product = prod, Quantity = item.Quantity});
+            List<Product> products = await productsService.GetProductsByIdListAsync(cart.Select(x => x.ProductId).ToList());
+            List<ProductCartItem> items = new();
+            products.ForEach(
+                p => items.Add(new ProductCartItem 
+                { 
+                    Product = p, 
+                    Quantity = cart.FirstOrDefault(c => c.ProductId.Equals(p.Id))?.Quantity ?? 1 
                 }));
-            }
-            await Task.WhenAll(tasks);
-            return result;
+            return items;
         }
 
         public async Task UpdateCartItemQuantityAsync(int quantity, string productId)

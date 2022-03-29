@@ -25,6 +25,8 @@ namespace ComputerShop.Client.Services
         }
         public async Task<Product?> GetProductByIdAsync(string id)
         {
+            if(string.IsNullOrEmpty(id))
+                return null;
             var response = await httpClient.GetFromJsonAsync<ServiceResponse<Product>>($"api/products/getProductById/{id}");
             return response?.Data;
         }
@@ -42,6 +44,13 @@ namespace ComputerShop.Client.Services
         {
             var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<string>>>($"api/products/getProductSuggestions/{text}");
             return response?.Data ?? new List<string>();
+        }
+
+        public async Task<List<Product>> GetProductsByIdListAsync(List<string> idList)
+        {
+            using var response = await httpClient.PostAsJsonAsync("api/products/getProductsByIdList", idList);
+            var result = await response.Content.ReadFromJsonAsync<ServiceResponse<List<Product>>>();
+            return result?.Data ?? new List<Product>();
         }
     }
 }

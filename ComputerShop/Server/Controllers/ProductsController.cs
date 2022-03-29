@@ -31,6 +31,25 @@ namespace ComputerShop.Server.Controllers
             return Ok(serviceResponse);
         }
 
+        [HttpPost("getProductsByIdList")]
+        public async Task<ActionResult<ServiceResponse<Product>>> GetProductByIdAsync(List<string> idList)
+        {
+            List<Product?> products = new();
+            idList.ForEach(async id => products.Add(await productsService.GetProductByIdAsync(id)));
+            products.RemoveAll(id => id is null);
+            ServiceResponse<object> serviceResponse = new();
+            if (products.Count == 0)
+            {
+                serviceResponse.Success = false;
+                serviceResponse.Message = "Nie znaleziono produktów";
+            }
+            else
+            {
+                serviceResponse.Data = products;
+            }
+            return Ok(serviceResponse);
+        }
+
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsAll()
         {

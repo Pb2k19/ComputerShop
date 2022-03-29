@@ -24,7 +24,7 @@ namespace ComputerShop.Client.Pages
 
         protected void GoToProductPage(string productId)
         {
-            Product? product = productCartItems.FirstOrDefault(x => productId == x.Product.Id)?.Product;
+            Product? product = productCartItems.FirstOrDefault(x => productId.Equals(x.Product.Id))?.Product;
             NavigationManager?.GoToProductPage(productId, product?.Category?.Name);
         }
 
