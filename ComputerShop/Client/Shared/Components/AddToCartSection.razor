@@ -28,7 +28,7 @@
 
         @if (!Product.IsRemoved)
          {
-             <div class="mt-3 text-center">
+             <div class="mt-4 text-center">
                 @if ((today.DayOfWeek == DayOfWeek.Friday || today.DayOfWeek == DayOfWeek.Saturday
                      || today.DayOfWeek == DayOfWeek.Sunday))
                  {
@@ -42,13 +42,13 @@
                  {
                      <h5>Zamów teraz, aby odbrać pojutrze</h5>
                  }
-             </div>
-                if(Product.Price > MinPriceForFreeShipping)
-                {
+                 @if(Product.Price > MinPriceForFreeShipping)
+                 {
                     <div class="text-center">
-                        <h4>Darmowa dostawa!</h4>
+                        <h5>Darmowa dostawa!</h5>
                     </div>
-                }
+                 }
+             </div>
          }
      </div>
  }

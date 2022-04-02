@@ -63,7 +63,10 @@
         }
         else if (!string.IsNullOrWhiteSpace(Text))
         {
-            await ProductsService.LoadByTextAsync(Text);
+            if (Page < 1)
+                Page = 1;
+            var re = await ProductsService.FindByTextAsync(Text, Page);
+
         }
         else
         {

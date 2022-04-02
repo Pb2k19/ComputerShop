@@ -13,5 +13,15 @@ namespace ComputerShop.Client.Helpers
             else
                 navigationManager?.NavigateTo($"/product/{categoryName}/{productId}", false);
         }
+        public static void GoToFindPage(this NavigationManager navigationManager, string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return;
+            navigationManager.NavigateTo($"find/{text}");
+        }
+        public static void GoToCartPage(this NavigationManager navigationManager)
+        {
+            navigationManager.NavigateTo($"cart");
+        }
     }
 }

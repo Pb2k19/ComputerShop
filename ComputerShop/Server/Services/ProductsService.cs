@@ -492,7 +492,7 @@ namespace ComputerShop.Server.Services
                 Price = 200,
                 PriceBeforeDiscount = 400,
                 Sizemm = 200,
-                Id="978231368681"
+                Id="978231"
             },
             new CableProduct
             {
@@ -505,7 +505,7 @@ namespace ComputerShop.Server.Services
                 Manufacturer = "ZOTAC",
                 Lenghtmm = 400,
                 Name = "HDMI KABEL",
-                Id = "578646785"
+                Id = "57864785"
             },
             new ComputerMouseProduct
             {
@@ -658,15 +658,13 @@ namespace ComputerShop.Server.Services
         private List<Product> FindProducts(string text)
         {
             text = text.ToLower();
-            string[]? words = text.Split(' ');
+            List<string>? words = text.Split(' ').ToList();
             List<Product> products = new();
-            foreach (var word in words)
-            {
-                products.AddRange(
-                    Products.Where(x => (x.Manufacturer != null && x.Manufacturer.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
-                                        (x.Name != null && x.Name.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
-                                        (x.Description != null && x.Description.Contains(word, StringComparison.OrdinalIgnoreCase))));
-            }
+
+            words.ForEach(word => products.AddRange(Products
+                .Where(x => (x.Manufacturer != null && x.Manufacturer.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
+                            (x.Name != null && x.Name.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
+                            (x.Description != null && x.Description.Contains(word, StringComparison.OrdinalIgnoreCase)))));
             return products;
         }
 

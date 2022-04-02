@@ -1,0 +1,45 @@
+﻿@page "/registration"
+@inject IUserService UserService
+@inject IToastService ToastService
+
+<PageTitle>Rejestracja</PageTitle>
+
+<div class="container">
+    <EditForm Model="register" OnValidSubmit="OnRegistration">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <label for="email">Email</label>
+            <InputText id="email" class="form-control shadow-none" @bind-Value="register.Email" />
+            <ValidationMessage For="@(()=>register.Email)" />
+        </div>
+        <div class="mb-3">
+            <label for="password">Hasło</label>
+            <InputText id="password" class="form-control shadow-none" type="password" @bind-Value="register.Password" />
+            <ValidationMessage For="@(()=>register.Password)" />
+        </div>
+        <div class="mb-3">
+            <label for="confpassword">Potwierdź hasło</label>
+            <InputText id="confpassword" class="form-control shadow-none" type="password" @bind-Value="register.ConfPassword" />
+            <ValidationMessage For="@(()=>register.ConfPassword)" />
+        </div>
+        <div class="d-flex align-items-end">
+            <button type="submit" class="btn btn-primary shadow-none">Zarejestruj</button>
+        </div>
+    </EditForm>
+</div>
+
+
+
+
+@code {
+    Register register = new();
+
+    protected async Task OnRegistration()
+    {
+        var x = await UserService.Register(register);
+        if (x.Success)
+            ToastService.ShowSuccess("Konto zostało stworzone", "Udało się!");
+        else
+            ToastService.ShowError(x.Message, "Błąd");
+    }
+}

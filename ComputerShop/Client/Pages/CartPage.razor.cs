@@ -1,11 +1,15 @@
 ﻿using ComputerShop.Shared.Models;
 using ComputerShop.Client.Helpers;
 using Microsoft.AspNetCore.Components;
+using Blazored.Toast.Services;
 
 namespace ComputerShop.Client.Pages
 {
     public partial class CartPage
     {
+        protected delegate void Page_Load();
+
+        [Inject] IToastService? ToastService { get; set; }
         [Inject] NavigationManager? NavigationManager { get; set; }
         private List<ProductCartItem> productCartItems = new();
 
@@ -35,7 +39,11 @@ namespace ComputerShop.Client.Pages
 
         protected async Task OnItemRemoveAsync(string productId)
         {
-            await CartService.RemoveItemFromCartAsync(productId);
+            var response = await CartService.RemoveItemFromCartAsync(productId);
+            if(response.Success)
+                await InvokeAsync(() => ToastService?.ShowCartItemRemoved());
+            else
+                await InvokeAsync(() => ToastService?.ShowError(string.Empty, response.Message));
         }
 
         public void Dispose()

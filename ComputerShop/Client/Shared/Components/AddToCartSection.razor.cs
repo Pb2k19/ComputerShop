@@ -1,11 +1,14 @@
-﻿using ComputerShop.Shared.Models;
+﻿using Blazored.Toast.Services;
+using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.Interfaces;
+using ComputerShop.Client.Helpers;
 using Microsoft.AspNetCore.Components;
 
 namespace ComputerShop.Client.Shared.Components
 {
     public partial class AddToCartSection
     {
+        [Inject] IToastService? ToastService { get; set; }
         [Parameter] public IProduct? Product { get; set; }
         [Parameter] public int HourToSendTheseDay { get; set; } = 15;
         [Parameter] public int MinPriceForFreeShipping { get; set; } = 100;
@@ -58,7 +61,11 @@ namespace ComputerShop.Client.Shared.Components
         {
             if(Product == null)
                 return;
-            await CartService.AddItemToCartAsync(new CartItem() { Price = Product.Price, ProductId = Product.Id, Quantity=Quantity });
+            var response = await CartService.AddItemToCartAsync(new CartItem() { Price = Product.Price, ProductId = Product.Id, Quantity=Quantity });
+            if(response.Success)
+                ToastService?.ShowAddToCart(Product.Name);
+            else
+                await InvokeAsync(() => ToastService?.ShowError(string.Empty, response.Message));
         }
 
         protected void OnValueChanged(int value)

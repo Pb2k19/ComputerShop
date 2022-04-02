@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using ComputerShop.Client.Helpers;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace ComputerShop.Client.Shared.Components
@@ -20,7 +21,7 @@ namespace ComputerShop.Client.Shared.Components
 
         public void Find()
         {
-            NavigationManager.NavigateTo($"find/{Text}");
+            NavigationManager.GoToFindPage(Text);
         }
 
         protected async Task OnSearch(KeyboardEventArgs keyboardEventArgs)

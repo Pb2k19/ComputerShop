@@ -35,10 +35,11 @@ namespace ComputerShop.Client.Services
             var response = await httpClient.GetFromJsonAsync<ServiceResponse<T>>($"api/products/getProductById/{id}");
             return response?.Data;
         }
-        public async Task LoadByTextAsync(string text)
+        public async Task<ProductsResponse> FindByTextAsync(string text, int page)
         {
-            var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/products/find/{text}");
-            Products = response?.Data ?? new List<Product>();
+            var response = await httpClient.GetFromJsonAsync<ServiceResponse<ProductsResponse>>($"api/products/find/{text}/{page}");
+            Products = response?.Data?.Products ?? new List<Product>();
+            return response?.Data ?? new ProductsResponse();
         }
         public async Task<List<string>> GetProductSuggestionsAsync(string text)
         {

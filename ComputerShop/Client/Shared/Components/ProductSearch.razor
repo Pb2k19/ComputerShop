@@ -17,7 +17,7 @@
             <button class="btn btn-primary shadow-none rounded" type="submit" @onclick="Find">
                 <i class="fas fa-search"></i>
             </button>
-            <div class="bg-light shadow ps-1 suggestions border-1 rounded" style=" @(isSuggestionsVisable ? " ":"visibility: hidden;")">
+            <div class="bg-light shadow ps-1 suggestions border-1 rounded" style="z-index: 10; @(isSuggestionsVisable ? " ":" visibility: hidden;")">
                 <ul id="suggestions" class="my-1 ps-2" style="list-style-type: none;">
                     @if (suggestions != null && suggestions.Count > 0)
                     {

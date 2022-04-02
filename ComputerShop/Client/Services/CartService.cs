@@ -23,12 +23,12 @@ namespace ComputerShop.Client.Services
             return await OpenCartAsync();
         }
 
-        public async Task AddItemToCartAsync(CartItem item)
+        public async Task<SimpleServiceResponse> AddItemToCartAsync(CartItem item)
         {
-            if (item.Quantity < 1)
-                return;
+            if (item == null || string.IsNullOrWhiteSpace(item.ProductId) || item.Quantity < 1)
+                return new SimpleServiceResponse { Message="Nie udało się dodać produktu do koszyka", Success = false};
             List<CartItem> cart = await OpenCartAsync();
-            CartItem? cartItem = cart.FirstOrDefault(x => x.ProductId.Equals(item.ProductId));
+            CartItem? cartItem = cart.FirstOrDefault(x => x?.ProductId?.Equals(item?.ProductId) ?? false);
             if (cartItem == null)
             {
                 cart.Add(item);
@@ -39,22 +39,33 @@ namespace ComputerShop.Client.Services
             }
             await localStorageService.SetItemAsync(Key, cart);
             OnUpdate?.Invoke();
+            return new SimpleServiceResponse { Success = true };
         }
 
-        public async Task RemoveItemFromCartAsync(string productId)
+        public async Task<SimpleServiceResponse> RemoveItemFromCartAsync(string productId)
         {
+            if(string.IsNullOrWhiteSpace(productId))
+            {
+                return new SimpleServiceResponse { Message = "Nie udało się usunąć produktu z koszyka", Success = false };
+            }
             List<CartItem> cart = await OpenCartAsync();
             CartItem? toRemove = cart.FirstOrDefault(x => x.ProductId.Equals(productId));
             if (toRemove == null)
-                return;
+                return new SimpleServiceResponse { Message = "Nie udało się usunąć produktu z koszyka", Success = false };
             cart.Remove(toRemove);
             await localStorageService.SetItemAsync(Key, cart);
             OnUpdate?.Invoke();
+            return new SimpleServiceResponse { Success = true };
         }
 
         public async Task<(decimal, int)> GetCartInfoAsync()
         {
             List<CartItem> cart = await OpenCartAsync();
+            return GetCartInfoAsync(cart);
+        }
+
+        public (decimal, int) GetCartInfoAsync(List<CartItem> cart)
+        {
             return (cart.Sum(x => x.Price * x.Quantity), cart.Sum(x => x.Quantity));
         }
 
@@ -79,7 +90,26 @@ namespace ComputerShop.Client.Services
                     Product = p, 
                     Quantity = cart.FirstOrDefault(c => c.ProductId.Equals(p.Id))?.Quantity ?? 1 
                 }));
+            await UpdateProductPrice(products, cart);
             return items;
+        }
+
+        public async Task UpdateProductPrice(List<Product> products, List<CartItem>? cart = null)
+        {
+            if (cart == null)
+            {
+                cart = await OpenCartAsync();
+                if (cart == null)
+                    return;
+            }
+            decimal priceBeforeUpdate = GetCartInfoAsync(cart).Item1;
+            cart.ForEach(c => c.Price = products.FirstOrDefault(p => p.Id?.Equals(c.ProductId) ?? false)?.Price ?? c.Price);
+            decimal priceAfterUpdate = GetCartInfoAsync(cart).Item1;
+            if(priceBeforeUpdate != priceAfterUpdate)
+            {
+                await localStorageService.SetItemAsync(Key, cart);
+                OnUpdate?.Invoke();
+            }
         }
 
         public async Task UpdateCartItemQuantityAsync(int quantity, string productId)
