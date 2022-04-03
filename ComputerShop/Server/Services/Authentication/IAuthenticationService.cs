@@ -1,9 +1,9 @@
 ﻿using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
 
-namespace ComputerShop.Client.Services
+namespace ComputerShop.Server.Services.Authentication
 {
-    public interface IUserService
+    public interface IAuthenticationService
     {
         Task<List<User>> GetAllUsers();
         Task<ServiceResponse<string>> Register(Register register);

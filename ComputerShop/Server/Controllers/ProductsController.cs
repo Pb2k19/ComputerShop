@@ -1,4 +1,4 @@
-﻿using ComputerShop.Server.Services;
+﻿using ComputerShop.Server.Services.Products;
 using ComputerShop.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 

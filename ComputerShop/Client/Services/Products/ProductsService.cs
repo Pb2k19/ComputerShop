@@ -1,7 +1,7 @@
 ﻿using ComputerShop.Shared.Models;
 using System.Net.Http.Json;
 
-namespace ComputerShop.Client.Services
+namespace ComputerShop.Client.Services.Products
 {
     public class ProductsService : IProductsService
     {

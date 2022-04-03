@@ -1,6 +1,6 @@
 ﻿using ComputerShop.Shared.Models;
 
-namespace ComputerShop.Client.Services
+namespace ComputerShop.Client.Services.Categories
 {
     public interface ICategoryService
     {

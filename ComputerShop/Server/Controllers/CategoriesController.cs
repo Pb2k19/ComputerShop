@@ -1,6 +1,5 @@
-﻿using ComputerShop.Server.Services;
+﻿using ComputerShop.Server.Services.Categories;
 using ComputerShop.Shared.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComputerShop.Server.Controllers

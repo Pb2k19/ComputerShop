@@ -1,5 +1,5 @@
 ﻿@page "/registration"
-@inject IUserService UserService
+@inject IAuthenticationService AuthenticationService
 @inject IToastService ToastService
 
 <PageTitle>Rejestracja</PageTitle>
@@ -36,8 +36,8 @@
 
     protected async Task OnRegistration()
     {
-        var x = await UserService.Register(register);
-        if (x.Success)
+        var x = await AuthenticationService.Register(register);
+        if (x?.Success ?? false)
             ToastService.ShowSuccess("Konto zostało stworzone", "Udało się!");
         else
             ToastService.ShowError(x.Message, "Błąd");

@@ -1,5 +1,7 @@
-using ComputerShop.Server.Services;
-using Microsoft.AspNetCore.ResponseCompression;
+using ComputerShop.Server.Services.Authentication;
+using ComputerShop.Server.Services.Categories;
+using ComputerShop.Server.Services.Products;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,8 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<IProductsService, ProductsService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
+builder.Services.AddScoped<IProductsService, ProductsService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

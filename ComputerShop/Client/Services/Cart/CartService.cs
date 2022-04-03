@@ -1,7 +1,8 @@
-﻿using ComputerShop.Shared.Models;
-using Blazored.LocalStorage;
+﻿using Blazored.LocalStorage;
+using ComputerShop.Shared.Models;
+using ComputerShop.Client.Services.Products;
 
-namespace ComputerShop.Client.Services
+namespace ComputerShop.Client.Services.Cart
 {
     public class CartService : ICartService
     {

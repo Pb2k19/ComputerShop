@@ -1,6 +1,6 @@
 ﻿using ComputerShop.Shared.Models;
 
-namespace ComputerShop.Client.Services
+namespace ComputerShop.Client.Services.Cart
 {
     public interface ICartService
     {

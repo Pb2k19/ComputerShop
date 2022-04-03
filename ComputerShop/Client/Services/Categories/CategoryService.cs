@@ -2,7 +2,7 @@
 using System.Net.Http.Json;
 using System.Net;
 
-namespace ComputerShop.Client.Services
+namespace ComputerShop.Client.Services.Categories
 {
     public class CategoryService : ICategoryService
     {

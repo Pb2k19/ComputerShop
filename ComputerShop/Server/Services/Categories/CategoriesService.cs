@@ -1,7 +1,7 @@
 ﻿using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.Products;
 
-namespace ComputerShop.Server.Services
+namespace ComputerShop.Server.Services.Categories
 {
     public class CategoriesService : ICategoriesService
     {

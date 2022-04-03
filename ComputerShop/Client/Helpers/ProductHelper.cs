@@ -1,6 +1,7 @@
-﻿using ComputerShop.Client.Services;
+﻿using ComputerShop.Shared.Models.Products;
+using ComputerShop.Client.Services.Products;
 using ComputerShop.Shared.Models.Interfaces;
-using ComputerShop.Shared.Models.Products;
+
 
 namespace ComputerShop.Client.Helpers
 {

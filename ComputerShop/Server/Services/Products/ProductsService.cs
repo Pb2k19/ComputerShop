@@ -2,7 +2,7 @@
 using ComputerShop.Shared.Models.Components;
 using ComputerShop.Shared.Models.Products;
 
-namespace ComputerShop.Server.Services
+namespace ComputerShop.Server.Services.Products
 {
     public class ProductsService : IProductsService
     {
