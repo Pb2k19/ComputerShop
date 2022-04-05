@@ -1,12 +1,32 @@
 ﻿using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
+using Microsoft.IdentityModel.Tokens;
 using System.Text.RegularExpressions;
+using System.Security.Claims;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 
 namespace ComputerShop.Server.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
+        IConfiguration configuration;
         List<User> users = new();
+
+        public AuthenticationService(IConfiguration configuration)
+        {
+            users = new()
+            {
+                new User
+                {
+                    Id = "1",
+                    Email = "user@example.com",
+                    Password = "$2a$15$XYGv6r8KSy3eyUY.Is1yWuSYUGZ6kBH2o9nXfmkoMmw4W8dCcAUv6"
+                }
+            }; //1234@#aAbcd
+            this.configuration = configuration;
+        }
 
         public async Task<List<User>> GetAllUsers()
         {
@@ -18,9 +38,45 @@ namespace ComputerShop.Server.Services.Authentication
             email = email.ToLower();
             return users.Any(x => x.Email.ToLower().Equals(email));
         }
+        public async Task<User?> GetUser(string email)
+        {
+            var user = await GetAllUsers();
+            email = email.ToLower();
+            return user.FirstOrDefault(u => u.Email.ToLower().Equals(email));
+        }
+        public async Task<ServiceResponse<string>> Login(Login login)
+        {
+            if(login == null || string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
+            {
+                return new ServiceResponse<string> { Message = "Podane wartości nie mogą być puste", Success = false };
+            }
+            User? user = await GetUser(login.Email);
+            if(user == null)
+            {
+                return new ServiceResponse<string> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
+            }
+            if(await VerifyHash(login.Password, user.Password))
+            {
+                string token = await Task.Run(() => CreateToken(user));
+                if(string.IsNullOrWhiteSpace(token))
+                {
+                    return new ServiceResponse<string> { Message = "Coś poszło nie tak", Success = false };
+                }
+                return new ServiceResponse<string> { Data = token };
+            }
+            else
+            {
+                return new ServiceResponse<string> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
+            }
+        }
         public async Task<ServiceResponse<string>> Register(Register register)
         {
-            if(!PasswordPolicyCheck(register))
+            if (register == null || string.IsNullOrWhiteSpace(register.Email) || string.IsNullOrWhiteSpace(register.Password) 
+                || string.IsNullOrWhiteSpace(register.ConfPassword))
+            {
+                return new ServiceResponse<string> { Message = "Podane wartości nie mogą być puste", Success = false };
+            }
+            if (!PasswordPolicyCheck(register))
             {
                 return new ServiceResponse<string>
                 {
@@ -55,14 +111,48 @@ namespace ComputerShop.Server.Services.Authentication
         protected async Task<string> CreateHash(string password)
         {
             string hash = string.Empty;
-            await Task.Run(() => hash = BCrypt.Net.BCrypt.EnhancedHashPassword(password, 12, BCrypt.Net.HashType.SHA512));
+            await Task.Run(() => hash = BCrypt.Net.BCrypt.EnhancedHashPassword(password, 15, BCrypt.Net.HashType.SHA512));
             return hash;
+        }
+        protected async Task<bool> VerifyHash(string password, string passwordFromDb)
+        {
+            bool result = false;
+            await Task.Run(() => result = BCrypt.Net.BCrypt.EnhancedVerify(password, passwordFromDb, BCrypt.Net.HashType.SHA512));
+            return result;
+        }
+        protected string CreateToken(User user)
+        {
+            string confKey = configuration.GetSection("Settings:Token").Value;
+            if(confKey == null || confKey.Length != 32)
+            {
+                return string.Empty;
+            }            
+
+            List<Claim> claims = new()
+            {                
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+            };
+
+            var eccPem = configuration["Settings:TokenPrivateEC"];
+
+            var key = ECDsa.Create();
+            key.ImportECPrivateKey(Convert.FromBase64String(eccPem), out _);
+
+            SigningCredentials credentials = new(new ECDsaSecurityKey(key), SecurityAlgorithms.EcdsaSha256Signature);
+
+            var token = new JwtSecurityToken(expires: DateTime.UtcNow.AddHours(36), claims: claims, signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
         public virtual bool PasswordPolicyCheck(Register register)
         {
             if(register == null || string.IsNullOrWhiteSpace(register.Password) || 
-               !register.ConfPassword.Equals(register.Password) || register.Password.ToLower().Contains(register.Email.ToLower()))
+               !register.ConfPassword.Equals(register.Password) || 
+               register.Password.ToLower().Contains(register.Email.ToLower()))
+            {
                 return false;
+            }
             Regex regex = new(@"(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,30}");
             return regex.IsMatch(register.Password);
         }

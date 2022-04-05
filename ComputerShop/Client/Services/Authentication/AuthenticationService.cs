@@ -14,8 +14,12 @@ namespace ComputerShop.Client.Services.Authentication
         public async Task<ServiceResponse<string>?> Register(Register register)
         {
             using var response = await httpClient.PostAsJsonAsync("register", register);
-            var result = await response.Content.ReadFromJsonAsync<ServiceResponse<string>>();
-            return result;
+            return await response.Content.ReadFromJsonAsync<ServiceResponse<string>>();
+        }
+        public async Task<ServiceResponse<string>?> Login(Login login)
+        {
+            using var response = await httpClient.PostAsJsonAsync("login", login);
+            return await response.Content.ReadFromJsonAsync<ServiceResponse<string>>();
         }
     }
 }

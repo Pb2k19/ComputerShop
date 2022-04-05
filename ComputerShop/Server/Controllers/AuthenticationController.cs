@@ -16,11 +16,16 @@ namespace ComputerShop.Server.Controllers
             this.authentication = authentication;
         }
 
+        [HttpPost("/login")]
+        public async Task<ActionResult<ServiceResponse<string>>> Login(Login login)
+        {
+            return await authentication.Login(login);
+        }
+
         [HttpPost("/register")]
         public async Task<ActionResult<ServiceResponse<string>>> Register(Register register)
         {
             return await authentication.Register(register);
         }
-
     }
 }

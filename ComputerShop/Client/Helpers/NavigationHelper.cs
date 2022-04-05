@@ -23,5 +23,13 @@ namespace ComputerShop.Client.Helpers
         {
             navigationManager.NavigateTo($"cart");
         }
+        public static void GoToLoginPage(this NavigationManager navigationManager)
+        {
+            navigationManager.NavigateTo($"login");
+        }
+        public static void GoToRegisterPage(this NavigationManager navigationManager)
+        {
+            navigationManager.NavigateTo($"registration");
+        }
     }
 }
