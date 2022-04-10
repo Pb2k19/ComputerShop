@@ -9,7 +9,7 @@
     }
 </a>
 
-@code {
+@code{
     [CascadingParameter(Name = "Dropdown")]
     public DropdownMenu<TItem>? Dropdown { get; set; }
 
@@ -18,7 +18,7 @@
 
     protected void OnClick()
     {
-        if(Item != null && ChildContent != null)
+        if (Item != null && ChildContent != null)
             Dropdown?.HandleSelect(Item, ChildContent);
     }
 }

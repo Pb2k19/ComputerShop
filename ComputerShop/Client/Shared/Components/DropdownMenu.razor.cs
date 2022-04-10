@@ -6,9 +6,13 @@ namespace ComputerShop.Client.Shared.Components
     {
         [Parameter] public RenderFragment? InitTitle { get; set; }
         [Parameter] public EventCallback<int> OnSelected { get; set; }
+        [Parameter] public EventCallback OnTitleClick { get; set; }
         [Parameter] public List<TItem>? Items { get; set; }
         [Parameter] public bool ChangeTitleToSelectedValue { get; set; } = true;
         [Parameter] public string ButtonClassCss { get; set; } = "btn-primary";
+        [Parameter] public string? Icon { get; set; } = null;
+        [Parameter] public string MenuMarginLeft { get; set; } = string.Empty;
+        [Parameter] public bool OnMouseOverEnabled { get; set; } = true;
         public bool IsMenuShown { get; set; } = false;
         public RenderFragment? Title { get; set; }
 
@@ -32,9 +36,17 @@ namespace ComputerShop.Client.Shared.Components
             base.OnInitialized();
         }
 
-        public void ChangeIsMenuShown()
+        public async Task ChangeIsMenuShown()
         {
-            IsMenuShown = !IsMenuShown;
+            IsMenuShown = !IsMenuShown;            
+            await OnTitleClick.InvokeAsync();
+            StateHasChanged();
+        }
+
+        public void ChangeIsMenuShown(bool isShown)
+        {
+            if(OnMouseOverEnabled)
+                IsMenuShown = isShown;
         }
 
         public void OnFocusOut()

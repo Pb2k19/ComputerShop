@@ -1,4 +1,5 @@
 ﻿@page "/login"
+@inject AuthenticationStateProvider StateProvider
 @inject IAuthenticationService AuthenticationService
 @inject ILocalStorageService LocalStorageServie
 @inject NavigationManager NavigationManager
@@ -7,7 +8,7 @@
 <PageTitle>Logowanie</PageTitle>
 
 <div class="container" style="max-width: 750px">
-    <h2 class="text-center">Stwórz nowe konto</h2>
+    <h2 class="text-center">Zaloguj się</h2>
     <EditForm Model="login" OnValidSubmit="OnLogIn">
         <DataAnnotationsValidator />
         <div class="mb-3">
@@ -20,11 +21,14 @@
             <InputText id="password" class="form-control shadow-none" type="password" @bind-Value="login.Password" />
             <ValidationMessage For="@(()=>login.Password)" />
         </div>
-        <div class="text-center">
+        <div class="text-center text-primary">
             <span class="cursorHand" @onclick="GoToRegister">Nie posiadasz konta?</span>
         </div>
         <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary shadow-none">Zaloguj</button>
+            <button type="submit" class="btn btn-primary shadow-none  @(isLoggingIn ? "disabled":"")">
+                <span class="spinner-border spinner-border-sm  @(isLoggingIn ? "":"visually-hidden")" role="status" aria-hidden="true"></span>
+                @buttonText
+            </button>
         </div>
     </EditForm>
 </div>
@@ -33,19 +37,41 @@
 
 
 @code {
-    Login login = new();
+    private Login login = new();
+    private string buttonText = "Zaloguj się";
+    private bool isLoggingIn = false;
+    private string returnPage = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        Uri uri = NavigationManager.ToAbsoluteUri(this.NavigationManager.Uri);
+        if (Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query).TryGetValue("return-page", out var url))
+        {
+            returnPage = url;
+        }
+        base.OnInitialized();
+    }
 
     protected async Task OnLogIn()
     {
+        if (isLoggingIn)
+            return;
+        buttonText = "Logowanie";
+        isLoggingIn = true;
+        await Task.Delay(1);
         var response = await AuthenticationService.Login(login);
         if (response != null && response.Success && !string.IsNullOrWhiteSpace(response.Data))
         {
+            await LocalStorageServie.SetItemAsStringAsync("jwt", response.Data);
+            await StateProvider.GetAuthenticationStateAsync();
             ToastService.ShowSuccess(string.Empty, "Pomyślnie zalogowano");
-            await LocalStorageServie.SetItemAsStringAsync("authenticationtoken", response.Data);
-            NavigationManager.NavigateTo("");
+            NavigationManager.NavigateTo(returnPage);
         }
         else
             ToastService.ShowError(response?.Message, "Błąd");
+        buttonText = "Zaloguj się";
+        isLoggingIn = false;
+        await Task.Delay(1);
     }
 
     protected void GoToRegister()

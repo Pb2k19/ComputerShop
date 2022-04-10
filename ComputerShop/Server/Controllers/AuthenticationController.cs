@@ -19,7 +19,13 @@ namespace ComputerShop.Server.Controllers
         [HttpPost("/login")]
         public async Task<ActionResult<ServiceResponse<string>>> Login(Login login)
         {
-            return await authentication.Login(login);
+            var response = await authentication.Login(login);
+            if(response.Success)
+            {
+                string cookie = "__Secure-Fgp=" + response.Data.Item2 + "; SameSite=Strict; HttpOnly; Secure";
+                HttpContext.Response.Headers.Add("Set-Cookie", cookie);                
+            }
+            return new ServiceResponse<string>{Data=response.Data.Item1, Message = response.Message, Success = response.Success};
         }
 
         [HttpPost("/register")]

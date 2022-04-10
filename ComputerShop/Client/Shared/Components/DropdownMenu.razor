@@ -13,20 +13,33 @@
         }
 </style>
 
-<div class="dropdown cursorHand" @onfocusout="OnFocusOut">
-    <button class="btn dropdown-toggle shadow-none @ButtonClassCss"
-            data-toggle="dropdown"
-            type="button" @onmousedown="ChangeIsMenuShown"
-            aria-haspopup="true" aria-expanded="false">
-        @Title
-    </button>
+<div class="dropdown cursorHand" @onfocusout="OnFocusOut" @onmouseover="()=>ChangeIsMenuShown(true)" @onmouseout="()=>ChangeIsMenuShown(false)">
+    <div class="d-flex align-items-center">
+        @if (!string.IsNullOrWhiteSpace(Icon))
+        {
+            <span class="@Icon"></span>
+        }
+        <button class="btn dropdown-toggle shadow-none @ButtonClassCss"
+                data-toggle="dropdown"
+                type="button" @onmousedown="ChangeIsMenuShown"
+                aria-haspopup="true" aria-expanded="false">
+            @Title
+        </button>
+    </div>
     <CascadingValue name="Dropdown" Value="@this">
-        <div class="dropdown-menu @(IsMenuShown? "show shadow":"")">
+        <div class="dropdown-menu dropdown-menu-end @(IsMenuShown? "show shadow":string.Empty)" style="margin-left: @MenuMarginLeft">
             @if (Items != null)
              {
                 @foreach (var item in Items)
-                 {
-                    <DropdownItem TItem="TItem" Item="item">@item</DropdownItem>
+                {
+                    if(item != null)
+                    {
+                        <DropdownItem TItem="TItem" Item="item">@item</DropdownItem>
+                    }                        
+                    else
+                    {
+                        <div class="dropdown-divider"></div>
+                    }
                  }
              }
         </div>

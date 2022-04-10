@@ -1,0 +1,10 @@
+﻿@page "/account"
+@attribute [Authorize]
+
+<AuthorizeView>
+    <h1>Hi @context?.User?.Identity?.Name</h1>
+</AuthorizeView>
+
+@code {
+    
+}
