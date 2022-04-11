@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
+using ComputerShop.Server.Models;
 
 namespace ComputerShop.Server.Services.Authentication
 {
@@ -44,29 +45,33 @@ namespace ComputerShop.Server.Services.Authentication
             email = email.ToLower();
             return user.FirstOrDefault(u => u.Email.ToLower().Equals(email));
         }
-        public async Task<ServiceResponse<(string, string)>> Login(Login login)
+        public async Task<ServiceResponse<Token>> Login(Login login)
         {
             if(login == null || string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
             {
-                return new ServiceResponse<(string, string)> { Message = "Podane wartości nie mogą być puste", Success = false };
+                return new ServiceResponse<Token> { Message = "Podane wartości nie mogą być puste", Success = false };
             }
             User? user = await GetUser(login.Email);
             if(user == null)
             {
-                return new ServiceResponse<(string, string)> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
+                return new ServiceResponse<Token> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
             }
             if(await VerifyHash(login.Password, user.Password))
             {
-                var token = await Task.Run(() => CreateToken(user));
-                if(string.IsNullOrWhiteSpace(token.Item1) || string.IsNullOrWhiteSpace(token.Item2))
+                Token token;
+                try
                 {
-                    return new ServiceResponse<(string, string)> { Message = "Coś poszło nie tak", Success = false };
+                    token = CreateToken(user);
                 }
-                return new ServiceResponse<(string, string)> { Data = token };
+                catch
+                {
+                    return new ServiceResponse<Token> { Message = "Coś poszło nie tak - nie możemy Cię zalogować", Success = false };
+                }
+                return new ServiceResponse<Token> { Data = token };
             }
             else
             {
-                return new ServiceResponse<(string, string)> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
+                return new ServiceResponse<Token> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
             }
         }
         public async Task<ServiceResponse<string>> Register(Register register)
@@ -120,25 +125,22 @@ namespace ComputerShop.Server.Services.Authentication
             await Task.Run(() => result = BCrypt.Net.BCrypt.EnhancedVerify(password, passwordFromDb, BCrypt.Net.HashType.SHA512));
             return result;
         }
-        protected (string, string) CreateToken(User user)
+        protected Token CreateToken(User user)
         {
+            Token token = new();
             string confKey = configuration.GetSection("Settings:Token").Value;
             if(confKey == null || confKey.Length != 32)
             {
-                return (string.Empty, string.Empty);
+                return token;
             }
 
-            byte[] randomFingerPrint = new byte[64];
-            numberGenerator.GetNonZeroBytes(randomFingerPrint);
-            using SHA256 sha256 = SHA256.Create();
-            byte[] fingerPringSha = sha256.ComputeHash(randomFingerPrint);
-            string fingerPrintShaBase64 = Base64UrlEncoder.Encode(randomFingerPrint);
+            Fingerprint fingerprint = CreateFingerprint();
 
             List<Claim> claims = new()
             {                
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim("userFingerprint", fingerPrintShaBase64)
+                new Claim("userFingerprint", fingerprint.FingerprintHash)
             };
 
             var eccPem = configuration["Settings:TokenPrivateEC"];
@@ -148,12 +150,33 @@ namespace ComputerShop.Server.Services.Authentication
 
             SigningCredentials credentials = new(new ECDsaSecurityKey(key), SecurityAlgorithms.EcdsaSha256Signature);
 
-            var token = new JwtSecurityToken(
+            var jwtSecurityToken = new JwtSecurityToken(
                 expires: DateTime.UtcNow.AddHours(24), 
                 claims: claims, 
                 signingCredentials: credentials);
 
-            return (new JwtSecurityTokenHandler().WriteToken(token), Base64UrlEncoder.Encode(randomFingerPrint));
+            token.SecureFgpBase64 = fingerprint.FingerprintBase64;
+            token.TokenValue = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+
+            if (!token.QuickTokenCheck())
+                throw new CryptographicException("Token failed");
+
+            return token;
+        }
+        protected Fingerprint CreateFingerprint()
+        {
+            System.Diagnostics.Stopwatch s1 = new();
+            s1.Start();
+            Fingerprint fp = new();
+            byte[] fingerprintBytes = new byte[50];
+            numberGenerator.GetNonZeroBytes(fingerprintBytes);
+            fp.FingerprintBase64 = Base64UrlEncoder.Encode(fingerprintBytes);
+            fp.FingerprintHash = BCrypt.Net.BCrypt.HashPassword(fp.FingerprintBase64, 10);
+
+            if (!fp.QuickFingerprintCheck())
+                throw new CryptographicException("Fingerprint failed");
+
+            return fp;
         }
         public virtual bool PasswordPolicyCheck(Register register)
         {

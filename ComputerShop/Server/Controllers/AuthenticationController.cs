@@ -1,8 +1,8 @@
 ﻿using ComputerShop.Server.Services.Authentication;
 using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace ComputerShop.Server.Controllers
 {
@@ -22,10 +22,11 @@ namespace ComputerShop.Server.Controllers
             var response = await authentication.Login(login);
             if(response.Success)
             {
-                string cookie = "__Secure-Fgp=" + response.Data.Item2 + "; SameSite=Strict; HttpOnly; Secure";
+                string time = DateTime.Now.AddHours(24).ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.GetCultureInfo("en-US"));
+                string cookie = $"__Secure-Fgp={response.Data.SecureFgpBase64}; SameSite=Strict; HttpOnly; Secure; Expires={time};";
                 HttpContext.Response.Headers.Add("Set-Cookie", cookie);                
             }
-            return new ServiceResponse<string>{Data=response.Data.Item1, Message = response.Message, Success = response.Success};
+            return new ServiceResponse<string>{Data=response.Data?.TokenValue ?? string.Empty, Message = response.Message, Success = response.Success};
         }
 
         [HttpPost("/register")]
