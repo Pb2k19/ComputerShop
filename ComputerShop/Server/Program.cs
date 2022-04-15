@@ -1,7 +1,10 @@
 using ComputerShop.Server.Services.Authentication;
 using ComputerShop.Server.Services.Categories;
 using ComputerShop.Server.Services.Products;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +18,20 @@ builder.Services.AddScoped<IProductsService, ProductsService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var eccPem = builder.Configuration["Settings:TokenPrivateEC"];
+using var key = ECDsa.Create();
+key.ImportECPrivateKey(Convert.FromBase64String(eccPem), out _);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(bearerOptions =>
+{
+    bearerOptions.TokenValidationParameters = new()
+    {
+        IssuerSigningKey = new ECDsaSecurityKey(key),
+        ValidateAudience = false,
+        ValidateIssuerSigningKey = true,
+        ValidateIssuer = false,
+    };
+});
 
 var app = builder.Build();
 
@@ -39,7 +56,8 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();

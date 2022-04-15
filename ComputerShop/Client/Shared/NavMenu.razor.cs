@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using Blazored.Toast.Services;
 using ComputerShop.Shared.Models;
+using ComputerShop.Client.Helpers;
 using Microsoft.AspNetCore.Components;
 using ComputerShop.Client.Services.Cart;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -97,11 +98,7 @@ namespace ComputerShop.Client.Shared
         }
         protected void GoToLogin()
         {
-            string? url = NavigationManager?.ToBaseRelativePath(NavigationManager.Uri);
-            if(string.IsNullOrWhiteSpace(url))
-                NavigationManager?.NavigateTo($"login");
-            else
-                NavigationManager?.NavigateTo($"login?return-page={url}");
+            NavigationManager?.GoToLoginPage();
         }
         protected void OnPartsClicked(int id)
         {
@@ -122,12 +119,7 @@ namespace ComputerShop.Client.Shared
             {
                 if(path.Equals("logout"))
                 {
-                    if (LocalStorageService == null || StateProvider == null)
-                        throw new Exception();
-                    await LocalStorageService.RemoveItemAsync("jwt");
-                    await StateProvider.GetAuthenticationStateAsync();
-                    ToastService?.ShowInfo(string.Empty, "Wylogowano");
-                    NavigationManager?.NavigateTo("");
+                    await UserHelper.LogOut(LocalStorageService, StateProvider, ToastService, NavigationManager, title: "Wylogowano");
                 }
                 else
                 {

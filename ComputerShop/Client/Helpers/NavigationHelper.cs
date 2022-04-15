@@ -23,9 +23,13 @@ namespace ComputerShop.Client.Helpers
         {
             navigationManager.NavigateTo($"cart");
         }
-        public static void GoToLoginPage(this NavigationManager navigationManager)
+        public static void GoToLoginPage(this NavigationManager navigationManager, bool returnToPage = true)
         {
-            navigationManager.NavigateTo($"login");
+            string? url = navigationManager?.ToBaseRelativePath(navigationManager.Uri);
+            if (!returnToPage || string.IsNullOrWhiteSpace(url))
+                navigationManager?.NavigateTo($"login");
+            else
+                navigationManager?.NavigateTo($"login?return-page={url}");
         }
         public static void GoToRegisterPage(this NavigationManager navigationManager)
         {

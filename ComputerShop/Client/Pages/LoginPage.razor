@@ -26,8 +26,8 @@
         </div>
         <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-primary shadow-none  @(isLoggingIn ? "disabled":"")">
-                <span class="spinner-border spinner-border-sm  @(isLoggingIn ? "":"visually-hidden")" role="status" aria-hidden="true"></span>
                 @buttonText
+                <span class="spinner-border spinner-border-sm  @(isLoggingIn ? "":"visually-hidden")" role="status" aria-hidden="true"></span>
             </button>
         </div>
     </EditForm>
@@ -38,7 +38,7 @@
 
 @code {
     private Login login = new();
-    private string buttonText = "Zaloguj się";
+    private string buttonText = "Zaloguj";
     private bool isLoggingIn = false;
     private string returnPage = string.Empty;
 

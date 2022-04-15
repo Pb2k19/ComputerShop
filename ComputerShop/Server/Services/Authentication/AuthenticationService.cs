@@ -6,14 +6,16 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using ComputerShop.Server.Models;
+using ComputerShop.Server.Helpers;
+using System.Security.Principal;
 
 namespace ComputerShop.Server.Services.Authentication
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private IConfiguration configuration;
+        private AuthenticationHelper authentication = new();
+        private readonly IConfiguration configuration;
         private List<User> users = new();
-        private RandomNumberGenerator numberGenerator = RandomNumberGenerator.Create();
 
         public AuthenticationService(IConfiguration configuration)
         {
@@ -41,10 +43,16 @@ namespace ComputerShop.Server.Services.Authentication
         }
         public async Task<User?> GetUser(string email)
         {
-            var user = await GetAllUsers();
+            var users = await GetAllUsers();
             email = email.ToLower();
-            return user.FirstOrDefault(u => u.Email.ToLower().Equals(email));
+            return users.FirstOrDefault(u => u.Email.ToLower().Equals(email));
         }
+        public async Task<User?> GetUserById(string id)
+        {
+            var users = await GetAllUsers();
+            return users.FirstOrDefault(u => u.Id.ToLower().Equals(id));
+        }
+
         public async Task<ServiceResponse<Token>> Login(Login login)
         {
             if(login == null || string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
@@ -56,12 +64,12 @@ namespace ComputerShop.Server.Services.Authentication
             {
                 return new ServiceResponse<Token> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
             }
-            if(await VerifyHash(login.Password, user.Password))
+            if(await authentication.VerifyHash(login.Password, user.Password))
             {
                 Token token;
                 try
                 {
-                    token = CreateToken(user);
+                    token = authentication.CreateToken(configuration, user);
                 }
                 catch
                 {
@@ -74,24 +82,16 @@ namespace ComputerShop.Server.Services.Authentication
                 return new ServiceResponse<Token> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
             }
         }
-        public async Task<ServiceResponse<string>> Register(Register register)
+        public async Task<SimpleServiceResponse> Register(Register register)
         {
-            if (register == null || string.IsNullOrWhiteSpace(register.Email) || string.IsNullOrWhiteSpace(register.Password) 
-                || string.IsNullOrWhiteSpace(register.ConfPassword))
+            SimpleServiceResponse response = authentication.PasswordPolicyCheck(register);
+            if (!response.Success)
             {
-                return new ServiceResponse<string> { Message = "Podane wartości nie mogą być puste", Success = false };
-            }
-            if (!PasswordPolicyCheck(register))
-            {
-                return new ServiceResponse<string>
-                {
-                    Success = false,
-                    Message = "Podane hasło nie spełnia wymagań"
-                };
+                return response;
             }
             if (await UserExists(register.Email))
             {
-                return new ServiceResponse<string>
+                return new SimpleServiceResponse
                 {
                     Success = false,
                     Message = "Podany adres już istnieje w serwisie"
@@ -101,93 +101,49 @@ namespace ComputerShop.Server.Services.Authentication
             {
                 Email = register.Email,
             };
-            user.Password = await CreateHash(register.Password);
-            if(string.IsNullOrEmpty(user.Password) || user.Password.Length < 12)
+            user.Password = await authentication.CreateHash(register.Password);
+            if(!authentication.QuickHashCheck(user.Password))
             {
-                return new ServiceResponse<string>
+                return new SimpleServiceResponse
                 {
                     Success = false,
                     Message = "Coś poszło nie tak"
                 };
             }
             users.Add(user);
-            return new ServiceResponse<string> { Data = user.Id };
+            return new SimpleServiceResponse();
         }
-        protected async Task<string> CreateHash(string password)
+        public async Task<SimpleServiceResponse> ChangePassword(string userId, ChangePassword changePassword)
         {
-            string hash = string.Empty;
-            await Task.Run(() => hash = BCrypt.Net.BCrypt.EnhancedHashPassword(password, 15, BCrypt.Net.HashType.SHA512));
-            return hash;
+            SimpleServiceResponse response = authentication.PasswordPolicyCheck(changePassword);
+            if (!response.Success)
+                return response;
+            User? user = await GetUserById(userId);
+            if (user == null)
+                return new ServiceResponse<Token> { Message = "Coś poszło nie tak - nie można zmienić hasła", Success = false };
+            List<Task> tasks = new();
+            string newHash = string.Empty;
+            bool verify = false;
+            tasks.Add(Task.Run(async () => { verify = await authentication.VerifyHash(changePassword.CurrentPassword, user.Password); }));
+            tasks.Add(Task.Run(async () => { newHash = await authentication.CreateHash(changePassword.Password); }));
+            await Task.WhenAll(tasks);
+            if(!verify)
+                return new SimpleServiceResponse { Message = "Aktualne hasło jest nieprawidłowe", Success = false };
+            if(!authentication.QuickHashCheck(newHash))
+                return new ServiceResponse<Token> { Message = "Coś poszło nie tak - nie można zmienić hasła", Success = false };
+            user.Password = newHash; //tmp zapis do bazy
+            return new SimpleServiceResponse { Message = "Hasło zostało zmienione", Success = true};
         }
-        protected async Task<bool> VerifyHash(string password, string passwordFromDb)
+        public bool ValidateJWT(HttpRequest request, IIdentity? identity)
         {
-            bool result = false;
-            await Task.Run(() => result = BCrypt.Net.BCrypt.EnhancedVerify(password, passwordFromDb, BCrypt.Net.HashType.SHA512));
-            return result;
-        }
-        protected Token CreateToken(User user)
-        {
-            Token token = new();
-            string confKey = configuration.GetSection("Settings:Token").Value;
-            if(confKey == null || confKey.Length != 32)
-            {
-                return token;
-            }
-
-            Fingerprint fingerprint = CreateFingerprint();
-
-            List<Claim> claims = new()
-            {                
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim("userFingerprint", fingerprint.FingerprintHash)
-            };
-
-            var eccPem = configuration["Settings:TokenPrivateEC"];
-
-            var key = ECDsa.Create();
-            key.ImportECPrivateKey(Convert.FromBase64String(eccPem), out _);
-
-            SigningCredentials credentials = new(new ECDsaSecurityKey(key), SecurityAlgorithms.EcdsaSha256Signature);
-
-            var jwtSecurityToken = new JwtSecurityToken(
-                expires: DateTime.UtcNow.AddHours(24), 
-                claims: claims, 
-                signingCredentials: credentials);
-
-            token.SecureFgpBase64 = fingerprint.FingerprintBase64;
-            token.TokenValue = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-
-            if (!token.QuickTokenCheck())
-                throw new CryptographicException("Token failed");
-
-            return token;
-        }
-        protected Fingerprint CreateFingerprint()
-        {
-            System.Diagnostics.Stopwatch s1 = new();
-            s1.Start();
-            Fingerprint fp = new();
-            byte[] fingerprintBytes = new byte[50];
-            numberGenerator.GetNonZeroBytes(fingerprintBytes);
-            fp.FingerprintBase64 = Base64UrlEncoder.Encode(fingerprintBytes);
-            fp.FingerprintHash = BCrypt.Net.BCrypt.HashPassword(fp.FingerprintBase64, 10);
-
-            if (!fp.QuickFingerprintCheck())
-                throw new CryptographicException("Fingerprint failed");
-
-            return fp;
-        }
-        public virtual bool PasswordPolicyCheck(Register register)
-        {
-            if(register == null || string.IsNullOrWhiteSpace(register.Password) || 
-               !register.ConfPassword.Equals(register.Password) || 
-               register.Password.ToLower().Contains(register.Email.ToLower()))
-            {
+            if(identity == null)
                 return false;
+            if (request.Cookies.TryGetValue("__Secure-Fgp", out string? cookie))
+            {
+                string? jwtHash = identity?.GetFingerprint();
+                return authentication.ValidateFingerprint(cookie, jwtHash);
             }
-            Regex regex = new(@"(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,30}");
-            return regex.IsMatch(register.Password);
+            return false;
         }
     }
 }
