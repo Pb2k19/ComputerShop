@@ -3,12 +3,12 @@ using ComputerShop.Shared.Models.User;
 using System.Net;
 using System.Net.Http.Json;
 
-namespace ComputerShop.Client.Services.Authentication
+namespace ComputerShop.Client.Services.User
 {
-    public class AuthenticationService : IAuthenticationService
+    public class UserService : IUserService
     {
         private readonly HttpClient httpClient;
-        public AuthenticationService(HttpClient httpClient)
+        public UserService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }

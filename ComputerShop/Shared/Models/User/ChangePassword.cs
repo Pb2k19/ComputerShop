@@ -5,6 +5,8 @@ namespace ComputerShop.Shared.Models.User
     public class ChangePassword
     {
         [Required(ErrorMessage = "Aktualne hasło jest wymagane")]
+        [StringLength(maximumLength: 30, MinimumLength = 8)]
+        [DataType(DataType.Password)]
         public string CurrentPassword { get; set; }
 
         [Required(ErrorMessage = "Hasło jest wymagane")]

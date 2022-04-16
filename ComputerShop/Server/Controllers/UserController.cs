@@ -1,4 +1,4 @@
-﻿using ComputerShop.Server.Services.Authentication;
+﻿using ComputerShop.Server.Services.UserService;
 using ComputerShop.Server.Helpers;
 using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
@@ -11,10 +11,10 @@ namespace ComputerShop.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly IAuthenticationService authentication;
-        public AuthenticationController(IAuthenticationService authentication)
+        private readonly IUserService authentication;
+        public UserController(IUserService authentication)
         {
             this.authentication = authentication;
         }

@@ -1,23 +1,18 @@
 ﻿using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
-using Microsoft.IdentityModel.Tokens;
-using System.Text.RegularExpressions;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Cryptography;
 using ComputerShop.Server.Models;
 using ComputerShop.Server.Helpers;
 using System.Security.Principal;
 
-namespace ComputerShop.Server.Services.Authentication
+namespace ComputerShop.Server.Services.UserService
 {
-    public class AuthenticationService : IAuthenticationService
+    public class UserService : IUserService
     {
         private AuthenticationHelper authentication = new();
         private readonly IConfiguration configuration;
         private List<User> users = new();
 
-        public AuthenticationService(IConfiguration configuration)
+        public UserService(IConfiguration configuration)
         {
             users = new()
             {

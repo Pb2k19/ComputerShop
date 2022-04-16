@@ -1,6 +1,6 @@
 ﻿@page "/account"
 @attribute [Authorize]
-@inject IAuthenticationService AuthenticationService
+@inject IUserService AuthenticationService
 @inject ILocalStorageService LocalStorageService
 @inject IToastService ToastService
 @inject NavigationManager NavigationManager
@@ -14,7 +14,7 @@
         <DataAnnotationsValidator />
         <div class="mb-3">
             <h5 for="currentpassword">Aktualne hasło</h5>
-            <InputText id="currentpassword" class="form-control shadow-none" @bind-Value="changePassword.CurrentPassword" />
+            <InputText id="currentpassword" class="form-control shadow-none" type="password" @bind-Value="changePassword.CurrentPassword" />
             <ValidationMessage For="@(()=>changePassword.CurrentPassword)" />
         </div>
         <div class="mb-3">

@@ -1,4 +1,4 @@
-using ComputerShop.Server.Services.Authentication;
+using ComputerShop.Server.Services.UserService;
 using ComputerShop.Server.Services.Categories;
 using ComputerShop.Server.Services.Products;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddScoped<IProductsService, ProductsService>();
 

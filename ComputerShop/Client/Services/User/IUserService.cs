@@ -2,9 +2,9 @@
 using ComputerShop.Shared.Models.User;
 using System.Net;
 
-namespace ComputerShop.Client.Services.Authentication
+namespace ComputerShop.Client.Services.User
 {
-    public interface IAuthenticationService
+    public interface IUserService
     {
         Task<ServiceResponse<string>?> Login(Login login);
         Task<SimpleServiceResponse?> Register(Register register);

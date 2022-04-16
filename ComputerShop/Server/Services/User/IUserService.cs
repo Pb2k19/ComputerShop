@@ -3,9 +3,9 @@ using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
 using System.Security.Principal;
 
-namespace ComputerShop.Server.Services.Authentication
+namespace ComputerShop.Server.Services.UserService
 {
-    public interface IAuthenticationService
+    public interface IUserService
     {
         bool ValidateJWT(HttpRequest request, IIdentity? identity);
         Task<ServiceResponse<Token>> Login (Login login);

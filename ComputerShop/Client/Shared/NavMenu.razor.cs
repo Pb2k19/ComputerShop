@@ -43,7 +43,7 @@ namespace ComputerShop.Client.Shared
 
         DropdownNavigationItems AccountOptions = new(new List<DropdownNavigationItem>
         {
-            new DropdownNavigationItem { Name = "Szczegóły", Path = "account/details" },
+            new DropdownNavigationItem { Name = "Szczegóły", Path = "account" },
             new DropdownNavigationItem { Name = "Zamówienia", Path = "account/orders" },
             new DropdownNavigationItem { Name = "Lista życzeń", Path = "account/wishlist" },
 #pragma warning disable CS8625
