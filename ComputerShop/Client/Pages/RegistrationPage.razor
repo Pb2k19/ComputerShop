@@ -6,34 +6,36 @@
 <PageTitle>Rejestracja</PageTitle>
 
 <div class="container" style="max-width: 750px">
-    <h2 class="text-center">Stwórz nowe konto</h2>
-    <EditForm Model="register" OnValidSubmit="OnRegistration">
-        <DataAnnotationsValidator />
-        <div class="mb-3">
-            <h5 for="email">Email</h5>
-            <InputText id="email" class="form-control shadow-none" @bind-Value="register.Email" />
-            <ValidationMessage For="@(()=>register.Email)" />
-        </div>
-        <div class="mb-3">
-            <h5 for="password">Hasło</h5>
-            <InputText id="password" class="form-control shadow-none" type="password" @bind-Value="register.Password" />
-            <ValidationMessage For="@(()=>register.Password)" />
-        </div>
-        <div>
-            <h5 for="confpassword">Potwierdź hasło</h5>
-            <InputText id="confpassword" class="form-control shadow-none" type="password" @bind-Value="register.ConfPassword" />
-            <ValidationMessage For="@(()=>register.ConfPassword)" />
-        </div>
-        <div class="text-center">
-            <span class="cursorHand text-center" @onclick="GoToLogin">Posiadasz już konto?</span>
-        </div>
-        <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary shadow-none  @(isRegistering ? "disabled":"")">
-                @buttonText
-                <span class="spinner-border spinner-border-sm  @(isRegistering ? "":"visually-hidden")" role="status" aria-hidden="true"></span>
-            </button>
-        </div>
-    </EditForm>
+    <div class="rounded shadow p-5 border border-1">
+        <h2 class="text-center">Stwórz nowe konto</h2>
+        <EditForm Model="register" OnValidSubmit="OnRegistration">
+            <DataAnnotationsValidator />
+            <div class="mb-3">
+                <h5 for="email">Email</h5>
+                <InputText id="email" class="form-control shadow-none" @bind-Value="register.Email" />
+                <ValidationMessage For="@(()=>register.Email)" />
+            </div>
+            <div class="mb-3">
+                <h5 for="password">Hasło</h5>
+                <InputText id="password" class="form-control shadow-none" type="password" @bind-Value="register.Password" />
+                <ValidationMessage For="@(()=>register.Password)" />
+            </div>
+            <div>
+                <h5 for="confpassword">Potwierdź hasło</h5>
+                <InputText id="confpassword" class="form-control shadow-none" type="password" @bind-Value="register.ConfPassword" />
+                <ValidationMessage For="@(()=>register.ConfPassword)" />
+            </div>
+            <div class="text-center">
+                <span class="cursorHand text-center text-primary" @onclick="GoToLogin">Posiadasz już konto?</span>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary shadow-none  @(isRegistering ? "disabled":"")">
+                    @buttonText
+                    <span class="spinner-border spinner-border-sm  @(isRegistering ? "":"visually-hidden")" role="status" aria-hidden="true"></span>
+                </button>
+            </div>
+        </EditForm>
+    </div>
 </div>
 
 

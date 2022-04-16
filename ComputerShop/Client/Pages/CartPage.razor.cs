@@ -12,10 +12,12 @@ namespace ComputerShop.Client.Pages
         [Inject] IToastService? ToastService { get; set; }
         [Inject] NavigationManager? NavigationManager { get; set; }
         private List<ProductCartItem> productCartItems = new();
+        private decimal total = 0;
 
         protected override async Task OnInitializedAsync()
         {
             productCartItems = await CartService.GetCartProductsAsync();
+            UpdatePrice();
             CartService.OnUpdate += CartServiceOnUpdateAsync;
             base.OnInitialized();
         }
@@ -23,6 +25,7 @@ namespace ComputerShop.Client.Pages
         private async void CartServiceOnUpdateAsync()
         {
             productCartItems = await CartService.GetCartProductsAsync();
+            UpdatePrice();
             StateHasChanged();
         }
 
@@ -44,6 +47,12 @@ namespace ComputerShop.Client.Pages
                 await InvokeAsync(() => ToastService?.ShowCartItemRemoved());
             else
                 await InvokeAsync(() => ToastService?.ShowError(string.Empty, response.Message));
+        }
+
+        private void UpdatePrice()
+        {
+            total = 0;
+            productCartItems.ForEach(item => total += item.Product.Price * item.Quantity);
         }
 
         public void Dispose()

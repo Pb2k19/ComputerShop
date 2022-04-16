@@ -3,28 +3,31 @@
 @implements IDisposable
 
 <style>
-    .cart-img{
+    .cart-img {
         overflow: hidden;
         max-width: 250px;
     }
-    .item-row{
+
+    .item-row {
         min-height: 225px;
     }
+
     #cart-containter {
         font-size: 1.5rem;
     }
-    .product-name:hover{
+
+    .product-name:hover {
         opacity: 1.1;
     }
 </style>
 
-<div id ="cart-containter" class="container-fluid">
+<div id="cart-containter" class="container-fluid">
     <div class="row mx-1 mx-xl-3">
         <div class="col-xl-7">
             @if (productCartItems != null && productCartItems.Count > 0)
             {
                 <h1>Twój koszyk</h1>
-                @foreach (var p in productCartItems.OrderBy(x=> $"{x.Product.Manufacturer} {x.Product.Name}"))
+                @foreach (var p in productCartItems.OrderBy(x => $"{x.Product.Manufacturer} {x.Product.Name}"))
                 {
                     <div>
                         <div class="position-relative">
@@ -62,9 +65,24 @@
             }
         </div>
         <div class="col-xl-5">
-            <span>Do zapłaty</span>
-            <span>Wybierz opcję dostawy</span>
+            <div class="m-xl-3 p-3 mt-3 mt-xl-0 pt-xl-2 shadow rounded">
+                <div class="ms-2">
+                    <h3>Opcje płatności</h3>
+                    <ul>
+                        <li>Google Pay</li>
+                        <li>Apple Pay</li>
+                    </ul>
+                    <h3>Opcje dostawy</h3>
+                    <ul>
+                        <li>Kurier</li>
+                        <li>Paczkomat</li>
+                    </ul>
+                </div>
+                <div class="d-flex justify-content-between pt-3 align-items-center p-2">
+                    <h3>Do zapłaty: @(total)zł</h3>
+                    <button class="btn btn-primary shadow-none" style="font-size: 1.2rem;">Podusowanie</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
