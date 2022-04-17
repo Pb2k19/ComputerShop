@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using ComputerShop.Shared.Models;
 using ComputerShop.Client.Services.Products;
+using ComputerShop.Shared.Models.User;
 
 namespace ComputerShop.Client.Services.Cart
 {

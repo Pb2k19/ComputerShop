@@ -1,7 +1,8 @@
-﻿using ComputerShop.Shared.Models;
+﻿using Blazored.Toast.Services;
+using ComputerShop.Shared.Models;
 using ComputerShop.Client.Helpers;
 using Microsoft.AspNetCore.Components;
-using Blazored.Toast.Services;
+using ComputerShop.Shared.Models.User;
 
 namespace ComputerShop.Client.Shared.Components
 {

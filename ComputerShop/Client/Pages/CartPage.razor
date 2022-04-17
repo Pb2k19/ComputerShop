@@ -19,6 +19,18 @@
     .product-name:hover {
         opacity: 1.1;
     }
+
+    @@media (max-width: 1199px) {
+        #cart-options {
+            top: 0em;
+        }
+    }
+
+    @@media (min-width: 1200px) {
+        #cart-options {
+            top: 5.5em;
+        }
+    }
 </style>
 
 <div id="cart-containter" class="container-fluid">
@@ -65,7 +77,7 @@
             }
         </div>
         <div class="col-xl-5">
-            <div class="m-xl-3 p-3 mt-3 mt-xl-0 pt-xl-2 shadow rounded">
+            <div id="cart-options" class="m-xl-3 p-3 mt-3 mt-xl-0 pt-xl-2 shadow rounded sticky-top">
                 <div class="ms-2">
                     <h3>Opcje płatności</h3>
                     <ul>

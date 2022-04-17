@@ -6,6 +6,7 @@ namespace ComputerShop.Client.Services.User
 {
     public interface IUserService
     {
+        Task<bool> CheckAuthentication();
         Task<ServiceResponse<string>?> Login(Login login);
         Task<SimpleServiceResponse?> Register(Register register);
         Task<ServiceResponse<HttpStatusCode>> ChangePassword(ChangePassword changePassword);

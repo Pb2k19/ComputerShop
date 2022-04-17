@@ -25,7 +25,7 @@ namespace ComputerShop.Client.Services.User
         }
         public async Task<ServiceResponse<HttpStatusCode>> ChangePassword(ChangePassword changePassword)
         {
-            using var response = await httpClient.PostAsJsonAsync("change-password", changePassword);
+            using var response = await httpClient.PostAsJsonAsync("changePassword", changePassword);
             var simple = await response.Content.ReadFromJsonAsync<SimpleServiceResponse>();
             return new ServiceResponse<HttpStatusCode> 
             { 
@@ -33,6 +33,11 @@ namespace ComputerShop.Client.Services.User
                 Message = simple?.Message, 
                 Success = simple?.Success ?? false 
             };
+        }
+        public async Task<bool> CheckAuthentication()
+        {
+            var respone = await httpClient.GetFromJsonAsync<SimpleServiceResponse>("checkAuthentication");
+            return respone?.Success ?? false;
         }
     }
 }

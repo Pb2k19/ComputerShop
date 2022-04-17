@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.User;
 
 namespace ComputerShop.Client.Services.Cart
 {

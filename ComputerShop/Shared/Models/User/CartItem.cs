@@ -1,4 +1,4 @@
-﻿namespace ComputerShop.Shared.Models
+﻿namespace ComputerShop.Shared.Models.User
 {
     public class CartItem
     {

@@ -1,5 +1,4 @@
 ﻿using ComputerShop.Server.Services.UserService;
-using ComputerShop.Server.Helpers;
 using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
 using Microsoft.AspNetCore.Authorization;
@@ -43,15 +42,34 @@ namespace ComputerShop.Server.Controllers
             return Ok(await authentication.Register(register));
         }
 
-        [HttpPost("/change-password"), Authorize]
+        [HttpPost("/changePassword"), Authorize]
         public async Task<ActionResult<SimpleServiceResponse>> ChangePassword(ChangePassword newPassword)
         {
-            if(!authentication.ValidateJWT(Request, User.Identity))
-                return Unauthorized(new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false});
+            SimpleServiceResponse response = CheckAuthentication(User, Request);
+            if (!response.Success)
+                return Unauthorized(response);
             Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
-            if(userId == null)
-                return Unauthorized(new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false });
+            if (userId == null)
+                return new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false };
             return Ok(await authentication.ChangePassword(userId.Value,newPassword));
+        }
+
+        [HttpGet("/checkAuthentication")]
+        public ActionResult<SimpleServiceResponse> CheckAuthentication()
+        {
+            SimpleServiceResponse response = CheckAuthentication(User, Request);
+            if(response.Success)
+                return Ok(response);
+            else
+                return Unauthorized(response);
+        }
+
+        private SimpleServiceResponse CheckAuthentication(ClaimsPrincipal user, HttpRequest request)
+        {
+            if (!authentication.ValidateJWT(request, user.Identity))
+                return new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false };
+            else
+                return new SimpleServiceResponse();
         }
     }
 }
