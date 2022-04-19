@@ -35,6 +35,14 @@ namespace ComputerShop.Server.Controllers
                 Success = response.Success
             });
         }
+        [HttpGet("/logout")]
+        public ActionResult Logout()
+        {
+            string time = DateTime.UtcNow.ToString("ddd, dd MMM yyyy HH:mm:ss 'UTC'", CultureInfo.GetCultureInfo("en-US"));
+            string cookie = $"__Secure-Fgp={string.Empty}; SameSite=Strict; HttpOnly; Secure; Expires={time};";
+            HttpContext.Response.Headers.Add("Set-Cookie", cookie);
+            return Ok();
+        }
 
         [HttpPost("/register")]
         public async Task<ActionResult<SimpleServiceResponse>> Register(Register register)

@@ -39,5 +39,10 @@ namespace ComputerShop.Client.Services.User
             var respone = await httpClient.GetFromJsonAsync<SimpleServiceResponse>("checkAuthentication");
             return respone?.Success ?? false;
         }
+        public async Task<bool> Logout()
+        {
+            var respone = await httpClient.GetAsync("logout");
+            return respone?.IsSuccessStatusCode ?? false;
+        }
     }
 }

@@ -5,7 +5,7 @@ using ComputerShop.Client.Helpers;
 using Microsoft.AspNetCore.Components;
 using ComputerShop.Client.Services.Cart;
 using Microsoft.AspNetCore.Components.Authorization;
-
+using ComputerShop.Client.Services.User;
 
 namespace ComputerShop.Client.Shared
 {
@@ -16,9 +16,9 @@ namespace ComputerShop.Client.Shared
         [Inject] AuthenticationStateProvider? StateProvider { get; set; }
         [Inject] NavigationManager? NavigationManager { get; set; }
         [Inject] IToastService? ToastService { get; set; }
+        [Inject] IUserService? UserService { get; set; }
 
-
-        DropdownNavigationItems PeripheryList = new(new List<DropdownNavigationItem> 
+        readonly DropdownNavigationItems PeripheryList = new(new List<DropdownNavigationItem> 
         {
             new DropdownNavigationItem{Name = "Myszy", Path = "mouse" },
             new DropdownNavigationItem{Name = "Klawiatury", Path = "keyboard" },
@@ -26,8 +26,7 @@ namespace ComputerShop.Client.Shared
             new DropdownNavigationItem{Name = "Monitory", Path = "montior" },
             new DropdownNavigationItem{Name = "Drukarki", Path = "printer" }, 
         });
-
-        DropdownNavigationItems ComponentsList = new(new List<DropdownNavigationItem>
+        readonly DropdownNavigationItems ComponentsList = new(new List<DropdownNavigationItem>
         {
             new DropdownNavigationItem { Name = "Procesory", Path = "cpu" },
             new DropdownNavigationItem { Name = "Karty graficzne", Path = "gpu" },
@@ -40,8 +39,7 @@ namespace ComputerShop.Client.Shared
             new DropdownNavigationItem { Name = "Chłodzenie", Path = "cooler" },
             new DropdownNavigationItem { Name = "Przewody", Path = "cabel" },
         });
-
-        DropdownNavigationItems AccountOptions = new(new List<DropdownNavigationItem>
+        readonly DropdownNavigationItems AccountOptions = new(new List<DropdownNavigationItem>
         {
             new DropdownNavigationItem { Name = "Szczegóły", Path = "account" },
             new DropdownNavigationItem { Name = "Zamówienia", Path = "account/orders" },
@@ -51,7 +49,7 @@ namespace ComputerShop.Client.Shared
 #pragma warning restore CS8625
             new DropdownNavigationItem { Name = "Wyloguj", Path = "logout" }
         });
-
+        IUserHelper? userHelper;
         bool collapseNavMenu = true;
         decimal cartValue = 0m;
         int cartCount = 0;
@@ -114,12 +112,14 @@ namespace ComputerShop.Client.Shared
         }
         protected async Task OnAccountOptionsClickedAsync(int id)
         {
+            if (userHelper == null)
+                userHelper = new UserHelper(StateProvider, UserService, LocalStorageService, NavigationManager, ToastService);
             string path = AccountOptions.GetPathByIndex(id);
             if(!string.IsNullOrWhiteSpace(path))
             {
                 if(path.Equals("logout"))
                 {
-                    await UserHelper.LogOut(LocalStorageService, StateProvider, ToastService, NavigationManager, title: "Wylogowano");
+                    await userHelper.LogoutAsync(title: "Wylogowano");
                 }
                 else
                 {

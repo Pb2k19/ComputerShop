@@ -1,6 +1,6 @@
 ﻿@page "/account"
 @attribute [Authorize]
-@inject IUserService AuthenticationService
+@inject IUserService UserService
 @inject ILocalStorageService LocalStorageService
 @inject IToastService ToastService
 @inject NavigationManager NavigationManager
@@ -35,16 +35,19 @@
 
 @code {
     ChangePassword changePassword = new();
+    IUserHelper? userHelper = null;
 
     protected async Task OnPasswordChangeAsync()
     {
-        var response = await AuthenticationService.ChangePassword(changePassword);
+        if (userHelper == null)
+            userHelper = new UserHelper(StateProvider, UserService, LocalStorageService, NavigationManager, ToastService);
+        var response = await UserService.ChangePassword(changePassword);
         if (response.Success)
             ToastService.ShowSuccess("Hasło zostało zmienione", "Udało się!");
         else
         {
             if (response.Data == System.Net.HttpStatusCode.Unauthorized)
-                await UserHelper.LogOutOnUnauthorized(LocalStorageService, StateProvider, ToastService, NavigationManager);
+                await userHelper.LogoutOnUnauthorizedAsync();
             else
                 ToastService.ShowInfo(response?.Message, "Nie udało się ☹");
         }

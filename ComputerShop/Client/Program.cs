@@ -8,7 +8,7 @@ using ComputerShop.Client.Services.Products;
 using ComputerShop.Client;
 using Blazored.LocalStorage;
 using Blazored.Toast;
-
+using ComputerShop.Client.Helpers;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -19,6 +19,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductsService, ProductsService>();
+builder.Services.AddScoped<IUserHelper, UserHelper>();
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
