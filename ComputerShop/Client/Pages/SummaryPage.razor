@@ -1,0 +1,70 @@
+﻿@page "/summary"
+@inject ICartService CartService
+@implements IDisposable
+
+<style>
+    .cart-img {
+        overflow: hidden;
+        max-width: 250px;
+    }
+
+    .item-row {
+        min-height: 225px;
+    }
+
+    #summary-containter {
+        font-size: 1.5rem;
+    }
+
+    .product-name:hover {
+        opacity: 1.1;
+    }
+
+    @@media (max-width: 1199px) {
+        #cart-options {
+            top: 0em;
+        }
+    }
+
+    @@media (min-width: 1200px) {
+        #cart-options {
+            top: 5.5em;
+        }
+    }
+</style>
+
+<div id="summary-containter" class="container-fluid">
+    @if (productCartItems != null && productCartItems.Count > 0)
+     {
+        <div>
+            <h1>Podsumowanie</h1>
+            @foreach (var p in productCartItems.OrderBy(x => $"{x.Product.Manufacturer} {x.Product.Name}"))
+             {
+                <div>
+                    <div class="row row-cols-3 item-row align-items-center rounded shadow mt-4 pt-4 pt-sm-0">
+                        <div @onclick="() => GoToProductPage(p.Product.Id)" class="col-4 py-4 cart-img cursorHand">
+                            <img src="@p.Product.Images?.FirstOrDefault()?.Location" class="card-img-top cursorHand">
+                        </div>
+                        <div @onclick="() => GoToProductPage(p.Product.Id)" class="col-7 py-4 text-center product-name cursorHand">
+                            <span>@p.Product.Manufacturer @p.Product.Name</span>
+                        </div>
+                        <div class="col-3 py-4 text-end text-lg-center">
+                            @if (p.Product.Price < p.Product.PriceBeforeDiscount)
+                             {
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <span class="text-muted text-decoration-line-through">@p.Product.PriceBeforeDiscount</span>
+                                    <span style="color: #0b5ed7;">&ensp;-@(decimal.ToInt32((p.Product.PriceBeforeDiscount - p.Product.Price) / p.Product.PriceBeforeDiscount * 100))%</span>
+                                </div>
+                             }
+                            <span class="text-end">@p.Product.Price zł</span>
+                        </div>
+                    </div>
+                </div>
+             }
+        </div>
+     }
+     else
+     {
+        <span>Twój koszyk jest pusty</span>
+     }
+</div>

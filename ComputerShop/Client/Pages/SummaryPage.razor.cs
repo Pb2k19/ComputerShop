@@ -5,7 +5,7 @@ using Blazored.Toast.Services;
 
 namespace ComputerShop.Client.Pages
 {
-    public partial class CartPage
+    public partial class SummaryPage
     {
         [Inject] IToastService? ToastService { get; set; }
         [Inject] NavigationManager? NavigationManager { get; set; }
@@ -41,7 +41,7 @@ namespace ComputerShop.Client.Pages
         protected async Task OnItemRemoveAsync(string productId)
         {
             var response = await CartService.RemoveItemFromCartAsync(productId);
-            if(response.Success)
+            if (response.Success)
                 await InvokeAsync(() => ToastService?.ShowCartItemRemoved());
             else
                 await InvokeAsync(() => ToastService?.ShowError(string.Empty, response.Message));
