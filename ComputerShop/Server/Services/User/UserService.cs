@@ -3,20 +3,22 @@ using ComputerShop.Shared.Models.User;
 using ComputerShop.Server.Models;
 using ComputerShop.Server.Helpers;
 using System.Security.Principal;
+using System.Security.Claims;
 
-namespace ComputerShop.Server.Services.UserService
+namespace ComputerShop.Server.Services.User
 {
     public class UserService : IUserService
     {
         private AuthenticationHelper authentication = new();
         private readonly IConfiguration configuration;
-        private List<User> users = new();
+        private readonly IHttpContextAccessor contextAccessor;
+        private List<UserModel> users = new();
 
-        public UserService(IConfiguration configuration)
+        public UserService(IConfiguration configuration, IHttpContextAccessor contextAccessor)
         {
             users = new()
             {
-                new User
+                new UserModel
                 {
                     Id = "1",
                     Email = "user@example.com",
@@ -24,9 +26,10 @@ namespace ComputerShop.Server.Services.UserService
                 }
             }; //1234@#aAbcd
             this.configuration = configuration;
+            this.contextAccessor = contextAccessor;
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<UserModel>> GetAllUsers()
         {
             return users;
         }
@@ -36,13 +39,13 @@ namespace ComputerShop.Server.Services.UserService
             email = email.ToLower();
             return users.Any(x => x.Email.ToLower().Equals(email));
         }
-        public async Task<User?> GetUser(string email)
+        public async Task<UserModel?> GetUser(string email)
         {
             var users = await GetAllUsers();
             email = email.ToLower();
             return users.FirstOrDefault(u => u.Email.ToLower().Equals(email));
         }
-        public async Task<User?> GetUserById(string id)
+        public async Task<UserModel?> GetUserById(string id)
         {
             var users = await GetAllUsers();
             return users.FirstOrDefault(u => u.Id.ToLower().Equals(id));
@@ -54,7 +57,7 @@ namespace ComputerShop.Server.Services.UserService
             {
                 return new ServiceResponse<Token> { Message = "Podane wartości nie mogą być puste", Success = false };
             }
-            User? user = await GetUser(login.Email);
+            UserModel? user = await GetUser(login.Email);
             if(user == null)
             {
                 return new ServiceResponse<Token> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
@@ -92,7 +95,7 @@ namespace ComputerShop.Server.Services.UserService
                     Message = "Podany adres już istnieje w serwisie"
                 };
             }
-            User user = new()
+            UserModel user = new()
             {
                 Email = register.Email,
             };
@@ -108,12 +111,15 @@ namespace ComputerShop.Server.Services.UserService
             users.Add(user);
             return new SimpleServiceResponse();
         }
-        public async Task<SimpleServiceResponse> ChangePassword(string userId, ChangePassword changePassword)
+        public async Task<SimpleServiceResponse> ChangePassword(ChangePassword changePassword)
         {
+            string? userId = GetUserId();
+            if(userId == null)
+                return new ServiceResponse<Token> { Message = "Coś poszło nie tak - nie można zmienić hasła", Success = false };
             SimpleServiceResponse response = authentication.PasswordPolicyCheck(changePassword);
             if (!response.Success)
                 return response;
-            User? user = await GetUserById(userId);
+            UserModel? user = await GetUserById(userId);
             if (user == null)
                 return new ServiceResponse<Token> { Message = "Coś poszło nie tak - nie można zmienić hasła", Success = false };
             List<Task> tasks = new();
@@ -129,8 +135,9 @@ namespace ComputerShop.Server.Services.UserService
             user.Password = newHash; //tmp zapis do bazy
             return new SimpleServiceResponse { Message = "Hasło zostało zmienione", Success = true};
         }
-        public bool ValidateJWT(HttpRequest request, IIdentity? identity)
+        public bool ValidateJWT(HttpRequest request)
         {
+            IIdentity? identity = GetUserIdentity();
             if(identity == null)
                 return false;
             if (request.Cookies.TryGetValue("__Secure-Fgp", out string? cookie))
@@ -139,6 +146,15 @@ namespace ComputerShop.Server.Services.UserService
                 return authentication.ValidateFingerprint(cookie, jwtHash);
             }
             return false;
+        }
+
+        private string? GetUserId()
+        {
+            return contextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        }
+        private IIdentity? GetUserIdentity()
+        {
+            return contextAccessor?.HttpContext?.User?.Identity;
         }
     }
 }

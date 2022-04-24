@@ -691,5 +691,17 @@ namespace ComputerShop.Server.Services.Products
                 PagesCount = pageCount
             };
         }
+
+        public async Task<List<Product>> GetProductsByIdListAsync(List<string> idList)
+        {
+            List<Product> products = new();
+            await Task.Run(() => idList.ForEach(async id =>
+            {
+                var prod = await GetProductByIdAsync(id);
+                if (prod != null)
+                    products.Add(prod);
+            }));
+            return products;
+        }
     }
 }

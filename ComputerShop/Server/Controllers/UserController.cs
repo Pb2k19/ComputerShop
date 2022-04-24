@@ -1,4 +1,4 @@
-﻿using ComputerShop.Server.Services.UserService;
+﻿using ComputerShop.Server.Services.User;
 using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
 using Microsoft.AspNetCore.Authorization;
@@ -59,7 +59,7 @@ namespace ComputerShop.Server.Controllers
             Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
             if (userId == null)
                 return new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false };
-            return Ok(await authentication.ChangePassword(userId.Value,newPassword));
+            return Ok(await authentication.ChangePassword(newPassword));
         }
 
         [HttpGet("/checkAuthentication")]
@@ -74,7 +74,7 @@ namespace ComputerShop.Server.Controllers
 
         private SimpleServiceResponse CheckAuthentication(ClaimsPrincipal user, HttpRequest request)
         {
-            if (!authentication.ValidateJWT(request, user.Identity))
+            if (!authentication.ValidateJWT(request))
                 return new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false };
             else
                 return new SimpleServiceResponse();

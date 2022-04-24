@@ -1,15 +1,14 @@
 ﻿using ComputerShop.Server.Models;
 using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
-using System.Security.Principal;
 
-namespace ComputerShop.Server.Services.UserService
+namespace ComputerShop.Server.Services.User
 {
     public interface IUserService
     {
-        bool ValidateJWT(HttpRequest request, IIdentity? identity);
+        bool ValidateJWT(HttpRequest request);
         Task<ServiceResponse<Token>> Login (Login login);
         Task<SimpleServiceResponse> Register(Register register);
-        Task<SimpleServiceResponse> ChangePassword(string userId, ChangePassword changePassword);
+        Task<SimpleServiceResponse> ChangePassword(ChangePassword changePassword);
     }
 }

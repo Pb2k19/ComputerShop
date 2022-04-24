@@ -1,7 +1,7 @@
-using ComputerShop.Server.Services.UserService;
+using ComputerShop.Server.Services.User;
 using ComputerShop.Server.Services.Categories;
 using ComputerShop.Server.Services.Products;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using ComputerShop.Server.Services.Order;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
@@ -15,6 +15,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddScoped<IProductsService, ProductsService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -32,6 +33,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuer = false,
     };
 });
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

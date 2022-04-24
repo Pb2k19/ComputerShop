@@ -47,6 +47,11 @@ namespace ComputerShop.Client.Pages
                 await InvokeAsync(() => ToastService?.ShowError(string.Empty, response.Message));
         }
 
+        protected void GoToSummaryPage()
+        {
+            NavigationManager?.NavigateTo("summary");
+        }
+
         private void UpdatePrice()
         {
             total = 0;

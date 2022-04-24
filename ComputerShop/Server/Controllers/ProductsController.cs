@@ -34,9 +34,7 @@ namespace ComputerShop.Server.Controllers
         [HttpPost("getProductsByIdList")]
         public async Task<ActionResult<ServiceResponse<Product>>> GetProductByIdAsync(List<string> idList)
         {
-            List<Product?> products = new();
-            idList.ForEach(async id => products.Add(await productsService.GetProductByIdAsync(id)));
-            products.RemoveAll(id => id is null);
+            var products = await productsService.GetProductsByIdListAsync(idList);
             ServiceResponse<object> serviceResponse = new();
             if (products.Count == 0)
             {

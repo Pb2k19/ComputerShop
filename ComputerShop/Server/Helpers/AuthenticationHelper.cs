@@ -112,7 +112,7 @@ namespace ComputerShop.Server.Helpers
         #endregion
 
         #region Token
-        public Token CreateToken(IConfiguration configuration, User user)
+        public Token CreateToken(IConfiguration configuration, UserModel user)
         {
             Token token = new();
             string confKey = configuration.GetSection("Settings:Token").Value;

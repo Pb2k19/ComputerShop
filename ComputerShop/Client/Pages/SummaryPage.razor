@@ -12,59 +12,72 @@
         min-height: 225px;
     }
 
-    #summary-containter {
-        font-size: 1.5rem;
+    #cart-containter {
+        font-size: 1.4rem;
     }
 
     .product-name:hover {
         opacity: 1.1;
     }
-
-    @@media (max-width: 1199px) {
-        #cart-options {
-            top: 0em;
-        }
-    }
-
-    @@media (min-width: 1200px) {
-        #cart-options {
-            top: 5.5em;
-        }
-    }
 </style>
-
-<div id="summary-containter" class="container-fluid">
-    @if (productCartItems != null && productCartItems.Count > 0)
-     {
-        <div>
+@if (productCartItems != null && productCartItems.Count > 0)
+{
+    <div id="cart-containter" class="container">
+        <div class="row mx-1 mx-xl-3">
             <h1>Podsumowanie</h1>
             @foreach (var p in productCartItems.OrderBy(x => $"{x.Product.Manufacturer} {x.Product.Name}"))
-             {
+            {
                 <div>
-                    <div class="row row-cols-3 item-row align-items-center rounded shadow mt-4 pt-4 pt-sm-0">
-                        <div @onclick="() => GoToProductPage(p.Product.Id)" class="col-4 py-4 cart-img cursorHand">
-                            <img src="@p.Product.Images?.FirstOrDefault()?.Location" class="card-img-top cursorHand">
+                    <div class="row row-cols-2 row-cols-lg-3 item-row align-items-center rounded shadow mt-4 pt-4 pt-sm-0">
+                        <div class="col-5 col-lg-3 py-4">
+                            <div class="d-flex cart-img">
+                                <img src="@p.Product.Images?.FirstOrDefault()?.Location" class="card-img-top cursorHand" @onclick="() => GoToProductPage(p.Product.Id)">
+                            </div>
                         </div>
-                        <div @onclick="() => GoToProductPage(p.Product.Id)" class="col-7 py-4 text-center product-name cursorHand">
-                            <span>@p.Product.Manufacturer @p.Product.Name</span>
+                        <div class="col-7 col-lg-6 py-4 text-center product-name">
+                            <span class="cursorHand" @onclick="() => GoToProductPage(p.Product.Id)">@p.Product.Manufacturer&nbsp;@p.Product.Name</span>
                         </div>
-                        <div class="col-3 py-4 text-end text-lg-center">
-                            @if (p.Product.Price < p.Product.PriceBeforeDiscount)
-                             {
-                                <div class="d-flex justify-content-center align-items-center">
-                                    <span class="text-muted text-decoration-line-through">@p.Product.PriceBeforeDiscount</span>
-                                    <span style="color: #0b5ed7;">&ensp;-@(decimal.ToInt32((p.Product.PriceBeforeDiscount - p.Product.Price) / p.Product.PriceBeforeDiscount * 100))%</span>
+                        <div class="col-6 col-lg-1">
+                            <div class="text-end text-lg-center">
+                                <span>@p.Quantity</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-2 py-4 text-end text-lg-center">
+                            <div class="d-flex justify-content-start justify-content-lg-center">
+                                <div class="text-center">
+                                    @if (p.Product.Price < p.Product.PriceBeforeDiscount)
+                                    {
+                                        <div class="align-middle">
+                                            <span class="text-muted text-decoration-line-through" style="font-size: 1.1rem">@(p.Product.PriceBeforeDiscount * p.Quantity) zł</span>
+                                            <span class="text-primary">&nbsp;-@(decimal.ToInt32((p.Product.PriceBeforeDiscount - p.Product.Price) / p.Product.PriceBeforeDiscount * 100))%</span>
+                                        </div>
+                                    }
+                                    <span>@(p.Product.Price * p.Quantity) zł</span>
                                 </div>
-                             }
-                            <span class="text-end">@p.Product.Price zł</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-             }
+            }
         </div>
-     }
-     else
-     {
-        <span>Twój koszyk jest pusty</span>
-     }
-</div>
+        <div>
+            <AuthorizeView>
+                <Authorized>
+                    
+                </Authorized>
+                <NotAuthorized>
+
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container align-items-center justify-content-center">
+        <div class="text-center p-3 rounded shadow">
+            <h2>Twój koszyk jest pusty</h2>
+            <h4>Dodaj do niego nowe produkty!</h4>
+        </div>
+    </div>
+}

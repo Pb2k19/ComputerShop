@@ -1,6 +1,6 @@
 ﻿<style>
-    .fas-icon {
-        font-size: 1.75rem;
+    .fas-icon { 
+        font-size: 1.75rem !important;
     }
 </style>
 
@@ -27,10 +27,10 @@
                                     @if (cartCount > 0)
                                     {
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary"
-                                              aria-hidden="true">@(cartCount > 99 ? "+99":cartCount)</span>
+                                              aria-hidden="true" style="font-size:.9rem">@(cartCount > 99 ? "+99":cartCount)</span>
                                     }
                                 </div>
-                                <span class="ms-2">@cartValue zł</span>
+                                <span class="ms-2" style="font-size: 1.2rem;">@cartValue zł</span>
                             </div>
                         </NavLink>
                         <AuthorizeView>
@@ -51,7 +51,7 @@
                             <NotAuthorized>
                                 <button @onclick="GoToLogin" class="btn nav-link shadow-none" style="background-color:transparent">
                                     <div class="d-flex align-items-center navbar-font-size text-black">
-                                        <span class="fas-icon fas fa-user me-2" aria-hidden="true"></span>
+                                        <span class="fas fa-user me-2 fas-icon" aria-hidden="true"></span>
                                         <span>Zaloguj się</span>
                                     </div>
                                 </button>
