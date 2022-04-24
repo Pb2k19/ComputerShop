@@ -31,11 +31,13 @@
             <button type="submit" class="btn btn-primary shadow-none">Zapisz</button>
         </div>
     </EditForm>
+    <DeliveryDetailsForm DeliveryDetails="delivery"/>
 </div>
 
 @code {
     ChangePassword changePassword = new();
     IUserHelper? userHelper = null;
+    DeliveryDetails delivery = new();
 
     protected async Task OnPasswordChangeAsync()
     {

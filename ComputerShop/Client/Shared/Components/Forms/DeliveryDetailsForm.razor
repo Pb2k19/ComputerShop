@@ -1,0 +1,47 @@
+﻿@if (DeliveryDetails != null)
+{
+    <EditForm Model="DeliveryDetails">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <h5 for="email">Email</h5>
+            <InputText id="email" class="form-control shadow-none" @bind-Value="DeliveryDetails.Email" />
+            <ValidationMessage For="@(() => DeliveryDetails.Email)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="phone-number">Numer telefonu</h5>
+            <InputText id="phone-number" class="form-control shadow-none" @bind-Value="DeliveryDetails.PhoneNumber" />
+            <ValidationMessage For="@(() => DeliveryDetails.PhoneNumber)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="city">Miasto</h5>
+            <InputText id="city" class="form-control shadow-none" @bind-Value="DeliveryDetails.City" />
+            <ValidationMessage For="@(() => DeliveryDetails.City)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="postal-code">Kod pocztowy</h5>
+            <InputText id="postal-code" class="form-control shadow-none" @bind-Value="DeliveryDetails.PostCode" />
+            <ValidationMessage For="@(() => DeliveryDetails.PostCode)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="street">Ulica</h5>
+            <InputText id="street" class="form-control shadow-none" @bind-Value="DeliveryDetails.Street" />
+            <ValidationMessage For="@(() => DeliveryDetails.Street)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="house-number">Numer domu / mieszakania</h5>
+            <InputText id="house-number" class="form-control shadow-none" @bind-Value="DeliveryDetails.HouseNumber" />
+            <ValidationMessage For="@(() => DeliveryDetails.HouseNumber)" />
+        </div>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public DeliveryDetails? DeliveryDetails { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (DeliveryDetails is null)
+            DeliveryDetails = new();
+    }
+}

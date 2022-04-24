@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace ComputerShop.Client.Shared.Components
 {
