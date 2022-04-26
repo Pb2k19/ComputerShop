@@ -50,7 +50,6 @@ namespace ComputerShop.Server.Services.User
             var users = await GetAllUsers();
             return users.FirstOrDefault(u => u.Id.ToLower().Equals(id));
         }
-
         public async Task<ServiceResponse<Token>> Login(Login login)
         {
             if(login == null || string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
@@ -147,7 +146,6 @@ namespace ComputerShop.Server.Services.User
             }
             return false;
         }
-
         private string? GetUserId()
         {
             return contextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);

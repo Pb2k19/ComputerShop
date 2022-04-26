@@ -16,9 +16,6 @@ namespace ComputerShop.Server.Services.Order
 
         public async Task<ServiceResponse<OrderModel>> AddOrderAsync(List<CartItem> cartItems, DeliveryDetails deliveryDetails)
         {
-            if(!deliveryDetails.QuickValidate())
-                return new ServiceResponse<OrderModel> { Success = false, Message = "Dane wysyłki nie są prawidłowe" };
-
             var products = await productsService.GetProductsByIdListAsync(cartItems.Select(p => p.ProductId).ToList());
             List<ProductCartItem> items = new();
             products.ForEach(
