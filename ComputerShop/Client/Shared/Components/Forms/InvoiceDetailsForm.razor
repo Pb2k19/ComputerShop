@@ -1,0 +1,26 @@
+﻿@if (InvoiceDetails != null)
+{
+    <EditForm Model="InvoiceDetails">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <h5 for="name">Imię i nazwisko</h5>
+            <InputText id="name" class="form-control shadow-none" @bind-Value="InvoiceDetails.Name" />
+            <ValidationMessage For="@(() => InvoiceDetails.Name)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="city">Miasto</h5>
+            <InputText id="city" class="form-control shadow-none" @bind-Value="InvoiceDetails.City" />
+            <ValidationMessage For="@(() => InvoiceDetails.City)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="street">Adres</h5>
+            <InputText id="street" class="form-control shadow-none" @bind-Value="InvoiceDetails.Street" />
+            <ValidationMessage For="@(() => InvoiceDetails.Street)" />
+        </div>
+    </EditForm>
+}
+
+@code
+{
+    [Parameter] public InvoiceDetails InvoiceDetails { get; set; } = new();
+}

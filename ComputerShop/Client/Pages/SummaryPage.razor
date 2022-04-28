@@ -59,16 +59,16 @@
                     </div>
                 </div>
             }
+            <div class="text-end mt-2 pe-3">
+                <h3>Suma: @total zł</h3>
+            </div>
+            
         </div>
-        <div>
-            <AuthorizeView>
-                <Authorized>
-                    
-                </Authorized>
-                <NotAuthorized>
-
-                </NotAuthorized>
-            </AuthorizeView>
+        <div class="p-2 mt-3">
+            <h2>Dane dostawy</h2>
+            <div class="m-3">
+                <DeliveryDetailsForm DeliveryDetails="deliveryDetails" />
+            </div>
         </div>
     </div>
 }

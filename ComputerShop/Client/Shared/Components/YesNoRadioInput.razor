@@ -1,0 +1,30 @@
+﻿<div class="form-check cursorHand" style="font-size: 1.3rem;" @onclick="() => Change(true)">
+    <input class="form-check-input shadow-none" type="radio" name="invoice-option"
+           id="business-option" checked="@IsYesSelected">
+    <label class="form-check-label" for="business-option">
+        @YesLabelText
+    </label>
+</div>
+<div class="form-check ms-3 cursorHand" style="font-size: 1.3rem;" @onclick="() => Change(false)">
+    <input class="form-check-input shadow-none" type="radio" name="invoice-option"
+           checked="@(!IsYesSelected)">
+    <label class="form-check-label" for="person-option">
+        @NoLabelText
+    </label>
+</div>
+
+@code {
+    [Parameter] public bool IsYesSelected { get; set; } = true;
+    [Parameter] public string YesLabelText { get; set; } = "Yes";
+    [Parameter] public string NoLabelText { get; set; } = "No";
+    [Parameter] public EventCallback<bool> OnValueChanged { get; set; }
+
+    async Task Change(bool value)
+    {
+        if (IsYesSelected != value)
+        {
+            IsYesSelected = value;
+            await OnValueChanged.InvokeAsync(value);
+        }
+    }
+}

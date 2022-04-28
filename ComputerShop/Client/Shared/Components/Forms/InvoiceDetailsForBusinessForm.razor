@@ -1,0 +1,31 @@
+﻿@if (InvoiceDetailsForBusiness != null)
+{
+    <EditForm Model="InvoiceDetailsForBusiness">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <h5 for="name">Nazwa firmy</h5>
+            <InputText id="name" class="form-control shadow-none" @bind-Value="InvoiceDetailsForBusiness.Name" />
+            <ValidationMessage For="@(() => InvoiceDetailsForBusiness.Name)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="nip">Numer telefonu</h5>
+            <InputText id="nip" class="form-control shadow-none" @bind-Value="InvoiceDetailsForBusiness.Nip" />
+            <ValidationMessage For="@(() => InvoiceDetailsForBusiness.Nip)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="city">Miasto</h5>
+            <InputText id="city" class="form-control shadow-none" @bind-Value="InvoiceDetailsForBusiness.City" />
+            <ValidationMessage For="@(() => InvoiceDetailsForBusiness.City)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="street">Adres</h5>
+            <InputText id="street" class="form-control shadow-none" @bind-Value="InvoiceDetailsForBusiness.Street" />
+            <ValidationMessage For="@(() => InvoiceDetailsForBusiness.Street)" />
+        </div>
+    </EditForm>
+}
+
+
+@code {
+    [Parameter] public InvoiceDetailsForBusiness InvoiceDetailsForBusiness { get; set; } = new();
+}

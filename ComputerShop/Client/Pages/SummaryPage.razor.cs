@@ -2,6 +2,7 @@
 using ComputerShop.Client.Helpers;
 using Microsoft.AspNetCore.Components;
 using Blazored.Toast.Services;
+using ComputerShop.Shared.Models.User;
 
 namespace ComputerShop.Client.Pages
 {
@@ -10,7 +11,9 @@ namespace ComputerShop.Client.Pages
         [Inject] IToastService? ToastService { get; set; }
         [Inject] NavigationManager? NavigationManager { get; set; }
         private List<ProductCartItem> productCartItems = new();
+        DeliveryDetails deliveryDetails = new DeliveryDetails();
         private decimal total = 0;
+        
 
         protected override async Task OnInitializedAsync()
         {

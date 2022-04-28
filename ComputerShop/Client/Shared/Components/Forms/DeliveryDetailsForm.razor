@@ -13,14 +13,14 @@
             <ValidationMessage For="@(() => DeliveryDetails.PhoneNumber)" />
         </div>
         <div class="mb-3">
-            <h5 for="city">Miasto</h5>
-            <InputText id="city" class="form-control shadow-none" @bind-Value="DeliveryDetails.City" />
-            <ValidationMessage For="@(() => DeliveryDetails.City)" />
-        </div>
-        <div class="mb-3">
             <h5 for="postal-code">Kod pocztowy</h5>
             <InputText id="postal-code" class="form-control shadow-none" @bind-Value="DeliveryDetails.PostCode" />
             <ValidationMessage For="@(() => DeliveryDetails.PostCode)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="city">Miasto</h5>
+            <InputText id="city" class="form-control shadow-none" @bind-Value="DeliveryDetails.City" />
+            <ValidationMessage For="@(() => DeliveryDetails.City)" />
         </div>
         <div class="mb-3">
             <h5 for="street">Ulica</h5>

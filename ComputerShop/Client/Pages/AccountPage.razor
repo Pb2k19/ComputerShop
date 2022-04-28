@@ -31,14 +31,32 @@
             <button type="submit" class="btn btn-primary shadow-none">Zapisz</button>
         </div>
     </EditForm>
-    <DeliveryDetailsForm DeliveryDetails="delivery"/>
+    <DeliveryDetailsForm DeliveryDetails="delivery" />
+    <div class="d-flex justify-content-end">
+        <YesNoRadioInput YesLabelText="Firma" NoLabelText="Osoba prywatna" 
+                         OnValueChanged="InvoiceChanged"></YesNoRadioInput>
+    </div>    
+    @if (isInvoiceForBusiness)
+    {
+        <InvoiceDetailsForBusinessForm />
+    }
+    else
+    {
+        <InvoiceDetailsForm />
+    }
+
 </div>
 
 @code {
     ChangePassword changePassword = new();
     IUserHelper? userHelper = null;
     DeliveryDetails delivery = new();
+    bool isInvoiceForBusiness = true;
 
+    protected void InvoiceChanged(bool isForBussiness)
+    {
+        isInvoiceForBusiness = isForBussiness;
+    }
     protected async Task OnPasswordChangeAsync()
     {
         if (userHelper == null)
