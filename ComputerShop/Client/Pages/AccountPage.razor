@@ -31,20 +31,19 @@
             <button type="submit" class="btn btn-primary shadow-none">Zapisz</button>
         </div>
     </EditForm>
-    <DeliveryDetailsForm DeliveryDetails="delivery" />
+    <DeliveryDetailsForm DeliveryDetails="delivery" OnValidSubmit="OnValidSubmit"/>
     <div class="d-flex justify-content-end">
         <YesNoRadioInput YesLabelText="Firma" NoLabelText="Osoba prywatna" 
                          OnValueChanged="InvoiceChanged"></YesNoRadioInput>
     </div>    
     @if (isInvoiceForBusiness)
     {
-        <InvoiceDetailsForBusinessForm />
+        <InvoiceDetailsForBusinessForm InvoiceDetailsForBusiness="invoiceDetailsForBusiness" OnValidSubmit="OnValidSubmit"/>
     }
     else
     {
-        <InvoiceDetailsForm />
+        <InvoiceDetailsForm InvoiceDetails="invoiceDetails" OnValidSubmit="OnValidSubmit"/>
     }
-
 </div>
 
 @code {
@@ -52,6 +51,8 @@
     IUserHelper? userHelper = null;
     DeliveryDetails delivery = new();
     bool isInvoiceForBusiness = true;
+    InvoiceDetailsForBusiness invoiceDetailsForBusiness = new();
+    InvoiceDetails invoiceDetails = new();
 
     protected void InvoiceChanged(bool isForBussiness)
     {
@@ -71,5 +72,12 @@
             else
                 ToastService.ShowInfo(response?.Message, "Nie udało się ☹");
         }
+    }
+
+    protected void OnValidSubmit()
+    {
+        if (isInvoiceForBusiness)
+            return;
+        return;
     }
 }

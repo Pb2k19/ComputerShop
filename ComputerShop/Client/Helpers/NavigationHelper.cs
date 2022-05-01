@@ -26,6 +26,8 @@ namespace ComputerShop.Client.Helpers
         public static void GoToLoginPage(this NavigationManager navigationManager, bool returnToPage = true)
         {
             string? url = navigationManager?.ToBaseRelativePath(navigationManager.Uri);
+            if (url?.Equals("login") ?? false)
+                return;
             if (!returnToPage || string.IsNullOrWhiteSpace(url))
                 navigationManager?.NavigateTo($"login");
             else

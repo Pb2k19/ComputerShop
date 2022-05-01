@@ -1,6 +1,6 @@
-﻿@if (InvoiceDetails != null)
+﻿@if (InvoiceDetails != null && OnValidSubmit != null)
 {
-    <EditForm Model="InvoiceDetails">
+    <EditForm Model="InvoiceDetails" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
         <div class="mb-3">
             <h5 for="name">Imię i nazwisko</h5>
@@ -17,10 +17,15 @@
             <InputText id="street" class="form-control shadow-none" @bind-Value="InvoiceDetails.Street" />
             <ValidationMessage For="@(() => InvoiceDetails.Street)" />
         </div>
+        <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-primary shadow-none">@ButtonText</button>
+        </div>
     </EditForm>
 }
 
 @code
 {
     [Parameter] public InvoiceDetails InvoiceDetails { get; set; } = new();
+    [Parameter] public Action? OnValidSubmit { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Zapisz";
 }

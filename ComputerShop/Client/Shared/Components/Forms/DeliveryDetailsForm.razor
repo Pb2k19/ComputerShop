@@ -1,6 +1,6 @@
-﻿@if (DeliveryDetails != null)
+﻿@if (DeliveryDetails != null && OnValidSubmit != null)
 {
-    <EditForm Model="DeliveryDetails">
+    <EditForm Model="DeliveryDetails" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
         <div class="mb-3">
             <h5 for="email">Email</h5>
@@ -32,11 +32,16 @@
             <InputText id="house-number" class="form-control shadow-none" @bind-Value="DeliveryDetails.HouseNumber" />
             <ValidationMessage For="@(() => DeliveryDetails.HouseNumber)" />
         </div>
+        <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-primary shadow-none">@ButtonText</button>
+        </div>
     </EditForm>
 }
 
 @code {
     [Parameter] public DeliveryDetails? DeliveryDetails { get; set; }
+    [Parameter] public Action? OnValidSubmit { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Zapisz";
 
     protected override void OnParametersSet()
     {
