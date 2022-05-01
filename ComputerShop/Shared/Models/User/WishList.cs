@@ -1,6 +1,6 @@
 ﻿namespace ComputerShop.Shared.Models.User
 {
-    public class WishList
+    public class WishLisModel
     {
         public List<WishListItem> List { get; set; } = new();
     }
@@ -11,21 +11,21 @@
     }
     public static class WishListExtensions
     {
-        public static void AddProduct(this WishList wishList, Product product)
+        public static void AddProduct(this WishLisModel wishList, Product product)
         {
             if (!string.IsNullOrWhiteSpace(product?.Id))
             {
                 wishList.List.Add(new WishListItem { ProductId = product.Id });
             }
         }
-        public static void AddProduct(this WishList wishList, string productId)
+        public static void AddProduct(this WishLisModel wishList, string productId)
         {
             if (!string.IsNullOrWhiteSpace(productId))
             {
                 wishList.List.Add(new WishListItem { ProductId = productId });
             }
         }
-        public static void RemoveProduct(this WishList wishList, string productId)
+        public static void RemoveProduct(this WishLisModel wishList, string productId)
         {
             if (!string.IsNullOrWhiteSpace(productId))
             {
