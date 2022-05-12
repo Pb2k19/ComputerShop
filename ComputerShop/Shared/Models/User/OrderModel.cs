@@ -8,5 +8,6 @@
         public string State { get; set; }
         public decimal Total { get; set; }
         public DeliveryDetails DeliveryDetails { get; set; }
+        public InvoiceDetails InvoiceDetails { get; set; }
     }
 }

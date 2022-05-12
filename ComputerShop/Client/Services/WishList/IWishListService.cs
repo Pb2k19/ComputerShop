@@ -1,7 +1,7 @@
 ﻿using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
 
-namespace ComputerShop.Server.Services.WishList
+namespace ComputerShop.Client.Services.WishList
 {
     public interface IWishListService
     {

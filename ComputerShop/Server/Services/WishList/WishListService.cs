@@ -1,23 +1,56 @@
-﻿using ComputerShop.Shared.Models;
+﻿using ComputerShop.Server.Services.User;
+using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
+using System.Security.Claims;
 
 namespace ComputerShop.Server.Services.WishList
 {
     public class WishListService : IWishListService
     {
-        public SimpleServiceResponse AddToWishList(string productId)
+        private readonly IUserService userService;
+
+        public WishListService(IUserService userService)
         {
-            throw new NotImplementedException();
+            this.userService = userService;
         }
 
-        public ServiceResponse<WishLisModel> GetWishList()
+        public async Task<SimpleServiceResponse> AddToWishListAsync(string productId)
         {
-            throw new NotImplementedException();
+            string? userId = userService.GetUserId();
+            if (userId == null)
+                return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
+            UserModel? user = await userService.GetUserByIdAsync(userId);
+            if (user == null)
+                return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
+            if (user.WishList.AddProduct(productId))
+                return new SimpleServiceResponse();
+            else
+                return new SimpleServiceResponse { Message = "Nie można dodać produktu", Success = false };
         }
 
-        public SimpleServiceResponse RemoveFromWishList(string productId)
+        public async Task<ServiceResponse<WishListModel>> GetWishListAsync()
         {
-            throw new NotImplementedException();
+            string? userId = userService.GetUserId();
+            if (userId == null)
+                return new ServiceResponse<WishListModel> { Message = "Coś poszło nie tak", Success = false };
+            UserModel? user = await userService.GetUserByIdAsync(userId);
+            if (user == null)
+                return new ServiceResponse<WishListModel> { Message = "Coś poszło nie tak", Success = false };
+            return new ServiceResponse<WishListModel> { Data = user.WishList };
+        }
+
+        public async Task<SimpleServiceResponse> RemoveFromWishListAsync(string productId)
+        {
+            string? userId = userService.GetUserId();
+            if (userId == null)
+                return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
+            UserModel? user = await userService.GetUserByIdAsync(userId);
+            if (user == null)
+                return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
+            if(user.WishList.RemoveProduct(productId))
+                return new SimpleServiceResponse();
+            else
+                return new SimpleServiceResponse { Message = "Nie można usunąć produktu", Success = false};
         }
     }
 }

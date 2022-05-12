@@ -3,6 +3,8 @@
 @inject IProductsService ProductsService
 @inject IJSRuntime JS
 
+<PageTitle>@($"{currentProdcut?.Manufacturer} {currentProdcut?.Name}")</PageTitle>
+
 <style>
     h2 {
         font-size: 2.5rem;

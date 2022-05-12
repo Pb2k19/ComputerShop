@@ -22,8 +22,11 @@ namespace ComputerShop.Server.Services.User
                 {
                     Id = "1",
                     Email = "user@example.com",
-                    Password = "$2a$15$XYGv6r8KSy3eyUY.Is1yWuSYUGZ6kBH2o9nXfmkoMmw4W8dCcAUv6"
-                }
+                    Password = "$2a$15$XYGv6r8KSy3eyUY.Is1yWuSYUGZ6kBH2o9nXfmkoMmw4W8dCcAUv6",
+                    WishList = new(new List<WishListItem> {
+                        new WishListItem { ProductId = "1" },
+                        new WishListItem { ProductId = "2" } })
+                    }
             }; //1234@#aAbcd
             this.configuration = configuration;
             this.contextAccessor = contextAccessor;
@@ -45,12 +48,12 @@ namespace ComputerShop.Server.Services.User
             email = email.ToLower();
             return users.FirstOrDefault(u => u.Email.ToLower().Equals(email));
         }
-        public async Task<UserModel?> GetUserById(string id)
+        public async Task<UserModel?> GetUserByIdAsync(string id)
         {
             var users = await GetAllUsers();
             return users.FirstOrDefault(u => u.Id.ToLower().Equals(id));
         }
-        public async Task<ServiceResponse<Token>> Login(Login login)
+        public async Task<ServiceResponse<Token>> LoginAsync(Login login)
         {
             if(login == null || string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
             {
@@ -79,7 +82,7 @@ namespace ComputerShop.Server.Services.User
                 return new ServiceResponse<Token> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
             }
         }
-        public async Task<SimpleServiceResponse> Register(Register register)
+        public async Task<SimpleServiceResponse> RegisterAsync(Register register)
         {
             SimpleServiceResponse response = authentication.PasswordPolicyCheck(register);
             if (!response.Success)
@@ -110,7 +113,7 @@ namespace ComputerShop.Server.Services.User
             users.Add(user);
             return new SimpleServiceResponse();
         }
-        public async Task<SimpleServiceResponse> ChangePassword(ChangePassword changePassword)
+        public async Task<SimpleServiceResponse> ChangePasswordAsync(ChangePassword changePassword)
         {
             string? userId = GetUserId();
             if(userId == null)
@@ -118,7 +121,7 @@ namespace ComputerShop.Server.Services.User
             SimpleServiceResponse response = authentication.PasswordPolicyCheck(changePassword);
             if (!response.Success)
                 return response;
-            UserModel? user = await GetUserById(userId);
+            UserModel? user = await GetUserByIdAsync(userId);
             if (user == null)
                 return new ServiceResponse<Token> { Message = "Coś poszło nie tak - nie można zmienić hasła", Success = false };
             List<Task> tasks = new();
@@ -134,7 +137,14 @@ namespace ComputerShop.Server.Services.User
             user.Password = newHash; //tmp zapis do bazy
             return new SimpleServiceResponse { Message = "Hasło zostało zmienione", Success = true};
         }
-        public bool ValidateJWT(HttpRequest request)
+        public SimpleServiceResponse ValidateJWT(HttpRequest request)
+        {
+            if (!Validate(request))
+                return new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false };
+            else
+                return new SimpleServiceResponse();
+        }
+        internal bool Validate(HttpRequest request)
         {
             IIdentity? identity = GetUserIdentity();
             if(identity == null)
@@ -146,7 +156,7 @@ namespace ComputerShop.Server.Services.User
             }
             return false;
         }
-        private string? GetUserId()
+        public string? GetUserId()
         {
             return contextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
         }

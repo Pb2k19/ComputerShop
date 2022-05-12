@@ -1,7 +1,20 @@
-﻿@if (DeliveryDetails != null && OnValidSubmit != null)
+﻿<style>
+    option {
+        margin: 40px;
+        background: rgba(0, 0, 0, 0.3);
+        color: #fff;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+    }
+</style>
+@if (DeliveryDetails != null && OnValidSubmit != null)
 {
     <EditForm Model="DeliveryDetails" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
+        <div class="mb-3">
+            <h5 for="name">Imię i nazwisko / nazwa firmy</h5>
+            <InputText id="name" class="form-control shadow-none" @bind-Value="DeliveryDetails.Name" />
+            <ValidationMessage For="@(() => DeliveryDetails.Name)" />
+        </div>
         <div class="mb-3">
             <h5 for="email">Email</h5>
             <InputText id="email" class="form-control shadow-none" @bind-Value="DeliveryDetails.Email" />
@@ -32,6 +45,29 @@
             <InputText id="house-number" class="form-control shadow-none" @bind-Value="DeliveryDetails.HouseNumber" />
             <ValidationMessage For="@(() => DeliveryDetails.HouseNumber)" />
         </div>
+        <div class="mb-3">
+            <h5>Sposób dostawy</h5>
+            <DropdownMenu TItem="string"
+                          Items="DeliveryMethods"                          
+                          ButtonClassCss="form-control shadow-none btn border border-1"
+                          @bind-Value="DeliveryDetails.DeliveryMethod"
+                          OnMouseOverEnabled="false"
+                          >
+                <InitTitle>Wybierz sposób dostawy</InitTitle>
+            </DropdownMenu>
+            <ValidationMessage For="@(() => DeliveryDetails.DeliveryMethod)" />
+        </div>
+        <div class="mb-3">
+            <h5>Sposób płatności</h5>
+            <DropdownMenu TItem="string"
+                          Items="PaymentMethods"
+                          ButtonClassCss="form-control shadow-none btn border border-1"
+                          @bind-Value="DeliveryDetails.PaymentMethod"
+                          OnMouseOverEnabled="false">
+                <InitTitle>Wybierz sposób płatności</InitTitle>
+            </DropdownMenu>
+            <ValidationMessage For="@(() => DeliveryDetails.PaymentMethod)" />
+        </div>
         <div class="d-flex justify-content-end mt-3">
             <button type="submit" class="btn btn-primary shadow-none">@ButtonText</button>
         </div>
@@ -39,6 +75,8 @@
 }
 
 @code {
+    public List<string> DeliveryMethods { get; set; } = new List<string> { "Kurier", "Poczta", "Odbiór osobisty" };
+    public List<string> PaymentMethods { get; set; } = new List<string> { "Paypal", "Przy odbiorze" };
     [Parameter] public DeliveryDetails? DeliveryDetails { get; set; }
     [Parameter] public Action? OnValidSubmit { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Zapisz";

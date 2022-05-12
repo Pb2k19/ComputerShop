@@ -57,7 +57,7 @@ namespace ComputerShop.Client.Shared.Components
             }
         }
 
-        public async void OnButtonClick()
+        public async Task OnButtonClick()
         {
             if(Product == null)
                 return;
@@ -66,6 +66,18 @@ namespace ComputerShop.Client.Shared.Components
                 ToastService?.ShowAddToCart(Product.Name);
             else
                 await InvokeAsync(() => ToastService?.ShowError(string.Empty, response.Message));
+        }
+
+        public async Task AddToWishListAsync()
+        {
+            if(!string.IsNullOrWhiteSpace(Product?.Id))
+            {
+                var response = await WishListService.AddToWishListAsync(Product.Id);
+                if (!response.Success)
+                    ToastService?.ShowError(response.Message);
+                else
+                    ToastService?.ShowSuccess("Dodano do listy życzeń",Product.Name);
+            }
         }
 
         protected void OnValueChanged(int value)

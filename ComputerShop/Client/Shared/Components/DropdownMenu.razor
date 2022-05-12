@@ -27,7 +27,7 @@
         </button>
     </div>
     <CascadingValue name="Dropdown" Value="@this">
-        <div class="dropdown-menu dropdown-menu-end @(IsMenuShown? "show shadow":string.Empty)" style="margin-left: @MenuMarginLeft">
+        <div class="dropdown-menu dropdown-menu-end w-100 @(IsMenuShown? "show shadow":string.Empty)" style="margin-left: @MenuMarginLeft">
             @if (Items != null)
              {
                 @foreach (var item in Items)

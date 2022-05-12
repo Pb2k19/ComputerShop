@@ -1,7 +1,12 @@
 ﻿namespace ComputerShop.Shared.Models.User
 {
-    public class WishLisModel
+    public class WishListModel
     {
+        public WishListModel() { }
+        public WishListModel(List<WishListItem> items)
+        {
+            List = items;
+        }
         public List<WishListItem> List { get; set; } = new();
     }
     public class WishListItem
@@ -11,28 +16,40 @@
     }
     public static class WishListExtensions
     {
-        public static void AddProduct(this WishLisModel wishList, Product product)
+        public static bool AddProduct(this WishListModel wishList, Product product)
         {
             if (!string.IsNullOrWhiteSpace(product?.Id))
             {
                 wishList.List.Add(new WishListItem { ProductId = product.Id });
+                return true;
             }
+            return false;
         }
-        public static void AddProduct(this WishLisModel wishList, string productId)
+        public static bool AddProduct(this WishListModel wishList, string productId)
         {
             if (!string.IsNullOrWhiteSpace(productId))
             {
                 wishList.List.Add(new WishListItem { ProductId = productId });
+                return true;
             }
+            return false;
         }
-        public static void RemoveProduct(this WishLisModel wishList, string productId)
+        public static bool RemoveProduct(this WishListModel wishList, string productId)
         {
             if (!string.IsNullOrWhiteSpace(productId))
             {
                 WishListItem toRemove = wishList.List.FirstOrDefault(item => item.ProductId.Contains(productId));
                 if(toRemove != null)
+                {
                     wishList.List.Remove(toRemove);
+                    return true;
+                }
             }
+            return false;
+        }
+        public static List<string> GetAllProductIds(this WishListModel wishList)
+        {
+            return wishList.List.Select(item => item.ProductId).ToList();
         }
     }
 }

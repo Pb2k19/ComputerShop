@@ -6,9 +6,11 @@ namespace ComputerShop.Server.Services.User
 {
     public interface IUserService
     {
-        bool ValidateJWT(HttpRequest request);
-        Task<ServiceResponse<Token>> Login (Login login);
-        Task<SimpleServiceResponse> Register(Register register);
-        Task<SimpleServiceResponse> ChangePassword(ChangePassword changePassword);
+        string? GetUserId();
+        Task<UserModel?> GetUserByIdAsync(string id);
+        SimpleServiceResponse ValidateJWT(HttpRequest request);
+        Task<ServiceResponse<Token>> LoginAsync (Login login);
+        Task<SimpleServiceResponse> RegisterAsync(Register register);
+        Task<SimpleServiceResponse> ChangePasswordAsync(ChangePassword changePassword);
     }
 }

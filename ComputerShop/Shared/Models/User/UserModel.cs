@@ -7,6 +7,6 @@
         public string Password { get; set; }
         public DateTime CreationDate { get; set; } = DateTime.UtcNow;
         public List<OrderModel> Orders { get; set; } = new();
-        public List<CartItem> WishList { get; set; } = new();
+        public WishListModel WishList { get; set; } = new();
     }
 }

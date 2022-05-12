@@ -1,6 +1,8 @@
 ﻿@page "/account"
+@page "/account/{Page}"
 @attribute [Authorize]
 @inject IUserService UserService
+@inject IWishListService WishListService
 @inject ILocalStorageService LocalStorageService
 @inject IToastService ToastService
 @inject NavigationManager NavigationManager
@@ -8,76 +10,79 @@
 
 <PageTitle>Konto</PageTitle>
 
-<div class="container" style="max-width: 750px">
-    <h2 class="text-center">Zmień hasło</h2>
-    <EditForm Model="changePassword" OnValidSubmit="OnPasswordChangeAsync">
-        <DataAnnotationsValidator />
-        <div class="mb-3">
-            <h5 for="currentpassword">Aktualne hasło</h5>
-            <InputText id="currentpassword" class="form-control shadow-none" type="password" @bind-Value="changePassword.CurrentPassword" />
-            <ValidationMessage For="@(()=>changePassword.CurrentPassword)" />
-        </div>
-        <div class="mb-3">
-            <h5 for="newpassword">Nowe hasło</h5>
-            <InputText id="password" class="form-control shadow-none" type="password" @bind-Value="changePassword.Password" />
-            <ValidationMessage For="@(()=>changePassword.Password)" />
-        </div>
-        <div>
-            <h5 for="confpassword">Potwierdź nowe hasło</h5>
-            <InputText id="confpassword" class="form-control shadow-none" type="password" @bind-Value="changePassword.ConfPassword" />
-            <ValidationMessage For="@(()=>changePassword.ConfPassword)" />
-        </div>
-        <div class="d-flex justify-content-end mt-3">
-            <button type="submit" class="btn btn-primary shadow-none">Zapisz</button>
-        </div>
-    </EditForm>
-    <DeliveryDetailsForm DeliveryDetails="delivery" OnValidSubmit="OnValidSubmit"/>
-    <div class="d-flex justify-content-end">
-        <YesNoRadioInput YesLabelText="Firma" NoLabelText="Osoba prywatna" 
-                         OnValueChanged="InvoiceChanged"></YesNoRadioInput>
-    </div>    
-    @if (isInvoiceForBusiness)
-    {
-        <InvoiceDetailsForBusinessForm InvoiceDetailsForBusiness="invoiceDetailsForBusiness" OnValidSubmit="OnValidSubmit"/>
+<style>
+    .btn{
+        font-size: 1.2rem;
     }
-    else
-    {
-        <InvoiceDetailsForm InvoiceDetails="invoiceDetails" OnValidSubmit="OnValidSubmit"/>
-    }
-</div>
+</style>
 
-@code {
-    ChangePassword changePassword = new();
-    IUserHelper? userHelper = null;
-    DeliveryDetails delivery = new();
-    bool isInvoiceForBusiness = true;
-    InvoiceDetailsForBusiness invoiceDetailsForBusiness = new();
-    InvoiceDetails invoiceDetails = new();
-
-    protected void InvoiceChanged(bool isForBussiness)
-    {
-        isInvoiceForBusiness = isForBussiness;
-    }
-    protected async Task OnPasswordChangeAsync()
-    {
-        if (userHelper == null)
-            userHelper = new UserHelper(StateProvider, UserService, LocalStorageService, NavigationManager, ToastService);
-        var response = await UserService.ChangePassword(changePassword);
-        if (response.Success)
-            ToastService.ShowSuccess("Hasło zostało zmienione", "Udało się!");
-        else
+<div class="row">
+    <div class="col-lg-3">
+        <div class="m-4 mt-1 p-3">
+            <nav class="navbar flex-lg-column navbar-light shadow">
+                <a class="nav-link cursorHand active" href="/account/orders">Zamówienia</a>
+                <a class="nav-link cursorHand" href="/account/wish-list">Lista życzeń</a>
+                <a class="nav-link cursorHand" href="/account/delivery-details">Dane do dostawy</a>
+                <a class="nav-link cursorHand" href="/account/invoice-details">Dane do faktury</a>
+                <a class="nav-link cursorHand" href="/account/security">Bezpieczeństwo</a>
+            </nav>
+        </div>
+    </div>
+    <div class="col-lg-9 container px-5">
+        @switch (Page)
         {
-            if (response.Data == System.Net.HttpStatusCode.Unauthorized)
-                await userHelper.LogoutOnUnauthorizedAsync();
-            else
-                ToastService.ShowInfo(response?.Message, "Nie udało się ☹");
+            case "security":
+                <h2 class="text-center justify-content-start">Zmień hasło</h2>
+                <EditForm Model="changePassword" OnValidSubmit="OnPasswordChangeAsync">
+                    <DataAnnotationsValidator />
+                    <div class="mb-3">
+                        <h5 for="currentpassword">Aktualne hasło</h5>
+                        <InputText id="currentpassword" class="form-control shadow-none" type="password" @bind-Value="changePassword.CurrentPassword" />
+                        <ValidationMessage For="@(()=>changePassword.CurrentPassword)" />
+                    </div>
+                    <div class="mb-3">
+                        <h5 for="newpassword">Nowe hasło</h5>
+                        <InputText id="password" class="form-control shadow-none" type="password" @bind-Value="changePassword.Password" />
+                        <ValidationMessage For="@(()=>changePassword.Password)" />
+                    </div>
+                    <div>
+                        <h5 for="confpassword">Potwierdź nowe hasło</h5>
+                        <InputText id="confpassword" class="form-control shadow-none" type="password" @bind-Value="changePassword.ConfPassword" />
+                        <ValidationMessage For="@(()=>changePassword.ConfPassword)" />
+                    </div>
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn btn-primary shadow-none">Zapisz</button>
+                    </div>
+                </EditForm>
+                break;
+            case "delivery-details":
+                <h2 class="text-center justify-content-start">Zapisz dane do dostawy</h2>
+                <DeliveryDetailsForm DeliveryDetails="delivery" OnValidSubmit="OnValidSubmit" />
+                break;
+            case "invoice-details":
+                <h2 class="text-center justify-content-start">Zapisz dane do faktury</h2>
+                <div class="d-flex justify-content-end">
+                    <YesNoRadioInput YesLabelText="Firma" NoLabelText="Osoba prywatna"
+                                     OnValueChanged="InvoiceChanged"></YesNoRadioInput>
+                </div>
+                @if (isInvoiceForBusiness)
+                {
+                    <InvoiceDetailsForBusinessForm InvoiceDetailsForBusiness="invoiceDetailsForBusiness" OnValidSubmit="OnValidSubmit" />
+                }
+                else
+                {
+                    <InvoiceDetailsForm InvoiceDetails="invoiceDetails" OnValidSubmit="OnValidSubmit" />
+                }
+                break;
+            case "wish-list":
+                <h2 class="text-center justify-content-start">Lista życzeń</h2>
+                @foreach (var item in wishList.List)
+                {
+                    <h2>@item.Date @item.ProductId</h2>
+                }
+                break;
+            default:
+                break;
         }
-    }
-
-    protected void OnValidSubmit()
-    {
-        if (isInvoiceForBusiness)
-            return;
-        return;
-    }
-}
+    </div>
+</div>

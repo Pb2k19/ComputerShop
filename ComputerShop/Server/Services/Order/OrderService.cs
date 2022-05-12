@@ -14,7 +14,7 @@ namespace ComputerShop.Server.Services.Order
             productsService = new ProductsService();
         }
 
-        public async Task<ServiceResponse<OrderModel>> AddOrderAsync(List<CartItem> cartItems, DeliveryDetails deliveryDetails)
+        public async Task<ServiceResponse<OrderModel>> AddOrderAsync(List<CartItem> cartItems, DeliveryDetails deliveryDetails, InvoiceDetails invoiceDetails)
         {
             var products = await productsService.GetProductsByIdListAsync(cartItems.Select(p => p.ProductId).ToList());
             List<ProductCartItem> items = new();
@@ -32,7 +32,7 @@ namespace ComputerShop.Server.Services.Order
             if (cartSum != productsSum)
                 return new ServiceResponse<OrderModel> { Success = false, Message = "Cena uległa zmianie" };
 
-            OrderModel order = new() { CartItems = cartItems, State = "Nowe", Id = "1", Total = cartSum, DeliveryDetails = deliveryDetails };
+            OrderModel order = new() { CartItems = cartItems, State = "Nowe", Id = "1", Total = cartSum, DeliveryDetails = deliveryDetails, InvoiceDetails = invoiceDetails };
             return new ServiceResponse<OrderModel> { Success = true, Data = order };
         }
     }

@@ -1,4 +1,5 @@
 ﻿@inject ICartService CartService
+@inject IWishListService WishListService
 
 @if (Product != null)
  {
@@ -48,6 +49,11 @@
                         <h5>Darmowa dostawa!</h5>
                     </div>
                  }
+                 <AuthorizeView>
+                     <Authorized>
+                         <h5 class="text-primary cursorHand text-decoration-underline" @onclick="AddToWishListAsync">Dodaj do listy życzeń</h5>
+                     </Authorized>
+                 </AuthorizeView>
              </div>
          }
      </div>

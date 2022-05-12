@@ -2,6 +2,8 @@
 @inject ICartService CartService
 @implements IDisposable
 
+<PageTitle>Koszyk</PageTitle>
+
 <style>
     .cart-img {
         overflow: hidden;
@@ -16,8 +18,12 @@
         font-size: 1.4rem;
     }
 
+    .product-name {
+        opacity: 0.85;
+    }
+
     .product-name:hover {
-        opacity: 1.1;
+        opacity: 1;
     }
 
     @@media (max-width: 1199px) {
@@ -32,6 +38,7 @@
         }
     }
 </style>
+
 @if (productCartItems != null && productCartItems.Count > 0)
 {
     <div id="cart-containter" class="container-fluid">
@@ -85,7 +92,7 @@
                         <h3 class="m-0">Łączna kwota</h3>
                         <h3>@total zł</h3>
                     </div>
-                    <button class="btn w-100 btn-primary shadow-none mt-3" style="font-size: 1.4rem;" @onclick="GoToSummaryPage">Dostawa</button>
+                    <button type="button" class="btn w-100 btn-primary shadow-none mt-3" style="font-size: 1.4rem;" @onclick="GoToSummaryPage">Dostawa</button>
                 </div>
             </div>
         </div>

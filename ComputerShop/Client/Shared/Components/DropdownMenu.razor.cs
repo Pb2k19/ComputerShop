@@ -4,6 +4,7 @@ namespace ComputerShop.Client.Shared.Components
 {
     public partial class DropdownMenu<TItem>
     {
+        private TItem? value;
         [Parameter] public RenderFragment? InitTitle { get; set; }
         [Parameter] public EventCallback<int> OnSelected { get; set; }
         [Parameter] public EventCallback OnTitleClick { get; set; }
@@ -11,8 +12,21 @@ namespace ComputerShop.Client.Shared.Components
         [Parameter] public bool ChangeTitleToSelectedValue { get; set; } = true;
         [Parameter] public string ButtonClassCss { get; set; } = "btn-primary";
         [Parameter] public string? Icon { get; set; } = null;
-        [Parameter] public string MenuMarginLeft { get; set; } = string.Empty;
+        [Parameter] public string MenuMarginLeft { get; set; } = "0";
         [Parameter] public bool OnMouseOverEnabled { get; set; } = true;
+        [Parameter] public TItem? Value
+        {
+            get => value;
+            set
+            {
+                if (this.value?.Equals(value) ?? false) 
+                    return;
+                this.value = value;
+                ValueChanged.InvokeAsync(this.value);
+            }
+        }        
+        [Parameter] public EventCallback<TItem> ValueChanged { get; set; }
+
         public bool IsMenuShown { get; set; } = false;
         public RenderFragment? Title { get; set; }
 
@@ -20,10 +34,11 @@ namespace ComputerShop.Client.Shared.Components
         {
             if(Items == null)
                 return;
+            Value = item;
             if(ChangeTitleToSelectedValue)
             {
                 Title = contentFragment?.Invoke(item);
-            }            
+            }
             IsMenuShown = false;
             StateHasChanged();
             int index = Items.IndexOf(item);

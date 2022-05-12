@@ -31,16 +31,16 @@ namespace ComputerShop.Client.Pages
             switch (num)
             {
                 case 0:
-                    await JS.ScrollToElement("product-name");
+                    await JS.ScrollToElementAsync("product-name");
                     break;
                 case 1:
-                    await JS.ScrollToElement("product-description");
+                    await JS.ScrollToElementAsync("product-description");
                     break;
                 case 2:
-                    await JS.ScrollToElement("product-details");
+                    await JS.ScrollToElementAsync("product-details");
                     break;
                 case 3:
-                    await JS.ScrollToElement("product-opinions");
+                    await JS.ScrollToElementAsync("product-opinions");
                     break;
                 default:
                     break;

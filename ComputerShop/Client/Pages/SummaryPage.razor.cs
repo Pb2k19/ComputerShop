@@ -1,64 +1,81 @@
 ﻿using ComputerShop.Shared.Models;
 using ComputerShop.Client.Helpers;
-using Microsoft.AspNetCore.Components;
-using Blazored.Toast.Services;
 using ComputerShop.Shared.Models.User;
 
 namespace ComputerShop.Client.Pages
 {
     public partial class SummaryPage
     {
-        [Inject] IToastService? ToastService { get; set; }
-        [Inject] NavigationManager? NavigationManager { get; set; }
         private List<ProductCartItem> productCartItems = new();
-        DeliveryDetails deliveryDetails = new DeliveryDetails();
+        private DeliveryDetails deliveryDetails = new();
         private decimal total = 0;
-        
+        private string title = "Dane dostawy";
+        private int currentStep = 0;
+
+        private bool isInvoiceForBusiness = true, showInvoiceForm = false, invoiceDetailsAdded = false;
+        private InvoiceDetailsForBusiness invoiceDetailsForBusiness = new();
+        private InvoiceDetails invoiceDetails = new();
 
         protected override async Task OnInitializedAsync()
         {
             productCartItems = await CartService.GetCartProductsAsync();
-            UpdatePrice();
-            CartService.OnUpdate += CartServiceOnUpdateAsync;
+            SetTotal();
             base.OnInitialized();
         }
-
-        private async void CartServiceOnUpdateAsync()
+        protected async Task EndAsync()
         {
-            productCartItems = await CartService.GetCartProductsAsync();
-            UpdatePrice();
-            StateHasChanged();
+            InvoiceDetails? iD;
+            if (!invoiceDetailsAdded)
+                iD = null;
+            else if (isInvoiceForBusiness)
+                iD = invoiceDetailsForBusiness;
+            else
+                iD = invoiceDetails;
+            await OrderService.AddOrderAsync(await CartService.GetAllCartItemsAsync(), deliveryDetails, iD);
         }
-
+        protected void NextStep()
+        {
+            currentStep++;
+            ChangeTitle();
+        }
+        protected void PreviousStep()
+        {
+            currentStep--;
+            ChangeTitle();
+        }
+        protected void ChangeTitle()
+        {
+            switch (currentStep)
+            {
+                case 0:
+                    title = "Dane do dostawy";
+                    break;
+                case 1:
+                    title = "Dane do faktury";
+                    break;
+                default:
+                    title = "Podsumowanie";
+                    break;
+            }
+        }
+        protected void InvoiceChanged()
+        {
+            isInvoiceForBusiness = !isInvoiceForBusiness;
+        }
+        protected void SaveInvoiceDetails()
+        {
+            invoiceDetailsAdded = true;
+            NextStep();
+        }
         protected void GoToProductPage(string productId)
         {
             Product? product = productCartItems.FirstOrDefault(x => productId.Equals(x.Product.Id))?.Product;
             NavigationManager?.GoToProductPage(productId, product?.Category?.Name);
         }
-
-        protected async Task OnValueChangedAsync(int value, string productId)
-        {
-            await CartService.UpdateCartItemQuantityAsync(value, productId);
-        }
-
-        protected async Task OnItemRemoveAsync(string productId)
-        {
-            var response = await CartService.RemoveItemFromCartAsync(productId);
-            if (response.Success)
-                await InvokeAsync(() => ToastService?.ShowCartItemRemoved());
-            else
-                await InvokeAsync(() => ToastService?.ShowError(string.Empty, response.Message));
-        }
-
-        private void UpdatePrice()
+        private void SetTotal()
         {
             total = 0;
             productCartItems.ForEach(item => total += item.Product.Price * item.Quantity);
-        }
-
-        public void Dispose()
-        {
-            CartService.OnUpdate -= CartServiceOnUpdateAsync;
         }
     }
 }

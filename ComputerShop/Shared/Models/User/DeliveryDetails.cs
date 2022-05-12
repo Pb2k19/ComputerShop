@@ -38,9 +38,9 @@ namespace ComputerShop.Shared.Models.User
         public string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Metoda dostawy jest wymagana")]
-        public string DeliveryMethod { get; set; }
+        public string DeliveryMethod { get; set; } = string.Empty;
         
         [Required(ErrorMessage = "Sposób zapłaty jest wymagany")]
-        public string PaymentMethod { get; set; }
+        public string PaymentMethod { get; set; } = string.Empty;
     }
 }
