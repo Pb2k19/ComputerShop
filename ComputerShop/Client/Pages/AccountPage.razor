@@ -2,6 +2,7 @@
 @page "/account/{Page}"
 @attribute [Authorize]
 @inject IUserService UserService
+@inject IOrderService OrderService
 @inject IWishListService WishListService
 @inject ILocalStorageService LocalStorageService
 @inject IToastService ToastService
@@ -82,6 +83,14 @@
                 }
                 break;
             default:
+                @foreach(var order in orderList)
+                {
+                    <h1>@order.State @order.Total</h1>
+                    foreach(var item in order.CartItems)
+                    {
+                       <h2>@item.ProductId @item.Price</h2> 
+                    }
+                }
                 break;
         }
     </div>

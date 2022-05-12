@@ -20,7 +20,7 @@ namespace ComputerShop.Server.Controllers
             this.wishListService = wishListService;
         }
 
-        [HttpGet("/getWishList"), Authorize]
+        [HttpGet("getWishList"), Authorize]
         public async Task<ActionResult<ServiceResponse<WishListModel>>> GetWishList()
         {
             SimpleServiceResponse response = authentication.ValidateJWT(Request);
@@ -33,7 +33,7 @@ namespace ComputerShop.Server.Controllers
             return Ok(await wishListService.GetWishListAsync());
         }
 
-        [HttpGet("/addToWishList/{productId}"), Authorize]
+        [HttpGet("addToWishList/{productId}"), Authorize]
         public async Task<ActionResult<SimpleServiceResponse>> AddToWishList([FromRoute]string productId)
         {
             SimpleServiceResponse response = authentication.ValidateJWT(Request);
@@ -46,7 +46,7 @@ namespace ComputerShop.Server.Controllers
             return Ok(await wishListService.AddToWishListAsync(productId));
         }
 
-        [HttpGet("/removeFromWishList/{productId}"), Authorize]
+        [HttpGet("removeFromWishList/{productId}"), Authorize]
         public async Task<ActionResult<SimpleServiceResponse>> RemoveFromWishList([FromRoute] string productId)
         {
             SimpleServiceResponse response = authentication.ValidateJWT(Request);

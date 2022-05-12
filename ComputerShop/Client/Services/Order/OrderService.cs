@@ -37,5 +37,11 @@ namespace ComputerShop.Client.Services.Order
                 return await response.Content.ReadFromJsonAsync<ServiceResponse<OrderModel>>();
             }
         }
+
+        public async Task<ServiceResponse<List<OrderModel>>> GetAllOrdersForUserAsync()
+        {
+            return await httpClient.GetFromJsonAsync<ServiceResponse<List<OrderModel>>>($"api/Order/getAllOrdersForUser") 
+                            ?? new ServiceResponse<List<OrderModel>>() { Success = false, Message="Nie można wczytać listy zamówień"};
+        }
     }
 }

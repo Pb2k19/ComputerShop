@@ -25,8 +25,33 @@ namespace ComputerShop.Server.Services.User
                     Password = "$2a$15$XYGv6r8KSy3eyUY.Is1yWuSYUGZ6kBH2o9nXfmkoMmw4W8dCcAUv6",
                     WishList = new(new List<WishListItem> {
                         new WishListItem { ProductId = "1" },
-                        new WishListItem { ProductId = "2" } })
+                        new WishListItem { ProductId = "2" } }),
+                    Orders = new()
+                    {
+                        new OrderModel
+                        {
+                            CartItems = new()
+                            {
+                                new CartItem { Price = 200, ProductId = "1", Quantity = 20},
+                                new CartItem { Price = 200, ProductId = "2", Quantity = 5},
+                                new CartItem { Price = 200, ProductId = "3", Quantity = 10},
+                            },
+                            Id = "112132w1",
+                            State = "Completed",
+                            Total = 600
+                        },
+                        new OrderModel
+                        {
+                            CartItems = new()
+                            {
+                                new CartItem { Price = 200, ProductId = "1", Quantity = 20},
+                            },
+                            Id = "1213232",
+                            State = "In Progres",
+                            Total = 200
+                        }
                     }
+                    },
             }; //1234@#aAbcd
             this.configuration = configuration;
             this.contextAccessor = contextAccessor;

@@ -15,17 +15,17 @@ namespace ComputerShop.Client.Services.User
 
         public async Task<ServiceResponse<string>?> Login(Login login)
         {
-            using var response = await httpClient.PostAsJsonAsync("login", login);
+            using var response = await httpClient.PostAsJsonAsync("api/user/login", login);
             return await response.Content.ReadFromJsonAsync<ServiceResponse<string>>();
         }
         public async Task<SimpleServiceResponse?> Register(Register register)
         {
-            using var response = await httpClient.PostAsJsonAsync("register", register);
+            using var response = await httpClient.PostAsJsonAsync("api/user/register", register);
             return await response.Content.ReadFromJsonAsync<SimpleServiceResponse>();
         }
         public async Task<ServiceResponse<HttpStatusCode>> ChangePassword(ChangePassword changePassword)
         {
-            using var response = await httpClient.PostAsJsonAsync("changePassword", changePassword);
+            using var response = await httpClient.PostAsJsonAsync("api/user/changePassword", changePassword);
             var simple = await response.Content.ReadFromJsonAsync<SimpleServiceResponse>();
             return new ServiceResponse<HttpStatusCode> 
             { 
@@ -36,12 +36,12 @@ namespace ComputerShop.Client.Services.User
         }
         public async Task<bool> CheckAuthentication()
         {
-            var respone = await httpClient.GetFromJsonAsync<SimpleServiceResponse>("checkAuthentication");
+            var respone = await httpClient.GetFromJsonAsync<SimpleServiceResponse>("api/user/checkAuthentication");
             return respone?.Success ?? false;
         }
         public async Task<bool> Logout()
         {
-            var respone = await httpClient.GetAsync("logout");
+            var respone = await httpClient.GetAsync("api/user/logout");
             return respone?.IsSuccessStatusCode ?? false;
         }
     }

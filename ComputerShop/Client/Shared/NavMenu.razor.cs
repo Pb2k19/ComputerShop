@@ -41,9 +41,9 @@ namespace ComputerShop.Client.Shared
         });
         readonly DropdownNavigationItems AccountOptions = new(new List<DropdownNavigationItem>
         {
-            new DropdownNavigationItem { Name = "Szczegóły", Path = "account" },
             new DropdownNavigationItem { Name = "Zamówienia", Path = "account/orders" },
-            new DropdownNavigationItem { Name = "Lista życzeń", Path = "account/wishlist" },
+            new DropdownNavigationItem { Name = "Szczegóły", Path = "account/delivery-details" },            
+            new DropdownNavigationItem { Name = "Lista życzeń", Path = "account/wish-list" },
 #pragma warning disable CS8625
             null,
 #pragma warning restore CS8625

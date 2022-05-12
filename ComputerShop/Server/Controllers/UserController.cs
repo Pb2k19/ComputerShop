@@ -18,7 +18,7 @@ namespace ComputerShop.Server.Controllers
             this.authentication = authentication;
         }
 
-        [HttpPost("/login")]
+        [HttpPost("login")]
         public async Task<ActionResult<ServiceResponse<string>>> Login(Login login)
         {
             var response = await authentication.LoginAsync(login);
@@ -35,7 +35,7 @@ namespace ComputerShop.Server.Controllers
                 Success = response.Success
             });
         }
-        [HttpGet("/logout")]
+        [HttpGet("logout")]
         public ActionResult Logout()
         {
             string time = DateTime.UtcNow.ToString("ddd, dd MMM yyyy HH:mm:ss 'UTC'", CultureInfo.GetCultureInfo("en-US"));
@@ -44,13 +44,13 @@ namespace ComputerShop.Server.Controllers
             return Ok();
         }
 
-        [HttpPost("/register")]
+        [HttpPost("register")]
         public async Task<ActionResult<SimpleServiceResponse>> Register(Register register)
         {
             return Ok(await authentication.RegisterAsync(register));
         }
 
-        [HttpPost("/changePassword"), Authorize]
+        [HttpPost("changePassword"), Authorize]
         public async Task<ActionResult<SimpleServiceResponse>> ChangePassword(ChangePassword newPassword)
         {
             SimpleServiceResponse response = authentication.ValidateJWT(Request);
@@ -62,7 +62,7 @@ namespace ComputerShop.Server.Controllers
             return Ok(await authentication.ChangePasswordAsync(newPassword));
         }
 
-        [HttpGet("/checkAuthentication")]
+        [HttpGet("checkAuthentication")]
         public ActionResult<SimpleServiceResponse> CheckAuthentication()
         {
             SimpleServiceResponse response = authentication.ValidateJWT(Request);

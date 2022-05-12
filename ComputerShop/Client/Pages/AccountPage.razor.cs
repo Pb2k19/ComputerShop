@@ -9,15 +9,18 @@ namespace ComputerShop.Client.Pages
         [Parameter] public string? Page { get; set; }
         ChangePassword changePassword = new();
         IUserHelper? userHelper = null;
-        DeliveryDetails delivery = new();
-        bool isInvoiceForBusiness = true;
+        DeliveryDetails delivery = new();       
         InvoiceDetailsForBusiness invoiceDetailsForBusiness = new();
         InvoiceDetails invoiceDetails = new();
         WishListModel wishList = new();
+        List<OrderModel> orderList = new();
+        bool isInvoiceForBusiness = true;
+
 
         protected async override Task OnParametersSetAsync()
         {
             wishList = (await WishListService.GetWishListAsync()).Data;
+            orderList = (await OrderService.GetAllOrdersForUserAsync()).Data;
             base.OnParametersSet();
         }
 
