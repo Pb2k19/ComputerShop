@@ -15,17 +15,19 @@
     .btn{
         font-size: 1.2rem;
     }
+    #account-menu{
+        font-size: 1.3rem;
+    }
 </style>
 
 <div class="row">
     <div class="col-lg-3">
         <div class="m-4 mt-1 p-3">
-            <nav class="navbar flex-lg-column navbar-light shadow">
-                <a class="nav-link cursorHand active" href="/account/orders">Zamówienia</a>
-                <a class="nav-link cursorHand" href="/account/wish-list">Lista życzeń</a>
-                <a class="nav-link cursorHand" href="/account/delivery-details">Dane do dostawy</a>
-                <a class="nav-link cursorHand" href="/account/invoice-details">Dane do faktury</a>
-                <a class="nav-link cursorHand" href="/account/security">Bezpieczeństwo</a>
+            <nav class="navbar flex-lg-column navbar-light shadow" id="account-menu">
+                @foreach (var item in navigationItems.Items)
+                {
+                    <a class="nav-link cursorHand" @onclick="() => ChangeViewAsync(item.Path)">@item.Name</a>
+                }
             </nav>
         </div>
     </div>
@@ -85,11 +87,30 @@
             default:
                 @foreach(var order in orderList)
                 {
-                    <h1>@order.State @order.Total</h1>
-                    foreach(var item in order.CartItems)
-                    {
-                       <h2>@item.ProductId @item.Price</h2> 
-                    }
+                    <div class="shadow rounded p-3 mb-2 cursorHand">
+                        <h3>Zamówienie @order.Id</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                 <div class="ps-2">
+                                    <h4>Status: @order.State</h4>
+                                    <h4>Suma: @order.Total zł</h4>
+                                    <h4>Data złożenia: @order.OrderDate.ToString("dd-MM-yyyy")</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    @foreach (var item in @order.CartItems.Take(3))
+                                    {
+                                        <li>@item.Price @item.Quantity</li>
+                                    }
+                                    @if(@order.CartItems.Count > 3)
+                                    {
+                                        <li>...</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 }
                 break;
         }

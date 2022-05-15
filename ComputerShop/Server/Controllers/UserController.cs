@@ -25,7 +25,7 @@ namespace ComputerShop.Server.Controllers
             if (response.Success)
             {
                 string time = DateTime.UtcNow.AddHours(24).ToString("ddd, dd MMM yyyy HH:mm:ss 'UTC'", CultureInfo.GetCultureInfo("en-US"));
-                string cookie = $"__Secure-Fgp={response.Data.SecureFgpBase64}; SameSite=Strict; HttpOnly; Secure; Expires={time};";
+                string cookie = $"__Secure-Fgp={response.Data.SecureFgpBase64}; SameSite=Strict; HttpOnly; Secure; Expires={time}; Path=/;";
                 HttpContext.Response.Headers.Add("Set-Cookie", cookie);
             }
             return Ok(new ServiceResponse<string>
@@ -39,7 +39,7 @@ namespace ComputerShop.Server.Controllers
         public ActionResult Logout()
         {
             string time = DateTime.UtcNow.ToString("ddd, dd MMM yyyy HH:mm:ss 'UTC'", CultureInfo.GetCultureInfo("en-US"));
-            string cookie = $"__Secure-Fgp={string.Empty}; SameSite=Strict; HttpOnly; Secure; Expires={time};";
+            string cookie = $"__Secure-Fgp={string.Empty}; SameSite=Strict; HttpOnly; Secure; Expires={time}; Path=/;";
             HttpContext.Response.Headers.Add("Set-Cookie", cookie);
             return Ok();
         }
