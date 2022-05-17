@@ -18,24 +18,29 @@ namespace ComputerShop.Server.Services.UserDetails
             if (string.IsNullOrWhiteSpace(userId))
                 return new ServiceResponse<DeliveryDetails> { Message = "Coś poszło nie tak", Success = false };
             var user = await userService.GetUserByIdAsync(userId);
-            if(user == null || user.)
+            if(user == null || user.DeliveryDetails == null)
                 return new ServiceResponse<DeliveryDetails> { Message = "Nie można znaleźć użytkownika z podanym id", Success = false };
-            return new ServiceResponse<DeliveryDetails>
+            return new ServiceResponse<DeliveryDetails> { Data = user.DeliveryDetails };
         }
 
-        public Task<ServiceResponse<DeliveryDetails>> GetDeliveryDetailsAsync()
+        public async Task<ServiceResponse<DeliveryDetails>> GetDeliveryDetailsAsync()
         {
-            return GetDeliveryDetailsAsync(userService.GetUserId());
+            return await GetDeliveryDetailsAsync(userService.GetUserId());
         }
 
-        public Task<ServiceResponse<InvoiceDetails>> GetInvoiceDetailsAsync(string userId)
+        public async Task<ServiceResponse<InvoiceDetails>> GetInvoiceDetailsAsync(string? userId)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(userId))
+                return new ServiceResponse<InvoiceDetails> { Message = "Coś poszło nie tak", Success = false };
+            var user = await userService.GetUserByIdAsync(userId);
+            if (user == null || user.DeliveryDetails == null)
+                return new ServiceResponse<InvoiceDetails> { Message = "Nie można znaleźć użytkownika z podanym id", Success = false };
+            return new ServiceResponse<InvoiceDetails> { Data = user.InvoiceDetails };
         }
 
-        public Task<ServiceResponse<InvoiceDetails>> GetInvoiceDetailsAsync()
+        public async Task<ServiceResponse<InvoiceDetails>> GetInvoiceDetailsAsync()
         {
-            throw new NotImplementedException();
+            return await GetInvoiceDetailsAsync(userService.GetUserId());
         }
 
         public Task<SimpleServiceResponse> UpdateDeliveryDetailsAsync(DeliveryDetails deliveryDetails)

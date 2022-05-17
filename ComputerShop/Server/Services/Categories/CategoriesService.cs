@@ -1,14 +1,17 @@
-﻿using ComputerShop.Shared.Models;
+﻿using ComputerShop.Server.DataAccess;
+using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Server.Services.Categories
 {
     public class CategoriesService : ICategoriesService
     {
+        private readonly ICategoryData categoryData;
+
         public List<Category> Categories { get; set; } = new();
         public async Task<List<Category>> GetCategoriesAsync()
         {
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 Categories = new List<Category>()
                 {
@@ -35,6 +38,10 @@ namespace ComputerShop.Server.Services.Categories
             return Categories;
         }
 
+        public CategoriesService(ICategoryData categoryData)
+        {
+            this.categoryData = categoryData;
+        }
         public async Task<Category?> GetCategoryByIdAsync(string id)
         {
             if(Categories == null || Categories.Count == 0)

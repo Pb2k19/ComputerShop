@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using ComputerShop.Server.Services.WishList;
+using ComputerShop.Server.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,11 +14,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddMemoryCache();
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddScoped<IProductsService, ProductsService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IWishListService, WishListService>();
+
+builder.Services.AddSingleton<IDbConnection, DbConnection>();
+builder.Services.AddSingleton<ICategoryData, CategoryData>();
+builder.Services.AddSingleton<IProductData, ProductData>();
+builder.Services.AddSingleton<IUserData, UserData>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

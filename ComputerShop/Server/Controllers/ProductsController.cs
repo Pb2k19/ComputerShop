@@ -63,7 +63,7 @@ namespace ComputerShop.Server.Controllers
         {
             ServiceResponse<List<Product>> serviceResponse = new()
             {
-                Data = await productsService.GetHiglightedProductsAsync()
+                Data = await productsService.GetHighlightedProductsAsync()
             };
             return Ok(serviceResponse);
         }

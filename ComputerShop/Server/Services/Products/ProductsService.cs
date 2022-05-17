@@ -1,4 +1,5 @@
-﻿using ComputerShop.Shared.Models;
+﻿using ComputerShop.Server.DataAccess;
+using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.Components;
 using ComputerShop.Shared.Models.Products;
 
@@ -11,7 +12,6 @@ namespace ComputerShop.Server.Services.Products
         {
             new DesktopPcProduct
             {
-                Id = "1",
                 WarantyMonths = 24,
                 Cpu = new Cpu
                 {
@@ -123,7 +123,6 @@ namespace ComputerShop.Server.Services.Products
                 Power = 600,
                 Price = 400,
                 SataCount = 69,
-                Id = "66",
                 Pcie6pinCount = 6,
                 Protections = PsuProtections.List,
                 ExtraInfo = new()
@@ -139,7 +138,6 @@ namespace ComputerShop.Server.Services.Products
                 ChipManufacturer = GpuManufacturers.Amd.ToString(),
                 Description = "AMAMAMMAMMAAMMMAAZING GPU FOR GEJMERS",
                 FrequencyMHz = 5000,
-                Id = "698",
                 Images = new(){ new Image { Location = "https://asset.msi.com/resize/image/global/product/product_0_20180417114910_5ad56eb6add6d.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png"},
                                 new Image { Location = "https://asset.msi.com/resize/image/global/product/product_5_20160630092113_5774740910945.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png"},},
                 IsPublic = true,
@@ -205,7 +203,6 @@ namespace ComputerShop.Server.Services.Products
                     new Image { Location = "https://dlcdnwebimgs.asus.com/gain/d4080303-afe4-4cac-a91c-305a56b63455/"},
                     new Image { Location = "https://dlcdnwebimgs.asus.com/gain/EA122891-9FE2-4ECF-AAAE-5DAC22E34B1E/w717/h525"},
                 },
-                 Id = "55",
                  Name = "VIVO BOOOK",
                  Motherboard = new Motherboard()
                  {
@@ -233,7 +230,6 @@ namespace ComputerShop.Server.Services.Products
                 CoresCount = 18,
                 Description = "CPU GAMING AMDAAWDAD",
                 FrequencyMHz = 6000,
-                Id = "456654",
                 Images = new List<Image>{new Image { Location= "https://www.intel.pl/content/dam/www/central-libraries/us/en/images/12thgen-promo.jpg.rendition.intel.web.480.270.jpg" } },
                 L3CacheMB = 50,
                 Manufacturer = "AMD",
@@ -249,7 +245,6 @@ namespace ComputerShop.Server.Services.Products
             {
                 Chipset = "B660",
                 Description = "MOBO",
-                Id = "5462",
                 Images = new(){new Image { Location="https://asset.msi.com/resize/image/global/product/product_3_20190716132640_5d2d6010d11e8.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png"},
                                new Image { Location="https://asset.msi.com/resize/image/global/product/product_1_20190716132640_5d2d60107d8bc.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png"}},
                 M2SlotsCount = 2,
@@ -268,7 +263,6 @@ namespace ComputerShop.Server.Services.Products
                 LatencyCL = 50,
                 Description = "RAMMMMAAMAMMAMAMA",
                 FrequencyMHz = 3200,
-                Id = "7868",
                 Images = new(){new Image {Location="https://www.corsair.com/medias/sys_master/images/images/hf5/h6f/9110987210782/-CMK16GX4M2B3200C16-Gallery-VENG-LPX-BLK-00.png"}},
                 ModulesNumber = 2,
                 RamTechnology = RamTechnologies.DDR4.ToString(),
@@ -282,7 +276,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="948",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Interface = "M.2",
                 Manufacturer = "Transcend",
@@ -296,7 +289,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="98",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Transcend",
                 ReadSpeedMBs = 500,
@@ -309,7 +301,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="351294786",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Transcend",
                 ReadSpeedMBs = 500,
@@ -322,7 +313,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="2140075896",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Transcend",
                 ReadSpeedMBs = 500,
@@ -335,7 +325,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="9875424508",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Transcend",
                 ReadSpeedMBs = 500,
@@ -348,7 +337,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="1007204785",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Transcend",
                 ReadSpeedMBs = 500,
@@ -361,7 +349,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="47562012",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Transcend",
                 ReadSpeedMBs = 500,
@@ -374,7 +361,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="2450075215",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Transcend",
                 ReadSpeedMBs = 500,
@@ -387,7 +373,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="78420287",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Transcend",
                 ReadSpeedMBs = 500,
@@ -400,7 +385,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="12045270",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Transcend",
                 ReadSpeedMBs = 500,
@@ -413,7 +397,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="04246021",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Stan",
                 ReadSpeedMBs = 500,
@@ -426,7 +409,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="4354520753",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Szef",
                 ReadSpeedMBs = 500,
@@ -439,7 +421,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="4354520753",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "Gayfish",
                 ReadSpeedMBs = 500,
@@ -452,7 +433,6 @@ namespace ComputerShop.Server.Services.Products
                 WriteSpeedMBs = 200,
                 CapacityGB = 40,
                 Description = "FAST SSD",
-                Id="4354520753",
                 Images = new List<Image>{new Image { Location= "images/default_image.png" } },
                 Manufacturer = "ROMAND",
                 ReadSpeedMBs = 500,
@@ -465,7 +445,6 @@ namespace ComputerShop.Server.Services.Products
                 WarantyMonths = 12,
                 Widthmm = 400,
                 Description = "ahjeihaefjhi uhijafijhsfjiashfi huasijhfhsasiu hojafssfaouafhoaf ohuiasosaf",
-                Id = "5454",
                 Heightmm = 564,
                 Images = new List<Image>{new Image { Location= "https://www.phanteks.com/images/product/Eclipse-P400-TG/Special%20Edition%20Red/P400-1.jpg" } },
                 Lenghtmm = 645,
@@ -492,7 +471,6 @@ namespace ComputerShop.Server.Services.Products
                 Price = 200,
                 PriceBeforeDiscount = 400,
                 Sizemm = 200,
-                Id="978231"
             },
             new CableProduct
             {
@@ -505,7 +483,6 @@ namespace ComputerShop.Server.Services.Products
                 Manufacturer = "ZOTAC",
                 Lenghtmm = 400,
                 Name = "HDMI KABEL",
-                Id = "57864785"
             },
             new ComputerMouseProduct
             {
@@ -516,7 +493,6 @@ namespace ComputerShop.Server.Services.Products
                 Heightmm = 25,
                 Lenghtmm = 50,
                 Manufacturer = "Logitech",
-                Id = "75383",
                 Sensor = "Pixart 3061",
                 SensorType = "Laser",
                 Interface = "USB",
@@ -530,7 +506,6 @@ namespace ComputerShop.Server.Services.Products
                 IsWireless = true,
                 Widthmm = 500,
                 Color = "black",
-                Id = "645564",
                 KeyboardType = "Membranowa",
                 Manufacturer = "HyperX",
                 Price = 540,
@@ -542,7 +517,6 @@ namespace ComputerShop.Server.Services.Products
                 Weightg = 400,
                 Widthmm = 500,
                 ImpedanceOhm = 40,
-                Id = "841",
                 Manufacturer = "Beyerdynamic",
                 Name = "BT990",
                 PriceBeforeDiscount = 500,
@@ -557,7 +531,6 @@ namespace ComputerShop.Server.Services.Products
                 BrightnessCdm = 40,
                 Manufacturer = "ASUS",
                 Name = "PRO ART @&!27272",
-                Id = "451221554",
                 PanelSizeInch = 45,
                 Ports = new List<string>{ GpuPorts.VGA.ToString(), GpuPorts.DispalyPort.ToString()},
                 Contrast = 4000,
@@ -575,7 +548,6 @@ namespace ComputerShop.Server.Services.Products
                 Color = "Black",
                 HasMulticolour = true,
                 HasScanner = false,
-                Id = "978132645",
                 Interfaces = new List<string>{"USB", "Blutucz"},
                 Manufacturer = "Brother",
                 Name = "Ładnie drukuje",
@@ -591,9 +563,16 @@ namespace ComputerShop.Server.Services.Products
                 ToolType = "Powietrze sprynżone",
                 PriceBeforeDiscount = 200,
                 Name = "Silne powietrze jak Kielce",
-                Id = "465465",
             }
         };
+        private IProductData productsData;
+        private readonly ICategoryData categoryData;
+
+        public ProductsService(IProductData productsData, ICategoryData categoryData)
+        {
+            this.productsData = productsData;
+            this.categoryData = categoryData;
+        }
 
         public async Task<Product?> GetProductByIdAsync(string id)
         {
@@ -609,9 +588,14 @@ namespace ComputerShop.Server.Services.Products
         }
         public async Task<List<Product>> GetAllProductsAsync()
         {
+            foreach (var item in Products)
+            {
+                item.Category = (await categoryData.GetAllCategoriesAsync()).FirstOrDefault(x => x.Url.Equals(""));
+                await productsData.AddProductAsync(item);
+            }
             return Products;
         }
-        public async Task<List<Product>> GetHiglightedProductsAsync()
+        public async Task<List<Product>> GetHighlightedProductsAsync()
         {
             return Products.Where(p => p.IsHiglighted).ToList();
         }

@@ -7,7 +7,7 @@ namespace ComputerShop.Server.Services.Products
         List<Product> Products { get; set; }
         Task<Product?> GetProductByIdAsync(string id);
         Task<List<Product>> GetAllProductsAsync();
-        Task<List<Product>> GetHiglightedProductsAsync();
+        Task<List<Product>> GetHighlightedProductsAsync();
         Task<List<Product>> GetProductsByIdListAsync(List<string> idList);
         Task<ProductsResponse> GetProductsByCategoryUrlAsync(string url, int pageNumber = 1);
         Task<ProductsResponse> GetProductsByCategoryIdAsync(string id, int pageNumber = 1);
