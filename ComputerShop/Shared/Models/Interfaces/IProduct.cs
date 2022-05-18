@@ -17,7 +17,7 @@ namespace ComputerShop.Shared.Models.Interfaces
         public bool IsRemoved { get; set; }
         public DateTime CareationDate { get; set; }
         public DateTime LastUpdateDate { get; set; }
-        public Category Category { get; set; }
+        public string Category { get; set; }
         public List<Image> Images { get; set; }
         public int WarantyMonths { get; set; }
         public List<Prop> ExtraInfo { get; set; }

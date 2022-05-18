@@ -15,7 +15,6 @@ namespace ComputerShop.Server.DataAccess
         public string OrderCollectionName { get; } = "orders";
 
         public MongoClient MongoClient { get; private set; }
-        public IMongoCollection<Category> CategoryCollection { get; private set; }
         public IMongoCollection<UserModel> UserCollection { get; private set; }
         public IMongoCollection<Product> ProductCollection { get; private set; }
         public IMongoCollection<OrderModel> OrderCollection { get; private set; }
@@ -28,7 +27,6 @@ namespace ComputerShop.Server.DataAccess
             DbName = configuration.GetValue("DatabaseName", "computershop");
             mongoDB = MongoClient.GetDatabase(DbName);
 
-            CategoryCollection = mongoDB.GetCollection<Category>(CategoryCollectionName);
             UserCollection = mongoDB.GetCollection<UserModel>(UserCollectionName);
             ProductCollection = mongoDB.GetCollection<Product>(ProductCollectionName);
             OrderCollection = mongoDB.GetCollection<OrderModel>(OrderCollectionName);

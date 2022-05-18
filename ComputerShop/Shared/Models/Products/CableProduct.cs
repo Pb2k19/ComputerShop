@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public CableProduct()
         {
-            Category = new Category { Url = "cabel", Name = "Cabel", Id="49185" };
+            Category = "Cabel";
         }
         public int Lenghtmm {get; set;}
         public string CabelType { get; set; }

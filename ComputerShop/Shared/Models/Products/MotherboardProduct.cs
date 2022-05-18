@@ -7,12 +7,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public MotherboardProduct()
         {
-            Category = new()
-            {
-                Id = "3", //tmp
-                Name = "Motherboard",
-                Url = "motherboard"
-            };
+            Category = "Motherboard";
         }
         public int PcieX16SlotsCount { get; set; }
         public int RamSlotsCount { get; set; }

@@ -1,5 +1,4 @@
 using ComputerShop.Server.Services.User;
-using ComputerShop.Server.Services.Categories;
 using ComputerShop.Server.Services.Products;
 using ComputerShop.Server.Services.Order;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,13 +16,11 @@ builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 builder.Services.AddScoped<IProductsService, ProductsService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IWishListService, WishListService>();
 
 builder.Services.AddSingleton<IDbConnection, DbConnection>();
-builder.Services.AddSingleton<ICategoryData, CategoryData>();
 builder.Services.AddSingleton<IProductData, ProductData>();
 builder.Services.AddSingleton<IUserData, UserData>();
 

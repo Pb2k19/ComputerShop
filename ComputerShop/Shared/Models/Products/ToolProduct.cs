@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public ToolProduct()
         {
-            Category = new Category { Name = "Tool", Url = "tool", Id="2535423" };
+            Category = "Tool";
         }
         public string ToolType { get; set; }
         public int Widthmm { get; set; }

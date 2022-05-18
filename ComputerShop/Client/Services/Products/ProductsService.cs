@@ -12,9 +12,9 @@ namespace ComputerShop.Client.Services.Products
         {
             this.httpClient = httpClient;
         }
-        public async Task<ProductsResponse> LoadByCategoryIdAsync(string id, int page)
+        public async Task<ProductsResponse> LoadByCategoryAsync(string category, int page)
         {
-            var response = await httpClient.GetFromJsonAsync<ServiceResponse<ProductsResponse>>($"api/products/getByCategoryId/{id}/{page}");
+            var response = await httpClient.GetFromJsonAsync<ServiceResponse<ProductsResponse>>($"api/products/getByCategory/{category}/{page}");
             Products = response?.Data?.Products ?? new List<Product>();
             return response?.Data ?? new ProductsResponse();
         }

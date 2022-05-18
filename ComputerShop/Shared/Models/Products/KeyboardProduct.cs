@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public KeyboardProduct()
         {
-            Category = new Category { Url = "keyboard", Name = "Keyboard", Id="927" };
+            Category = "Keyboard";
         }
         public string KeyboardType {get; set;}
         public bool IsWireless {get;set;}

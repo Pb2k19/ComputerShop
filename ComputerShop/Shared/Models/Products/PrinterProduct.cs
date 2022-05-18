@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public PrinterProduct()
         {
-            Category = new Category { Name = "Printer", Url = "printer", Id="5231" };
+            Category = "Printer";
         }
         public string Technology {get; set;}
         public List<string> SupportedFormats { get; set; }

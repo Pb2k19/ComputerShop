@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public MonitorProduct()
         {
-            Category = new Category { Name = "Monitor", Url = "montior", Id="183" };
+            Category = "Monitor";
         }
         public int PanelSizeInch {get; set;}
         public string AspectRatio { get; set; }

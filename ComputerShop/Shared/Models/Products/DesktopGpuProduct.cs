@@ -6,12 +6,8 @@ namespace ComputerShop.Shared.Models.Products
     {
         public DesktopGpuProduct()
         {
-            Category = new Category()
-            {
-                Id = "8998", //tmp
-                Name = "GPU",
-                Url = "gpu"
-            };
+            Category = Name = "GPU";
+
         }
         public string ChipManufacturer { get; set; }
         public int FrequencyMHz { get; set; }

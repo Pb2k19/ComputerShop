@@ -18,7 +18,7 @@ namespace ComputerShop.Server.DataAccess
         public async Task<List<Product>> GetAllProductsAsync()
         {
             var result = memoryCache.Get<List<Product>>(CacheKey);
-            if (products == null)
+            if (result == null)
             {
                 result = (await products.FindAsync(_ => true)).ToList();
                 memoryCache.Set(CacheKey, result, TimeSpan.FromMinutes(2));

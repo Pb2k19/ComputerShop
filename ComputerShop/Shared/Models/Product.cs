@@ -1,9 +1,17 @@
-﻿using ComputerShop.Shared.Models.Interfaces;
+﻿using ComputerShop.Shared.Models.Components;
+using ComputerShop.Shared.Models.Interfaces;
+using ComputerShop.Shared.Models.Products;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ComputerShop.Shared.Models
 {
+    [BsonKnownTypes(typeof(CableProduct), typeof(ComputerMouseProduct), typeof(CpuProduct), 
+        typeof(DesktopCaseProduct), typeof(DesktopCoolerProduct), typeof(DesktopGpuProduct), 
+        typeof(DesktopPcProduct), typeof(DesktopPcProduct), typeof(DesktopPsuProduct), 
+        typeof(HddProduct), typeof(HeadphonesProduct), typeof(KeyboardProduct), typeof(LaptopProduct), 
+        typeof(MonitorProduct), typeof(MotherboardProduct), typeof(PrinterProduct), typeof(RamProduct), 
+        typeof(SsdProduct), typeof(ToolProduct))]
     public class Product : IProduct
     {
         [BsonId]
@@ -19,7 +27,7 @@ namespace ComputerShop.Shared.Models
         public bool IsRemoved { get; set; }
         public DateTime CareationDate { get; set; }
         public DateTime LastUpdateDate { get; set; }
-        public Category Category { get; set; }
+        public string Category { get; set; }
         public List<Image> Images { get; set; } = new List<Image> { new Image()};
         public int WarantyMonths { get; set; } = 12;
         public List<Prop> ExtraInfo { get; set; }

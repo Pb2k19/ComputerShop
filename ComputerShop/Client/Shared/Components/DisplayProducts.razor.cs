@@ -15,7 +15,7 @@ namespace ComputerShop.Client.Shared.Components
         private void OnProductCardClicked(string productId)
         {
             Product? product = Products?.FirstOrDefault(x => x.Id != null && x.Id.Equals(productId));
-            NavigationManager?.GoToProductPage(productId, product?.Category?.Name);
+            NavigationManager?.GoToProductPage(productId, product?.Category);
         }
         private async void AddProductToCart(string productId, decimal price)
         {

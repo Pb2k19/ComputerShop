@@ -1,5 +1,4 @@
 ﻿@inject IProductsService ProductsService
-@inject ICategoryService CategoryService
 @page "/"
 @page "/{category}"
 @page "/{category}/{page:int}"
@@ -9,14 +8,14 @@
 
 <div class="container">
     <div class="d-flex align-items-center">
-        @if (currentCategory == null)
+        @if (string.IsNullOrEmpty(Category))
         {
             <PageTitle>SuperPC</PageTitle>
             <DisplayProducts Products="ProductsService.Products" />
         }
         else
         {
-            <PageTitle>@currentCategory.Name</PageTitle>
+            <PageTitle>@Category</PageTitle>
             <DisplayProducts Products="ProductsService.Products" />
         }
     </div>

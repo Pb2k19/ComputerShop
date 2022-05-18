@@ -6,7 +6,6 @@ namespace ComputerShop.Server.DataAccess
 {
     public interface IDbConnection
     {
-        IMongoCollection<Category> CategoryCollection { get; }
         string CategoryCollectionName { get; }
         string DbName { get; }
         MongoClient MongoClient { get; }

@@ -7,12 +7,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public LaptopProduct()
         {
-            Category = new()
-            {
-                Id = "7", //tmp
-                Name = "Laptop",
-                Url = "laptop"
-            };
+            Category = "Laptop";
         }
         public decimal DisplaySize { get; set; }
         public Cpu Cpu { get; set; }

@@ -68,22 +68,12 @@ namespace ComputerShop.Server.Controllers
             return Ok(serviceResponse);
         }
 
-        [HttpGet("getByCategoryId/{id}/{page}")]
-        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> GetProductsByCategoryIdAndPageAsync([FromRoute] string id, [FromRoute] int page)
+        [HttpGet("getByCategory/{category}/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> GetProductsByCategoryUrlAsync([FromRoute] string category, [FromRoute] int page)
         {
             ServiceResponse<ProductsResponse> serviceResponse = new()
             {
-                Data = await productsService.GetProductsByCategoryIdAsync(id, page)
-            };
-            return Ok(serviceResponse);
-        }
-
-        [HttpGet("getByUrl/{url}/{page}")]
-        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> GetProductsByCategoryUrlAsync([FromRoute] string url, [FromRoute] int page)
-        {
-            ServiceResponse<ProductsResponse> serviceResponse = new()
-            {
-                Data = await productsService.GetProductsByCategoryUrlAsync(url, page)
+                Data = await productsService.GetProductsByCategoryAsync(category, page)
             };
             return Ok(serviceResponse);
         }

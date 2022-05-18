@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public HeadphonesProduct()
         {
-            Category = new Category { Name = "Headphones", Url = "headphones", Id="415" };
+            Category = "Headphones";
         }
         public bool IsWireless {get; set;}
         public string HeadphonesType { get; set; }

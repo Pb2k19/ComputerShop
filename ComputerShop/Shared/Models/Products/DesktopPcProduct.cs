@@ -1,5 +1,6 @@
 ﻿using ComputerShop.Shared.Models.Components;
 using ComputerShop.Shared.Models.Products.Interfaces;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ComputerShop.Shared.Models.Products
 {
@@ -7,12 +8,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public DesktopPcProduct()
         {
-            Category = new Category
-            {
-                Id = "1", //tmp
-                Name = "PC",
-                Url = "pc"
-            };
+            Category = "PC";
         }
         public Cpu Cpu { get; set; }
         public Ram Ram { get; set; }

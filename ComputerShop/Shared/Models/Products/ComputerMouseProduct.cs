@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public ComputerMouseProduct()
         {
-            Category = new Category { Name = "Mouse", Url = "mouse", Id="49815789" };
+            Category = "Mouse";
         }
         public int Weightg {get; set;}
         public bool IsWireless { get; set; }

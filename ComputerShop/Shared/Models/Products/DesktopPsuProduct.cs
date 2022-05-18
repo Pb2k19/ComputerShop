@@ -6,12 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public DesktopPsuProduct()
         {
-            Category = new Category
-            {
-                Id = "65", //tmp
-                Name = "PSU",
-                Url = "psu"
-            };
+            Category = "PSU";
         }
         public int Pcie8pinCount { get; set; }
         public int MolexCount { get; set; }

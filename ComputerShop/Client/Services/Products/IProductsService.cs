@@ -6,7 +6,7 @@ namespace ComputerShop.Client.Services.Products
     {
         List<Product> Products { get; set; }
         Task LoadAllAsync();
-        Task<ProductsResponse> LoadByCategoryIdAsync(string id, int page);
+        Task<ProductsResponse> LoadByCategoryAsync(string category, int page);
         Task<ProductsResponse> FindByTextAsync(string text, int page);
         Task<Product?> GetProductByIdAsync(string id);
         Task<List<Product>> GetProductsByIdListAsync(List<string> id);

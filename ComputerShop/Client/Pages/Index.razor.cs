@@ -8,19 +8,10 @@ namespace ComputerShop.Client.Pages
         [Parameter] public string? Category { get; set; }
         [Parameter] public string? Text { get; set; }
         [Parameter] public int Page { get; set; } = 1;
-        private Category? currentCategory;
         int pageCount;
 
         protected override async Task OnParametersSetAsync()
         {
-            if (string.IsNullOrWhiteSpace(Category))
-            {
-                currentCategory = null;
-            }
-            else
-            {
-                currentCategory = await CategoryService.GetCategoryByUrl(Category);
-            }
             await LoadProductsAsync();
             base.OnParametersSet();
         }
@@ -33,11 +24,11 @@ namespace ComputerShop.Client.Pages
 
         private async Task LoadProductsAsync()
         {
-            if (currentCategory != null)
+            if (!string.IsNullOrWhiteSpace(Category))
             {
                 if (Page < 1)
                     Page = 1;
-                var re = await ProductsService.LoadByCategoryIdAsync(currentCategory.Id, Page);
+                var re = await ProductsService.LoadByCategoryAsync(Category, Page);
                 pageCount = re.PagesCount;
                 Page = re.CurrentPage;
             }
@@ -46,7 +37,8 @@ namespace ComputerShop.Client.Pages
                 if (Page < 1)
                     Page = 1;
                 var re = await ProductsService.FindByTextAsync(Text, Page);
-
+                pageCount = re.PagesCount;
+                Page = re.CurrentPage;
             }
             else
             {

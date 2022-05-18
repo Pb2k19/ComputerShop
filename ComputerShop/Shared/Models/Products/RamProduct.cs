@@ -6,12 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public RamProduct()
         {
-            Category = new Category()
-            {
-                Id = "5", //tmp
-                Name = "RAM",
-                Url = "ram"
-            };
+            Category = "RAM";
         }
         public int ModulesNumber { get; set; }
         public int FrequencyMHz { get; set; }

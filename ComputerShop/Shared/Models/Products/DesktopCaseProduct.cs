@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public DesktopCaseProduct()
         {
-            Category = new Category { Id = "98189", Url = "case", Name = "Case" };
+            Category = "Case";
         }
         public int Lenghtmm {get; set;}
         public int Heightmm { get; set; }

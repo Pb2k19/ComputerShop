@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public DesktopCoolerProduct()
         {
-            Category = new Category { Id = "65461", Name = "Cooler", Url = "cooler" };
+            Category = "Cooler";
         }
         public int FansCount { get; set; }
         public int MaxTdp { get; set; }

@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public HddProduct()
         {
-            Category = new Category { Id = "12651", Name = "HDD", Url = "hdd" };
+            Category = "HDD";
         }
         public int Rpm {get; set;}
         public int ReadSpeedMBs { get; set; }

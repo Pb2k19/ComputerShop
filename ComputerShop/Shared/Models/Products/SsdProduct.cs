@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public SsdProduct()
         {
-            Category = new Category { Id = "165561", Name = "SSD", Url="ssd" };
+            Category = "SSD";
         }
         public int Tbw { get; set; }
         public string Interface { get; set; }

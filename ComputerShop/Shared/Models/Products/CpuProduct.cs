@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.Products
     {
         public CpuProduct()
         {
-            Category = new Category { Id = "45645", Name = "CPU", Url = "cpu" };
+            Category = "CPU";
         }
         public int FrequencyMHz { get; set; }
         public int Tdp { get; set; }
