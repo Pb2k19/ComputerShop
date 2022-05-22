@@ -4,6 +4,7 @@ using ComputerShop.Server.Models;
 using ComputerShop.Server.Helpers;
 using System.Security.Principal;
 using System.Security.Claims;
+using ComputerShop.Server.DataAccess;
 
 namespace ComputerShop.Server.Services.User
 {
@@ -12,71 +13,28 @@ namespace ComputerShop.Server.Services.User
         private AuthenticationHelper authentication = new();
         private readonly IConfiguration configuration;
         private readonly IHttpContextAccessor contextAccessor;
-        private List<UserModel> users = new();
+        private readonly IUserData userData;
 
-        public UserService(IConfiguration configuration, IHttpContextAccessor contextAccessor)
+        public UserService(IConfiguration configuration, IHttpContextAccessor contextAccessor, IUserData userData)
         {
-            users = new()
-            {
-                new UserModel
-                {
-                    Id = "1",
-                    Email = "user@example.com",
-                    Password = "$2a$15$XYGv6r8KSy3eyUY.Is1yWuSYUGZ6kBH2o9nXfmkoMmw4W8dCcAUv6",
-                    WishList = new(new List<WishListItem> {
-                        new WishListItem { ProductId = "1" },
-                        new WishListItem { ProductId = "2" } }),
-                    Orders = new()
-                    {
-                        new OrderModel
-                        {
-                            CartItems = new()
-                            {
-                                new CartItem { Price = 200, ProductId = "1", Quantity = 20},
-                                new CartItem { Price = 200, ProductId = "2", Quantity = 5},
-                                new CartItem { Price = 200, ProductId = "3", Quantity = 10},
-                            },
-                            Id = "112132w1",
-                            State = "Completed",
-                            Total = 600
-                        },
-                        new OrderModel
-                        {
-                            CartItems = new()
-                            {
-                                new CartItem { Price = 200, ProductId = "1", Quantity = 20},
-                            },
-                            Id = "1213232",
-                            State = "In Progres",
-                            Total = 200
-                        }
-                    }
-                    },
-            }; //1234@#aAbcd
             this.configuration = configuration;
             this.contextAccessor = contextAccessor;
-        }
-
-        public async Task<List<UserModel>> GetAllUsers()
-        {
-            return users;
+            this.userData = userData;
         }
         public async Task<bool> UserExists(string email)
         {
-            var users = await GetAllUsers();
             email = email.ToLower();
+            var users = await userData.GetAllUsersAsync();            
             return users.Any(x => x.Email.ToLower().Equals(email));
         }
         public async Task<UserModel?> GetUser(string email)
         {
-            var users = await GetAllUsers();
             email = email.ToLower();
-            return users.FirstOrDefault(u => u.Email.ToLower().Equals(email));
+            return await userData.GetUserByEmailAsync(email);
         }
         public async Task<UserModel?> GetUserByIdAsync(string id)
         {
-            var users = await GetAllUsers();
-            return users.FirstOrDefault(u => u.Id.ToLower().Equals(id));
+            return await userData.GetUserByIdAsync(id);
         }
         public async Task<ServiceResponse<Token>> LoginAsync(Login login)
         {
@@ -135,8 +93,7 @@ namespace ComputerShop.Server.Services.User
                     Message = "Coś poszło nie tak"
                 };
             }
-            users.Add(user);
-            return new SimpleServiceResponse();
+            return await AddUserAsync(user);
         }
         public async Task<SimpleServiceResponse> ChangePasswordAsync(ChangePassword changePassword)
         {
@@ -159,8 +116,33 @@ namespace ComputerShop.Server.Services.User
                 return new SimpleServiceResponse { Message = "Aktualne hasło jest nieprawidłowe", Success = false };
             if(!authentication.QuickHashCheck(newHash))
                 return new ServiceResponse<Token> { Message = "Coś poszło nie tak - nie można zmienić hasła", Success = false };
-            user.Password = newHash; //tmp zapis do bazy
+            user.Password = newHash;
+            await userData.UpdateUserAsync(user);
             return new SimpleServiceResponse { Message = "Hasło zostało zmienione", Success = true};
+        }
+        public async Task<SimpleServiceResponse> UpdateUserAsync(UserModel user)
+        {
+            try
+            {
+                await userData.UpdateUserAsync(user);
+                return new SimpleServiceResponse { Success = true };
+            }
+            catch(MongoDB.Driver.MongoException ex)
+            {
+                return new SimpleServiceResponse { Success = false, Message = ex.Message };
+            }
+        }
+        public async Task<SimpleServiceResponse> AddUserAsync(UserModel user)
+        {
+            try
+            {
+                await userData.CreateUser(user);
+                return new SimpleServiceResponse { Success = true };
+            }
+            catch (MongoDB.Driver.MongoException ex)
+            {
+                return new SimpleServiceResponse { Success = false, Message = ex.Message };
+            }
         }
         public SimpleServiceResponse ValidateJWT(HttpRequest request)
         {

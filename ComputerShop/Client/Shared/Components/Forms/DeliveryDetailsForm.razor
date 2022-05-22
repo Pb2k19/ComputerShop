@@ -51,9 +51,8 @@
                           Items="DeliveryMethods"                          
                           ButtonClassCss="form-control shadow-none btn border border-1"
                           @bind-Value="DeliveryDetails.DeliveryMethod"
-                          OnMouseOverEnabled="false"
-                          >
-                <InitTitle>Wybierz sposób dostawy</InitTitle>
+                          OnMouseOverEnabled="false">
+                <InitTitle>@(string.IsNullOrEmpty(DeliveryDetails.DeliveryMethod) ? "Wybierz sposób dostawy" : DeliveryDetails.DeliveryMethod)</InitTitle>
             </DropdownMenu>
             <ValidationMessage For="@(() => DeliveryDetails.DeliveryMethod)" />
         </div>
@@ -64,7 +63,7 @@
                           ButtonClassCss="form-control shadow-none btn border border-1"
                           @bind-Value="DeliveryDetails.PaymentMethod"
                           OnMouseOverEnabled="false">
-                <InitTitle>Wybierz sposób płatności</InitTitle>
+                <InitTitle>@(string.IsNullOrEmpty(DeliveryDetails.PaymentMethod) ? "Wybierz sposób płatności" : DeliveryDetails.PaymentMethod)</InitTitle>
             </DropdownMenu>
             <ValidationMessage For="@(() => DeliveryDetails.PaymentMethod)" />
         </div>
@@ -83,8 +82,15 @@
 
     protected override void OnParametersSet()
     {
-        base.OnParametersSet();
         if (DeliveryDetails is null)
             DeliveryDetails = new();
+        else
+        {
+            if (!DeliveryMethods.Contains(DeliveryDetails.DeliveryMethod))
+                DeliveryDetails.DeliveryMethod = null;
+            if (!PaymentMethods.Contains(DeliveryDetails.PaymentMethod))
+                DeliveryDetails.DeliveryMethod = null;
+        }
+        base.OnParametersSet();
     }
 }

@@ -24,18 +24,10 @@ namespace ComputerShop.Server.Controllers
         public async Task<ActionResult<ServiceResponse<OrderModel>>> AddOrder(OrderInfo orderInfo)
         {
             if (orderInfo.DeliveryDetails == null || orderInfo.CartItems == null || orderInfo.CartItems.Count < 1)
-                return BadRequest(new ServiceResponse<OrderModel> { Success = false, Message = "Dane nie mogę mieć wartości null" });
+                return BadRequest(new ServiceResponse<OrderModel> { Success = false, Message = "Dane nie są poprawne" });
             if(orderInfo.InvoiceDetails == null)
                 orderInfo.InvoiceDetails = new InvoiceDetails { City = orderInfo.DeliveryDetails.City, Name = orderInfo.DeliveryDetails.Name, 
                                                                 Street = $"{orderInfo.DeliveryDetails.Street } { orderInfo.DeliveryDetails.HouseNumber }" };
-            return Ok(await orderService.AddOrderAsync(orderInfo.CartItems, orderInfo.DeliveryDetails, orderInfo.InvoiceDetails));
-        }
-
-        [HttpPost("addOrderForBusiness")]
-        public async Task<ActionResult<ServiceResponse<OrderModel>>> AddOrderForBusiness(OrderInfoForBussiness orderInfo)
-        {
-            if (orderInfo.DeliveryDetails == null || orderInfo.CartItems == null || orderInfo.InvoiceDetails == null || orderInfo.CartItems.Count < 1)
-                return BadRequest(new ServiceResponse<OrderModel> { Success = false, Message = "Dane nie mogę mieć wartości null" });
             return Ok(await orderService.AddOrderAsync(orderInfo.CartItems, orderInfo.DeliveryDetails, orderInfo.InvoiceDetails));
         }
 

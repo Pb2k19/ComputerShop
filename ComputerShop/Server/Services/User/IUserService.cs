@@ -12,5 +12,7 @@ namespace ComputerShop.Server.Services.User
         Task<ServiceResponse<Token>> LoginAsync (Login login);
         Task<SimpleServiceResponse> RegisterAsync(Register register);
         Task<SimpleServiceResponse> ChangePasswordAsync(ChangePassword changePassword);
+        Task<SimpleServiceResponse> UpdateUserAsync(UserModel user);
+        Task<SimpleServiceResponse> AddUserAsync(UserModel user);
     }
 }

@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using ComputerShop.Server.Services.WishList;
 using ComputerShop.Server.DataAccess;
+using ComputerShop.Server.Services.UserDetails;
+using ComputerShop.Server.Services.Payment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +18,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserDetailsService, UserDetailsService>();
 builder.Services.AddScoped<IProductsService, ProductsService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IWishListService, WishListService>();
 

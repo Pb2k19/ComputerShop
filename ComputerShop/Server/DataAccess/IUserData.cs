@@ -8,6 +8,10 @@ namespace ComputerShop.Server.DataAccess
         Task<List<UserModel>> GetAllUsersAsync();
         Task<UserModel> GetUserByEmailAsync(string email);
         Task<UserModel> GetUserByIdAsync(string id);
-        Task UpdateUser(UserModel user);
+        Task<OrderModel?> GetOrderAsync(string id);
+        Task<OrderModel?> GetOrderAsync(string orderId, string userId);
+        Task UpdateOrderAsync(OrderModel order);
+        Task UpdateOrderAsync(OrderModel order, string userId);
+        Task UpdateUserAsync(UserModel user);
     }
 }

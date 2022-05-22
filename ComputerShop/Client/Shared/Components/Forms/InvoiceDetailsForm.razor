@@ -1,12 +1,25 @@
 ﻿@if (InvoiceDetails != null && OnValidSubmit != null)
 {
+    <div class="d-flex justify-content-end">
+        <YesNoRadioInput YesLabelText="Firma" NoLabelText="Osoba prywatna"
+                         OnValueChanged="OnIsForBusinessChanged" IsYesSelected="IsForBusiness">
+        </YesNoRadioInput>
+    </div>
     <EditForm Model="InvoiceDetails" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
         <div class="mb-3">
-            <h5 for="invoice-name">Imię i nazwisko</h5>
+            <h5 for="invoice-name">@(InvoiceDetails.IsBusiness ? "Nazwa firmy" : "Imię i nazwisko")</h5>
             <InputText id="invoice-name" class="form-control shadow-none" @bind-Value="InvoiceDetails.Name" />
             <ValidationMessage For="@(() => InvoiceDetails.Name)" />
         </div>
+        @if (IsForBusiness)
+        {
+            <div class="mb-3">
+                <h5 for="invoice-nip">Numer NIP</h5>
+                <InputText id="invoice-nip" class="form-control shadow-none" @bind-Value="InvoiceDetails.Nip" />
+                <ValidationMessage For="@(() => InvoiceDetails.Nip)" />
+            </div>
+        }
         <div class="mb-3">
             <h5 for="invoice-city">Miasto</h5>
             <InputText id="invoice-city" class="form-control shadow-none" @bind-Value="InvoiceDetails.City" />
@@ -28,4 +41,16 @@
     [Parameter] public InvoiceDetails InvoiceDetails { get; set; } = new();
     [Parameter] public Action? OnValidSubmit { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Zapisz";
+    [Parameter] public bool IsForBusiness { get; set; } = true;
+
+    public InvoiceDetailsForm()
+    {
+        InvoiceDetails.IsBusiness = IsForBusiness;
+    }
+
+    void OnIsForBusinessChanged()
+    {
+        IsForBusiness = !IsForBusiness;
+        InvoiceDetails.IsBusiness = IsForBusiness;
+    }
 }

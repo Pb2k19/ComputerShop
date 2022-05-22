@@ -6,8 +6,4 @@
         public DeliveryDetails DeliveryDetails { get; set; }
         public InvoiceDetails InvoiceDetails { get; set; }
     }
-    public class OrderInfoForBussiness : OrderInfo
-    {
-        public new InvoiceDetailsForBusiness InvoiceDetails { get; set; }
-    }
 }

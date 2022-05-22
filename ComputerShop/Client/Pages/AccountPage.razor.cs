@@ -18,22 +18,17 @@ namespace ComputerShop.Client.Pages
         });
         ChangePassword changePassword = new();
         IUserHelper? userHelper = null;
-        DeliveryDetails delivery = new();       
-        InvoiceDetailsForBusiness invoiceDetailsForBusiness = new();
+        DeliveryDetails delivery = new();
         InvoiceDetails invoiceDetails = new();
         WishListModel wishList = new();
         List<OrderModel> orderList = new();
-        bool isInvoiceForBusiness = true;
-
 
         protected async override Task OnParametersSetAsync()
         {
-            await ChangeViewAsync(Page);
+            if (userHelper == null)
+                userHelper = new UserHelper(StateProvider, UserService, LocalStorageService, NavigationManager, ToastService);
+            await ChangeViewAsync(Page);            
             base.OnParametersSet();
-        }
-        protected void InvoiceChanged(bool isForBussiness)
-        {
-            isInvoiceForBusiness = isForBussiness;
         }
         protected async Task OnPasswordChangeAsync()
         {
@@ -47,7 +42,7 @@ namespace ComputerShop.Client.Pages
                 if (response.Data == System.Net.HttpStatusCode.Unauthorized)
                     await userHelper.LogoutOnUnauthorizedAsync();
                 else
-                    ToastService.ShowInfo(response?.Message, "Nie udało się ☹");
+                    ToastService.ShowInfo(response?.Message, "Nie udało się");
             }
         }
         public async Task ChangeViewAsync(string? name)
@@ -56,23 +51,54 @@ namespace ComputerShop.Client.Pages
             switch(name)
             {
                 case "wish-list":
-                    wishList = (await WishListService.GetWishListAsync()).Data;
+                    wishList = new();
+                    var reW = await WishListService.GetWishListAsync();
+                    if (reW.Success)
+                    {
+                        wishList = reW.Data ?? new();
+                    }
                     break;
                 case "delivery-details":
+                    delivery = new();
+                    var reD = await UserDetails.GetDeliveryDetailsAsync();
+                    if (reD?.Success ?? false)
+                    {
+                        delivery = reD.Data ?? new();
+                    }
                     break;
                 case "invoice-details":
+                    invoiceDetails = new();
+                    var reI = await UserDetails.GetInvoiceDetailsAsync();
+                    if (reI?.Success ?? false)
+                    {
+                        invoiceDetails = reI.Data ?? new();
+                    }
                     break;
                 default:
-                    orderList = (await OrderService.GetAllOrdersForUserAsync()).Data;
+                    orderList = new();
+                    var reO = await OrderService.GetAllOrdersForUserAsync();
+                    if(reO?.Success ?? false)
+                    {
+                        orderList = reO.Data ?? new();
+                    }
                     break;
             }
         }
-
-        protected void OnValidSubmit()
+        protected async void OnValidSubmitInvoiceAsync()
         {
-            if (isInvoiceForBusiness)
-                return;
-            return;
+            var re = await UserDetails.UpdateInvoiceDetailsAsync(invoiceDetails);
+            if (re?.Success ?? false)
+                ToastService.ShowSuccess("Zaktualizowano dane do faktury", "Sukces");
+            else
+                ToastService.ShowError(re?.Message ?? "Coś poszło nie tak", "Nie udało się");
+        }
+        protected async void OnValidSubmitDeliveryAsync()
+        {
+            var re = await UserDetails.UpdateDeliveryDetailsAsync(delivery);
+            if (re?.Success ?? false)
+                ToastService.ShowSuccess("Zaktualizowano dane do dostawy", "Sukces");
+            else
+                ToastService.ShowError(re?.Message ?? "Coś poszło nie tak", "Nie udało się");
         }
     }
 }

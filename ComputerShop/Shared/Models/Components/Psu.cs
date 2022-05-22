@@ -26,6 +26,8 @@ namespace ComputerShop.Shared.Models
         OCZ,
         Seasonic,
         SilverStone,
-        XFX
+        XFX,
+        SilentiumPc,
+        beQuiet,
     }
 }

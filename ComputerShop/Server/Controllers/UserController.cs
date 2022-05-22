@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Server.Services.User;
+using ComputerShop.Server.Services.UserDetails;
 using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
 using Microsoft.AspNetCore.Authorization;
@@ -13,9 +14,12 @@ namespace ComputerShop.Server.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService authentication;
-        public UserController(IUserService authentication)
+        private readonly IUserDetailsService userDetails;
+
+        public UserController(IUserService authentication, IUserDetailsService userDetails)
         {
             this.authentication = authentication;
+            this.userDetails = userDetails;
         }
 
         [HttpPost("login")]
@@ -58,7 +62,7 @@ namespace ComputerShop.Server.Controllers
                 return Unauthorized(response);
             Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
             if (userId == null)
-                return new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false };
+                return Unauthorized(new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false });
             return Ok(await authentication.ChangePasswordAsync(newPassword));
         }
 
@@ -70,6 +74,58 @@ namespace ComputerShop.Server.Controllers
                 return Ok(response);
             else
                 return Unauthorized(response);
+        }
+
+        [HttpGet("getDeliveryDetails"), Authorize]
+        public async Task<ActionResult<ServiceResponse<DeliveryDetails>>> GetDeliveryDetails()
+        {
+            SimpleServiceResponse response = authentication.ValidateJWT(Request);
+            if (!response.Success)
+                return Unauthorized(response);
+            Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized(new ServiceResponse<DeliveryDetails> { Message = "Nie można zweryfikować użytkownika", Success = false });
+
+            return Ok(await userDetails.GetDeliveryDetailsAsync());
+        }
+
+        [HttpGet("getInvoiceDetails"), Authorize]
+        public async Task<ActionResult<ServiceResponse<InvoiceDetails>>> GetInvoiceDetails()
+        {
+            SimpleServiceResponse response = authentication.ValidateJWT(Request);
+            if (!response.Success)
+                return Unauthorized(response);
+            Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized(new ServiceResponse<DeliveryDetails> { Message = "Nie można zweryfikować użytkownika", Success = false });
+
+            return Ok(await userDetails.GetInvoiceDetailsAsync());
+        }
+
+        [HttpPost("updateDeliveryDetails")]
+        public async Task<ActionResult<SimpleServiceResponse>> UpdateDeliveryDetails(DeliveryDetails delivery)
+        {
+            SimpleServiceResponse response = authentication.ValidateJWT(Request);
+            if (!response.Success)
+                return Unauthorized(response);
+            Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized(new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false });
+
+            return Ok(await userDetails.UpdateDeliveryDetailsAsync(delivery));
+        }
+
+        [HttpPost("updateInvoiceDetails")]
+        public async Task<ActionResult<SimpleServiceResponse>> UpdateInvoiceDetails(InvoiceDetails invoice)
+        {
+            SimpleServiceResponse response = authentication.ValidateJWT(Request);
+            if (!response.Success)
+                return Unauthorized(response);
+            Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized(new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false });
+
+            return Ok(await userDetails.UpdateInvoiceDetailsAsync(invoice));
         }
     }
 }

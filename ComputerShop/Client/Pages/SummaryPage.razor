@@ -2,7 +2,9 @@
 @inject ICartService CartService
 @inject IToastService ToastService
 @inject IOrderService OrderService
+@inject IUserDetailsService UserDetails
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider StateProvider
 
 <PageTitle>@title</PageTitle>
 
@@ -24,14 +26,14 @@
         font-size: 1.2rem;
     }
 
-    #details-summary h4 {
-        margin-bottom: 0;
-        margin-top: 0.7rem;
-        font-size: 1.5rem;
-    }
+        #details-summary h4 {
+            margin-bottom: 0;
+            margin-top: 0.7rem;
+            font-size: 1.5rem;
+        }
 
     #summary-containter .btn {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
     }
 
     .product-name {
@@ -74,22 +76,10 @@
                     <input id="show-details-cb" type="checkbox" class="form-check-input shadow-none" @bind="showInvoiceForm" />
                     <label class="form-check-label" for="show-details-cb">Potrzebuję fakturę na firmę lub inne dane</label>
                 </div>
-                @if(showInvoiceForm)
-                {                    
-                    <div class="d-flex justify-content-end">
-                        <YesNoRadioInput YesLabelText="Firma" NoLabelText="Osoba prywatna" 
-                                     OnValueChanged="InvoiceChanged">
-                        </YesNoRadioInput>
-                    </div> 
-                    @if (isInvoiceForBusiness)
-                    {
-                        <InvoiceDetailsForBusinessForm InvoiceDetailsForBusiness="invoiceDetailsForBusiness" ButtonText="Podsumowanie" OnValidSubmit="SaveInvoiceDetails" />
-                    }
-                    else
-                    {
-                        <InvoiceDetailsForm InvoiceDetails="invoiceDetails" ButtonText="Podsumowanie" OnValidSubmit="SaveInvoiceDetails" />
-                    }
-                 }
+                @if (showInvoiceForm)
+                {
+                    <InvoiceDetailsForm InvoiceDetails="invoiceDetails" ButtonText="Podsumowanie" OnValidSubmit="SaveInvoiceDetails" />
+                }
                 else
                 {
                     <div class="text-end">
@@ -101,7 +91,7 @@
                 <div class="row mx-1 mx-xl-3">
                     <h1>Podsumowanie</h1>
                     <div class="col-xl-8">
-                       @foreach (var p in productCartItems.OrderBy(x => $"{x.Product.Manufacturer} {x.Product.Name}"))
+                        @foreach (var p in productCartItems.OrderBy(x => $"{x.Product.Manufacturer} {x.Product.Name}"))
                         {
                             <div>
                                 <div class="row row-cols-2 row-cols-lg-3 item-row align-items-center rounded shadow mt-4 pt-4 pt-sm-0">
@@ -136,7 +126,7 @@
                             </div>
                         }
                     </div>
-                    <div class="col-xl-4"  id="details-summary">
+                    <div class="col-xl-4" id="details-summary">
                         <div class="m-xl-3 p-3 p-xxl-4 mt-3 mt-xl-0 pt-xl-2 shadow rounded sticky-top">
                             <h2>Dane do dostawy</h2>
                             <h4>Imię i nazwisko</h4>
@@ -155,28 +145,18 @@
                             <span>@deliveryDetails.PaymentMethod</span>
                             @if (invoiceDetailsAdded)
                             {
-                                @if (isInvoiceForBusiness)
+                                <h3 class="pt-3">Dane do faktury</h3>
+                                <h4>@(invoiceDetails.IsBusiness ? "Nazwa firmy" : "Imię i nazwisko")</h4>
+                                @if (invoiceDetails.IsBusiness)
                                 {
-                                    <h3 class="pt-3">Dane do faktury</h3>
-                                    <h4>Nazwa firmy</h4>
-                                    <span>@invoiceDetailsForBusiness.Name</span>
                                     <h4>Numer NIP</h4>
-                                    <span>@invoiceDetailsForBusiness.Nip</span>
-                                    <h4>Miejscowość</h4>
-                                    <span>@invoiceDetailsForBusiness.City</span>
-                                    <h4>Adres</h4>
-                                    <span>@invoiceDetailsForBusiness.Street</span>
+                                    <span>@invoiceDetails.Nip</span>
                                 }
-                                else
-                                {
-                                    <h3 class="pt-3">Dane do faktury</h3>
-                                    <h4>Imię i nazwisko</h4>
-                                    <span>@invoiceDetails.Name</span>
-                                    <h4>Miejscowość</h4>
-                                    <span>@invoiceDetails.City</span>
-                                    <h4>Adres</h4>
-                                    <span>@invoiceDetails.Street</span>
-                                }
+                                <span>@invoiceDetails.Name</span>
+                                <h4>Miejscowość</h4>
+                                <span>@invoiceDetails.City</span>
+                                <h4>Adres</h4>
+                                <span>@invoiceDetails.Street</span>
                             }
                             <h3 class="mt-3">Suma: @total zł</h3>
                             <div class="text-center">

@@ -1,16 +1,19 @@
-﻿using ComputerShop.Server.Services.User;
+﻿using ComputerShop.Server.DataAccess;
+using ComputerShop.Server.Services.User;
 using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
 
 namespace ComputerShop.Server.Services.UserDetails
 {
-    public class UserDetails : IUserDetails
+    public class UserDetailsService : IUserDetailsService
     {
         private readonly IUserService userService;
+        private readonly IUserData userData;
 
-        public UserDetails(IUserService userService)
+        public UserDetailsService(IUserService userService, IUserData userData)
         {
             this.userService = userService;
+            this.userData = userData;
         }
 
         public async Task<ServiceResponse<DeliveryDetails>> GetDeliveryDetailsAsync(string? userId)
@@ -39,23 +42,38 @@ namespace ComputerShop.Server.Services.UserDetails
         }
 
         public async Task<ServiceResponse<InvoiceDetails>> GetInvoiceDetailsAsync()
-        {
+        {            
             return await GetInvoiceDetailsAsync(userService.GetUserId());
         }
 
-        public Task<SimpleServiceResponse> UpdateDeliveryDetailsAsync(DeliveryDetails deliveryDetails)
+        public async Task<SimpleServiceResponse> UpdateDeliveryDetailsAsync(DeliveryDetails deliveryDetails)
         {
-            throw new NotImplementedException();
+            if (deliveryDetails == null)
+                return new SimpleServiceResponse { Message = "Nie można zaktualizować danych", Success = false };
+            string? userId = userService.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId))
+                return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
+            var user = await userService.GetUserByIdAsync(userId);
+            if (user == null || user.DeliveryDetails == null)
+                return new SimpleServiceResponse { Message = "Nie można znaleźć użytkownika z podanym id", Success = false };
+            user.DeliveryDetails = deliveryDetails;
+            await userData.UpdateUserAsync(user);
+            return new SimpleServiceResponse { Success = true };
         }
 
-        public Task<SimpleServiceResponse> UpdateInvoiceDetailsAsync(InvoiceDetails invoiceDetails)
+        public async Task<SimpleServiceResponse> UpdateInvoiceDetailsAsync(InvoiceDetails invoiceDetails)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<SimpleServiceResponse> UpdateInvoiceDetailsForBusinessAsync(InvoiceDetailsForBusiness invoiceDetails)
-        {
-            throw new NotImplementedException();
+            if (invoiceDetails == null)
+                return new SimpleServiceResponse { Message = "Nie można zaktualizować danych", Success = false };
+            string? userId = userService.GetUserId();
+            if (string.IsNullOrWhiteSpace(userId))
+                return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
+            var user = await userService.GetUserByIdAsync(userId);
+            if (user == null || user.DeliveryDetails == null)
+                return new SimpleServiceResponse { Message = "Nie można znaleźć użytkownika z podanym id", Success = false };
+            user.InvoiceDetails = invoiceDetails;
+            await userData.UpdateUserAsync(user);
+            return new SimpleServiceResponse { Success = true };
         }
     }
 }

@@ -6,6 +6,7 @@
 @inject IWishListService WishListService
 @inject ILocalStorageService LocalStorageService
 @inject IToastService ToastService
+@inject IUserDetailsService UserDetails
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider StateProvider
 
@@ -60,59 +61,63 @@
                 break;
             case "delivery-details":
                 <h2 class="text-center justify-content-start">Zapisz dane do dostawy</h2>
-                <DeliveryDetailsForm DeliveryDetails="delivery" OnValidSubmit="OnValidSubmit" />
+                <DeliveryDetailsForm DeliveryDetails="delivery" OnValidSubmit="OnValidSubmitDeliveryAsync" />
                 break;
             case "invoice-details":
                 <h2 class="text-center justify-content-start">Zapisz dane do faktury</h2>
-                <div class="d-flex justify-content-end">
-                    <YesNoRadioInput YesLabelText="Firma" NoLabelText="Osoba prywatna"
-                                     OnValueChanged="InvoiceChanged"></YesNoRadioInput>
-                </div>
-                @if (isInvoiceForBusiness)
-                {
-                    <InvoiceDetailsForBusinessForm InvoiceDetailsForBusiness="invoiceDetailsForBusiness" OnValidSubmit="OnValidSubmit" />
-                }
-                else
-                {
-                    <InvoiceDetailsForm InvoiceDetails="invoiceDetails" OnValidSubmit="OnValidSubmit" />
-                }
+                <InvoiceDetailsForm InvoiceDetails="invoiceDetails" OnValidSubmit="OnValidSubmitInvoiceAsync" />
                 break;
             case "wish-list":
                 <h2 class="text-center justify-content-start">Lista życzeń</h2>
-                @foreach (var item in wishList.List)
+                if (wishList?.List?.Count > 0)
+                    @foreach (var item in wishList.List)
+                    {
+                        <h2>@item.Date @item.ProductId</h2>
+                    }
+                else
                 {
-                    <h2>@item.Date @item.ProductId</h2>
-                }
-                break;
-            default:
-                @foreach(var order in orderList)
-                {
-                    <div class="shadow rounded p-3 mb-2 cursorHand">
-                        <h3>Zamówienie @order.Id</h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                 <div class="ps-2">
-                                    <h4>Status: @order.State</h4>
-                                    <h4>Suma: @order.Total zł</h4>
-                                    <h4>Data złożenia: @order.OrderDate.ToString("dd-MM-yyyy")</h4>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <ul>
-                                    @foreach (var item in @order.CartItems.Take(3))
-                                    {
-                                        <li>@item.Price @item.Quantity</li>
-                                    }
-                                    @if(@order.CartItems.Count > 3)
-                                    {
-                                        <li>...</li>
-                                    }
-                                </ul>
-                            </div>
-                        </div>
+                    <div class="m-3 mt-5 p-3 rounded shadow text-center">
+                        <h3 class="text-center">Lista życzeń jest pusta</h3>
                     </div>
                 }
                 break;
-        }
+            default:
+                <h2 class="text-center justify-content-start">Zamówienia</h2>
+                if (orderList?.Count > 0)
+                    @foreach (var order in orderList)
+                    {
+                        <div class="shadow rounded p-3 mb-2 cursorHand">
+                            <h3>Zamówienie @order.Id</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="ps-2">
+                                        <h4>Status: @order.State</h4>
+                                        <h4>Suma: @order.Total zł</h4>
+                                        <h4>Data złożenia: @order.OrderDate.ToString("dd-MM-yyyy")</h4>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul>
+                                        @foreach (var item in @order.CartItems.Take(3))
+                                        {
+                                            <li>@item.Price @item.Quantity</li>
+                                        }
+                                        @if (@order.CartItems.Count > 3)
+                                        {
+                                            <li>...</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="m-3 mt-5 p-3 rounded shadow text-center">
+                            <h3 class="text-center">Lista zamówień jest pusta</h3>
+                        </div>
+                    }
+                    break;
+            }
     </div>
 </div>

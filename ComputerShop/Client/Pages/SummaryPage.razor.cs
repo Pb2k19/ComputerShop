@@ -12,8 +12,7 @@ namespace ComputerShop.Client.Pages
         private string title = "Dane dostawy";
         private int currentStep = 0;
 
-        private bool isInvoiceForBusiness = true, showInvoiceForm = false, invoiceDetailsAdded = false;
-        private InvoiceDetailsForBusiness invoiceDetailsForBusiness = new();
+        private bool showInvoiceForm = false, invoiceDetailsAdded = false;
         private InvoiceDetails invoiceDetails = new();
 
         protected override async Task OnInitializedAsync()
@@ -21,14 +20,28 @@ namespace ComputerShop.Client.Pages
             productCartItems = await CartService.GetCartProductsAsync();
             SetTotal();
             base.OnInitialized();
+            var state = await StateProvider.GetAuthenticationStateAsync();
+            deliveryDetails = new();
+            invoiceDetails = new();
+            if (state?.User?.Identity?.IsAuthenticated ?? false)
+            {                
+                var reD = await UserDetails.GetDeliveryDetailsAsync();
+                if (reD?.Success ?? false)
+                {
+                    deliveryDetails = reD.Data ?? new();
+                }
+                var reI = await UserDetails.GetInvoiceDetailsAsync();
+                if (reI?.Success ?? false)
+                {
+                    invoiceDetails = reI.Data ?? new();
+                }
+            }  
         }
         protected async Task EndAsync()
         {
             InvoiceDetails? iD;
             if (!invoiceDetailsAdded)
                 iD = null;
-            else if (isInvoiceForBusiness)
-                iD = invoiceDetailsForBusiness;
             else
                 iD = invoiceDetails;
             await OrderService.AddOrderAsync(await CartService.GetAllCartItemsAsync(), deliveryDetails, iD);
@@ -57,10 +70,6 @@ namespace ComputerShop.Client.Pages
                     title = "Podsumowanie";
                     break;
             }
-        }
-        protected void InvoiceChanged()
-        {
-            isInvoiceForBusiness = !isInvoiceForBusiness;
         }
         protected void SaveInvoiceDetails()
         {
