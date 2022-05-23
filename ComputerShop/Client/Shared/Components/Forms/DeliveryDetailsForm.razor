@@ -87,9 +87,9 @@
         else
         {
             if (!DeliveryMethods.Contains(DeliveryDetails.DeliveryMethod))
-                DeliveryDetails.DeliveryMethod = null;
+                DeliveryDetails.DeliveryMethod = string.Empty;
             if (!PaymentMethods.Contains(DeliveryDetails.PaymentMethod))
-                DeliveryDetails.DeliveryMethod = null;
+                DeliveryDetails.DeliveryMethod = string.Empty;
         }
         base.OnParametersSet();
     }

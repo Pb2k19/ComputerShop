@@ -27,15 +27,20 @@ namespace ComputerShop.Client.Pages
             {                
                 var reD = await UserDetails.GetDeliveryDetailsAsync();
                 if (reD?.Success ?? false)
-                {
                     deliveryDetails = reD.Data ?? new();
-                }
+                else
+                    deliveryDetails = new();
                 var reI = await UserDetails.GetInvoiceDetailsAsync();
                 if (reI?.Success ?? false)
-                {
                     invoiceDetails = reI.Data ?? new();
-                }
-            }  
+                else
+                    invoiceDetails = new();
+            }
+            else
+            {
+                deliveryDetails = new();
+                invoiceDetails = new();
+            }
         }
         protected async Task EndAsync()
         {
