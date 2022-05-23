@@ -6,7 +6,6 @@ namespace ComputerShop.Server.DataAccess
     {
         Task CreateUser(UserModel user);
         Task<List<UserModel>> GetAllUsersAsync();
-        Task<UserModel> GetUserByEmailAsync(string email);
         Task<RegisteredUser?> GetRegisteredUserByEmailAsync(string email);
         Task<UserModel> GetUserByIdAsync(string id);
         Task<RegisteredUser?> GetRegisteredUserByIdAsync(string id);

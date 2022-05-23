@@ -19,10 +19,6 @@ namespace ComputerShop.Server.DataAccess
         {
             return (await users.FindAsync(x => x.Id.Equals(id))).FirstOrDefault();
         }
-        public async Task<UserModel> GetUserByEmailAsync(string email)
-        {
-            return (await users.FindAsync(x => x.Email.Equals(email))).FirstOrDefault();
-        }
         public Task CreateUser(UserModel user)
         {
             return users.InsertOneAsync(user);

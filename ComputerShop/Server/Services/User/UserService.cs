@@ -25,7 +25,7 @@ namespace ComputerShop.Server.Services.User
         {
             email = email.ToLower();
             var users = await userData.GetAllUsersAsync();            
-            return users.Any(x => x.Email.ToLower().Equals(email));
+            return users.Any(x => x.Email.ToLower().Equals(email) && x is RegisteredUser);
         }
         public async Task<RegisteredUser?> GetRegisteredUser(string email)
         {
