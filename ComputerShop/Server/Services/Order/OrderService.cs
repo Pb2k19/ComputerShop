@@ -53,7 +53,7 @@ namespace ComputerShop.Server.Services.Order
                         return new ServiceResponse<OrderModel> { Success = false, Data = order };
                 }
             }
-            user = new UserModel { Orders = new() { order } }; //tmp
+            user = new UnregisteredUser { Orders = new() { order }, Email = deliveryDetails.Email };
             await userService.AddUserAsync(user);
 
             return new ServiceResponse<OrderModel> { Success = true, Data = order };

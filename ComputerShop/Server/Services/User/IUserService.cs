@@ -8,6 +8,7 @@ namespace ComputerShop.Server.Services.User
     {
         string? GetUserId();
         Task<UserModel?> GetUserByIdAsync(string id);
+        Task<RegisteredUser?> GetRegisteredUserByIdAsync(string id);
         SimpleServiceResponse ValidateJWT(HttpRequest request);
         Task<ServiceResponse<Token>> LoginAsync (Login login);
         Task<SimpleServiceResponse> RegisterAsync(Register register);

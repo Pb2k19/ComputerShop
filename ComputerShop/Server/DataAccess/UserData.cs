@@ -59,5 +59,15 @@ namespace ComputerShop.Server.DataAccess
                 user.Orders[index] = order;
             await UpdateUserAsync(user);
         }
+
+        public async Task<RegisteredUser?> GetRegisteredUserByEmailAsync(string email)
+        {
+            return (await users.FindAsync(x => x is RegisteredUser && x.Email.Equals(email))).FirstOrDefault() as RegisteredUser;
+        }
+
+        public async Task<RegisteredUser?> GetRegisteredUserByIdAsync(string id)
+        {
+            return (await users.FindAsync(x => x is RegisteredUser && x.Id.Equals(id))).FirstOrDefault() as RegisteredUser;
+        }
     }
 }

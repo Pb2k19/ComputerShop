@@ -20,7 +20,7 @@ namespace ComputerShop.Server.Services.UserDetails
         {
             if (string.IsNullOrWhiteSpace(userId))
                 return new ServiceResponse<DeliveryDetails> { Message = "Coś poszło nie tak", Success = false };
-            var user = await userService.GetUserByIdAsync(userId);
+            var user = await userService.GetRegisteredUserByIdAsync(userId);
             if(user == null || user.DeliveryDetails == null)
                 return new ServiceResponse<DeliveryDetails> { Message = "Nie można znaleźć użytkownika z podanym id", Success = false };
             return new ServiceResponse<DeliveryDetails> { Data = user.DeliveryDetails };
@@ -35,7 +35,7 @@ namespace ComputerShop.Server.Services.UserDetails
         {
             if (string.IsNullOrWhiteSpace(userId))
                 return new ServiceResponse<InvoiceDetails> { Message = "Coś poszło nie tak", Success = false };
-            var user = await userService.GetUserByIdAsync(userId);
+            var user = await userService.GetRegisteredUserByIdAsync(userId);
             if (user == null || user.DeliveryDetails == null)
                 return new ServiceResponse<InvoiceDetails> { Message = "Nie można znaleźć użytkownika z podanym id", Success = false };
             return new ServiceResponse<InvoiceDetails> { Data = user.InvoiceDetails };
@@ -53,7 +53,7 @@ namespace ComputerShop.Server.Services.UserDetails
             string? userId = userService.GetUserId();
             if (string.IsNullOrWhiteSpace(userId))
                 return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
-            var user = await userService.GetUserByIdAsync(userId);
+            var user = await userService.GetRegisteredUserByIdAsync(userId);
             if (user == null || user.DeliveryDetails == null)
                 return new SimpleServiceResponse { Message = "Nie można znaleźć użytkownika z podanym id", Success = false };
             user.DeliveryDetails = deliveryDetails;
@@ -68,7 +68,7 @@ namespace ComputerShop.Server.Services.UserDetails
             string? userId = userService.GetUserId();
             if (string.IsNullOrWhiteSpace(userId))
                 return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
-            var user = await userService.GetUserByIdAsync(userId);
+            var user = await userService.GetRegisteredUserByIdAsync(userId);
             if (user == null || user.DeliveryDetails == null)
                 return new SimpleServiceResponse { Message = "Nie można znaleźć użytkownika z podanym id", Success = false };
             user.InvoiceDetails = invoiceDetails;

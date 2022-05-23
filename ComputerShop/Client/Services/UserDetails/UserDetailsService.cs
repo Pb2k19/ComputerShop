@@ -30,6 +30,8 @@ namespace ComputerShop.Client.Services.UserDetails
         }
         public async Task<SimpleServiceResponse?> UpdateInvoiceDetailsAsync(InvoiceDetails invoiceDetails)
         {
+            if (!invoiceDetails.IsBusiness)
+                invoiceDetails.Nip = null;
             using var response = await httpClient.PostAsJsonAsync("api/user/updateInvoiceDetails", invoiceDetails);
             return await response.Content.ReadFromJsonAsync<SimpleServiceResponse>();
         }

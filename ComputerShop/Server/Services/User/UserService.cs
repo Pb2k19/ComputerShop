@@ -27,14 +27,18 @@ namespace ComputerShop.Server.Services.User
             var users = await userData.GetAllUsersAsync();            
             return users.Any(x => x.Email.ToLower().Equals(email));
         }
-        public async Task<UserModel?> GetUser(string email)
+        public async Task<RegisteredUser?> GetRegisteredUser(string email)
         {
             email = email.ToLower();
-            return await userData.GetUserByEmailAsync(email);
+            return await userData.GetRegisteredUserByEmailAsync(email);
         }
         public async Task<UserModel?> GetUserByIdAsync(string id)
         {
             return await userData.GetUserByIdAsync(id);
+        }
+        public async Task<RegisteredUser?> GetRegisteredUserByIdAsync(string id)
+        {
+            return await userData.GetRegisteredUserByIdAsync(id);
         }
         public async Task<ServiceResponse<Token>> LoginAsync(Login login)
         {
@@ -42,7 +46,7 @@ namespace ComputerShop.Server.Services.User
             {
                 return new ServiceResponse<Token> { Message = "Podane wartości nie mogą być puste", Success = false };
             }
-            UserModel? user = await GetUser(login.Email);
+            RegisteredUser? user = await GetRegisteredUser(login.Email);
             if(user == null)
             {
                 return new ServiceResponse<Token> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
@@ -80,12 +84,12 @@ namespace ComputerShop.Server.Services.User
                     Message = "Podany adres już istnieje w serwisie"
                 };
             }
-            UserModel user = new()
+            RegisteredUser user = new()
             {
                 Email = register.Email,
+                Password = await authentication.CreateHash(register.Password)
             };
-            user.Password = await authentication.CreateHash(register.Password);
-            if(!authentication.QuickHashCheck(user.Password))
+            if (!authentication.QuickHashCheck(user.Password))
             {
                 return new SimpleServiceResponse
                 {
@@ -103,7 +107,7 @@ namespace ComputerShop.Server.Services.User
             SimpleServiceResponse response = authentication.PasswordPolicyCheck(changePassword);
             if (!response.Success)
                 return response;
-            UserModel? user = await GetUserByIdAsync(userId);
+            RegisteredUser? user = await GetRegisteredUserByIdAsync(userId);
             if (user == null)
                 return new ServiceResponse<Token> { Message = "Coś poszło nie tak - nie można zmienić hasła", Success = false };
             List<Task> tasks = new();
