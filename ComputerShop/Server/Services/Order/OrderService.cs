@@ -18,7 +18,7 @@ namespace ComputerShop.Server.Services.Order
             this.userData = userData;
         }
 
-        public async Task<ServiceResponse<OrderModel>> AddOrderAsync(List<CartItem> cartItems, DeliveryDetails deliveryDetails, InvoiceDetails invoiceDetails)
+        public async Task<ServiceResponse<OrderModel>> AddOrderAsync(List<CartItem> cartItems, DeliveryDetails deliveryDetails, InvoiceDetails invoiceDetails, bool isAuthenticated)
         {
             var products = await productsService.GetProductsByIdListAsync(cartItems.Select(p => p.ProductId).ToList());
             List<ProductCartItem> items = new();
@@ -37,26 +37,34 @@ namespace ComputerShop.Server.Services.Order
                 return new ServiceResponse<OrderModel> { Success = false, Message = "Cena uległa zmianie" };
 
             OrderModel order = new() { CartItems = cartItems, State = OrderStates.Unpaid, Total = cartSum, DeliveryDetails = deliveryDetails, InvoiceDetails = invoiceDetails };
+            order.SetId();
             UserModel? user;
 
-            string? userId = userService.GetUserId();
-            if(!string.IsNullOrEmpty(userId))
+            if(isAuthenticated)
             {
-                user = await userService.GetUserByIdAsync(userId);
-                if(user != null)
+                string? userId = userService.GetUserId();
+                if (!string.IsNullOrEmpty(userId))
                 {
-                    user.Orders.Add(order);
-                    var response = await userService.UpdateUserAsync(user);
-                    if(response.Success)
-                        return new ServiceResponse<OrderModel> { Success = true, Data = order };
-                    else
-                        return new ServiceResponse<OrderModel> { Success = false, Data = order };
+                    user = await userService.GetUserByIdAsync(userId);
+                    if (user != null)
+                    {
+                        user.Orders.Add(order);
+                        var response = await userService.UpdateUserAsync(user);
+                        if (response.Success)
+                            return new ServiceResponse<OrderModel> { Success = true, Data = order };
+                        else
+                            return new ServiceResponse<OrderModel> { Success = false, Message = response.Message };
+                    }
                 }
+                return new ServiceResponse<OrderModel> { Success = false, Message = "Coś poszło nie tak - zamówienie nie zostało żłożone" };
             }
-            user = new UnregisteredUser { Orders = new() { order }, Email = deliveryDetails.Email };
-            await userService.AddUserAsync(user);
-
-            return new ServiceResponse<OrderModel> { Success = true, Data = order };
+            
+            user = new UnregisteredUser { Email = deliveryDetails.Email, Orders = new() { order } };
+            var result = await userService.AddUserAsync(user);
+            if(result.Success)
+                return new ServiceResponse<OrderModel> { Success = true, Data = order };
+            else
+                return new ServiceResponse<OrderModel> { Success = false, Message = "Coś poszło nie tak - zamówienie nie zostało żłożone" };
         }
 
         public async Task<ServiceResponse<List<OrderModel>>> GetAllOrdersForUser()

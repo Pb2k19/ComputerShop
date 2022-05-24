@@ -13,6 +13,11 @@ namespace ComputerShop.Shared.Models.User
         public decimal Total { get; set; }
         public DeliveryDetails DeliveryDetails { get; set; }
         public InvoiceDetails InvoiceDetails { get; set; }
+
+        public void SetId()
+        {
+            Id = ObjectId.GenerateNewId().ToString();
+        }
     }
 
     public static class OrderStates

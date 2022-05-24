@@ -28,7 +28,11 @@ namespace ComputerShop.Server.Controllers
             if(orderInfo.InvoiceDetails == null)
                 orderInfo.InvoiceDetails = new InvoiceDetails { City = orderInfo.DeliveryDetails.City, Name = orderInfo.DeliveryDetails.Name, 
                                                                 Street = $"{orderInfo.DeliveryDetails.Street } { orderInfo.DeliveryDetails.HouseNumber }" };
-            return Ok(await orderService.AddOrderAsync(orderInfo.CartItems, orderInfo.DeliveryDetails, orderInfo.InvoiceDetails));
+
+            SimpleServiceResponse validate = userService.ValidateJWT(Request);
+
+            var response = await orderService.AddOrderAsync(orderInfo.CartItems, orderInfo.DeliveryDetails, orderInfo.InvoiceDetails, validate.Success);
+            return Ok(response);
         }
 
         [HttpGet("getAllOrdersForUser"), Authorize]
