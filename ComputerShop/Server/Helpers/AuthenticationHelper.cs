@@ -112,7 +112,7 @@ namespace ComputerShop.Server.Helpers
         #endregion
 
         #region Token
-        public Token CreateToken(IConfiguration configuration, UserModel user)
+        public Token CreateToken(IConfiguration configuration, RegisteredUser user)
         {
             Token token = new();
             string confKey = configuration.GetSection("Settings:Token").Value;
@@ -127,7 +127,8 @@ namespace ComputerShop.Server.Helpers
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(CustomClaims.Fingerprint, fingerprint.FingerprintHash)
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim(CustomClaims.Fingerprint, fingerprint.FingerprintHash),
             };
 
             var eccPem = configuration["Settings:TokenPrivateEC"];

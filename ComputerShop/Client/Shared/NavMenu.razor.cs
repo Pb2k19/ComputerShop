@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using ComputerShop.Client.Services.Cart;
 using Microsoft.AspNetCore.Components.Authorization;
 using ComputerShop.Client.Services.User;
+using System.Security.Claims;
 
 namespace ComputerShop.Client.Shared
 {
@@ -77,9 +78,27 @@ namespace ComputerShop.Client.Shared
             }
             base.OnInitialized();
         }        
-        protected override void OnAfterRender(bool firstRender)
+        protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             base.OnAfterRender(firstRender);
+            if (StateProvider is null)
+                return;
+            AuthenticationState? state = await StateProvider.GetAuthenticationStateAsync();
+            if (state?.User.Claims?.FirstOrDefault(claim => claim.Type == ClaimTypes.Role)?.Value.Contains("Admin") ?? false)
+            {
+                if (AccountOptions.Items.Any(i => i?.Path?.Equals("admin") ?? false))
+                    return;
+                int index = AccountOptions.Items.IndexOf(null);
+                if (index != -1)
+                    AccountOptions.Items.Insert(index, new DropdownNavigationItem { Name = "Administracja", Path = "admin" });
+            }
+            else
+            {
+                var item = AccountOptions.Items.FirstOrDefault(i => i?.Path?.Equals("admin") ?? false);
+                if (item is null)
+                    return;
+                AccountOptions.Items.Remove(item);
+            }
         }
         protected async void OnCartUpdate()
         {
