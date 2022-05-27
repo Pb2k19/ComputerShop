@@ -29,4 +29,13 @@ namespace ComputerShop.Shared.Models.User
             }
         }
     }
+    public static class ChangePasswordExtensions
+    {
+        public static void Clear(this ChangePassword changePassword)
+        {
+            changePassword.CurrentPassword = string.Empty;
+            changePassword.Password = string.Empty;
+            changePassword.ConfPassword = string.Empty;
+        }
+    }
 }

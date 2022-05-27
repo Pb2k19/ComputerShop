@@ -23,7 +23,17 @@ namespace ComputerShop.Server.Services.WishList
             if (user == null)
                 return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
             if (user.WishList.AddProduct(productId))
-                return new SimpleServiceResponse();
+            {
+                try
+                {
+                    await userService.UpdateUserAsync(user);
+                    return new SimpleServiceResponse();
+                }
+                catch (MongoDB.Driver.MongoException)
+                {
+                    return new SimpleServiceResponse { Message = "Nie można dodać produktu", Success = false };
+                }
+            }
             else
                 return new SimpleServiceResponse { Message = "Nie można dodać produktu", Success = false };
         }
@@ -48,7 +58,15 @@ namespace ComputerShop.Server.Services.WishList
             if (user == null)
                 return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
             if(user.WishList.RemoveProduct(productId))
-                return new SimpleServiceResponse();
+                try
+                {
+                    await userService.UpdateUserAsync(user);
+                    return new SimpleServiceResponse();
+                }
+                catch (MongoDB.Driver.MongoException)
+                {
+                    return new SimpleServiceResponse { Message = "Nie można dodać produktu", Success = false };
+                }
             else
                 return new SimpleServiceResponse { Message = "Nie można usunąć produktu", Success = false};
         }

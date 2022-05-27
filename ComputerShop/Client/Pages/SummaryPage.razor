@@ -128,36 +128,8 @@
                     </div>
                     <div class="col-xl-4" id="details-summary">
                         <div class="m-xl-3 p-3 p-xxl-4 mt-3 mt-xl-0 pt-xl-2 shadow rounded sticky-top">
-                            <h2>Dane do dostawy</h2>
-                            <h4>Imię i nazwisko</h4>
-                            <span>@deliveryDetails.Name</span>
-                            <h4>Email</h4>
-                            <span>@deliveryDetails.Email</span>
-                            <h4>Numer telefonu</h4>
-                            <span>@deliveryDetails.PhoneNumber</span>
-                            <h4>Miejscowość</h4>
-                            <span>@deliveryDetails.PostCode&ensp;@deliveryDetails.City</span>
-                            <h4>Ulica</h4>
-                            <span>@deliveryDetails.Street&ensp;@deliveryDetails.HouseNumber</span>
-                            <h4>Metoda dostawy</h4>
-                            <span>@deliveryDetails.DeliveryMethod</span>
-                            <h4>Metoda płatności</h4>
-                            <span>@deliveryDetails.PaymentMethod</span>
-                            @if (invoiceDetailsAdded)
-                            {
-                                <h3 class="pt-3">Dane do faktury</h3>
-                                <h4>@(invoiceDetails.IsBusiness ? "Nazwa firmy" : "Imię i nazwisko")</h4>
-                                @if (invoiceDetails.IsBusiness)
-                                {
-                                    <h4>Numer NIP</h4>
-                                    <span>@invoiceDetails.Nip</span>
-                                }
-                                <span>@invoiceDetails.Name</span>
-                                <h4>Miejscowość</h4>
-                                <span>@invoiceDetails.City</span>
-                                <h4>Adres</h4>
-                                <span>@invoiceDetails.Street</span>
-                            }
+                            <DisplayDeliveryDetails DeliveryDetails="deliveryDetails" />
+                            <DisplayInvoiceDetails InvoiceDetails="invoiceDetails" InvoiceDetailsAdded="invoiceDetailsAdded"/>
                             <h3 class="mt-3">Suma: @total zł</h3>
                             <div class="text-center">
                                 <button type="button" class="btn btn-primary w-100 shadow-none" @onclick="EndAsync">Zapłać</button>

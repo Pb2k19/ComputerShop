@@ -27,7 +27,7 @@ namespace ComputerShop.Client.Services.WishList
 
         public async Task<SimpleServiceResponse> RemoveFromWishListAsync(string productId)
         {
-            var respone = await httpClient.GetFromJsonAsync<SimpleServiceResponse>("api/wishlist/removeFromWishList/{productId}");
+            var respone = await httpClient.GetFromJsonAsync<SimpleServiceResponse>($"api/wishlist/removeFromWishList/{productId}");
             return respone ?? new SimpleServiceResponse { Success = false, Message = "Coś poszło nie tak" };
         }
     }

@@ -11,6 +11,7 @@ namespace ComputerShop.Client.Services.Cart
         public Task<SimpleServiceResponse> RemoveItemFromCartAsync(string productId);
         public Task<(decimal, int)> GetCartInfoAsync();
         public Task<List<ProductCartItem>> GetCartProductsAsync();
+        public Task<List<ProductCartItem>> GetCartProductsAsync(List<CartItem> cart, bool updatePrices = true, bool setPricesFromCart = false);
         public Task UpdateCartItemQuantityAsync(int quantity, string productId );
     }
 }

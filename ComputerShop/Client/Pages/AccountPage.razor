@@ -1,5 +1,6 @@
 ﻿@page "/account"
 @page "/account/{Page}"
+@page "/account/{Page}/{OrderId}"
 @attribute [Authorize]
 @inject IUserService UserService
 @inject IOrderService OrderService
@@ -7,18 +8,69 @@
 @inject ILocalStorageService LocalStorageService
 @inject IToastService ToastService
 @inject IUserDetailsService UserDetails
+@inject ICartService cartService
+@inject IProductsService productsService 
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider StateProvider
 
 <PageTitle>Konto</PageTitle>
 
 <style>
+    .cart-img {
+        overflow: hidden;
+        max-width: 250px;
+    }
+
+    .item-row {
+        min-height: 225px;
+    }
+
+    #order-list, #wish-list {
+        font-size: 1.4rem;
+    }
+
+    .product-name {        
+        opacity: 0.85;
+    }
+        .product-name:hover {
+            opacity: 1;
+        }
+
     .btn{
         font-size: 1.2rem;
     }
+
     #account-menu{
         font-size: 1.3rem;
     }
+
+    .product-name {
+        opacity: 0.85;
+    }
+        .product-name:hover {
+            opacity: 1;
+        }
+
+    #orders h3 {
+        color: #0069d9;
+    }
+
+    #order-details {
+        font-size: 1.2rem;
+    }
+        #order-details h3 {
+            color: #0069d9;
+        }
+
+        #order-details h4, #orders h4 {
+            margin-left: 1rem;
+            margin-bottom: 0;
+            margin-top: 0.7rem;
+            font-size: 1.5rem;
+        }
+        #order-details span {
+            margin-left: 2.5rem;
+        }
 </style>
 
 <div class="row">
@@ -27,97 +79,193 @@
             <nav class="navbar flex-lg-column navbar-light shadow" id="account-menu">
                 @foreach (var item in navigationItems.Items)
                 {
-                    <a class="nav-link cursorHand" @onclick="() => ChangeViewAsync(item.Path)">@item.Name</a>
+                    <a class="nav-link cursorHand " @onclick="() => ChangeViewAsync(item.Path)">@item.Name</a>
                 }
             </nav>
         </div>
     </div>
-    <div class="col-lg-9 container px-5">
+    <div class="col-lg-9 container px-1 px-md-5">
         @switch (Page)
         {
             case "security":
-                <h2 class="text-center justify-content-start">Zmień hasło</h2>
-                <EditForm Model="changePassword" OnValidSubmit="OnPasswordChangeAsync">
-                    <DataAnnotationsValidator />
-                    <div class="mb-3">
-                        <h5 for="currentpassword">Aktualne hasło</h5>
-                        <InputText id="currentpassword" class="form-control shadow-none" type="password" @bind-Value="changePassword.CurrentPassword" />
-                        <ValidationMessage For="@(()=>changePassword.CurrentPassword)" />
-                    </div>
-                    <div class="mb-3">
-                        <h5 for="newpassword">Nowe hasło</h5>
-                        <InputText id="password" class="form-control shadow-none" type="password" @bind-Value="changePassword.Password" />
-                        <ValidationMessage For="@(()=>changePassword.Password)" />
-                    </div>
-                    <div>
-                        <h5 for="confpassword">Potwierdź nowe hasło</h5>
-                        <InputText id="confpassword" class="form-control shadow-none" type="password" @bind-Value="changePassword.ConfPassword" />
-                        <ValidationMessage For="@(()=>changePassword.ConfPassword)" />
-                    </div>
-                    <div class="d-flex justify-content-end mt-3">
-                        <button type="submit" class="btn btn-primary shadow-none">Zapisz</button>
-                    </div>
-                </EditForm>
+                <h2>Zmień hasło</h2>
+                <div class="shadow rounded p-2 p-md-5 m-1">
+                    <EditForm Model="changePassword" OnValidSubmit="OnPasswordChangeAsync">
+                        <DataAnnotationsValidator />
+                        <div class="mb-3">
+                            <h5 for="currentpassword">Aktualne hasło</h5>
+                            <InputText id="currentpassword" class="form-control shadow-none" type="password" @bind-Value="changePassword.CurrentPassword" />
+                            <ValidationMessage For="@(()=>changePassword.CurrentPassword)" />
+                        </div>
+                        <div class="mb-3">
+                            <h5 for="newpassword">Nowe hasło</h5>
+                            <InputText id="password" class="form-control shadow-none" type="password" @bind-Value="changePassword.Password" />
+                            <ValidationMessage For="@(()=>changePassword.Password)" />
+                        </div>
+                        <div>
+                            <h5 for="confpassword">Potwierdź nowe hasło</h5>
+                            <InputText id="confpassword" class="form-control shadow-none" type="password" @bind-Value="changePassword.ConfPassword" />
+                            <ValidationMessage For="@(()=>changePassword.ConfPassword)" />
+                        </div>
+                        <div class="d-flex justify-content-end mt-3">
+                            <button type="submit" class="btn btn-primary shadow-none">Zapisz</button>
+                        </div>
+                    </EditForm>
+                </div>
                 break;
             case "delivery-details":
-                <h2 class="text-center justify-content-start">Zapisz dane do dostawy</h2>
-                <DeliveryDetailsForm DeliveryDetails="delivery" OnValidSubmit="OnValidSubmitDeliveryAsync" />
+                <h2>Zapisz dane do dostawy</h2>
+                <div class="shadow rounded p-2 p-md-5 m-1">
+                    <DeliveryDetailsForm DeliveryDetails="delivery" OnValidSubmit="OnValidSubmitDeliveryAsync" />
+                </div>
                 break;
             case "invoice-details":
-                <h2 class="text-center justify-content-start">Zapisz dane do faktury</h2>
-                <InvoiceDetailsForm InvoiceDetails="invoiceDetails" OnValidSubmit="OnValidSubmitInvoiceAsync" />
+                <h2>Zapisz dane do faktury</h2>
+                <div class="shadow rounded p-2 p-md-5 m-1">
+                    <InvoiceDetailsForm InvoiceDetails="invoiceDetails" OnValidSubmit="OnValidSubmitInvoiceAsync" />
+                </div>
+                
                 break;
             case "wish-list":
-                <h2 class="text-center justify-content-start">Lista życzeń</h2>
-                if (wishList?.List?.Count > 0)
-                    @foreach (var item in wishList.List)
+                <h2>Lista życzeń</h2>
+                <div id="wish-list">
+                    @if (wishListProducts?.Count > 0)
                     {
-                        <h2>@item.Date @item.ProductId</h2>
+                        @foreach (var p in wishListProducts)
+                        {
+                            <div>
+                                <div class="position-relative">
+                                    <button class="position-absolute btn-close top-0 end-0 mt-2 shadow-none" @onclick="()=>OnWishListProductRemoveAsync(p.Id)"></button>
+                                </div>
+                                <div class="row row-cols-3 align-items-center rounded shadow m-1 mt-4 pt-4 pt-sm-0">
+                                    <div class="col-5 col-lg-3 py-4">
+                                        <div class="d-flex cart-img">
+                                            <img src="@p.Images?.FirstOrDefault()?.Location" class="card-img-top cursorHand" @onclick="()=>GoToProductPage(p.Id)">
+                                        </div>
+                                    </div>
+                                    <div class="col-7 col-lg-5 py-4 text-center product-name">
+                                        <span class="cursorHand" @onclick="()=>GoToProductPage(p.Id)">@p.Manufacturer&nbsp;@p.Name</span>
+                                    </div>
+                                    <div class="col-6 col-lg-2 py-4 text-end text-lg-center">
+                                        <div class="d-flex justify-content-end justify-content-lg-center">
+                                            <div>
+                                                @if (p.Price < p.PriceBeforeDiscount)
+                                                {
+                                                    <div class="align-middle">
+                                                        <span class="text-muted text-decoration-line-through" style="font-size: 1.1rem">@p.PriceBeforeDiscount zł</span>
+                                                        <span class="text-primary">&nbsp;-@(decimal.ToInt32((p.PriceBeforeDiscount - p.Price) / p.PriceBeforeDiscount * 100))%</span>
+                                                    </div>
+                                                }
+                                                <span class="text-end">@p.Price zł</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     }
+                    else
+                    {
+                    <div class="m-3 mt-5 p-4 rounded shadow text-center">
+                        <h3 class="text-center">Lista życzeń jest pusta</h3>
+                    </div>
+                    }
+                </div>
+                break;
+            case "order-details":
+                if (currentOrder != null)
+                {
+                    <div class="m-3 mt-5" id="order-details">
+                        <h2 class="pb-2">Dane zamówienia</h2>
+                        <div id="order-details" class="rounded shadow text-start p-1 p-sm-2 p-md-3 m-1">
+                            <div class="row ms-2">
+                                <div class="col-md-6">
+                                    <DisplayDeliveryDetails DeliveryDetails="currentOrder.DeliveryDetails" />
+                                </div>
+                                <div class="col-md-6">
+                                    <DisplayInvoiceDetails InvoiceDetails="currentOrder.InvoiceDetails" InvoiceDetailsAdded="true" />
+                                    <div class="mt-2">
+                                        <h3>Pozostałe</h3>
+                                        <h4>Status</h4>
+                                        <span>@currentOrder.State</span>
+                                        <h4>Numer ID</h4>
+                                        <span>@currentOrder.Id.ToUpper()</span>
+                                        <h4>Data złożenia</h4>
+                                        <span>@currentOrder.OrderDate.Date.ToString("dd MMM yyyy")</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="mt-5 mb-2">Zamówione produkty</h2>
+                        <div id="order-list" class="p-1 p-sm-2 p-md-3">
+                            @foreach (var (p, i) in currentProductCartItems.Select((p, i) => (p, i)))
+                            {
+                                <div>
+                                    <div class="row align-items-center rounded shadow @(i == 0 ? "mt-0" : "mt-4") pt-sm-0">
+                                        <div class="col-5 col-lg-3 py-4">
+                                            <div class="d-flex cart-img">
+                                                <img src="@p.Product.Images?.FirstOrDefault()?.Location" alt="Zdjęcie @p.Product.Name" class="card-img-top cursorHand" @onclick="() => GoToProductPage(p.Product.Id)">
+                                            </div>
+                                        </div>
+                                        <div class="col-7 col-lg-6 py-4 text-center product-name">
+                                            <span class="cursorHand" @onclick="() => GoToProductPage(p.Product.Id)">@p.Product.Manufacturer&nbsp;@p.Product.Name</span>
+                                        </div>
+                                        <div class="col-6 col-lg-1">
+                                            <div class="text-end text-lg-center">
+                                                <span>@p.Quantity</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-lg-2 py-4 text-end text-lg-center">
+                                            <div class="d-flex justify-content-start justify-content-lg-center">
+                                                <div class="text-center">
+                                                    <span>@p.Product.Price zł</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
                 else
                 {
                     <div class="m-3 mt-5 p-3 rounded shadow text-center">
-                        <h3 class="text-center">Lista życzeń jest pusta</h3>
+                        <h3 class="text-center">Nie mogliśmy znaleść takiego zamówienia</h3>
                     </div>
                 }
                 break;
             default:
-                <h2 class="text-center justify-content-start">Zamówienia</h2>
-                if (orderList?.Count > 0)
-                    @foreach (var order in orderList)
+                <h2>Zamówienia</h2>
+                <div id="orders">
+                    @if (orderList?.Count > 0)
                     {
-                        <div class="shadow rounded p-3 mb-2 cursorHand">
-                            <h3>Zamówienie @order.Id</h3>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="ps-2">
+                        @foreach (var (order, i) in orderList.Select((order, i) => (order, i)))
+                        {
+                            <div class="shadow rounded p-3 mb-2 cursorHand m-1 @(i == 0 ? "mt-1" : "mt-3")" @onclick="() => OnOrderClickAsync(order.Id)">
+                                <h3 class="mt-2 ms-2">Zamówienie @(i+1)</h3>
+                                <div class="row mt-4 text-md-center mb-4">
+                                    <div class="col-md-4">
                                         <h4>Status: @order.State</h4>
+                                    </div>
+                                    <div class="col-md-4">
                                         <h4>Suma: @order.Total zł</h4>
-                                        <h4>Data złożenia: @order.OrderDate.ToString("dd-MM-yyyy")</h4>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4>Data złożenia: @order.OrderDate.ToString("dd MMM yyyy")</h4>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <ul>
-                                        @foreach (var item in @order.CartItems.Take(3))
-                                        {
-                                            <li>@item.Price @item.Quantity</li>
-                                        }
-                                        @if (@order.CartItems.Count > 3)
-                                        {
-                                            <li>...</li>
-                                        }
-                                    </ul>
-                                </div>
                             </div>
-                        </div>
+                        }
                     }
                     else
                     {
-                        <div class="m-3 mt-5 p-3 rounded shadow text-center">
+                        <div class="m-3 mt-5 p-4 rounded shadow text-center">
                             <h3 class="text-center">Lista zamówień jest pusta</h3>
                         </div>
                     }
-                    break;
-            }
+                </div>
+                break;
+        }
     </div>
 </div>

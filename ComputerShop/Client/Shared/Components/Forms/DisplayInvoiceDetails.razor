@@ -1,0 +1,22 @@
+﻿@if (InvoiceDetails != null && InvoiceDetailsAdded)
+{
+    <div>
+        <h3>Dane do faktury</h3>
+        <h4>@(InvoiceDetails.IsBusiness ? "Nazwa firmy" : "Imię i nazwisko")</h4>
+        @if (InvoiceDetails.IsBusiness)
+        {
+            <h4>Numer NIP</h4>
+            <span>@InvoiceDetails.Nip</span>
+        }
+        <span>@InvoiceDetails.Name</span>
+        <h4>Miejscowość</h4>
+        <span>@InvoiceDetails.City</span>
+        <h4>Adres</h4>
+        <span>@InvoiceDetails.Street</span>
+    </div>    
+}
+
+@code {
+    [Parameter] public InvoiceDetails? InvoiceDetails { get; set; }
+    [Parameter] public bool InvoiceDetailsAdded { get; set; }
+}

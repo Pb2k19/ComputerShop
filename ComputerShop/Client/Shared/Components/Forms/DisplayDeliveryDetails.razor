@@ -1,0 +1,24 @@
+﻿@if (DeliveryDetails != null)
+{
+    <div>
+        <h3>Dane do dostawy</h3>
+        <h4>Imię i nazwisko</h4>
+        <span>@DeliveryDetails.Name</span>
+        <h4>Email</h4>
+        <span>@DeliveryDetails.Email</span>
+        <h4>Numer telefonu</h4>
+        <span>@DeliveryDetails.PhoneNumber</span>
+        <h4>Miejscowość</h4>
+        <span>@DeliveryDetails.PostCode&ensp;@DeliveryDetails.City</span>
+        <h4>Ulica</h4>
+        <span>@DeliveryDetails.Street&ensp;@DeliveryDetails.HouseNumber</span>
+        <h4>Metoda dostawy</h4>
+        <span>@DeliveryDetails.DeliveryMethod</span>
+        <h4>Metoda płatności</h4>
+        <span>@DeliveryDetails.PaymentMethod</span>
+    </div>
+}
+
+@code{
+    [Parameter] public DeliveryDetails? DeliveryDetails { get; set; }
+}

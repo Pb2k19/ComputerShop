@@ -8,6 +8,7 @@ namespace ComputerShop.Client.Pages
     public partial class AccountPage
     {
         [Parameter] public string? Page { get; set; }
+        [Parameter] public string? OrderId { get; set; }
         readonly DropdownNavigationItems navigationItems = new(new List<DropdownNavigationItem>
         {
             new DropdownNavigationItem { Name = "Zamówienia", Path="orders"},
@@ -20,15 +21,16 @@ namespace ComputerShop.Client.Pages
         IUserHelper? userHelper = null;
         DeliveryDetails delivery = new();
         InvoiceDetails invoiceDetails = new();
-        WishListModel wishList = new();
         List<OrderModel> orderList = new();
+        OrderModel? currentOrder;
+        List<ProductCartItem> currentProductCartItems = new();
+        List<Product> wishListProducts = new();
 
-        protected async override Task OnParametersSetAsync()
+        protected override async Task OnInitializedAsync()
         {
             if (userHelper == null)
                 userHelper = new UserHelper(StateProvider, UserService, LocalStorageService, NavigationManager, ToastService);
-            await ChangeViewAsync(Page);            
-            base.OnParametersSet();
+            await ChangeViewAsync(Page);
         }
         protected async Task OnPasswordChangeAsync()
         {
@@ -51,37 +53,32 @@ namespace ComputerShop.Client.Pages
             switch(name)
             {
                 case "wish-list":
-                    wishList = new();
-                    var reW = await WishListService.GetWishListAsync();
-                    if (reW.Success)
-                    {
-                        wishList = reW.Data ?? new();
-                    }
+                    NavigationManager.NavigateTo("/account/wish-list");
+                    await LoadWishListAsync();
                     break;
                 case "delivery-details":
-                    delivery = new();
-                    var reD = await UserDetails.GetDeliveryDetailsAsync();
-                    if (reD?.Success ?? false)
-                    {
-                        delivery = reD.Data ?? new();
-                    }
+                    NavigationManager.NavigateTo("/account/delivery-details");
+                    await LoadDeliveryDetailsAsync();
                     break;
                 case "invoice-details":
-                    invoiceDetails = new();
-                    var reI = await UserDetails.GetInvoiceDetailsAsync();
-                    if (reI?.Success ?? false)
-                    {
-                        invoiceDetails = reI.Data ?? new();
-                    }
+                    NavigationManager.NavigateTo("/account/invoice-details");
+                    await LoadInvoiceDetailsAsync();
+                    break;
+                case "order-details":
+                    NavigationManager.NavigateTo($"/account/order-details/{OrderId}");
+                    await LoadCurrentOderAsync();                                      
+                    break;
+                case "security":
+                    NavigationManager.NavigateTo($"/account/security");
                     break;
                 default:
-                    orderList = new();
-                    var reO = await OrderService.GetAllOrdersForUserAsync();
-                    if(reO?.Success ?? false)
-                    {
-                        orderList = reO.Data ?? new();
-                    }
+                    NavigationManager.NavigateTo("/account");
+                    await LoadOrdersAsync();
                     break;
+            }
+            if(!name?.Equals("security") ?? true)
+            {
+                changePassword.Clear();
             }
         }
         protected async void OnValidSubmitInvoiceAsync()
@@ -99,6 +96,74 @@ namespace ComputerShop.Client.Pages
                 ToastService.ShowSuccess("Zaktualizowano dane do dostawy", "Sukces");
             else
                 ToastService.ShowError(re?.Message ?? "Coś poszło nie tak", "Nie udało się");
+        }
+        protected async Task OnOrderClickAsync(string orderId)
+        {
+            OrderId = orderId;
+            await ChangeViewAsync("order-details");
+        }
+        protected async Task OnWishListProductRemoveAsync(string productId)
+        {            
+            var re = await WishListService.RemoveFromWishListAsync(productId);
+            if(re.Success)
+            {
+                wishListProducts.Remove(wishListProducts.First(w => w.Id.Equals(productId)));
+            }
+        }
+        protected void GoToProductPage(string productId)
+        {
+            Product? product = currentProductCartItems.FirstOrDefault(x => productId.Equals(x.Product.Id))?.Product;
+            NavigationManager?.GoToProductPage(productId, product?.Category);
+        }
+
+        private async Task LoadOrdersAsync()
+        {
+            orderList = new();
+            var reO = await OrderService.GetAllOrdersForUserAsync();
+            if (reO?.Success ?? false)
+            {
+                orderList = reO.Data?.OrderBy(p => p.OrderDate).ToList() ?? new();
+            }
+        }
+        private async Task LoadCurrentOderAsync()
+        {
+            if (!string.IsNullOrEmpty(OrderId))
+            {
+                if (orderList == null || orderList.Count == 0)
+                    await LoadOrdersAsync();
+                currentOrder = orderList?.FirstOrDefault(o => o.Id.Equals(OrderId));
+                if (currentOrder != null)
+                    currentProductCartItems = await cartService.GetCartProductsAsync(currentOrder.CartItems, false, true);
+            }
+        }
+        private async Task LoadInvoiceDetailsAsync()
+        {
+            invoiceDetails = new();
+            var reI = await UserDetails.GetInvoiceDetailsAsync();
+            if (reI?.Success ?? false)
+            {
+                invoiceDetails = reI.Data ?? new();
+            }
+        }
+        private async Task LoadDeliveryDetailsAsync()
+        {
+            delivery = new();
+            var reD = await UserDetails.GetDeliveryDetailsAsync();
+            if (reD?.Success ?? false)
+            {
+                delivery = reD.Data ?? new();
+            }
+        }
+        private async Task LoadWishListAsync()
+        {
+            WishListModel wishList = new();
+            var reW = await WishListService.GetWishListAsync();
+            if (reW.Success)
+            {
+                wishList = reW.Data ?? new();
+                wishListProducts = (await productsService.GetProductsByIdListAsync(wishList.GetAllProductIds()))
+                    .OrderBy(x => $"{x.Manufacturer} {x.Name}").ToList();
+            }
         }
     }
 }

@@ -63,12 +63,22 @@ namespace ComputerShop.Client.Services.Cart
         public async Task<(decimal, int)> GetCartInfoAsync()
         {
             List<CartItem> cart = await OpenCartAsync();
-            return GetCartInfoAsync(cart);
+            return GetCartInfo(cart);
         }
 
-        public (decimal, int) GetCartInfoAsync(List<CartItem> cart)
+        public (decimal, int) GetCartInfo(List<CartItem> cart)
         {
-            return (cart.Sum(x => x.Price * x.Quantity), cart.Sum(x => x.Quantity));
+            return (CartTotal(cart), ProductCount(cart));
+        }
+
+        public decimal CartTotal(List<CartItem> cart)
+        {
+            return cart.Sum(x => x.Price * x.Quantity);
+        }
+
+        public int ProductCount(List<CartItem> cart)
+        {
+            return cart.Sum(x => x.Quantity);
         }
 
         private async Task<List<CartItem>> OpenCartAsync()
@@ -84,34 +94,42 @@ namespace ComputerShop.Client.Services.Cart
         public async Task<List<ProductCartItem>> GetCartProductsAsync()
         {
             List<CartItem> cart = await OpenCartAsync();
-            List<Product> products = await productsService.GetProductsByIdListAsync(cart.Select(x => x.ProductId).ToList());
-            List<ProductCartItem> items = new();
-            products.ForEach(
-                p => items.Add(new ProductCartItem 
-                { 
-                    Product = p, 
-                    Quantity = cart.FirstOrDefault(c => c.ProductId.Equals(p.Id))?.Quantity ?? 1 
-                }));
-            await UpdateProductPrice(products, cart);
-            return items;
-        }
-
-        public async Task UpdateProductPrice(List<Product> products, List<CartItem>? cart = null)
-        {
-            if (cart == null)
-            {
-                cart = await OpenCartAsync();
-                if (cart == null)
-                    return;
-            }
-            decimal priceBeforeUpdate = GetCartInfoAsync(cart).Item1;
-            cart.ForEach(c => c.Price = products.FirstOrDefault(p => p.Id?.Equals(c.ProductId) ?? false)?.Price ?? c.Price);
-            decimal priceAfterUpdate = GetCartInfoAsync(cart).Item1;
-            if(priceBeforeUpdate != priceAfterUpdate)
+            decimal priceBeforeUpdate = CartTotal(cart);
+            var cartItems = await GetCartProductsAsync(cart);
+            decimal priceAfterUpdate = GetCartInfo(cart).Item1;
+            if (priceBeforeUpdate != priceAfterUpdate)
             {
                 await localStorageService.SetItemAsync(Key, cart);
                 OnUpdate?.Invoke();
             }
+            return cartItems;
+        }
+
+        public async Task<List<ProductCartItem>> GetCartProductsAsync(List<CartItem> cart, bool updatePrices = true, bool setPricesFromCart = false)
+        {
+            List<Product> products = await productsService.GetProductsByIdListAsync(cart.Select(x => x.ProductId).ToList());
+            List<ProductCartItem> items = new();
+            products.ForEach(
+                p => items.Add(new ProductCartItem
+                {
+                    Product = p,
+                    Quantity = cart.FirstOrDefault(c => c.ProductId.Equals(p.Id))?.Quantity ?? 1,
+                }));
+            if(updatePrices)
+                UpdateCartPrice(products, cart);
+            if(setPricesFromCart)
+                UpdateProductsPrice(products, cart);
+            return items;
+        }
+
+        public void UpdateCartPrice(List<Product> products, List<CartItem> cart)
+        {
+            cart.ForEach(c => c.Price = products.FirstOrDefault(p => p.Id?.Equals(c.ProductId) ?? false)?.Price ?? c.Price);
+        }
+
+        public void UpdateProductsPrice(List<Product> products, List<CartItem> cart)
+        {
+            products.ForEach(p => p.Price = cart.FirstOrDefault(c => c.ProductId?.Equals(p.Id) ?? false)?.Price ?? p.Price);
         }
 
         public async Task UpdateCartItemQuantityAsync(int quantity, string productId)
