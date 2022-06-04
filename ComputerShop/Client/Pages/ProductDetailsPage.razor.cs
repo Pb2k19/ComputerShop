@@ -39,9 +39,6 @@ namespace ComputerShop.Client.Pages
                 case 2:
                     await JS.ScrollToElementAsync("product-details");
                     break;
-                case 3:
-                    await JS.ScrollToElementAsync("product-opinions");
-                    break;
                 default:
                     break;
             }

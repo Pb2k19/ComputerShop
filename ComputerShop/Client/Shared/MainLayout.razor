@@ -13,18 +13,62 @@
             margin-top: 150px;
         }
     }
+
+    .footer {
+        min-height: 60px;
+    }
+
+    .fas-icon{
+        font-size: 2rem;
+    }
+
+    .content {
+        min-height: calc(100vh - 410px);
+    }
 </style>
 
 
 
-<header>    
+<header>
     <NavMenu />
 </header>
 
-<div id="body" class="container-fluid">
+<div id="body" class="container-fluid content">
     <main role="main" class="pb-3">
         @Body
     </main>
+</div>
+
+<div class="container">
+    <footer class="row py-5 my-5 mb-2 pb-2 border-top">
+        <div class="col-md text-center align-middle">
+            <a class="navbar-brand" href=""><img src="/images/logo.png" width="180" height="35"></a>
+            <p class="text-muted">SuperPC &copy; @DateTime.Now.Year</p>
+        </div>
+
+        <div class="col-xl">
+
+        </div>
+
+        <div class="col-md">
+            <h5>Kontakt</h5>
+            <ul class="nav flex-column ms-2">
+                <li class="nav-item mb-2 text-muted"><span class="fa fas fa-phone fas-icon align-middle"></span><span class="ms-3">123-000-321</span></li>
+                <li class="nav-item mb-2 text-muted"><span class="fa fas fa-envelope fas-icon align-middle"></span><span class="ms-3">kontakt@computershop.pl</span></li>
+                <li class="nav-item mb-2 text-muted"><span class="fa fas fa-search-location fas-icon align-middle"></span><span class="ms-3">Warszawa al. 3 maja 4</span></li>
+            </ul>
+        </div>
+
+        <div class="col-md mt-2 mt-md-0">
+            <h5 class="mb-0">Social media</h5>
+            <ul class="col-md-4 list-unstyled d-flex" style="font-size: 2.3rem;">
+                <li class="ms-3"><a class="text-muted" href="#"><span class="fab fa-facebook-square"></span></a></li>
+                <li class="ms-3"><a class="text-muted" href="#"><span class="fab fa-instagram-square"></span></a></li>
+                <li class="ms-3"><a class="text-muted" href="#"><span class="fab fa-twitter-square"></span></a></li>
+                <li class="ms-3"><a class="text-muted" href="#"><span class="fab fa-youtube-square"></span></a></li>
+            </ul>
+        </div>
+    </footer>
 </div>
 
 <BlazoredToasts Position="ToastPosition.BottomRight"

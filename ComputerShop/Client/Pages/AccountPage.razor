@@ -135,7 +135,7 @@
                         {
                             <div>
                                 <div class="position-relative">
-                                    <button class="position-absolute btn-close top-0 end-0 mt-2 shadow-none" @onclick="()=>OnWishListProductRemoveAsync(p.Id)"></button>
+                                    <button class="position-absolute btn-close top-0 end-0 mt-2 me-2 shadow-none" @onclick="()=>OnWishListProductRemoveAsync(p.Id)"></button>
                                 </div>
                                 <div class="row row-cols-3 align-items-center rounded shadow m-1 mt-4 pt-4 pt-sm-0">
                                     <div class="col-5 col-lg-3 py-4">
@@ -175,7 +175,7 @@
             case "order-details":
                 if (currentOrder != null)
                 {
-                    <div class="m-3 mt-5" id="order-details">
+                    <div>
                         <h2 class="pb-2">Dane zamówienia</h2>
                         <div id="order-details" class="rounded shadow text-start p-1 p-sm-2 p-md-3 m-1">
                             <div class="row ms-2">
@@ -185,13 +185,13 @@
                                 <div class="col-md-6">
                                     <DisplayInvoiceDetails InvoiceDetails="currentOrder.InvoiceDetails" InvoiceDetailsAdded="true" />
                                     <div class="mt-2">
-                                        <h3>Pozostałe</h3>
+                                        <h3>Informacje</h3>
                                         <h4>Status</h4>
                                         <span>@currentOrder.State</span>
                                         <h4>Numer ID</h4>
                                         <span>@currentOrder.Id.ToUpper()</span>
                                         <h4>Data złożenia</h4>
-                                        <span>@currentOrder.OrderDate.Date.ToString("dd MMM yyyy")</span>
+                                        <span>@currentOrder.OrderDate.Date.ToString("dd MMMM yyyy")</span>
                                     </div>
                                 </div>
                             </div>
