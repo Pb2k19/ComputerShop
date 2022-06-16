@@ -1,13 +1,13 @@
 ﻿namespace ComputerShop.Shared.Models
 {
-    public class Prop : IProp
+    public class KeyValue : IKeyValue
     {
-        public string Name { get; set; }
+        public string Key { get; set; }
         public string Value { get; set; }
     }
-    public interface IProp
+    public interface IKeyValue
     {
-        public string Name { get; set; }
+        public string Key { get; set; }
         public string Value { get; set; }
     }
 }

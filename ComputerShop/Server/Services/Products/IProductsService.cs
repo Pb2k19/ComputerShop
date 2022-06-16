@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Server.Services.Products
 {
@@ -11,5 +12,8 @@ namespace ComputerShop.Server.Services.Products
         Task<ProductsResponse> GetProductsByCategoryAsync(string category, int pageNumber = 1);
         Task<ProductsResponse> FindProductsByTextAsync(string text, int pageNumber = 1);
         Task<List<string>> GetProductsSuggestionsByTextAsync(string text);
+        Task<SimpleServiceResponse> AddProductAsync(Product product);
+        Task<SimpleServiceResponse> AddCommentToProductAsync(Comment comment, string productId);
+        Task<SimpleServiceResponse> UpdateProductAsync(Product product);
     }
 }

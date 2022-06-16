@@ -47,10 +47,12 @@ namespace ComputerShop.Server.DataAccess
         }
         public Task AddProductAsync(Product product)
         {
+            product.CareationDate = product.LastUpdateDate = DateTime.UtcNow;
             return products.InsertOneAsync(product);
         }
         public async Task UpdateProductAsync(Product product)
         {
+            product.LastUpdateDate = DateTime.UtcNow;
             await products.ReplaceOneAsync(p => p.Id.Equals(product.Id), product);
             memoryCache.Remove(CacheKey);
         }

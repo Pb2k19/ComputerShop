@@ -25,11 +25,13 @@ namespace ComputerShop.Shared.Models
         public bool IsPublic { get; set; }
         public bool IsHiglighted { get; set; } = false;
         public bool IsRemoved { get; set; }
-        public DateTime CareationDate { get; set; }
-        public DateTime LastUpdateDate { get; set; }
+        public bool IsAvaliable { get; set; }
+        public DateTime CareationDate { get; set; } = DateTime.UtcNow;
+        public DateTime LastUpdateDate { get; set; } = DateTime.UtcNow;
         public string Category { get; set; }
-        public List<Image> Images { get; set; } = new List<Image> { new Image()};
+        public List<Image> Images { get; set; } = new List<Image> { new Image() };
         public int WarantyMonths { get; set; } = 12;
-        public List<Prop> ExtraInfo { get; set; }
+        public List<KeyValue> ExtraInfo { get; set; }
+        public List<Comment> Comments { get; set; } = new();
     }
 }

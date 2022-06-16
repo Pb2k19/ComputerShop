@@ -15,8 +15,21 @@
         scroll-margin: 120px;
     }
 
-    .list-group .list-group-item {
-        width: 130px;
+    @@media (max-width:449px)
+    {
+        .list-group .list-group-item {
+            width: 80px;
+        }
+    }
+
+    @@media (min-width: 450px) and (max-width: 1199px) {
+        #go-to-element-nav {
+            top: 3em;
+        }
+
+        .list-group .list-group-item {
+            width: 100px;
+        }
     }
 
     @@media (max-width: 1199px) {
@@ -28,6 +41,9 @@
     @@media (min-width: 1200px) {
         #go-to-element-nav {
             top: 7em;
+        }
+        .list-group .list-group-item {
+            width: 130px;
         }
     }
 </style>
@@ -55,7 +71,8 @@
         <div class="list-group list-group-horizontal">
             <a class="list-group-item shadow text-center" role="button" @onclick="()=>OnListItemClick(0)">Zdjęcia</a>
             <a class="list-group-item shadow text-center" role="button" @onclick="()=>OnListItemClick(1)">Opis</a>
-            <a class="list-group-item shadow text-center" role="button" @onclick="()=>OnListItemClick(2)">Specyfikacja</a>
+            <a class="list-group-item shadow text-center" role="button" @onclick="()=>OnListItemClick(2)">Dane</a>
+            <a class="list-group-item shadow text-center" role="button" @onclick="()=>OnListItemClick(3)">Opinie</a>
         </div>
     </div>
     
@@ -67,8 +84,48 @@
         <h2 class="text-center">Specyfikacja</h2>
         <DisplayProductDetails Product="currentProdcut" />
     </div>
+    <div id="product-comments" class="shadow p-3 mb-0 border rounded scroll-std">
+        <h2 class="text-center">Opinie</h2>
+        @if (currentProdcut != null && currentProdcut.Comments?.Count > 0)
+        {
+            @foreach (var comment in currentProdcut.Comments)
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="mx-2 mx-md-5 w-100 p-3 pb-0 mb-0 shadow border rounded">
+                        <div class="row my-2 p-2">
+                            <div class="col-auto text-center">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="fa fas fa-user me-3"></h3><h3 class="me-3">@comment.Name</h3>
+                                </div>
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    if (i < (int)comment.Score)
+                                    {
+                                        <span class="fa fas fa-star text-warning"></span>
+                                    }
+                                    else if ((comment.Score - i) > 0.3)
+                                    {
+                                        <span class="fa fas fa-star-half-alt text-warning"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="far fa-star text-warning"></span>
+                                    }
+                                }
+                            </div>
+                            <div class="col-auto">
+                                <div class="ms-2" style="font-size: 1.1rem;">
+                                    <p>@comment.Text</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>               
+            }
+        }
+        else
+        {
+            <h2 class="text-center">Brak opinii</h2>
+        }
+    </div>
 </div>
-
-
-
-

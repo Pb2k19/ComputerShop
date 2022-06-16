@@ -2,6 +2,7 @@
 using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.Components;
 using ComputerShop.Shared.Models.Products;
+using MongoDB.Driver;
 
 namespace ComputerShop.Server.Services.Products
 {
@@ -31,6 +32,7 @@ namespace ComputerShop.Server.Services.Products
                 Description = "Przewód HDMI marki Unitek wykonano z najwyższej jakości materiałów, aby zapewnić kompatybilność z technologią HDMI 2.1, oferującą przepustowość na poziomie nawet 48 Gb/s. Zapewnia ona krystalicznie czysty i wyraźny obraz wyświetlany w rozdzielczościach 8K/60Hz oraz 4K/120Hz. Ponadto wspiera funkcje Dynamic HDR, Dolby Vision, HDR 10 czy 3D Video.",
                 Images = new(){ new Image{Location = "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,2019/8/pr_2019_8_19_12_17_50_317_01.jpg"} },
                 IsPublic = true,
+                Comments = new(){new Comment { Name = "Andrzej", Score = 3, Text = "Dobre, pomarańczowe"} }
             },
             new CableProduct
             {
@@ -581,7 +583,7 @@ new DesktopPsuProduct
                 Protections = PsuProtections.List,
                 ExtraInfo = new() //jak chcesz to Extra info możesz wywalić jak nie masz pomysłu co tu można dodać
                 {
-                    new Prop{Name = "Kolor", Value = "Czarny"},
+                    new KeyValue{Key = "Kolor", Value = "Czarny"},
                 },
                 IsModular = false,
                 IsPublic = true,
@@ -608,7 +610,7 @@ new DesktopPsuProduct
                 Protections = PsuProtections.List,
                 ExtraInfo = new() //jak chcesz to Extra info możesz wywalić jak nie masz pomysłu co tu można dodać
                 {
-                    new Prop{Name = "Kolor", Value = "Czarny"},
+                    new KeyValue{Key = "Kolor", Value = "Czarny"},
                 },
                 IsModular = true,
                 IsPublic = true,
@@ -635,7 +637,7 @@ new DesktopPsuProduct
                 Protections = PsuProtections.List,
                 ExtraInfo = new() //jak chcesz to Extra info możesz wywalić jak nie masz pomysłu co tu można dodać
                 {
-                    new Prop{Name = "Kolor", Value = "Biały"},
+                    new KeyValue{Key = "Kolor", Value = "Biały"},
                 },
                 IsModular = true,
                 IsPublic = true,
@@ -1529,6 +1531,48 @@ new LaptopProduct
                     products.Add(prod);
             }
             return products;
+        }
+
+        public async Task<SimpleServiceResponse> AddProductAsync(Product product)
+        {
+            if(product is null)
+                return new SimpleServiceResponse() { Message = "Produkt nie może mieć wartości null", Success = false};
+            try
+            {
+                await productsData.AddProductAsync(product);
+                return new SimpleServiceResponse() { Success = true };
+            }
+            catch (MongoException ex)
+            {
+                return new SimpleServiceResponse() { Success = false, Message = ex.Message };
+            }
+        }
+
+        public async Task<SimpleServiceResponse> AddCommentToProductAsync(Comment comment, string productId)
+        {
+            if (comment is null || string.IsNullOrEmpty(productId))
+                return new SimpleServiceResponse() { Message = "Komentarz lub id produktu nie może mieć wartości null", Success = false };
+            var product = await productsData.GetProductAsync(productId);
+            if (product == null)
+                return new SimpleServiceResponse() { Message = "Produkt nie może mieć wartości null", Success = false };
+            product.Comments.Add(comment);
+            await UpdateProductAsync(product);
+            return new SimpleServiceResponse() { Success = true };
+        }
+
+        public async Task<SimpleServiceResponse> UpdateProductAsync(Product product)
+        {
+            if (product is null)
+                return new SimpleServiceResponse() { Message = "Produkt nie może mieć wartości null", Success = false };
+            try
+            {
+                await productsData.UpdateProductAsync(product);
+                return new SimpleServiceResponse() { Success = true };
+            }
+            catch (MongoException ex)
+            {
+                return new SimpleServiceResponse() { Success = false, Message = ex.Message };
+            }
         }
     }
 }

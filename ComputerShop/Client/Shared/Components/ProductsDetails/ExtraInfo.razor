@@ -6,7 +6,7 @@
         {
             <div class="row @(i % 2 == 0 ? "bg-secondary rounded" : "")" style="--bs-bg-opacity: .15;">
                 <div class="col-6">
-                    @Properties[i].Name
+                    @Properties[i].Key
                 </div>
                 <div class="col-6">
                     @Properties[i].Value
@@ -18,5 +18,5 @@
 
 @code
 {
-    [Parameter] public List<Prop>? Properties { get; set; }
+    [Parameter] public List<KeyValue>? Properties { get; set; }
 }
