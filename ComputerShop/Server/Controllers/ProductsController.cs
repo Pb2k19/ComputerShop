@@ -49,7 +49,7 @@ namespace ComputerShop.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsAll()
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAllProducts()
         {
             ServiceResponse<List<Product>> serviceResponse = new()
             {

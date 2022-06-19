@@ -35,7 +35,7 @@ namespace ComputerShop.Server.Controllers
             return Ok(response);
         }
 
-        [HttpGet("getAllOrdersForUser"), Authorize]
+        [HttpGet("getAllOrdersForUser"), Authorize] //tmp zmienić na getallorders oraz dodać async do nazwy
         public async Task<ActionResult<ServiceResponse<List<OrderModel>>>> GetAllOrdersForUser()
         {
             SimpleServiceResponse response = userService.ValidateJWT(Request);

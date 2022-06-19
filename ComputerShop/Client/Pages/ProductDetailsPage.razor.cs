@@ -1,5 +1,6 @@
 ﻿using ComputerShop.Client.Helpers;
 using ComputerShop.Shared.Models.Interfaces;
+using ComputerShop.Shared.Models.Products;
 using Microsoft.AspNetCore.Components;
 
 namespace ComputerShop.Client.Pages
@@ -7,7 +8,9 @@ namespace ComputerShop.Client.Pages
     public partial class ProductDetailsPage
     {
         [Parameter] public string? Categoryname { get; set; }
-        [Parameter] public string? Id { get; set; }        
+        [Parameter] public string? Id { get; set; }
+
+        Comment comment = new();
 
         private IProduct? currentProdcut;
         protected override async Task OnInitializedAsync()
@@ -24,6 +27,11 @@ namespace ComputerShop.Client.Pages
                 }
             }
             base.OnInitialized();
+        }
+
+        protected void AddComment()
+        {
+
         }
 
         protected async Task OnListItemClick(int num)

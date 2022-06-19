@@ -115,7 +115,6 @@ namespace ComputerShop.Client.Pages
             Product? product = currentProductCartItems.FirstOrDefault(x => productId.Equals(x.Product.Id))?.Product;
             NavigationManager?.GoToProductPage(productId, product?.Category);
         }
-
         private async Task LoadOrdersAsync()
         {
             orderList = new();
@@ -164,6 +163,14 @@ namespace ComputerShop.Client.Pages
                 wishListProducts = (await productsService.GetProductsByIdListAsync(wishList.GetAllProductIds()))
                     .OrderBy(x => $"{x.Manufacturer} {x.Name}").ToList();
             }
+        }
+        private async Task AddToCartAsync(string productId, decimal price)
+        {
+            var response = await cartService.AddItemToCartAsync(new CartItem { ProductId = productId, Price = price, Quantity = 1 });
+            if (response.Success)
+                ToastService?.ShowAddToCart(wishListProducts.FirstOrDefault(x => x.Id.Equals(productId))?.Name ?? "");
+            else
+                await InvokeAsync(() => ToastService?.ShowError(string.Empty, response.Message));
         }
     }
 }

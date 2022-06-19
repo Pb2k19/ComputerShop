@@ -29,7 +29,7 @@ namespace ComputerShop.Shared.Models
         public DateTime CareationDate { get; set; } = DateTime.UtcNow;
         public DateTime LastUpdateDate { get; set; } = DateTime.UtcNow;
         public string Category { get; set; }
-        public List<Image> Images { get; set; } = new List<Image> { new Image() };
+        public List<Image> Images { get; set; } = new() { new Image() };
         public int WarantyMonths { get; set; } = 12;
         public List<KeyValue> ExtraInfo { get; set; }
         public List<Comment> Comments { get; set; } = new();

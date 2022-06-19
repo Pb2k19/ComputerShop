@@ -1,0 +1,47 @@
+﻿@if (Comment != null && OnValidSubmit != null)
+{
+    <EditForm Model="Comment" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <h5 for="name">Imię</h5>
+            <InputText id="name" class="form-control shadow-none" @bind-Value="Comment.Name" />
+            <ValidationMessage For="@(() => Comment.Name)" />
+        </div>
+        <div class="mb-3">
+            <h5 for="text">Komentarz</h5>
+            <InputTextArea id="text" class="form-control shadow-none" @bind-Value="Comment.Text" />
+            <ValidationMessage For="@(() => Comment.Text)" />
+        </div>
+        <div class="mb-3">
+            <h5>Ocena</h5>
+            <div class="d-flex mt-2">
+                @foreach (var item in scores)
+                {
+                    if (item <= Comment.Score)
+                    {
+                        <span class="fa fa-star text-warning" @onclick="() => SetScore(item)"></span>
+                    }
+                    else
+                    {
+                        <span class="far fa-star text-warning" @onclick="() => SetScore(item)"></span>
+                    }
+                }
+            </div>
+        </div>
+        <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-primary shadow-none">Dodaj komentarz</button>
+        </div>
+    </EditForm>
+}
+
+@code{
+    [Parameter] public Comment? Comment { get; set; }
+    [Parameter] public Action? OnValidSubmit { get; set; }
+    List<int> scores = new() { 1, 2, 3, 4, 5 };
+
+    private void SetScore(int score)
+    {
+        if(Comment != null)
+            Comment.Score = score;
+    }
+}
