@@ -13,9 +13,16 @@ else
     <PageTitle>@Text</PageTitle>
 }
 
-<div class="container">
-    <div class="d-flex align-items-center justify-content-center">
-        <DisplayProducts Products="Products" />
+<div class="row">
+    <div class="col-xl-2 mb-3 mb-xl-0">
+        <div class="p-4 border rounded shadow">
+            <ProductSortFilterForm></ProductSortFilterForm>
+        </div>
     </div>
-    <PagesComponent PagesCount="pageCount" CurrentPage="Page" OnPageChanged="ChangePageAsync" />
+    <div class="col">
+        <div class="px-5 px-xxl-5 mx-2 mx-xxl-5">
+            <DisplayProducts Products="Products" />
+        </div>
+        <PagesComponent PagesCount="pageCount" CurrentPage="Page" OnPageChanged="ChangePageAsync" />
+    </div>    
 </div>

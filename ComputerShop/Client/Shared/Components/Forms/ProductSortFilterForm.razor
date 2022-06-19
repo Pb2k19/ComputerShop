@@ -1,0 +1,79 @@
+﻿<div id="sort-filter-options">
+    <div>
+        <h4 class="mb-1">Sortowanie</h4>
+        <DropdownMenu ChangeTitleToSelectedValue="true"
+                      OnMouseOverEnabled="false"
+                      Items="SortOptions.GetDisplayNames()"
+                      TItem="string"
+                      OnSelected="SortOptionChanged"
+                      ButtonClassCss="form-control shadow-none btn border border-1">
+            <InitTitle>@SortOptions.GetDisplayNameByOption(sortFilterOptions.SortOption)</InitTitle>
+        </DropdownMenu>
+    </div>
+    <div>
+        <h4 class="mt-3 mb-1">Cena minimalna</h4>
+        <NumericUpDown InitValue="sortFilterOptions.PriceMin"
+                       MaxValue="99999999"
+                       MinValue="0"
+                       OnValueChanged="MinValueChanged">
+        </NumericUpDown>
+    </div>
+    <div>
+        <h4 class="mt-3">Cena maksymalna</h4>
+        <NumericUpDown InitValue="sortFilterOptions.PriceMax"
+                       MaxValue="99999999"
+                       MinValue="0"
+                       OnValueChanged="MaxValueChanged">
+        </NumericUpDown>
+    </div>
+    <div>
+        <h4 class="mt-3 mb-0">Producenci</h4>
+        @foreach (var manufacturer in Manufacturers)
+        {
+            <div class="d-flex align-items-center mt-2">
+                <h5 class="m-0 p-0">@manufacturer</h5>
+                <input type="checkbox" class="form-check-input shadow-none ms-2 mt-0" @onclick="() => OnManufacturerClick(manufacturer)" />
+            </div>
+        }
+    </div>
+    <div>
+        <div class="d-flex align-items-center my-3">
+            <h4 class="m-0 p-0">Tylko dostępne</h4>
+            <input type="checkbox" class="form-check-input shadow-none ms-2 mt-0" @bind="sortFilterOptions.ShowAvaliableOnly" />
+        </div>
+        <div class="d-flex align-items-center mb-2">
+            <h4 class="m-0 p-0">Tylko promocje</h4>
+            <input type="checkbox" class="form-check-input shadow-none ms-2 mt-0" @bind="sortFilterOptions.ShowDiscountOnly" />
+        </div>
+    </div>    
+</div>
+
+@code 
+{
+    private ProductSortFilterOptions sortFilterOptions = new();
+    private List<string> Manufacturers = new() { "Asus", "Zotac", "Gigabyte"};
+
+    protected void SortOptionChanged(int option)
+    {
+        if (option != sortFilterOptions.SortOption)
+            sortFilterOptions.SortOption = option;
+    }
+    protected void MinValueChanged(int value)
+    {
+        if (value != sortFilterOptions.PriceMin)
+            sortFilterOptions.PriceMin = value;
+    }
+    protected void MaxValueChanged(int value)
+    {
+        if (value != sortFilterOptions.PriceMax)
+            sortFilterOptions.PriceMax = value;
+    }
+    protected void OnManufacturerClick(string manufacturer)
+    {
+        string? x = sortFilterOptions.Manufacturers.FirstOrDefault(x => x.Equals(manufacturer));
+        if (string.IsNullOrEmpty(x))
+            sortFilterOptions.Manufacturers.Add(manufacturer);
+        else
+            sortFilterOptions.Manufacturers.Remove(x);
+    }
+}
