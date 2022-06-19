@@ -4,9 +4,9 @@ namespace ComputerShop.Client.Services.Products
 {
     public interface IProductsService
     {
-        List<Product> Products { get; set; }
-        Task LoadAllAsync();
-        Task<ProductsResponse> LoadByCategoryAsync(string category, int page);
+        Task<List<Product>> GetAllAsync();
+        Task<ProductsResponse> GetAllByCategoryAsync(string category, int page);
+        Task<List<Product>> GetAllHiglightedProductsAsync();
         Task<ProductsResponse> FindByTextAsync(string text, int page);
         Task<Product?> GetProductByIdAsync(string id);
         Task<List<Product>> GetProductsByIdListAsync(List<string> id);

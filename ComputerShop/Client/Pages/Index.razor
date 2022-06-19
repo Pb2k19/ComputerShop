@@ -1,23 +1,16 @@
 ﻿@inject IProductsService ProductsService
 @page "/"
-@page "/{category}"
-@page "/{category}/{page:int}"
-@page "/find/{text}"
-@page "/find/{text}/{page:int}"
 
+<PageTitle>SuperPC</PageTitle>
 
 <div class="container">
-    <div class="d-flex align-items-center">
-        @if (string.IsNullOrEmpty(Category))
-        {
-            <PageTitle>SuperPC</PageTitle>
-            <DisplayProducts Products="ProductsService.Products" />
-        }
-        else
-        {
-            <PageTitle>@Category</PageTitle>
-            <DisplayProducts Products="ProductsService.Products" />
-        }
+    <div class="d-flex align-items-center justify-content-center">
+            <div class="w-100 w-md-75">
+                <Carousel Images="images.Select(x => x.Location).ToList()" ShowButtons="false" ></Carousel>
+            </div>
     </div>
-    <PagesComponent PagesCount="pageCount" CurrentPage="Page" OnPageChanged="ChangePageAsync"/>
+    <div class="mt-3">
+        <h1 class="text-center" style="color: #1C70BF;">Polecane produkty</h1>
+        <DisplayProducts Products="higlightedProducts"></DisplayProducts>
+    </div>
 </div>

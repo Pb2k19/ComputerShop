@@ -8,7 +8,7 @@
                 </div>
             }
         </div>
-        @if (slideCss.Count > 1)
+        @if (slideCss.Count > 1 && ShowButtons)
         {
             <a class="carousel-control-prev" role="button" data-slide="prev" @onclick="()=>GoToNext(true)">
                 <span class="carousel-control-prev-icon bg-black rounded" style="width: 40px; height: 40px; " aria-hidden="true"></span>

@@ -5,45 +5,16 @@ namespace ComputerShop.Client.Pages
 {
     public partial class Index
     {
-        [Parameter] public string? Category { get; set; }
-        [Parameter] public string? Text { get; set; }
-        [Parameter] public int Page { get; set; } = 1;
-        int pageCount;
+        private List<Image> images = new() 
+        { 
+            new Image() { Location = "images/mainpage_img1.png" }, 
+            new Image() { Location = "images/mainpage_img2.png" },
+        };
+        private List<Product> higlightedProducts = new();
 
-        protected override async Task OnParametersSetAsync()
+        protected override async Task OnInitializedAsync()
         {
-            await LoadProductsAsync();
-            base.OnParametersSet();
-        }
-
-        protected async Task ChangePageAsync(int page)
-        {
-            Page = page;
-            await LoadProductsAsync();
-        }
-
-        private async Task LoadProductsAsync()
-        {
-            if (!string.IsNullOrWhiteSpace(Category))
-            {
-                if (Page < 1)
-                    Page = 1;
-                var re = await ProductsService.LoadByCategoryAsync(Category, Page);
-                pageCount = re.PagesCount;
-                Page = re.CurrentPage;
-            }
-            else if (!string.IsNullOrWhiteSpace(Text))
-            {
-                if (Page < 1)
-                    Page = 1;
-                var re = await ProductsService.FindByTextAsync(Text, Page);
-                pageCount = re.PagesCount;
-                Page = re.CurrentPage;
-            }
-            else
-            {
-                await ProductsService.LoadAllAsync();
-            }
+            higlightedProducts = await ProductsService.GetAllHiglightedProductsAsync();
         }
     }
 }

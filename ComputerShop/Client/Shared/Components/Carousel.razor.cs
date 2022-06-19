@@ -5,6 +5,7 @@ namespace ComputerShop.Client.Shared.Components
     public partial class Carousel
     {
         [Parameter] public List<string> Images { get; set; } = new List<string>();
+        [Parameter] public bool ShowButtons { get; set; } = true;
         private readonly List<string> slideCss = new();
 
         readonly CancellationTokenSource cts = new();

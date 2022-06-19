@@ -1,0 +1,21 @@
+﻿@inject IProductsService ProductsService
+@page "/categories/{category}"
+@page "/categories/{category}/{page:int}"
+@page "/find/{text}"
+@page "/find/{text}/{page:int}"
+
+@if (string.IsNullOrWhiteSpace(Category))
+{
+    <PageTitle>@Category</PageTitle>
+}
+else
+{
+    <PageTitle>@Text</PageTitle>
+}
+
+<div class="container">
+    <div class="d-flex align-items-center justify-content-center">
+        <DisplayProducts Products="Products" />
+    </div>
+    <PagesComponent PagesCount="pageCount" CurrentPage="Page" OnPageChanged="ChangePageAsync" />
+</div>

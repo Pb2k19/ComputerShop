@@ -21,24 +21,23 @@ namespace ComputerShop.Client.Shared
 
         readonly DropdownNavigationItems PeripheryList = new(new List<DropdownNavigationItem> 
         {
-            new DropdownNavigationItem{Name = "Myszy", Path = "mouse" },
-            new DropdownNavigationItem{Name = "Klawiatury", Path = "keyboard" },
-            new DropdownNavigationItem{Name = "Słuchawki", Path = "headphones" },
-            new DropdownNavigationItem{Name = "Monitory", Path = "montior" },
-            new DropdownNavigationItem{Name = "Drukarki", Path = "printer" }, 
+            new DropdownNavigationItem{Name = "Myszy", Path = "categories/mouse" },
+            new DropdownNavigationItem{Name = "Klawiatury", Path = "categories/keyboard" },
+            new DropdownNavigationItem{Name = "Słuchawki", Path = "categories/headphones" },
+            new DropdownNavigationItem{Name = "Monitory", Path = "categories/montior" },
         });
         readonly DropdownNavigationItems ComponentsList = new(new List<DropdownNavigationItem>
         {
-            new DropdownNavigationItem { Name = "Procesory", Path = "cpu" },
-            new DropdownNavigationItem { Name = "Karty graficzne", Path = "gpu" },
-            new DropdownNavigationItem { Name = "Płyty główne", Path = "motherboard" },
-            new DropdownNavigationItem { Name = "Ram", Path = "ram" },
-            new DropdownNavigationItem { Name = "Zasilacze", Path = "psu" },
-            new DropdownNavigationItem { Name = "Dyski HDD", Path = "hdd" },
-            new DropdownNavigationItem { Name = "Dyski SSD", Path = "ssd" },
-            new DropdownNavigationItem { Name = "Obudowy", Path = "case" },
-            new DropdownNavigationItem { Name = "Chłodzenie", Path = "cooler" },
-            new DropdownNavigationItem { Name = "Przewody", Path = "cabel" },
+            new DropdownNavigationItem { Name = "Procesory", Path = "categories/cpu" },
+            new DropdownNavigationItem { Name = "Karty graficzne", Path = "categories/gpu" },
+            new DropdownNavigationItem { Name = "Płyty główne", Path = "categories/motherboard" },
+            new DropdownNavigationItem { Name = "Ram", Path = "categories/ram" },
+            new DropdownNavigationItem { Name = "Zasilacze", Path = "categories/psu" },
+            new DropdownNavigationItem { Name = "Dyski HDD", Path = "categories/hdd" },
+            new DropdownNavigationItem { Name = "Dyski SSD", Path = "categories/ssd" },
+            new DropdownNavigationItem { Name = "Obudowy", Path = "categories/case" },
+            new DropdownNavigationItem { Name = "Chłodzenie", Path = "categories/cooler" },
+            new DropdownNavigationItem { Name = "Przewody", Path = "categories/cabel" },
         });
         readonly DropdownNavigationItems AccountOptions = new(new List<DropdownNavigationItem>
         {
