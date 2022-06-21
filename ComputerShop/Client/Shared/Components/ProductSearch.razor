@@ -12,7 +12,7 @@
 <div class="w-100" @onfocusout="OnFocusOut">
     <div>
         <div class="input-group d-flex w-100">
-            <input class="form-control shadow-none bg-light" type="search" placeholder="Szukaj" aria-label="Search"
+            <input class="form-control shadow-none bg-light" type="search" placeholder="Szukaj" aria-label="Search" maxlength="127"
                    @bind-value="Text" @bind-value:event="oninput" @onkeyup="OnSearch" @ref="searchInput" @onfocus="OnFocus">
             <button class="btn btn-primary shadow-none rounded" type="submit" @onclick="Find">
                 <i class="fas fa-search"></i>

@@ -8,13 +8,20 @@ namespace ComputerShop.Client.Pages
         [Parameter] public string? Category { get; set; }
         [Parameter] public string? Text { get; set; }
         [Parameter] public int Page { get; set; } = 1;
-        List<Product> Products = new();
+        List<Product> Products = new();        
+        private ProductSortFilterOptions sortFilterOptions = new();
+        private HashSet<string> manufacturers = new();
         int pageCount;
 
         protected override async Task OnParametersSetAsync()
         {
             await LoadProductsAsync();
             base.OnParametersSet();
+        }
+
+        protected async Task OnFiltersSortChangeAsync()
+        {
+            await LoadProductsAsync();
         }
 
         protected async Task ChangePageAsync(int page)
@@ -29,20 +36,24 @@ namespace ComputerShop.Client.Pages
             {
                 if (Page < 1)
                     Page = 1;
-                var re = await ProductsService.GetAllByCategoryAsync(Category, Page);
-                Products = re.Products.OrderBy(x => $"{x.Manufacturer} {x.Name}").ToList();
+                var re = await ProductsService.GetAllByCategoryAsync(sortFilterOptions, Category, Page);
+                Products = re.Products;
                 pageCount = re.PagesCount;
                 Page = re.CurrentPage;
+                manufacturers = re.Manufacturers;
             }
             else if (!string.IsNullOrWhiteSpace(Text))
             {
                 if (Page < 1)
                     Page = 1;
-                var re = await ProductsService.FindByTextAsync(Text, Page);
+                var re = await ProductsService.FindByTextAsync(sortFilterOptions, Text, Page);
                 Products = re.Products;
                 pageCount = re.PagesCount;
                 Page = re.CurrentPage;
+                manufacturers = re.Manufacturers;
             }
+            await Task.Delay(1);
+            StateHasChanged();
         }
     }
 }

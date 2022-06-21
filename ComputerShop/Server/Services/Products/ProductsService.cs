@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Server.DataAccess;
+using ComputerShop.Server.Helpers;
 using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.Components;
 using ComputerShop.Shared.Models.Products;
@@ -8,6 +9,7 @@ namespace ComputerShop.Server.Services.Products
 {
     public class ProductsService : IProductsService
     {
+        private ProductHelper productHelper = new();
         private IProductData productsData;
 
         public ProductsService(IProductData productsData)
@@ -1429,10 +1431,6 @@ new LaptopProduct
                  Lenghtmm = 290,
             },
         };
-
-
-
-
         public async Task<Product?> GetProductByIdAsync(string id)
         {
             return await productsData.GetProductAsync(id);
@@ -1449,24 +1447,34 @@ new LaptopProduct
         {
             return (await productsData.GetAllPublicProductsAsync()).Where(p => p.IsHiglighted).ToList();
         }
-        public async Task<ProductsResponse> GetProductsByCategoryAsync(string category, int pageNumber = 1)
+        public async Task<ProductsResponse> GetProductsByCategoryAsync(string category, int pageNumber = 1, ProductSortFilterOptions? sortFilterOptions = null)
         {
             category = category.ToLower();
             var prod = await productsData.GetAllPublicProductsAsync();
             List<Product>? products = prod.Where(x => x.Category?.ToLower().Equals(category) ?? false).ToList();
-            return GetProductsResponse(products, pageNumber);
+            var manfucturers = GetManufacturers(products);
+            if (sortFilterOptions != null)
+                products = productHelper.SortFilterProducts(products, sortFilterOptions).ToList();            
+            var pr = GetProductsResponse(products, pageNumber);
+            pr.Manufacturers = manfucturers;
+            return pr;
         }
-        public async Task<ProductsResponse> FindProductsByTextAsync(string text, int pageNumber = 1)
+        public async Task<ProductsResponse> FindProductsByTextAsync(string text, int pageNumber = 1, ProductSortFilterOptions? sortFilterOptions = null)
         {
             List<Product>? foundProducts = await FindProducts(text);
-            return GetProductsResponse(foundProducts, pageNumber);
+            var manfucturers = GetManufacturers(foundProducts);
+            if (sortFilterOptions != null)
+                foundProducts = productHelper.SortFilterProducts(foundProducts, sortFilterOptions).ToList();            
+            var pr = GetProductsResponse(foundProducts, pageNumber);
+            pr.Manufacturers = manfucturers;
+            return pr;
         }
         public async Task<List<string>> GetProductsSuggestionsByTextAsync(string text)
         {
             text = text.ToLower();
             List<string> suggestions = new();
             List<Product> products = await FindProducts(text);
-            if(products == null || products.Count == 0)
+            if (products == null || products.Count == 0)
             {
                 return suggestions;
             }
@@ -1483,20 +1491,18 @@ new LaptopProduct
 
             return suggestions.Distinct().ToList();
         }
-
         private async Task<List<Product>> FindProducts(string text)
         {
             text = text.ToLower();
-            List<string>? words = text.Split(' ').ToList();
+            List<string>? words = text.Split(' ').Distinct().ToList();
             List<Product> products = new();
             var p = await productsData.GetAllPublicProductsAsync();
             words.ForEach(word => products.AddRange(p
                 .Where(x => (x.Manufacturer != null && x.Manufacturer.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
                             (x.Name != null && x.Name.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
                             (x.Description != null && x.Description.Contains(word, StringComparison.OrdinalIgnoreCase)))));
-            return products;
+            return products.Distinct().ToList();
         }
-
         private ProductsResponse GetProductsResponse(List<Product> products, int pageNumber)
         {
             if (pageNumber < 1)
@@ -1509,7 +1515,7 @@ new LaptopProduct
                 pageCount = (int)Math.Ceiling(x);
                 products = products.Skip((pageNumber - 1) * maxProductsOnPage).Take(maxProductsOnPage).ToList();
             }
-            else if(products == null)
+            else if (products == null)
             {
                 products = new List<Product>();
             }
@@ -1520,7 +1526,6 @@ new LaptopProduct
                 PagesCount = pageCount
             };
         }
-
         public async Task<List<Product>> GetProductsByIdListAsync(List<string> idList)
         {
             List<Product> products = new();
@@ -1532,11 +1537,10 @@ new LaptopProduct
             }
             return products;
         }
-
         public async Task<SimpleServiceResponse> AddProductAsync(Product product)
         {
-            if(product is null)
-                return new SimpleServiceResponse() { Message = "Produkt nie może mieć wartości null", Success = false};
+            if (product is null)
+                return new SimpleServiceResponse() { Message = "Produkt nie może mieć wartości null", Success = false };
             try
             {
                 await productsData.AddProductAsync(product);
@@ -1547,7 +1551,6 @@ new LaptopProduct
                 return new SimpleServiceResponse() { Success = false, Message = ex.Message };
             }
         }
-
         public async Task<SimpleServiceResponse> AddCommentToProductAsync(Comment comment, string productId)
         {
             if (comment is null || string.IsNullOrEmpty(productId))
@@ -1559,7 +1562,6 @@ new LaptopProduct
             await UpdateProductAsync(product);
             return new SimpleServiceResponse() { Success = true };
         }
-
         public async Task<SimpleServiceResponse> UpdateProductAsync(Product product)
         {
             if (product is null)
@@ -1573,6 +1575,10 @@ new LaptopProduct
             {
                 return new SimpleServiceResponse() { Success = false, Message = ex.Message };
             }
+        }
+        public HashSet<string> GetManufacturers(List<Product> products)
+        {
+            return products.Select(p => p.Manufacturer).OrderBy(x => x).ToHashSet();
         }
     }
 }

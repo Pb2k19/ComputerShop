@@ -5,14 +5,14 @@
                       OnMouseOverEnabled="false"
                       Items="SortOptions.GetDisplayNames()"
                       TItem="string"
-                      OnSelected="SortOptionChanged"
+                      OnSelected="SortOptionChangedAsync"
                       ButtonClassCss="form-control shadow-none btn border border-1">
-            <InitTitle>@SortOptions.GetDisplayNameByOption(sortFilterOptions.SortOption)</InitTitle>
+            <InitTitle>@SortOptions.GetDisplayNameByOption(SortFilterOptions.SortOption)</InitTitle>
         </DropdownMenu>
     </div>
     <div>
         <h4 class="mt-3 mb-1">Cena minimalna</h4>
-        <NumericUpDown InitValue="sortFilterOptions.PriceMin"
+        <NumericUpDown InitValue="SortFilterOptions.PriceMin"
                        MaxValue="99999999"
                        MinValue="0"
                        OnValueChanged="MinValueChanged">
@@ -20,7 +20,7 @@
     </div>
     <div>
         <h4 class="mt-3">Cena maksymalna</h4>
-        <NumericUpDown InitValue="sortFilterOptions.PriceMax"
+        <NumericUpDown InitValue="SortFilterOptions.PriceMax"
                        MaxValue="99999999"
                        MinValue="0"
                        OnValueChanged="MaxValueChanged">
@@ -39,41 +39,58 @@
     <div>
         <div class="d-flex align-items-center my-3">
             <h4 class="m-0 p-0">Tylko dostępne</h4>
-            <input type="checkbox" class="form-check-input shadow-none ms-2 mt-0" @bind="sortFilterOptions.ShowAvaliableOnly" />
+            <input type="checkbox" class="form-check-input shadow-none ms-2 mt-0" @bind="SortFilterOptions.ShowAvaliableOnly" />
         </div>
         <div class="d-flex align-items-center mb-2">
             <h4 class="m-0 p-0">Tylko promocje</h4>
-            <input type="checkbox" class="form-check-input shadow-none ms-2 mt-0" @bind="sortFilterOptions.ShowDiscountOnly" />
+            <input type="checkbox" class="form-check-input shadow-none ms-2 mt-0" @bind="SortFilterOptions.ShowDiscountOnly" />
         </div>
-    </div>    
+    </div>
+    <div class="d-flex justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary shadow-none" @onclick="OnSubmitedAsync">Zastosuj</button>
+    </div>
 </div>
 
 @code 
 {
-    private ProductSortFilterOptions sortFilterOptions = new();
-    private List<string> Manufacturers = new() { "Asus", "Gigabyte", "MSI"};
+    [Parameter] public ProductSortFilterOptions SortFilterOptions { get; set; } = new();
+    [Parameter] public HashSet<string> Manufacturers { get; set; } = new();
+    [Parameter] public Func<Task>? OnSubmit { get; set; }
 
-    protected void SortOptionChanged(int option)
+    protected async Task SortOptionChangedAsync(int option)
     {
-        if (option != sortFilterOptions.SortOption)
-            sortFilterOptions.SortOption = option;
+        if (option != SortFilterOptions.SortOption)
+        {
+            SortFilterOptions.SortOption = option;
+            await OnSubmitedAsync();
+        }
     }
     protected void MinValueChanged(int value)
     {
-        if (value != sortFilterOptions.PriceMin)
-            sortFilterOptions.PriceMin = value;
+        if (value != SortFilterOptions.PriceMin)
+        {
+            SortFilterOptions.PriceMin = value;
+        }
     }
     protected void MaxValueChanged(int value)
     {
-        if (value != sortFilterOptions.PriceMax)
-            sortFilterOptions.PriceMax = value;
+        if (value != SortFilterOptions.PriceMax)
+        {
+            SortFilterOptions.PriceMax = value;
+        }
     }
     protected void OnManufacturerClick(string manufacturer)
     {
-        string? x = sortFilterOptions.Manufacturers.FirstOrDefault(x => x.Equals(manufacturer));
+        string? x = SortFilterOptions.Manufacturers.FirstOrDefault(x => x.Equals(manufacturer));
         if (string.IsNullOrEmpty(x))
-            sortFilterOptions.Manufacturers.Add(manufacturer);
+            SortFilterOptions.Manufacturers.Add(manufacturer);
         else
-            sortFilterOptions.Manufacturers.Remove(x);
+            SortFilterOptions.Manufacturers.Remove(x);
+    }
+
+    public async Task OnSubmitedAsync()
+    {
+        if(OnSubmit != null)
+            await OnSubmit();
     }
 }

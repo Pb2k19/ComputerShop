@@ -11,23 +11,24 @@ namespace ComputerShop.Client.Services.Products
         {
             this.httpClient = httpClient;
         }
-        public async Task<ProductsResponse> GetAllByCategoryAsync(string category, int page)
+        public async Task<ProductsResponse> GetAllByCategoryAsync(ProductSortFilterOptions sortFilterOptions, string category, int page)
         {
-            var response = await httpClient.GetFromJsonAsync<ServiceResponse<ProductsResponse>>($"api/products/getByCategory/{category}/{page}");
-            if(response?.Success ?? false)
-                return response?.Data ?? new ProductsResponse();
+            using var response = await httpClient.PostAsJsonAsync($"api/products/getByCategory/{category}/{page}", sortFilterOptions);
+            var result = await response.Content.ReadFromJsonAsync<ServiceResponse<ProductsResponse>>();
+            if (result?.Success ?? false)
+                return result?.Data ?? new ProductsResponse();
             return new ProductsResponse();
         }
         public async Task<List<Product>> GetAllAsync()
         {
-            var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/products/");
+            var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/products/");
             if (response?.Success ?? false)
                 return response?.Data ?? new List<Product>();
             return new List<Product>();
         }
         public async Task<List<Product>> GetAllHiglightedProductsAsync()
         {
-            var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/products/getHighlightedProduscts");
+            var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/products/getHighlightedProduscts");
             if (response?.Success ?? false)
                 return response?.Data ?? new List<Product>();
             return new List<Product>();
@@ -48,11 +49,12 @@ namespace ComputerShop.Client.Services.Products
                 return response?.Data;
             return null;
         }
-        public async Task<ProductsResponse> FindByTextAsync(string text, int page)
+        public async Task<ProductsResponse> FindByTextAsync(ProductSortFilterOptions sortFilterOptions, string text, int page)
         {
-            var response = await httpClient.GetFromJsonAsync<ServiceResponse<ProductsResponse>>($"api/products/find/{text}/{page}");
-            if (response?.Success ?? false)
-                return response?.Data ?? new ProductsResponse();
+            using var response = await httpClient.PostAsJsonAsync($"api/products/find/{text}/{page}", sortFilterOptions);
+            var result = await response.Content.ReadFromJsonAsync<ServiceResponse<ProductsResponse>>();
+            if (result?.Success ?? false)
+                return result?.Data ?? new ProductsResponse();
             return new ProductsResponse();
         }
         public async Task<List<string>> GetProductSuggestionsAsync(string text)

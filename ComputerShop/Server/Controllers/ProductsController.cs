@@ -68,22 +68,24 @@ namespace ComputerShop.Server.Controllers
             return Ok(serviceResponse);
         }
 
-        [HttpGet("getByCategory/{category}/{page}")]
-        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> GetProductsByCategoryUrlAsync([FromRoute] string category, [FromRoute] int page)
+        [HttpPost("getByCategory/{category}/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> GetProductsByCategoryUrlAsync(ProductSortFilterOptions? sortFilterOptions, [FromRoute] string category, [FromRoute] int page)
         {
             ServiceResponse<ProductsResponse> serviceResponse = new()
             {
-                Data = await productsService.GetProductsByCategoryAsync(category, page)
+                Data = await productsService.GetProductsByCategoryAsync(category, page, sortFilterOptions)
             };
             return Ok(serviceResponse);
         }
 
-        [HttpGet("find/{text}/{page}")]
-        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> FindProductsByTextAsync([FromRoute] string text, [FromRoute] int page = 1)
+        [HttpPost("find/{text}/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductsResponse>>> FindProductsByTextAsync(ProductSortFilterOptions? sortFilterOptions, [FromRoute] string text, [FromRoute] int page = 1)
         {
+            if (text.Length > 128)
+                return BadRequest();
             ServiceResponse<ProductsResponse> serviceResponse = new()
             {
-                Data = await productsService.FindProductsByTextAsync(text, page)
+                Data = await productsService.FindProductsByTextAsync(text, page, sortFilterOptions)
             };
             return Ok(serviceResponse);
         }
