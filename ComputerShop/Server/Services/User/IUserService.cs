@@ -7,6 +7,7 @@ namespace ComputerShop.Server.Services.User
     public interface IUserService
     {
         string? GetUserId();
+        Task<List<UserModel>> GetAllUsersAsync();
         Task<UserModel?> GetUserByIdAsync(string id);
         Task<RegisteredUser?> GetRegisteredUserByIdAsync(string id);
         SimpleServiceResponse ValidateJWT(HttpRequest request);

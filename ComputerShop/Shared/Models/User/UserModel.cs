@@ -4,7 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace ComputerShop.Shared.Models.User
 {
     [BsonKnownTypes(typeof(RegisteredUser), typeof(UnregisteredUser))]
-    public abstract class UserModel
+    public class UserModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

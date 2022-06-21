@@ -11,5 +11,6 @@ namespace ComputerShop.Client.Services.User
         Task<ServiceResponse<string>?> Login(Login login);
         Task<SimpleServiceResponse?> Register(Register register);
         Task<ServiceResponse<HttpStatusCode>> ChangePassword(ChangePassword changePassword);
+        Task<List<UserModel>> GetAllUsersAsync();
     }
 }

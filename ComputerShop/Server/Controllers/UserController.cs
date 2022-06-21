@@ -13,19 +13,19 @@ namespace ComputerShop.Server.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService authentication;
+        private readonly IUserService userService;
         private readonly IUserDetailsService userDetails;
 
         public UserController(IUserService authentication, IUserDetailsService userDetails)
         {
-            this.authentication = authentication;
+            this.userService = authentication;
             this.userDetails = userDetails;
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<ServiceResponse<string>>> Login(Login login)
         {
-            var response = await authentication.LoginAsync(login);
+            var response = await userService.LoginAsync(login);
             if (response.Success)
             {
                 string time = DateTime.UtcNow.AddHours(24).ToString("ddd, dd MMM yyyy HH:mm:ss 'UTC'", CultureInfo.GetCultureInfo("en-US"));
@@ -51,25 +51,25 @@ namespace ComputerShop.Server.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<SimpleServiceResponse>> Register(Register register)
         {
-            return Ok(await authentication.RegisterAsync(register));
+            return Ok(await userService.RegisterAsync(register));
         }
 
         [HttpPost("changePassword"), Authorize]
         public async Task<ActionResult<SimpleServiceResponse>> ChangePassword(ChangePassword newPassword)
         {
-            SimpleServiceResponse response = authentication.ValidateJWT(Request);
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
             if (!response.Success)
                 return Unauthorized(response);
             Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
             if (userId == null)
                 return Unauthorized(new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false });
-            return Ok(await authentication.ChangePasswordAsync(newPassword));
+            return Ok(await userService.ChangePasswordAsync(newPassword));
         }
 
         [HttpGet("checkAuthentication")]
         public ActionResult<SimpleServiceResponse> CheckAuthentication()
         {
-            SimpleServiceResponse response = authentication.ValidateJWT(Request);
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
             if (response.Success)
                 return Ok(response);
             else
@@ -79,7 +79,7 @@ namespace ComputerShop.Server.Controllers
         [HttpGet("getDeliveryDetails"), Authorize]
         public async Task<ActionResult<ServiceResponse<DeliveryDetails>>> GetDeliveryDetails()
         {
-            SimpleServiceResponse response = authentication.ValidateJWT(Request);
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
             if (!response.Success)
                 return Unauthorized(response);
             Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -92,7 +92,7 @@ namespace ComputerShop.Server.Controllers
         [HttpGet("getInvoiceDetails"), Authorize]
         public async Task<ActionResult<ServiceResponse<InvoiceDetails>>> GetInvoiceDetails()
         {
-            SimpleServiceResponse response = authentication.ValidateJWT(Request);
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
             if (!response.Success)
                 return Unauthorized(response);
             Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -105,7 +105,7 @@ namespace ComputerShop.Server.Controllers
         [HttpPost("updateDeliveryDetails")]
         public async Task<ActionResult<SimpleServiceResponse>> UpdateDeliveryDetails(DeliveryDetails delivery)
         {
-            SimpleServiceResponse response = authentication.ValidateJWT(Request);
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
             if (!response.Success)
                 return Unauthorized(response);
             Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -118,7 +118,7 @@ namespace ComputerShop.Server.Controllers
         [HttpPost("updateInvoiceDetails")]
         public async Task<ActionResult<SimpleServiceResponse>> UpdateInvoiceDetails(InvoiceDetails invoice)
         {
-            SimpleServiceResponse response = authentication.ValidateJWT(Request);
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
             if (!response.Success)
                 return Unauthorized(response);
             Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
@@ -126,6 +126,19 @@ namespace ComputerShop.Server.Controllers
                 return Unauthorized(new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false });
 
             return Ok(await userDetails.UpdateInvoiceDetailsAsync(invoice));
+        }
+
+        [HttpGet("getAllUsers"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<UserModel>>>> GetAllUsers()
+        {
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
+            if (!response.Success)
+                return Unauthorized(response);
+            Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized(new SimpleServiceResponse { Message = "Nie można zweryfikować użytkownika", Success = false });
+            ServiceResponse<List<UserModel>> users = new() { Data = await userService.GetAllUsersAsync(), Success = true };
+            return Ok(users);
         }
     }
 }

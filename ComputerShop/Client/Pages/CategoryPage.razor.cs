@@ -30,7 +30,7 @@ namespace ComputerShop.Client.Pages
                 if (Page < 1)
                     Page = 1;
                 var re = await ProductsService.GetAllByCategoryAsync(Category, Page);
-                Products = re.Products;
+                Products = re.Products.OrderBy(x => $"{x.Manufacturer} {x.Name}").ToList();
                 pageCount = re.PagesCount;
                 Page = re.CurrentPage;
             }

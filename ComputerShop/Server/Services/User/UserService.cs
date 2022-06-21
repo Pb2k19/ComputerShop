@@ -21,6 +21,10 @@ namespace ComputerShop.Server.Services.User
             this.contextAccessor = contextAccessor;
             this.userData = userData;
         }
+        public async Task<List<UserModel>> GetAllUsersAsync()
+        {
+            return await userData.GetAllUsersAsync();
+        }
         public async Task<bool> UserExists(string email)
         {
             email = email.ToLower();

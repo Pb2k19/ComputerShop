@@ -44,5 +44,12 @@ namespace ComputerShop.Client.Services.User
             var respone = await httpClient.GetAsync("api/user/logout");
             return respone?.IsSuccessStatusCode ?? false;
         }
+        public async Task<List<UserModel>> GetAllUsersAsync()
+        {
+            var response = await httpClient.GetFromJsonAsync<ServiceResponse<List<UserModel>>>($"api/user/getAllUsers");
+            if (response?.Success ?? false)
+                return response?.Data ?? new List<UserModel>();
+            return new List<UserModel>();
+        }
     }
 }

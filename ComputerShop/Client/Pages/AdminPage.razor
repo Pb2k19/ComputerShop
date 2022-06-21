@@ -1,0 +1,62 @@
+﻿@attribute [Authorize(Roles = "Admin")]
+@page "/admin"
+@page "/admin/{Page}"
+@inject IUserService UserService
+@inject IOrderService OrderService
+@inject IWishListService WishListService
+@inject ILocalStorageService LocalStorageService
+@inject IToastService ToastService
+@inject IUserDetailsService UserDetails
+@inject ICartService cartService
+@inject IProductsService productsService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider StateProvider
+
+<PageTitle>Admin Panel</PageTitle>
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="m-4 mt-1 p-3">
+            <nav class="navbar flex-lg-column navbar-light shadow" id="account-menu">
+                @foreach (var item in navigationItems.Items)
+                {
+                    <a class="nav-link cursorHand " @onclick="() => ChangeViewAsync(item.Path)">@item.Name</a>
+                }
+            </nav>
+        </div>
+    </div>
+    <div class="col-lg-9 container px-1 px-md-5">
+        <h2>Lista użytkowników</h2>
+        <div class="row p-3 pb-1 mb-0 text-center">
+            <div class="col-4">
+                <span>Email</span>
+            </div>
+            <div class="col-4">
+                <span>Data utworzenia</span>
+            </div>
+            <div class="col-2">
+                <span>Liczba zamówień</span>
+            </div>
+            <div class="col-2">
+                <span>Liczba zrealizowanych zamówień</span>
+            </div>
+        </div>
+        @foreach (var user in users)
+        {
+            <div class="row p-3 mb-2 rounded border border-1 shadow text-center">
+                <div class="col-4">
+                    <span>@user.Email</span>
+                </div>
+                <div class="col-4">
+                    <span>@user.CreationDate</span>
+                </div>
+                <div class="col-2">
+                    <span>@user.Orders.Count</span>
+                </div>
+                <div class="col-2">
+                    @user.Orders.Where(o => o.State == OrderStates.Delivered).Count()
+                </div>
+            </div>
+        }
+    </div>
+</div>
