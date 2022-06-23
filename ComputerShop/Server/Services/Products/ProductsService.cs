@@ -1431,9 +1431,11 @@ new LaptopProduct
                  Lenghtmm = 290,
             },
         };
-        public async Task<Product?> GetProductByIdAsync(string id)
+        public async Task<Product?> GetProductByIdAsync(string id, bool isAdmin = false)
         {
-            return await productsData.GetProductAsync(id);
+            if(isAdmin)
+                return await productsData.GetProductAsync(id);
+            return await productsData.GetPublicProductAsync(id);
         }
         public async Task<List<Product>> GetAllProductsAsync()
         {
@@ -1447,10 +1449,14 @@ new LaptopProduct
         {
             return (await productsData.GetAllPublicProductsAsync()).Where(p => p.IsHiglighted).ToList();
         }
-        public async Task<ProductsResponse> GetProductsByCategoryAsync(string category, int pageNumber = 1, ProductSortFilterOptions? sortFilterOptions = null)
+        public async Task<ProductsResponse> GetProductsByCategoryAsync(string category, int pageNumber = 1, ProductSortFilterOptions? sortFilterOptions = null, bool isAdmin = false)
         {
             category = category.ToLower();
-            var prod = await productsData.GetAllPublicProductsAsync();
+            List<Product>? prod = new();
+            if (isAdmin)
+                prod = await productsData.GetAllProductsAsync();
+            else
+                prod = await productsData.GetAllPublicProductsAsync();
             List<Product>? products = prod.Where(x => x.Category?.ToLower().Equals(category) ?? false).ToList();
             var manfucturers = GetManufacturers(products);
             if (sortFilterOptions != null)
@@ -1459,9 +1465,9 @@ new LaptopProduct
             pr.Manufacturers = manfucturers;
             return pr;
         }
-        public async Task<ProductsResponse> FindProductsByTextAsync(string text, int pageNumber = 1, ProductSortFilterOptions? sortFilterOptions = null)
+        public async Task<ProductsResponse> FindProductsByTextAsync(string text, int pageNumber = 1, ProductSortFilterOptions? sortFilterOptions = null, bool isAdmin = false)
         {
-            List<Product>? foundProducts = await FindProducts(text);
+            List<Product>? foundProducts = await FindProducts(text, isAdmin);
             var manfucturers = GetManufacturers(foundProducts);
             if (sortFilterOptions != null)
                 foundProducts = productHelper.SortFilterProducts(foundProducts, sortFilterOptions).ToList();            
@@ -1491,12 +1497,16 @@ new LaptopProduct
 
             return suggestions.Distinct().ToList();
         }
-        private async Task<List<Product>> FindProducts(string text)
+        private async Task<List<Product>> FindProducts(string text, bool isAdmin = false)
         {
             text = text.ToLower();
             List<string>? words = text.Split(' ').Distinct().ToList();
             List<Product> products = new();
-            var p = await productsData.GetAllPublicProductsAsync();
+            List<Product>? p = new();
+            if (isAdmin)
+                p = await productsData.GetAllProductsAsync();
+            else
+                p = await productsData.GetAllPublicProductsAsync();
             words.ForEach(word => products.AddRange(p
                 .Where(x => (x.Manufacturer != null && x.Manufacturer.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
                             (x.Name != null && x.Name.Contains(word, StringComparison.OrdinalIgnoreCase)) ||
@@ -1526,12 +1536,12 @@ new LaptopProduct
                 PagesCount = pageCount
             };
         }
-        public async Task<List<Product>> GetProductsByIdListAsync(List<string> idList)
+        public async Task<List<Product>> GetProductsByIdListAsync(List<string> idList, bool isAdmin = false)
         {
             List<Product> products = new();
             foreach (var item in idList)
             {
-                var prod = await GetProductByIdAsync(item);
+                var prod = await GetProductByIdAsync(item, isAdmin);
                 if (prod != null)
                     products.Add(prod);
             }

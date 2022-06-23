@@ -39,7 +39,8 @@ namespace ComputerShop.Server.Controllers
                 Success = response.Success
             });
         }
-        [HttpGet("logout")]
+
+        [HttpGet("logout"), Authorize]
         public ActionResult Logout()
         {
             string time = DateTime.UtcNow.ToString("ddd, dd MMM yyyy HH:mm:ss 'UTC'", CultureInfo.GetCultureInfo("en-US"));

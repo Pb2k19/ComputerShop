@@ -43,7 +43,7 @@ namespace ComputerShop.Client.Helpers
                 toastService?.ShowInfo(message, title);
             else
                 toastService?.ShowError(message, title);
-            navigationManager?.NavigateTo(path);
+            navigationManager?.NavigateTo(path, forceLoad: true);
         }
         public async Task LogoutAsync()
         {

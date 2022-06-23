@@ -1,5 +1,6 @@
 ﻿using ComputerShop.Server.Services.Products;
 using ComputerShop.Shared.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ComputerShop.Server.Controllers
@@ -48,7 +49,7 @@ namespace ComputerShop.Server.Controllers
             return Ok(serviceResponse);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAllProducts()
         {
             ServiceResponse<List<Product>> serviceResponse = new()
@@ -71,9 +72,10 @@ namespace ComputerShop.Server.Controllers
         [HttpPost("getByCategory/{category}/{page}")]
         public async Task<ActionResult<ServiceResponse<ProductsResponse>>> GetProductsByCategoryUrlAsync(ProductSortFilterOptions? sortFilterOptions, [FromRoute] string category, [FromRoute] int page)
         {
+            var isAdmin = User.IsInRole("Admin");
             ServiceResponse<ProductsResponse> serviceResponse = new()
             {
-                Data = await productsService.GetProductsByCategoryAsync(category, page, sortFilterOptions)
+                Data = await productsService.GetProductsByCategoryAsync(category, page, sortFilterOptions, isAdmin)
             };
             return Ok(serviceResponse);
         }
@@ -83,9 +85,10 @@ namespace ComputerShop.Server.Controllers
         {
             if (text.Length > 128)
                 return BadRequest();
+            var isAdmin = User.IsInRole("Admin");
             ServiceResponse<ProductsResponse> serviceResponse = new()
             {
-                Data = await productsService.FindProductsByTextAsync(text, page, sortFilterOptions)
+                Data = await productsService.FindProductsByTextAsync(text, page, sortFilterOptions, isAdmin)
             };
             return Ok(serviceResponse);
         }

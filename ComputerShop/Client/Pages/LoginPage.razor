@@ -65,9 +65,10 @@
         if (response != null && response.Success && !string.IsNullOrWhiteSpace(response.Data))
         {
             await LocalStorageServie.SetItemAsStringAsync("jwt", response.Data);
-            await StateProvider.GetAuthenticationStateAsync();
+            AuthenticationState authState = await StateProvider.GetAuthenticationStateAsync();
+            bool isAdmin = authState.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Value == "Admin";
             ToastService.ShowSuccess(string.Empty, "Pomyślnie zalogowano");
-            NavigationManager.NavigateTo(returnPage);
+            NavigationManager.NavigateTo(returnPage, isAdmin);
         }
         else
             ToastService.ShowError(response?.Message, "Błąd");
