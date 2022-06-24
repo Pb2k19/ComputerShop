@@ -43,9 +43,10 @@
     [Parameter] public string ButtonText { get; set; } = "Zapisz";
     [Parameter] public bool IsForBusiness { get; set; } = true;
 
-    public InvoiceDetailsForm()
+    protected override void OnParametersSet()
     {
-        InvoiceDetails.IsBusiness = IsForBusiness;
+        IsForBusiness = InvoiceDetails.IsBusiness;
+        base.OnParametersSet();
     }
 
     void OnIsForBusinessChanged()

@@ -1,4 +1,5 @@
-﻿using ComputerShop.Shared.Models;
+﻿using ComputerShop.Client.Shared.Components.Forms;
+using ComputerShop.Shared.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace ComputerShop.Client.Pages
@@ -11,11 +12,13 @@ namespace ComputerShop.Client.Pages
         List<Product> Products = new();        
         private ProductSortFilterOptions sortFilterOptions = new();
         private HashSet<string> manufacturers = new();
+        ProductSortFilterForm? sortFilterForm;
         int pageCount;
 
         protected override async Task OnParametersSetAsync()
         {
-            await LoadProductsAsync();
+            sortFilterForm?.ResetSelection();
+            await LoadProductsAsync();            
             base.OnParametersSet();
         }
 

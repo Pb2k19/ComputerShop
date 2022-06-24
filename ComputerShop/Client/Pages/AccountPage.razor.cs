@@ -26,12 +26,16 @@ namespace ComputerShop.Client.Pages
         List<ProductCartItem> currentProductCartItems = new();
         List<Product> wishListProducts = new();
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             if (userHelper == null)
-                userHelper = new UserHelper(StateProvider, UserService, LocalStorageService, NavigationManager, ToastService);
+                userHelper = new UserHelper(StateProvider, UserService, LocalStorageService, NavigationManager, ToastService);            
+        }
+        protected override async Task OnParametersSetAsync()
+        {
             await ChangeViewAsync(Page);
         }
+
         protected async Task OnPasswordChangeAsync()
         {
             if (userHelper == null)
@@ -49,6 +53,8 @@ namespace ComputerShop.Client.Pages
         }
         public async Task ChangeViewAsync(string? name)
         {
+            if(name != null && name.Equals(Page))
+                return;
             Page = name;
             switch(name)
             {

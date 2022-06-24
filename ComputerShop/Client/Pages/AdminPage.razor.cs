@@ -18,41 +18,32 @@ namespace ComputerShop.Client.Pages
 
         private List<UserModel> users = new List<UserModel>();
 
-        protected async override Task OnInitializedAsync()
+        public async Task ChangeViewAsync(string? path)
         {
-            users = await UserService.GetAllUsersAsync();
-        }
-
-        public async Task ChangeViewAsync(string? name)
-        {
-            Page = name;
-            switch (name)
+            if (path != null && path.Equals(Page))
+                return;
+            Page = path;
+            switch (path)
             {
-                case "wish-list":
-                    NavigationManager.NavigateTo("/account/wish-list");
-                    //await LoadWishListAsync();
+                case "add-new-product":
+                    NavigationManager.NavigateTo($"/admin/{path}");
+                    
                     break;
-                case "delivery-details":
-                    NavigationManager.NavigateTo("/account/delivery-details");
-                    //await LoadDeliveryDetailsAsync();
+                case "edit-products":
+                    NavigationManager.NavigateTo($"/admin/{path}");
+                    
                     break;
-                case "invoice-details":
-                    NavigationManager.NavigateTo("/account/invoice-details");
-                    //await LoadInvoiceDetailsAsync();
+                case "user-list":
+                    NavigationManager.NavigateTo($"/admin/{path}");
+                    users = await UserService.GetAllUsersAsync();
                     break;
-                case "order-details":
-                    //NavigationManager.NavigateTo($"/account/order-details/{OrderId}");
-                    //await LoadCurrentOderAsync();
-                    break;
-                case "security":
-                    NavigationManager.NavigateTo($"/account/security");
+                case "orders-list":
+                    NavigationManager.NavigateTo($"/admin/{path}");
                     break;
                 default:
-                    NavigationManager.NavigateTo("/account");
-                    //await LoadOrdersAsync();
+                    NavigationManager.NavigateTo("/admin");                    
                     break;
             }
         }
-
     }
 }

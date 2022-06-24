@@ -4,19 +4,12 @@
 @page "/find/{text}"
 @page "/find/{text}/{page:int}"
 
-@if (string.IsNullOrWhiteSpace(Category))
-{
-    <PageTitle>@Category</PageTitle>
-}
-else
-{
-    <PageTitle>@Text</PageTitle>
-}
+<PageTitle>@(string.IsNullOrWhiteSpace(Category) ? "Wyszukiwanie" : Category.ToUpper())</PageTitle>
 
 <div class="row">
     <div class="col-xl-2 mb-3 mb-xl-0">
         <div class="p-4 ms-2 border rounded shadow">
-            <ProductSortFilterForm SortFilterOptions="sortFilterOptions" Manufacturers="manufacturers" OnSubmit="OnFiltersSortChangeAsync" />
+            <ProductSortFilterForm SortFilterOptions="sortFilterOptions" Manufacturers="manufacturers" OnSubmit="OnFiltersSortChangeAsync" @ref="sortFilterForm"/>
         </div>
     </div>
     <div class="col">

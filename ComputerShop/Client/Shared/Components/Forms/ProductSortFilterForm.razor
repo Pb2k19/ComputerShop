@@ -28,11 +28,11 @@
     </div>
     <div>
         <h4 class="mt-3 mb-0">Producenci</h4>
-        @foreach (var manufacturer in Manufacturers)
+        @foreach (var (manufacturer, i) in Manufacturers.Select((manufacturer, i) => (manufacturer, i)))
         {
             <div class="d-flex align-items-center mt-2">
                 <h5 class="m-0 p-0">@manufacturer</h5>
-                <input type="checkbox" class="form-check-input shadow-none ms-2 mt-0" @onclick="() => OnManufacturerClick(manufacturer)" />
+                <input type="checkbox" class="form-check-input shadow-none ms-2 mt-0" @bind="isSelectedArray[i]" @onclick="() => OnManufacturerClick(manufacturer)" />
             </div>
         }
     </div>
@@ -56,6 +56,21 @@
     [Parameter] public ProductSortFilterOptions SortFilterOptions { get; set; } = new();
     [Parameter] public HashSet<string> Manufacturers { get; set; } = new();
     [Parameter] public Func<Task>? OnSubmit { get; set; }
+    bool[] isSelectedArray = new bool[0];
+
+    protected override void OnParametersSet()
+    {
+        if (isSelectedArray.Length != Manufacturers.Count)
+        {
+            isSelectedArray = new bool[Manufacturers.Count];
+        }
+    }
+
+    public void ResetSelection()
+    {
+        isSelectedArray = new bool[Manufacturers.Count];
+        SortFilterOptions.Manufacturers.Clear();
+    }
 
     protected async Task SortOptionChangedAsync(int option)
     {

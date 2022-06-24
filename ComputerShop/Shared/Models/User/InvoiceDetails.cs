@@ -6,7 +6,7 @@ namespace ComputerShop.Shared.Models.User
     public class InvoiceDetails : IValidatableObject
     {
         [Required(ErrorMessage = "Pole jest wymagane")]
-        public bool IsBusiness { get; set; } = false;
+        public bool IsBusiness { get; set; } = true;
 
         [Required(ErrorMessage = "Pole jest wymagane")]
         [StringLength(maximumLength: 128, MinimumLength = 2, ErrorMessage = "Niepoprawne dane")]
@@ -19,7 +19,7 @@ namespace ComputerShop.Shared.Models.User
         [Required(ErrorMessage = "Nazwa miejscowości jest wymagana")]
         [StringLength(maximumLength: 128, MinimumLength = 2, ErrorMessage = "Nazwa miejscowości musi mieć od 2 do 128 znaków")]
         public string City { get; set; }
-        public string Nip { get; set; }
+        public string Nip { get; set; } = string.Empty;
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
