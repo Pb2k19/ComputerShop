@@ -1,4 +1,4 @@
-﻿using ComputerShop.Shared.Models;
+﻿using ComputerShop.Shared.Models.Products;
 using Microsoft.Extensions.Caching.Memory;
 using MongoDB.Driver;
 

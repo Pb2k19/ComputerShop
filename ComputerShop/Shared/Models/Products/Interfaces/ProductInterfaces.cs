@@ -1,4 +1,4 @@
-﻿using ComputerShop.Shared.Models.Components;
+﻿using ComputerShop.Shared.Models.ComputerComponents;
 using ComputerShop.Shared.Models.Interfaces;
 
 namespace ComputerShop.Shared.Models.Products.Interfaces
@@ -107,17 +107,6 @@ namespace ComputerShop.Shared.Models.Products.Interfaces
         public int ResponseTimems { get; set; }
         public List<string> Ports { get; set; }
     }
-    public interface IPrinterProduct : IProduct, IDimensions
-    {
-        public string Technology { get; set; }
-        public List<string> SupportedFormats { get; set; }
-        public int PrintSpeedPgpmin { get; set; }
-        public List<string> Interfaces { get; set; }
-        public bool HasWiFi { get; set; }
-        public bool HasScanner { get; set; }
-        public bool HasMulticolour { get; set; }
-        public string Color { get; set; }
-    }
     public interface ICableProduct : IProduct
     {
         public int Lenghtmm { get; set; }
@@ -125,9 +114,5 @@ namespace ComputerShop.Shared.Models.Products.Interfaces
         public string ConnectorA { get; set; }
         public string ConnectorB { get; set; }
         public string Color { get; set; }
-    }
-    public interface IToolProduct : IProduct, IDimensions
-    {
-        public string ToolType { get; set; }
     }
 }

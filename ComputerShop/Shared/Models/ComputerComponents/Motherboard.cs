@@ -1,6 +1,6 @@
 ﻿using ComputerShop.Shared.Models.Interfaces;
 
-namespace ComputerShop.Shared.Models.Components
+namespace ComputerShop.Shared.Models.ComputerComponents
 {
     public class Motherboard : IMotherboard
     {
@@ -14,15 +14,5 @@ namespace ComputerShop.Shared.Models.Components
         public int Usb3Gen2Count { get; set; }
         public string Manufacturer { get; set; }
         public int Usb2Count { get; set; }
-    }
-    public enum MotherboardManufcaturers
-    {
-        MSI,
-        ASUS,
-        Gigabyte,
-        Biostar,
-        Evga,
-        ASRock,
-        EVGA
     }
 }

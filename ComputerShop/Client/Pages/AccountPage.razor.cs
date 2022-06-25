@@ -1,5 +1,6 @@
 ﻿using ComputerShop.Client.Helpers;
 using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Products;
 using ComputerShop.Shared.Models.User;
 using Microsoft.AspNetCore.Components;
 
@@ -9,13 +10,13 @@ namespace ComputerShop.Client.Pages
     {
         [Parameter] public string? Page { get; set; }
         [Parameter] public string? OrderId { get; set; }
-        readonly DropdownNavigationItems navigationItems = new(new List<DropdownNavigationItem>
+        readonly NavigationItems navigationItems = new(new List<NavigationItem>
         {
-            new DropdownNavigationItem { Name = "Zamówienia", Path="orders"},
-            new DropdownNavigationItem { Name = "Lista życzeń", Path="wish-list"},
-            new DropdownNavigationItem { Name = "Dane do dostawy", Path="delivery-details"},
-            new DropdownNavigationItem { Name = "Dane do faktury", Path="invoice-details"},
-            new DropdownNavigationItem { Name = "Bezpieczeństwo", Path="security"},
+            new NavigationItem { Name = "Zamówienia", Path="orders"},
+            new NavigationItem { Name = "Lista życzeń", Path="wish-list"},
+            new NavigationItem { Name = "Dane do dostawy", Path="delivery-details"},
+            new NavigationItem { Name = "Dane do faktury", Path="invoice-details"},
+            new NavigationItem { Name = "Bezpieczeństwo", Path="security"},
         });
         ChangePassword changePassword = new();
         IUserHelper? userHelper = null;
@@ -25,6 +26,7 @@ namespace ComputerShop.Client.Pages
         OrderModel? currentOrder;
         List<ProductCartItem> currentProductCartItems = new();
         List<Product> wishListProducts = new();
+        bool firstLoad = true;
 
         protected override void OnInitialized()
         {
@@ -53,8 +55,9 @@ namespace ComputerShop.Client.Pages
         }
         public async Task ChangeViewAsync(string? name)
         {
-            if(name != null && name.Equals(Page))
+            if(name != null && name.Equals(Page) && !firstLoad)
                 return;
+            firstLoad = false;
             Page = name;
             switch(name)
             {

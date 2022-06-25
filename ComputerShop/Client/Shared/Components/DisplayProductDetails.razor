@@ -78,17 +78,9 @@
         {
             <MonitorProductDetails Product="Product"/>
         }
-        else if (Product is IPrinterProduct)
-        {
-            <PrinterProductDetails Product="Product"/>
-        }
         else if (Product is ICableProduct)
         {
             <CabelProductDetails Product="Product"/>
-        }
-        else if (Product is IToolProduct)
-        {
-            <ToolProductDetails Product="Product"/>
         }
         else
         {

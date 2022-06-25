@@ -1,4 +1,4 @@
-﻿namespace ComputerShop.Shared.Models
+﻿namespace ComputerShop.Shared.Models.Products
 {
     public class ProductsResponse
     {

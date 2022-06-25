@@ -1,4 +1,4 @@
-﻿using ComputerShop.Shared.Models;
+﻿using ComputerShop.Shared.Models.Products;
 using ComputerShop.Shared.Models.User;
 using MongoDB.Driver;
 

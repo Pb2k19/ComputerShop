@@ -1,4 +1,6 @@
-﻿namespace ComputerShop.Shared.Models.User
+﻿using ComputerShop.Shared.Models.Products;
+
+namespace ComputerShop.Shared.Models.User
 {
     public class WishListModel
     {

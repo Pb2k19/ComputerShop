@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Products;
 using System.Net.Http.Json;
 
 namespace ComputerShop.Client.Services.Products

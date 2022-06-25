@@ -35,8 +35,8 @@ namespace ComputerShop.Server.Controllers
             return Ok(response);
         }
 
-        [HttpGet("getAllOrdersForUser"), Authorize] //tmp zmienić na getallorders oraz dodać async do nazwy
-        public async Task<ActionResult<ServiceResponse<List<OrderModel>>>> GetAllOrdersForUser()
+        [HttpGet("getAllOrdersForUser"), Authorize]
+        public async Task<ActionResult<ServiceResponse<List<OrderModel>>>> GetAllOrdersForUserAsync()
         {
             SimpleServiceResponse response = userService.ValidateJWT(Request);
             if (!response.Success)
@@ -44,7 +44,19 @@ namespace ComputerShop.Server.Controllers
             Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
             if (userId == null)
                 return Unauthorized(new ServiceResponse<List<OrderModel>> { Message = response.Message, Success = false });
-            return Ok(await orderService.GetAllOrdersForUser());
+            return Ok(await orderService.GetAllOrdersForUserAsync());
+        }
+
+        [HttpGet("getAllOrders"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<OrderModel>>>> GetAllOrdersAsync()
+        {
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
+            if (!response.Success)
+                return Unauthorized(new ServiceResponse<List<OrderModel>> { Message = response.Message, Success = false });
+            Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized(new ServiceResponse<List<OrderModel>> { Message = response.Message, Success = false });
+            return Ok(await orderService.GetAllOrdersAsync());
         }
     }
 }

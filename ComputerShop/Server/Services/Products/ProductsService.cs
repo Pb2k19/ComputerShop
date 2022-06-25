@@ -1,7 +1,7 @@
 ﻿using ComputerShop.Server.DataAccess;
 using ComputerShop.Server.Helpers;
 using ComputerShop.Shared.Models;
-using ComputerShop.Shared.Models.Components;
+using ComputerShop.Shared.Models.ComputerComponents;
 using ComputerShop.Shared.Models.Products;
 using MongoDB.Driver;
 
@@ -567,7 +567,7 @@ new RamProduct
             },
 new DesktopPsuProduct
             {
-                Manufacturer = PsuManufacturers.SilentiumPc.ToString(),
+                Manufacturer = "Silentium PC",
                 Name = "Vero L3 700W 80 Plus Bronze",
                 WarantyMonths = 36,
                 FansCount = 1,
@@ -594,7 +594,7 @@ new DesktopPsuProduct
             },
 new DesktopPsuProduct
             {
-                Manufacturer = PsuManufacturers.beQuiet.ToString(),
+                Manufacturer = "Be Quiet!",
                 Name = "Straight Power 11 850W 80 Plus Gold",
                 WarantyMonths = 60,
                 FansCount = 1,
@@ -621,7 +621,7 @@ new DesktopPsuProduct
             },
 new DesktopPsuProduct
             {
-                Manufacturer = PsuManufacturers.Corsair.ToString(),
+                Manufacturer = "Corsair",
                 Name = "RMx White 750W 80 Plus Gold",
                 WarantyMonths = 120,
                 FansCount = 1,

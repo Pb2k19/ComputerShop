@@ -19,35 +19,35 @@ namespace ComputerShop.Client.Shared
         [Inject] IToastService? ToastService { get; set; }
         [Inject] IUserService? UserService { get; set; }
 
-        readonly DropdownNavigationItems PeripheryList = new(new List<DropdownNavigationItem> 
+        readonly NavigationItems PeripheryList = new(new List<NavigationItem> 
         {
-            new DropdownNavigationItem{Name = "Myszy", Path = "categories/mouse" },
-            new DropdownNavigationItem{Name = "Klawiatury", Path = "categories/keyboard" },
-            new DropdownNavigationItem{Name = "Słuchawki", Path = "categories/headphones" },
-            new DropdownNavigationItem{Name = "Monitory", Path = "categories/montior" },
+            new NavigationItem{Name = "Myszy", Path = "categories/mouse" },
+            new NavigationItem{Name = "Klawiatury", Path = "categories/keyboard" },
+            new NavigationItem{Name = "Słuchawki", Path = "categories/headphones" },
+            new NavigationItem{Name = "Monitory", Path = "categories/montior" },
         });
-        readonly DropdownNavigationItems ComponentsList = new(new List<DropdownNavigationItem>
+        readonly NavigationItems ComponentsList = new(new List<NavigationItem>
         {
-            new DropdownNavigationItem { Name = "Procesory", Path = "categories/cpu" },
-            new DropdownNavigationItem { Name = "Karty graficzne", Path = "categories/gpu" },
-            new DropdownNavigationItem { Name = "Płyty główne", Path = "categories/motherboard" },
-            new DropdownNavigationItem { Name = "Ram", Path = "categories/ram" },
-            new DropdownNavigationItem { Name = "Zasilacze", Path = "categories/psu" },
-            new DropdownNavigationItem { Name = "Dyski HDD", Path = "categories/hdd" },
-            new DropdownNavigationItem { Name = "Dyski SSD", Path = "categories/ssd" },
-            new DropdownNavigationItem { Name = "Obudowy", Path = "categories/case" },
-            new DropdownNavigationItem { Name = "Chłodzenie", Path = "categories/cooler" },
-            new DropdownNavigationItem { Name = "Przewody", Path = "categories/cabel" },
+            new NavigationItem { Name = "Procesory", Path = "categories/cpu" },
+            new NavigationItem { Name = "Karty graficzne", Path = "categories/gpu" },
+            new NavigationItem { Name = "Płyty główne", Path = "categories/motherboard" },
+            new NavigationItem { Name = "Ram", Path = "categories/ram" },
+            new NavigationItem { Name = "Zasilacze", Path = "categories/psu" },
+            new NavigationItem { Name = "Dyski HDD", Path = "categories/hdd" },
+            new NavigationItem { Name = "Dyski SSD", Path = "categories/ssd" },
+            new NavigationItem { Name = "Obudowy", Path = "categories/case" },
+            new NavigationItem { Name = "Chłodzenie", Path = "categories/cooler" },
+            new NavigationItem { Name = "Przewody", Path = "categories/cabel" },
         });
-        readonly DropdownNavigationItems AccountOptions = new(new List<DropdownNavigationItem>
+        readonly NavigationItems AccountOptions = new(new List<NavigationItem>
         {
-            new DropdownNavigationItem { Name = "Zamówienia", Path = "account/orders" },
-            new DropdownNavigationItem { Name = "Szczegóły", Path = "account/delivery-details" },            
-            new DropdownNavigationItem { Name = "Lista życzeń", Path = "account/wish-list" },
+            new NavigationItem { Name = "Zamówienia", Path = "account/orders" },
+            new NavigationItem { Name = "Szczegóły", Path = "account/delivery-details" },            
+            new NavigationItem { Name = "Lista życzeń", Path = "account/wish-list" },
 #pragma warning disable CS8625
             null,
 #pragma warning restore CS8625
-            new DropdownNavigationItem { Name = "Wyloguj", Path = "logout" }
+            new NavigationItem { Name = "Wyloguj", Path = "logout" }
         });
         IUserHelper? userHelper;
         bool collapseNavMenu = true;
@@ -89,7 +89,7 @@ namespace ComputerShop.Client.Shared
                     return;
                 int index = AccountOptions.Items.IndexOf(null);
                 if (index != -1)
-                    AccountOptions.Items.Insert(index, new DropdownNavigationItem { Name = "Administracja", Path = "admin" });
+                    AccountOptions.Items.Insert(index, new NavigationItem { Name = "Administracja", Path = "admin" });
             }
             else
             {

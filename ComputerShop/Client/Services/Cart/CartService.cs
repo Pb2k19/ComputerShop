@@ -2,6 +2,7 @@
 using ComputerShop.Shared.Models;
 using ComputerShop.Client.Services.Products;
 using ComputerShop.Shared.Models.User;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Client.Services.Cart
 {

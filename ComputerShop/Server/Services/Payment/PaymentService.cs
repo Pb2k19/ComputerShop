@@ -5,6 +5,7 @@ using ComputerShop.Server.Services.User;
 using ComputerShop.Shared.Models.User;
 using ComputerShop.Server.Services.Products;
 using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Server.Services.Payment
 {

@@ -1,6 +1,6 @@
 ﻿using ComputerShop.Shared.Models.Interfaces;
 
-namespace ComputerShop.Shared.Models.Components
+namespace ComputerShop.Shared.Models.ComputerComponents
 {
     public class DesktopCase : IComputerCase
     {
@@ -16,19 +16,5 @@ namespace ComputerShop.Shared.Models.Components
         public int MaxRadiatorSizemm { get; set; }
         public int MaxGpuLenghtmm { get; set; }
         public string Color { get; set; }
-    }
-
-    public enum DesktopCaseManufacturers
-    {
-        Thermaltake,
-        CoolerMaster,
-        Aerocool,
-        Chieftec,
-        Phanteks,
-        LianLi,
-        BeQuiet,
-        SilentiumPC,
-        Nzxt,
-        Corsair,
     }
 }

@@ -3,6 +3,7 @@ using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
 using ComputerShop.Server.Services.Products;
 using ComputerShop.Server.DataAccess;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Server.Services.Order
 {
@@ -67,7 +68,7 @@ namespace ComputerShop.Server.Services.Order
                 return new ServiceResponse<OrderModel> { Success = false, Message = "Coś poszło nie tak - zamówienie nie zostało żłożone" };
         }
 
-        public async Task<ServiceResponse<List<OrderModel>>> GetAllOrdersForUser()
+        public async Task<ServiceResponse<List<OrderModel>>> GetAllOrdersForUserAsync()
         {
             string? userId = userService.GetUserId();
             if (string.IsNullOrWhiteSpace(userId))
@@ -76,6 +77,14 @@ namespace ComputerShop.Server.Services.Order
             if (user == null)
                 return new ServiceResponse<List<OrderModel>> { Message = "Coś poszło nie tak", Success = false };
             return new ServiceResponse<List<OrderModel>> { Data = user.Orders };
+        }
+
+        public async Task<ServiceResponse<List<OrderModel>>> GetAllOrdersAsync()
+        {
+            var users = await userData.GetAllUsersAsync();
+            List<OrderModel> orders = new();
+            users.ForEach(u => orders.AddRange(u.Orders));
+            return new ServiceResponse<List<OrderModel>> { Data = orders, Success = true };
         }
 
         public async Task<ServiceResponse<OrderModel>> GetOrderAsync(string orderId)

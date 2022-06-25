@@ -1,7 +1,7 @@
 ﻿using ComputerShop.Shared.Models.Interfaces;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace ComputerShop.Shared.Models.Components
+namespace ComputerShop.Shared.Models.ComputerComponents
 {
     [BsonKnownTypes(typeof(Ssd), typeof(Hdd))]
     public class Drive : IDrive
@@ -12,21 +12,5 @@ namespace ComputerShop.Shared.Models.Components
         public string Type { get; set; }
         public int CapacityGB { get; set; }
         public string Interface { get; set; }
-    }
-    public enum DriveManufacturers
-    {
-        Wd,
-        Toshiba,
-        Seagate,
-        Kingston,
-        Adata,
-        Sandisk,
-        Transcend,
-        Lexar,
-    }
-    public enum DrivesTypes
-    {
-        HDD,
-        SSD
     }
 }

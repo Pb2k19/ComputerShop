@@ -1,7 +1,7 @@
-﻿using ComputerShop.Shared.Models;
-using ComputerShop.Client.Helpers;
+﻿using ComputerShop.Client.Helpers;
 using Microsoft.AspNetCore.Components;
 using Blazored.Toast.Services;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Client.Pages
 {

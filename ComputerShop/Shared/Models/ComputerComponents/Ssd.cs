@@ -1,6 +1,6 @@
 ﻿using ComputerShop.Shared.Models.Interfaces;
 
-namespace ComputerShop.Shared.Models.Components
+namespace ComputerShop.Shared.Models.ComputerComponents
 {
     public class Ssd : Drive, ISsd
     {

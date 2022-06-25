@@ -8,6 +8,7 @@ namespace ComputerShop.Server.Services.Order
         Task<ServiceResponse<OrderModel>> AddOrderAsync(List<CartItem> cartItems, DeliveryDetails deliveryDetails, InvoiceDetails invoiceDetails, bool isAuthenticated);
         Task<ServiceResponse<OrderModel>> GetOrderAsync(string orderId);
         Task<SimpleServiceResponse> UpdateOrderAsync(OrderModel order);
-        Task<ServiceResponse<List<OrderModel>>> GetAllOrdersForUser();
+        Task<ServiceResponse<List<OrderModel>>> GetAllOrdersForUserAsync();
+        Task<ServiceResponse<List<OrderModel>>> GetAllOrdersAsync();
     }
 }

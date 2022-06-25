@@ -1,6 +1,6 @@
-﻿using ComputerShop.Shared.Models;
-using ComputerShop.Client.Helpers;
+﻿using ComputerShop.Client.Helpers;
 using ComputerShop.Shared.Models.User;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Client.Pages
 {

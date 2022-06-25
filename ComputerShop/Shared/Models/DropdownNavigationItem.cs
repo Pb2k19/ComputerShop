@@ -1,16 +1,16 @@
 ﻿namespace ComputerShop.Shared.Models
 {
-    public class DropdownNavigationItem
+    public class NavigationItem
     {
         public string Name { get; set; } = string.Empty;
         public string Path { get; set; } = string.Empty;
     }
 
-    public class DropdownNavigationItems
+    public class NavigationItems
     {
-        public List<DropdownNavigationItem> Items = new();
-        public DropdownNavigationItems() { }
-        public DropdownNavigationItems(List<DropdownNavigationItem> items)
+        public List<NavigationItem> Items = new();
+        public NavigationItems() { }
+        public NavigationItems(List<NavigationItem> items)
         {
             if(items != null)
                 Items.AddRange(items);

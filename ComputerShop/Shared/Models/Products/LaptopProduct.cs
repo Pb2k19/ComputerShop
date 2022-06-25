@@ -1,4 +1,4 @@
-﻿using ComputerShop.Shared.Models.Components;
+﻿using ComputerShop.Shared.Models.ComputerComponents;
 using ComputerShop.Shared.Models.Products.Interfaces;
 
 namespace ComputerShop.Shared.Models.Products

@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Server.Helpers
 {

@@ -1,5 +1,5 @@
 ﻿using Stripe.Checkout;
-using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Server.Services.Payment
 {

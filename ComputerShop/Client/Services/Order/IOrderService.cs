@@ -7,5 +7,6 @@ namespace ComputerShop.Client.Services.Order
     {
         Task<ServiceResponse<OrderModel>?> AddOrderAsync(List<CartItem> cartItems, DeliveryDetails deliveryDetails, InvoiceDetails? invoiceDetails);
         Task<ServiceResponse<List<OrderModel>>> GetAllOrdersForUserAsync();
+        Task<ServiceResponse<List<OrderModel>>> GetAllOrdersAsync();
     }
 }

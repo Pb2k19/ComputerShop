@@ -1,6 +1,6 @@
 ﻿using ComputerShop.Shared.Models.Interfaces;
 
-namespace ComputerShop.Shared.Models.Components
+namespace ComputerShop.Shared.Models.ComputerComponents
 {
     public class Cooler : ICooler
     {
@@ -20,18 +20,5 @@ namespace ComputerShop.Shared.Models.Components
         public static string BoxCooler { get; } = "Chłodzenie BOX";
         public static string Passive { get; } = "Chłodzenie pasywne";
         public static List<string> List => new() { WaterCooler, AirCooler, BoxCooler, Passive };
-    }
-    
-    public enum CoolerManufacturers
-    {
-        Noctua,
-        Arctic,
-        CoolerMaster,
-        Thermaltake,
-        BeQuiet,
-        SilentiumPC,
-        Nzxt,
-        Asus,
-        Corsair,
     }
 }

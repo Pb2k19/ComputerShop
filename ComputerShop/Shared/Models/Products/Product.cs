@@ -1,17 +1,14 @@
-﻿using ComputerShop.Shared.Models.Components;
-using ComputerShop.Shared.Models.Interfaces;
-using ComputerShop.Shared.Models.Products;
+﻿using ComputerShop.Shared.Models.Interfaces;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace ComputerShop.Shared.Models
+namespace ComputerShop.Shared.Models.Products
 {
-    [BsonKnownTypes(typeof(CableProduct), typeof(ComputerMouseProduct), typeof(CpuProduct), 
-        typeof(DesktopCaseProduct), typeof(DesktopCoolerProduct), typeof(DesktopGpuProduct), 
-        typeof(DesktopPcProduct), typeof(DesktopPcProduct), typeof(DesktopPsuProduct), 
-        typeof(HddProduct), typeof(HeadphonesProduct), typeof(KeyboardProduct), typeof(LaptopProduct), 
-        typeof(MonitorProduct), typeof(MotherboardProduct), typeof(PrinterProduct), typeof(RamProduct), 
-        typeof(SsdProduct), typeof(ToolProduct))]
+    [BsonKnownTypes(typeof(CableProduct), typeof(ComputerMouseProduct), typeof(CpuProduct),
+        typeof(DesktopCaseProduct), typeof(DesktopCoolerProduct), typeof(DesktopGpuProduct),
+        typeof(DesktopPcProduct), typeof(DesktopPcProduct), typeof(DesktopPsuProduct),
+        typeof(HddProduct), typeof(HeadphonesProduct), typeof(KeyboardProduct), typeof(LaptopProduct),
+        typeof(MonitorProduct), typeof(MotherboardProduct), typeof(RamProduct), typeof(SsdProduct))]
     public class Product : IProduct
     {
         [BsonId]

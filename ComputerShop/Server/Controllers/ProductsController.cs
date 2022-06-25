@@ -1,5 +1,6 @@
 ﻿using ComputerShop.Server.Services.Products;
 using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
