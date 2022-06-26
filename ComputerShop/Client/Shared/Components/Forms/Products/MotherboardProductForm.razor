@@ -1,0 +1,59 @@
+﻿@if (motherboard != null)
+{
+    <div class="mb-3">
+        <h5 for="pciex16slotscount">Liczba slotów PCIE X16</h5>
+        <InputNumber id="pciex16slotscount" class="form-control shadow-none" @bind-Value="motherboard.PcieX16SlotsCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="ramslotscount">Liczba slotów RAM</h5>
+        <InputNumber id="ramslotscount" class="form-control shadow-none" @bind-Value="motherboard.RamSlotsCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="m2slotscount">Liczba slotów M2</h5>
+        <InputNumber id="m2slotscount" class="form-control shadow-none" @bind-Value="motherboard.M2SlotsCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="socket">Socket</h5>
+        <InputText id="socket" class="form-control shadow-none" @bind-Value="motherboard.Socket" />
+    </div>
+    <div class="mb-3">
+        <h5 for="ramtype">Typ ramu</h5>
+        <InputText id="ramtype" class="form-control shadow-none" @bind-Value="motherboard.RamType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="chipset">Chipset</h5>
+        <InputText id="chipset" class="form-control shadow-none" @bind-Value="motherboard.Chipset" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usbccount">Liczba gniazd USB-C</h5>
+        <InputNumber id="usbccount" class="form-control shadow-none" @bind-Value="motherboard.UsbCCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usb3gen1count">Liczba gniazd USB 3 gen 1</h5>
+        <InputNumber id="usb3gen1count" class="form-control shadow-none" @bind-Value="motherboard.Usb3Gen1Count" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usb3gen2count">Liczba gniazd USB 3 gen 2</h5>
+        <InputNumber id="usb3gen2count" class="form-control shadow-none" @bind-Value="motherboard.Usb3Gen2Count" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usb2count">Liczba gniazd USB 2</h5>
+        <InputNumber id="usb2count" class="form-control shadow-none" @bind-Value="motherboard.Usb2Count" />
+    </div>
+    <div class="mb-3">
+        <h5 for="size">Rozmiar</h5>
+        <InputText id="size" class="form-control shadow-none" @bind-Value="motherboard.Size" />
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IDesktopMotherboardProduct? motherboard;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IDesktopMotherboardProduct)
+            motherboard = Product as IDesktopMotherboardProduct;
+        base.OnParametersSet();
+    }
+}

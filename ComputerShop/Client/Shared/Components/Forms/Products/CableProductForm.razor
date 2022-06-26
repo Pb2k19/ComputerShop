@@ -1,0 +1,35 @@
+﻿@if (cabelProduct != null)
+{
+    <div class="mb-3">
+        <h5 for="lenght">Długość</h5>
+        <InputNumber id="lenght" class="form-control shadow-none" @bind-Value="cabelProduct.Lenghtmm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="cabeltype">Typ</h5>
+        <InputText id="cabeltype" class="form-control shadow-none" @bind-Value="cabelProduct.CabelType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="connectora">Złącze A</h5>
+        <InputText id="connectora" class="form-control shadow-none" @bind-Value="cabelProduct.ConnectorA" />
+    </div>
+    <div class="mb-3">
+        <h5 for="connectorb">Złącze B</h5>
+        <InputText id="connectorb" class="form-control shadow-none" @bind-Value="cabelProduct.ConnectorB" />
+    </div>
+    <div class="mb-3">
+        <h5 for="color">Kolor</h5>
+        <InputText id="color" class="form-control shadow-none" @bind-Value="cabelProduct.Color" />
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private ICableProduct? cabelProduct;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is ICableProduct)
+            cabelProduct = Product as ICableProduct;
+        base.OnParametersSet();
+    }
+}

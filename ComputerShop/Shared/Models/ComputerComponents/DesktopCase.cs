@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models.Interfaces;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Shared.Models.ComputerComponents
 {
@@ -9,7 +10,7 @@ namespace ComputerShop.Shared.Models.ComputerComponents
         public int Lenghtmm { get; set; }
         public int Heightmm { get; set; }
         public int Widthmm { get; set; }
-        public List<string> SupportedMoboSizes { get; set; }
+        public List<StringValue> SupportedMoboSizes { get; set; } = new();
         public int UsbPorts { get; set; }
         public int MaxFanCount { get; set; }
         public int MaxCoolerHeightmm { get; set; }

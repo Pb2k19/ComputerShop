@@ -18,6 +18,7 @@ namespace ComputerShop.Shared.Models.Interfaces
         public bool IsPublic { get; set; }
         public bool IsRemoved { get; set; }
         public bool IsAvaliable { get; set; }
+        public bool IsHiglighted { get; set; }
         public DateTime CareationDate { get; set; }
         public DateTime LastUpdateDate { get; set; }
         public int WarantyMonths { get; set; }

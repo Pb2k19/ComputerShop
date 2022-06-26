@@ -1,0 +1,184 @@
+﻿@if (laptop != null)
+{
+    <h4>CPU</h4>
+    <div class="mb-3">
+        <h5 for="cpuname">Nazwa</h5>
+        <InputText id="cpuname" class="form-control shadow-none" @bind-Value="laptop.Cpu.Name" />
+    </div>
+    <div class="mb-3">
+        <h5 for="cpumanufacturer">Producent</h5>
+        <InputText id="cpumanufacturer" class="form-control shadow-none" @bind-Value="laptop.Cpu.Manufacturer" />
+    </div>
+    <div class="mb-3">
+        <h5 for="cpufrequencymhz">Taktowanie</h5>
+        <InputNumber id="cpufrequencymhz" class="form-control shadow-none" @bind-Value="laptop.Cpu.FrequencyMHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="cputdp">TDP</h5>
+        <InputNumber id="cputdp" class="form-control shadow-none" @bind-Value="laptop.Cpu.Tdp" />
+    </div>
+    <div class="mb-3">
+        <h5 for="connectora">Liczba wątków</h5>
+        <InputNumber id="connectora" class="form-control shadow-none" @bind-Value="laptop.Cpu.ThreadsCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="threadscount">Liczba rdzeni</h5>
+        <InputNumber id="threadscount" class="form-control shadow-none" @bind-Value="laptop.Cpu.CoresCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="l3cachemb">Wielkość pamięci L3</h5>
+        <InputNumber id="l3cachemb" class="form-control shadow-none" @bind-Value="laptop.Cpu.L3CacheMB" />
+    </div>
+
+    <h4>RAM</h4>
+    <div class="mb-3">
+        <h5 for="ramname">Nazwa</h5>
+        <InputText id="ramname" class="form-control shadow-none" @bind-Value="laptop.Ram.Name" />
+    </div>
+    <div class="mb-3">
+        <h5 for="rammanufacturer">Producent</h5>
+        <InputText id="rammanufacturer" class="form-control shadow-none" @bind-Value="laptop.Ram.Manufacturer" />
+    </div>
+    <div class="mb-3">
+        <h5 for="modulesnumber">Liczba modułów</h5>
+        <InputNumber id="modulesnumber" class="form-control shadow-none" @bind-Value="laptop.Ram.ModulesNumber" />
+    </div>
+    <div class="mb-3">
+        <h5 for="frequencymhz">Taktowanie</h5>
+        <InputNumber id="ramfrequencymhz" class="form-control shadow-none" @bind-Value="laptop.Ram.FrequencyMHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="latencycl">Opóźnienia</h5>
+        <InputNumber id="latencycl" class="form-control shadow-none" @bind-Value="laptop.Ram.LatencyCL" />
+    </div>
+    <div class="mb-3">
+        <h5 for="ramtechnology">Technologia</h5>
+        <InputText id="ramtechnology" class="form-control shadow-none" @bind-Value="laptop.Ram.RamTechnology" />
+    </div>
+
+    <h4>GPU</h4>
+    <div class="mb-3">
+        <h5 for="gpuname">Nazwa</h5>
+        <InputText id="gpuname" class="form-control shadow-none" @bind-Value="laptop.Gpu.Name" />
+    </div>
+    <div class="mb-3">
+        <h5 for="gpumanufacturer">Producent</h5>
+        <InputText id="gpumanufacturer" class="form-control shadow-none" @bind-Value="laptop.Gpu.Manufacturer" />
+    </div>
+    <div class="mb-3">
+        <h5 for="gpuchipmanufacturer">Producent układu</h5>
+        <InputText id="gpuchipmanufacturer" class="form-control shadow-none" @bind-Value="laptop.Gpu.ChipManufacturer" />
+    </div>
+    <div class="mb-3">
+        <h5 for="gpufrequencymhz">Taktowanie rdzenia</h5>
+        <InputNumber id="gpufrequencymhz" class="form-control shadow-none" @bind-Value="laptop.Gpu.FrequencyMHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="vramtype">Typ pamięci</h5>
+        <InputText id="vramtype" class="form-control shadow-none" @bind-Value="laptop.Gpu.VramType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="vramsizegb">Rozmiar pamięci</h5>
+        <InputNumber id="vramsizegb" class="form-control shadow-none" @bind-Value="laptop.Gpu.VramSizeGB" />
+    </div>
+    <div class="mb-3">
+        <h5 for="gputdp">TDP</h5>
+        <InputNumber id="gputdp" class="form-control shadow-none" @bind-Value="laptop.Gpu.Tdp" />
+    </div>
+    <div class="mb-3">
+        <h5>Porty</h5>
+        <ListForm List="laptop.Gpu.PortsList" />
+    </div>
+    <div class="mb-3">
+        <h5 for="buswidth">Szerokość magistrali pamięci</h5>
+        <InputNumber id="buswidth" class="form-control shadow-none" @bind-Value="laptop.Gpu.BusWidth" />
+    </div>
+
+    <h4>PSU</h4>
+    <div class="mb-3">
+        <h5 for="power">Moc</h5>
+        <InputNumber id="power" class="form-control shadow-none" @bind-Value="laptop.Psu.Power" />
+    </div>
+    <div class="mb-3">
+        <h5 for="psumanufacturer">Wspierane chipsety</h5>
+        <InputText id="psumanufacturer" class="form-control shadow-none" @bind-Value="laptop.Psu.Manufacturer" />
+    </div>
+
+    <h4>Płyta główna</h4>
+    <div class="mb-3">
+        <h5 for="moboname">Nazwa</h5>
+        <InputText id="moboname" class="form-control shadow-none" @bind-Value="laptop.Motherboard.Name" />
+    </div>
+    <div class="mb-3">
+        <h5 for="mobomanufacturer">Producent</h5>
+        <InputText id="mobomanufacturer" class="form-control shadow-none" @bind-Value="laptop.Motherboard.Manufacturer" />
+    </div>
+    <div class="mb-3">
+        <h5 for="ramslotscount">Liczba slotów RAM</h5>
+        <InputNumber id="ramslotscount" class="form-control shadow-none" @bind-Value="laptop.Motherboard.RamSlotsCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="socket">Socket</h5>
+        <InputText id="socket" class="form-control shadow-none" @bind-Value="laptop.Motherboard.Socket" />
+    </div>
+    <div class="mb-3">
+        <h5 for="ramtype">Typ ramu</h5>
+        <InputText id="ramtype" class="form-control shadow-none" @bind-Value="laptop.Motherboard.RamType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="chipset">Chipset</h5>
+        <InputText id="chipset" class="form-control shadow-none" @bind-Value="laptop.Motherboard.Chipset" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usbccount">Liczba gniazd USB-C</h5>
+        <InputNumber id="usbccount" class="form-control shadow-none" @bind-Value="laptop.Motherboard.UsbCCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usb3gen1count">Liczba gniazd USB 3 gen 1</h5>
+        <InputNumber id="usb3gen1count" class="form-control shadow-none" @bind-Value="laptop.Motherboard.Usb3Gen1Count" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usb3gen2count">Liczba gniazd USB 3 gen 2</h5>
+        <InputNumber id="usb3gen2count" class="form-control shadow-none" @bind-Value="laptop.Motherboard.Usb3Gen2Count" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usb2count">Liczba gniazd USB 2</h5>
+        <InputNumber id="usb2count" class="form-control shadow-none" @bind-Value="laptop.Motherboard.Usb2Count" />
+    </div>
+
+    <h4>Rozmiary</h4>
+    <DimensionsForm Product="Product" />
+
+    <h4>Drives</h4>
+    <ListDriveForm List="laptop.Drives"/>
+
+    <h4>Pozostałe</h4>
+    <div class="mb-3">
+        <h5 for="batterycapacitymah">Pojemność baterii</h5>
+        <InputNumber id="batterycapacitymah" class="form-control shadow-none" @bind-Value="laptop.BatteryCapacitymAh" />
+    </div>
+    <div class="mb-3">
+        <h5 for="powerconsumption">Długość pracy na baterii w spoczynku</h5>
+        <InputNumber id="powerconsumption" class="form-control shadow-none" @bind-Value="laptop.BatteryLifeIdleMin" />
+    </div>
+    <div class="mb-3">
+        <h5 for="powerconsumption">Długość pracy na baterii pod obciążeniem</h5>
+        <InputNumber id="powerconsumption" class="form-control shadow-none" @bind-Value="laptop.BatteryLifeUnderLoadMin" />
+    </div>
+    <div class="mb-3">
+        <h5 for="displaysize">Przekątna matrycy</h5>
+        <InputNumber id="displaysize" class="form-control shadow-none" @bind-Value="laptop.DisplaySize" />
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private ILaptopProduct? laptop;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is ILaptopProduct)
+            laptop = Product as ILaptopProduct;
+        base.OnParametersSet();
+    }
+}

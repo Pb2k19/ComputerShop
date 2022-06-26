@@ -14,6 +14,6 @@ namespace ComputerShop.Shared.Models.Products
         public int CoresCount { get; set; }
         public int L3CacheMB { get; set; }
         public string SupportedSocket { get; set; }
-        public List<string> SupportedChipsets { get; set; }
+        public List<StringValue> SupportedChipsets { get; set; } = new();
     }
 }

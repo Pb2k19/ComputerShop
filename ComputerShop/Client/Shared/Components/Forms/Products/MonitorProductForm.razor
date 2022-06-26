@@ -1,0 +1,56 @@
+﻿@if (monitor != null)
+{
+    <div class="mb-3">
+        <h5 for="panelsizeinch">Przekątna</h5>
+        <InputNumber id="panelsizeinch" class="form-control shadow-none" @bind-Value="monitor.PanelSizeInch" />
+    </div>
+    <div class="mb-3">
+        <h5 for="aspectratio">Proporcje ekranu</h5>
+        <InputText id="aspectratio" class="form-control shadow-none" @bind-Value="monitor.AspectRatio" />
+    </div>
+    <div class="mb-3">
+        <h5 for="paneltype">Typ panelu</h5>
+        <InputText id="paneltype" class="form-control shadow-none" @bind-Value="monitor.PanelType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="resolutionxpx">Rozdzielczość (oś X)</h5>
+        <InputNumber id="resolutionxpx" class="form-control shadow-none" @bind-Value="monitor.ResolutionXpx" />
+    </div>
+    <div class="mb-3">
+        <h5 for="resolutionypx">Rozdzielczość (oś Y)</h5>
+        <InputNumber id="resolutionypx" class="form-control shadow-none" @bind-Value="monitor.ResolutionYpx" />
+    </div>
+    <div class="mb-3">
+        <h5 for="srgbcolorspaceperc">Pokrycie gamutu sRGB</h5>
+        <InputNumber id="srgbcolorspaceperc" class="form-control shadow-none" @bind-Value="monitor.SrgbColorSpacePerc" />
+    </div>
+    <div class="mb-3">
+        <h5 for="brightnesscdm">Jasność</h5>
+        <InputNumber id="brightnesscdm" class="form-control shadow-none" @bind-Value="monitor.BrightnessCdm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="contrast">Kontrast</h5>
+        <InputNumber id="contrast" class="form-control shadow-none" @bind-Value="monitor.Contrast" />
+    </div>
+    <div class="mb-3">
+        <h5 for="refreshratehz">Odświeżanie</h5>
+        <InputNumber id="refreshratehz" class="form-control shadow-none" @bind-Value="monitor.RefreshRateHz" />
+    </div>
+    <div class="mb-3">
+        <h5>TDP</h5>
+        <ListForm List="monitor.Ports" />
+    </div>
+    <DimensionsForm Product="Product" />
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IMonitorProduct? monitor;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IMonitorProduct)
+            monitor = Product as IMonitorProduct;
+        base.OnParametersSet();
+    }
+}

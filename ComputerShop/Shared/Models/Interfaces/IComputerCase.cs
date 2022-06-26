@@ -1,4 +1,6 @@
-﻿namespace ComputerShop.Shared.Models.Interfaces
+﻿using ComputerShop.Shared.Models.Products;
+
+namespace ComputerShop.Shared.Models.Interfaces
 {
     public interface IComputerCase
     {
@@ -7,7 +9,7 @@
         public int Lenghtmm { get; set; }
         public int Heightmm { get; set; }
         public int Widthmm { get; set; }
-        public List<string> SupportedMoboSizes{ get; set; }
+        public List<StringValue> SupportedMoboSizes{ get; set; }
         public int UsbPorts { get; set; }
         public int MaxFanCount { get; set; }
         public int MaxCoolerHeightmm { get; set; }

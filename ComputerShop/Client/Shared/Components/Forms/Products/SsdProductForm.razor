@@ -1,0 +1,39 @@
+﻿@if (ssd != null)
+{
+    <div class="mb-3">
+        <h5 for="tbw">TBW</h5>
+        <InputNumber id="tbw" class="form-control shadow-none" @bind-Value="ssd.Tbw" />
+    </div>
+    <div class="mb-3">
+        <h5 for="interface">Interfejs</h5>
+        <InputText id="interface" class="form-control shadow-none" @bind-Value="ssd.Interface" />
+    </div>
+    <div class="mb-3">
+        <h5 for="readspeedmbs">Szybkość odczytu</h5>
+        <InputNumber id="readspeedmbs" class="form-control shadow-none" @bind-Value="ssd.ReadSpeedMBs" />
+    </div>
+    <div class="mb-3">
+        <h5 for="writespeedmbs">Szybkość zapisu</h5>
+        <InputNumber id="writespeedmbs" class="form-control shadow-none" @bind-Value="ssd.WriteSpeedMBs" />
+    </div>
+    <div class="mb-3">
+        <h5 for="type">Typ</h5>
+        <InputText id="type" class="form-control shadow-none" @bind-Value="ssd.Type" />
+    </div>
+    <div class="mb-3">
+        <h5 for="capacitygb">Pojemność</h5>
+        <InputNumber id="capacitygb" class="form-control shadow-none" @bind-Value="ssd.CapacityGB" />
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private ISsdProduct? ssd;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is ISsdProduct)
+            ssd = Product as ISsdProduct;
+        base.OnParametersSet();
+    }
+}

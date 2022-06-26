@@ -1,0 +1,27 @@
+﻿@if (dimensions != null)
+{
+    <div class="mb-3">
+        <h5 for="widthmm">Szerokość</h5>
+        <InputNumber id="widthmm" class="form-control shadow-none" @bind-Value="dimensions.Widthmm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="heightmm">Wysokość</h5>
+        <InputNumber id="heightmm" class="form-control shadow-none" @bind-Value="dimensions.Heightmm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="lenghtmm">Długość</h5>
+        <InputNumber id="lenghtmm" class="form-control shadow-none" @bind-Value="dimensions.Lenghtmm" />
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IDimensions? dimensions;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IDimensions)
+            dimensions = Product as IDimensions;
+        base.OnParametersSet();
+    }
+}

@@ -1,0 +1,234 @@
+﻿@if (desktop != null)
+{
+    <h4>CPU</h4>
+    <div class="mb-3">
+        <h5 for="cpuname">Nazwa</h5>
+        <InputText id="cpuname" class="form-control shadow-none" @bind-Value="desktop.Cpu.Name" />
+    </div>
+    <div class="mb-3">
+        <h5 for="cpumanufacturer">Producent</h5>
+        <InputText id="cpumanufacturer" class="form-control shadow-none" @bind-Value="desktop.Cpu.Manufacturer" />
+    </div>
+    <div class="mb-3">
+        <h5 for="cpufrequencymhz">Taktowanie</h5>
+        <InputNumber id="cpufrequencymhz" class="form-control shadow-none" @bind-Value="desktop.Cpu.FrequencyMHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="cputdp">TDP</h5>
+        <InputNumber id="cputdp" class="form-control shadow-none" @bind-Value="desktop.Cpu.Tdp" />
+    </div>
+    <div class="mb-3">
+        <h5 for="connectora">Liczba wątków</h5>
+        <InputNumber id="connectora" class="form-control shadow-none" @bind-Value="desktop.Cpu.ThreadsCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="threadscount">Liczba rdzeni</h5>
+        <InputNumber id="threadscount" class="form-control shadow-none" @bind-Value="desktop.Cpu.CoresCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="l3cachemb">Wielkość pamięci L3</h5>
+        <InputNumber id="l3cachemb" class="form-control shadow-none" @bind-Value="desktop.Cpu.L3CacheMB" />
+    </div>
+
+    <h4>RAM</h4>
+    <div class="mb-3">
+        <h5 for="ramname">Nazwa</h5>
+        <InputText id="ramname" class="form-control shadow-none" @bind-Value="desktop.Ram.Name" />
+    </div>
+    <div class="mb-3">
+        <h5 for="rammanufacturer">Producent</h5>
+        <InputText id="rammanufacturer" class="form-control shadow-none" @bind-Value="desktop.Ram.Manufacturer" />
+    </div>
+    <div class="mb-3">
+        <h5 for="modulesnumber">Liczba modułów</h5>
+        <InputNumber id="modulesnumber" class="form-control shadow-none" @bind-Value="desktop.Ram.ModulesNumber" />
+    </div>
+    <div class="mb-3">
+        <h5 for="frequencymhz">Taktowanie</h5>
+        <InputNumber id="ramfrequencymhz" class="form-control shadow-none" @bind-Value="desktop.Ram.FrequencyMHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="latencycl">Opóźnienia</h5>
+        <InputNumber id="latencycl" class="form-control shadow-none" @bind-Value="desktop.Ram.LatencyCL" />
+    </div>
+    <div class="mb-3">
+        <h5 for="ramtechnology">Technologia</h5>
+        <InputText id="ramtechnology" class="form-control shadow-none" @bind-Value="desktop.Ram.RamTechnology" />
+    </div>
+
+    <h4>GPU</h4>
+    <div class="mb-3">
+        <h5 for="gpuname">Nazwa</h5>
+        <InputText id="gpuname" class="form-control shadow-none" @bind-Value="desktop.Gpu.Name" />
+    </div>
+    <div class="mb-3">
+        <h5 for="gpumanufacturer">Producent</h5>
+        <InputText id="gpumanufacturer" class="form-control shadow-none" @bind-Value="desktop.Gpu.Manufacturer" />
+    </div>
+    <div class="mb-3">
+        <h5 for="gpuchipmanufacturer">Producent układu</h5>
+        <InputText id="gpuchipmanufacturer" class="form-control shadow-none" @bind-Value="desktop.Gpu.ChipManufacturer" />
+    </div>
+    <div class="mb-3">
+        <h5 for="gpufrequencymhz">Taktowanie rdzenia</h5>
+        <InputNumber id="gpufrequencymhz" class="form-control shadow-none" @bind-Value="desktop.Gpu.FrequencyMHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="vramtype">Typ pamięci</h5>
+        <InputText id="vramtype" class="form-control shadow-none" @bind-Value="desktop.Gpu.VramType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="vramsizegb">Rozmiar pamięci</h5>
+        <InputNumber id="vramsizegb" class="form-control shadow-none" @bind-Value="desktop.Gpu.VramSizeGB" />
+    </div>
+    <div class="mb-3">
+        <h5 for="gputdp">TDP</h5>
+        <InputNumber id="gputdp" class="form-control shadow-none" @bind-Value="desktop.Gpu.Tdp" />
+    </div>
+    <div class="mb-3">
+        <h5 for="portslist">Porty</h5>
+        <ListForm List="desktop.Gpu.PortsList" />
+    </div>
+    <div class="mb-3">
+        <h5 for="buswidth">Szerokość magistrali pamięci</h5>
+        <InputNumber id="buswidth" class="form-control shadow-none" @bind-Value="desktop.Gpu.BusWidth" />
+    </div>
+
+    <h4>PSU</h4>
+    <div class="mb-3">
+        <h5 for="power">Moc</h5>
+        <InputNumber id="power" class="form-control shadow-none" @bind-Value="desktop.Psu.Power" />
+    </div>
+    <div class="mb-3">
+        <h5 for="psumanufacturer">Wspierane chipsety</h5>
+        <InputText id="psumanufacturer" class="form-control shadow-none" @bind-Value="desktop.Psu.Manufacturer" />
+    </div>
+
+    <h4>Płyta główna</h4>
+    <div class="mb-3">
+        <h5 for="moboname">Nazwa</h5>
+        <InputText id="moboname" class="form-control shadow-none" @bind-Value="desktop.Motherboard.Name" />
+    </div>
+    <div class="mb-3">
+        <h5 for="mobomanufacturer">Producent</h5>
+        <InputText id="mobomanufacturer" class="form-control shadow-none" @bind-Value="desktop.Motherboard.Manufacturer" />
+    </div>
+    <div class="mb-3">
+        <h5 for="ramslotscount">Liczba slotów RAM</h5>
+        <InputNumber id="ramslotscount" class="form-control shadow-none" @bind-Value="desktop.Motherboard.RamSlotsCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="socket">Socket</h5>
+        <InputText id="socket" class="form-control shadow-none" @bind-Value="desktop.Motherboard.Socket" />
+    </div>
+    <div class="mb-3">
+        <h5 for="ramtype">Typ ramu</h5>
+        <InputText id="ramtype" class="form-control shadow-none" @bind-Value="desktop.Motherboard.RamType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="chipset">Chipset</h5>
+        <InputText id="chipset" class="form-control shadow-none" @bind-Value="desktop.Motherboard.Chipset" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usbccount">Liczba gniazd USB-C</h5>
+        <InputNumber id="usbccount" class="form-control shadow-none" @bind-Value="desktop.Motherboard.UsbCCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usb3gen1count">Liczba gniazd USB 3 gen 1</h5>
+        <InputNumber id="usb3gen1count" class="form-control shadow-none" @bind-Value="desktop.Motherboard.Usb3Gen1Count" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usb3gen2count">Liczba gniazd USB 3 gen 2</h5>
+        <InputNumber id="usb3gen2count" class="form-control shadow-none" @bind-Value="desktop.Motherboard.Usb3Gen2Count" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usb2count">Liczba gniazd USB 2</h5>
+        <InputNumber id="usb2count" class="form-control shadow-none" @bind-Value="desktop.Motherboard.Usb2Count" />
+    </div>
+
+    <h4>Obudowa</h4>
+    <div class="mb-3">
+        <h5 for="widthmm">Szerokość</h5>
+        <InputNumber id="widthmm" class="form-control shadow-none" @bind-Value="desktop.DesktopCase.Widthmm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="heightmm">Wysokość</h5>
+        <InputNumber id="heightmm" class="form-control shadow-none" @bind-Value="desktop.DesktopCase.Heightmm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="lenghtmm">Długość</h5>
+        <InputNumber id="lenghtmm" class="form-control shadow-none" @bind-Value="desktop.DesktopCase.Lenghtmm" />
+    </div>
+    <div class="mb-3">
+        <h5>Wspierane rozmiary płyt głównych</h5>
+        <ListForm List="desktop.DesktopCase.SupportedMoboSizes" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usbports">Liczba portów USB</h5>
+        <InputNumber id="usbports" class="form-control shadow-none" @bind-Value="desktop.DesktopCase.UsbPorts" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxfancount">Maskymalna liczba wentyalktorów</h5>
+        <InputNumber id="maxfancount" class="form-control shadow-none" @bind-Value="desktop.DesktopCase.MaxFanCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxcoolerheightmm">Maksymalna wysokość chłodzenia CPU</h5>
+        <InputNumber id="maxcoolerheightmm" class="form-control shadow-none" @bind-Value="desktop.DesktopCase.MaxCoolerHeightmm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxradiatorsizemm">Maksymalna wielkość radiatora</h5>
+        <InputNumber id="maxradiatorsizemm" class="form-control shadow-none" @bind-Value="desktop.DesktopCase.MaxRadiatorSizemm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxgpulenghtmm">Maksymalna długość GPU</h5>
+        <InputNumber id="maxgpulenghtmm" class="form-control shadow-none" @bind-Value="desktop.DesktopCase.MaxGpuLenghtmm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="color">Kolor</h5>
+        <InputText id="color" class="form-control shadow-none" @bind-Value="desktop.DesktopCase.Color" />
+    </div>
+    <DimensionsForm Product="Product" />
+
+    <h4>Chłodzenie</h4>
+    <div class="mb-3">
+        <h5 for="coolerfanscount">Liczba wentyaltorów</h5>
+        <InputNumber id="coolerfanscount" class="form-control shadow-none" @bind-Value="desktop.Cooler.FansCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxtdp">Maksymalne TDP</h5>
+        <InputNumber id="maxtdp" class="form-control shadow-none" @bind-Value="desktop.Cooler.MaxTdp" />
+    </div>
+    <div class="mb-3">
+        <h5 for="compatiblesockets">Wspierane sockety</h5>
+        <ListForm List="desktop.Cooler.CompatibleSockets" />
+    </div>
+    <div class="mb-3">
+        <h5 for="coolertype">Rodzaj chłodzenia</h5>
+        <InputNumber id="coolertype" class="form-control shadow-none" @bind-Value="desktop.Cooler.CoolerType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="sizemm">Rozmiar</h5>
+        <InputNumber id="sizemm" class="form-control shadow-none" @bind-Value="desktop.Cooler.Sizemm" />
+    </div>
+
+    <h4>Drives</h4>
+    <ListDriveForm List="desktop.Drives" />
+
+    <h4>Pobór mocy</h4>
+    <div class="mb-3">
+        <h5 for="powerconsumption">Pobór mocy</h5>
+        <InputNumber id="powerconsumption" class="form-control shadow-none" @bind-Value="desktop.PowerConsumption" />
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IDesktopPcProduct? desktop;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IDesktopPcProduct)
+            desktop = Product as IDesktopPcProduct;
+        base.OnParametersSet();
+    }
+}

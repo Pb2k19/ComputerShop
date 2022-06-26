@@ -11,7 +11,7 @@ namespace ComputerShop.Shared.Models.Products
         public int Lenghtmm {get; set;}
         public int Heightmm { get; set; }
         public int Widthmm { get; set; }
-        public List<string> SupportedMoboSizes { get; set; }
+        public List<StringValue> SupportedMoboSizes { get; set; } = new();
         public int UsbPorts { get; set; }
         public int MaxFanCount { get; set; }
         public int MaxCoolerHeightmm { get; set; }

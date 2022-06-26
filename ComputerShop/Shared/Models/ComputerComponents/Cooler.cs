@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models.Interfaces;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Shared.Models.ComputerComponents
 {
@@ -8,7 +9,7 @@ namespace ComputerShop.Shared.Models.ComputerComponents
         public string Manufacturer { get; set; }
         public int FansCount { get; set; }
         public int MaxTdp { get; set; }
-        public List<string> CompatibleSockets { get; set; }
+        public List<StringValue> CompatibleSockets { get; set; } = new();
         public int Sizemm { get; set; }
         public string CoolerType {get;set;}
     }

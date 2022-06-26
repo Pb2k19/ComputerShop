@@ -84,7 +84,7 @@ namespace ComputerShop.Server.Services.Products
                 Name = "MPG Gungnir 110M",
                 Price = 539,
                 PriceBeforeDiscount = 539,
-                SupportedMoboSizes = new List<string>{ MotherboardSizes.MicroATX, MotherboardSizes.ExtendedAtx, MotherboardSizes.StandardAtx},
+                SupportedMoboSizes = StringValue.GetStringValues(new List<string>{ MotherboardSizes.MicroATX, MotherboardSizes.ExtendedAtx, MotherboardSizes.StandardAtx}),
                 UsbPorts = 3,
                 IsPublic = true,
             },
@@ -104,7 +104,7 @@ new DesktopCaseProduct
                 Name = "Regnum RG6V EVO TG ARGB",
                 Price = 389,
                 PriceBeforeDiscount = 389,
-                SupportedMoboSizes = new List<string>{ MotherboardSizes.MicroATX, MotherboardSizes.ExtendedAtx, MotherboardSizes.StandardAtx},
+                SupportedMoboSizes = StringValue.GetStringValues(new List<string>{ MotherboardSizes.MicroATX, MotherboardSizes.ExtendedAtx, MotherboardSizes.StandardAtx}),
                 UsbPorts = 2,
                 IsPublic = true,
             },
@@ -124,14 +124,14 @@ new DesktopCaseProduct
                 Name = "Pure Base 500DX Black",
                 Price = 499,
                 PriceBeforeDiscount = 499,
-                SupportedMoboSizes = new List<string>{ MotherboardSizes.MicroATX, MotherboardSizes.ExtendedAtx, MotherboardSizes.StandardAtx},
+                SupportedMoboSizes = StringValue.GetStringValues(new List<string>{ MotherboardSizes.MicroATX, MotherboardSizes.ExtendedAtx, MotherboardSizes.StandardAtx}),
                 UsbPorts = 2,
                 IsPublic = true,
             },
 new DesktopCoolerProduct
             {
                 WarantyMonths= 72,
-                CompatibleSockets = new(){"AM4", "AM3", "AM3+", "AM2+", "FM2+", "FM1", "2066", "2011", "1700", "1200"},
+                CompatibleSockets = StringValue.GetStringValues(new(){"AM4", "AM3", "AM3+", "AM2+", "FM2+", "FM1", "2066", "2011", "1700", "1200"}),
                 FansCount = 1,
                 CoolerType = CoolerTypes.BoxCooler,
                 Manufacturer = "SilentiumPC",
@@ -146,7 +146,7 @@ new DesktopCoolerProduct
 new DesktopCoolerProduct
             {
                 WarantyMonths= 24,
-                CompatibleSockets = new(){"AM4", "AM3", "AM3+", "AM2+", "FM2+", "FM1", "2066", "2011", "1700", "1200"},
+                CompatibleSockets = StringValue.GetStringValues(new(){"AM4", "AM3", "AM3+", "AM2+", "FM2+", "FM1", "2066", "2011", "1700", "1200"}),
                 FansCount = 2,
                 CoolerType = "Wodne",
                 Manufacturer = "Cooler Master",
@@ -161,7 +161,7 @@ new DesktopCoolerProduct
 new DesktopCoolerProduct
             {
                 WarantyMonths= 36,
-                CompatibleSockets = new(){"AM4", "1700", "1200", "1150", "1151", "1155", "2011", "2066"},
+                CompatibleSockets = StringValue.GetStringValues(new(){"AM4", "1700", "1200", "1150", "1151", "1155", "2011", "2066"}),
                 FansCount = 2,
                 CoolerType = CoolerTypes.BoxCooler,
                 Manufacturer = "bequite",
@@ -185,7 +185,7 @@ new CpuProduct
                 Name = "5 5600X",
                 Price = 1069,
                 PriceBeforeDiscount = 1160,
-                SupportedChipsets = new(){"B450, B550, A520, X470, X570"},
+                SupportedChipsets = StringValue.GetStringValues(new(){"B450, B550, A520, X470, X570"}),
                 SupportedSocket = "AM4",
                 Tdp = 65,
                 ThreadsCount = 12,
@@ -202,7 +202,7 @@ new CpuProduct
                 Name = "i5-11400F",
                 Price = 719,
                 PriceBeforeDiscount = 719,
-                SupportedChipsets = new(){"H410, H510, B460, B560, Z490, Z590"},
+                SupportedChipsets = StringValue.GetStringValues(new(){"H410, H510, B460, B560, Z490, Z590"}),
                 SupportedSocket = "1200",
                 Tdp = 65,
                 ThreadsCount = 12,
@@ -219,7 +219,7 @@ new CpuProduct
                 Name = "7 3800x",
                 Price = 1349,
                 PriceBeforeDiscount = 1399,
-                SupportedChipsets = new(){"A520, B450, B550, X570, X470"},
+                SupportedChipsets = StringValue.GetStringValues(new(){"A520, B450, B550, X570, X470"}),
                 SupportedSocket = "AM4",
                 Tdp = 105,
                 ThreadsCount = 16,
@@ -413,8 +413,8 @@ new HddProduct
                 VramSizeGB = 8,
                 VramType = "GDDR6X",
                 BusWidth = 256, //coś z 256 128 512 196
-                PortsList = new(){"HDMI", "Display Port"}, //to może być dla wszystkich takie samo
-                PowerConnectors = new(){ "PCI-E 8 pin", "PCI-E 8 pin"},
+                PortsList = StringValue.GetStringValues(new(){"HDMI", "Display Port"}), //to może być dla wszystkich takie samo
+                PowerConnectors =StringValue.GetStringValues( new(){ "PCI-E 8 pin", "PCI-E 8 pin"}),
             },
 new DesktopGpuProduct
             {
@@ -435,8 +435,8 @@ new DesktopGpuProduct
                 VramSizeGB = 12,
                 VramType = "GDDR6X",
                 BusWidth = 384, //coś z 256 128 512 196
-                PortsList = new(){"HDMI", "Display Port"}, //to może być dla wszystkich takie samo
-                PowerConnectors = new(){ "PCI-E 8 pin", "PCI-E 8 pin"},
+                PortsList = StringValue.GetStringValues(new() { "HDMI", "Display Port" }), //to może być dla wszystkich takie samo
+                PowerConnectors = StringValue.GetStringValues(new() { "PCI-E 8 pin", "PCI-E 8 pin" }),
             },
 new DesktopGpuProduct
             {
@@ -456,8 +456,8 @@ new DesktopGpuProduct
                 VramSizeGB = 8,
                 VramType = "GDDR6X",
                 BusWidth = 256, //coś z 256 128 512 196
-                PortsList = new(){"HDMI", "Display Port"}, //to może być dla wszystkich takie samo
-                PowerConnectors = new(){ "PCI-E 8 pin", "PCI-E 8 pin"},
+                PortsList = StringValue.GetStringValues(new() { "HDMI", "Display Port" }), //to może być dla wszystkich takie samo
+                PowerConnectors = StringValue.GetStringValues(new() { "PCI-E 8 pin", "PCI-E 8 pin" }),
             },
 new DesktopGpuProduct
             {
@@ -478,8 +478,8 @@ new DesktopGpuProduct
                 VramSizeGB = 8,
                 VramType = "GDDR6",
                 BusWidth = 128, //coś z 256 128 512 196
-                PortsList = new(){"HDMI", "Display Port"}, //to może być dla wszystkich takie samo
-                PowerConnectors = new(){ "PCI-E 8 pin"},
+                PortsList = StringValue.GetStringValues(new(){"HDMI", "Display Port"}), //to może być dla wszystkich takie samo
+                PowerConnectors = StringValue.GetStringValues(new(){ "PCI-E 8 pin"}),
             },
 new SsdProduct
             {
@@ -582,7 +582,7 @@ new DesktopPsuProduct
                 Price = 289,
                 SataCount = 7,
                 Pcie6pinCount = 3,
-                Protections = PsuProtections.List,
+                Protections = StringValue.GetStringValues(PsuProtections.List),
                 ExtraInfo = new() //jak chcesz to Extra info możesz wywalić jak nie masz pomysłu co tu można dodać
                 {
                     new KeyValue{Key = "Kolor", Value = "Czarny"},
@@ -609,7 +609,7 @@ new DesktopPsuProduct
                 Price = 600,
                 SataCount = 11,
                 Pcie6pinCount = 4,
-                Protections = PsuProtections.List,
+                Protections = StringValue.GetStringValues(PsuProtections.List),
                 ExtraInfo = new() //jak chcesz to Extra info możesz wywalić jak nie masz pomysłu co tu można dodać
                 {
                     new KeyValue{Key = "Kolor", Value = "Czarny"},
@@ -636,7 +636,7 @@ new DesktopPsuProduct
                 Price = 599,
                 SataCount = 9,
                 Pcie6pinCount = 4,
-                Protections = PsuProtections.List,
+                Protections = StringValue.GetStringValues(PsuProtections.List),
                 ExtraInfo = new() //jak chcesz to Extra info możesz wywalić jak nie masz pomysłu co tu można dodać
                 {
                     new KeyValue{Key = "Kolor", Value = "Biały"},
@@ -694,7 +694,7 @@ new DesktopPcProduct
                     VramSizeGB = 6,
                     VramType = GpuVramTypes.GDDR6.ToString(),
                     BusWidth = 192,
-                    PortsList = new(){"HDMI", "Display Port", "DVI"}
+                    PortsList = StringValue.GetStringValues(new(){"HDMI", "Display Port", "DVI"})
                 },
                 Images = new List<Image>
                 {
@@ -732,7 +732,7 @@ new DesktopPcProduct
                 Cooler = new Cooler
                 {
                     Manufacturer = "SilentiumPC",
-                    CompatibleSockets = new List<string>{"AM4", "AM3", "AM3+", "AM2+", "FM2+", "FM1", "2066", "2011", "1700", "1200" },
+                    CompatibleSockets = StringValue.GetStringValues(new List<string>{"AM4", "AM3", "AM3+", "AM2+", "FM2+", "FM1", "2066", "2011", "1700", "1200" }),
                     FansCount = 1,
                     MaxTdp = 220,
                     Name = "Fortis 5 140mm",
@@ -749,11 +749,8 @@ new DesktopPcProduct
                     MaxCoolerHeightmm = 140,
                     MaxFanCount = 6,
                     MaxRadiatorSizemm = 140,
-                    SupportedMoboSizes = new List<string>{MotherboardSizes.StandardAtx, MotherboardSizes.MiniATX},
+                    SupportedMoboSizes = StringValue.GetStringValues(new List<string>{MotherboardSizes.StandardAtx, MotherboardSizes.MiniATX}),
                 },
-                Widthmm = 216,
-                Heightmm = 488,
-                Lenghtmm = 420,
                 Manufacturer = "ASUS",
                 PowerConsumption = 500,
             },
@@ -807,7 +804,7 @@ new DesktopPcProduct
                     VramSizeGB = 8,
                     VramType = GpuVramTypes.GDDR6.ToString(),
                     BusWidth = 256,
-                    PortsList = new(){"HDMI", "Display Port", "DVI"}
+                    PortsList = StringValue.GetStringValues(new(){"HDMI", "Display Port", "DVI"})
                 },
                 Images = new List<Image>
                 {
@@ -845,7 +842,7 @@ new DesktopPcProduct
                 Cooler = new Cooler
                 {
                     Manufacturer = "SilentiumPC",
-                    CompatibleSockets = new List<string>{"AM4", "AM3", "AM3+", "AM2+", "FM2+", "FM1", "2066", "2011", "1700", "1200" },
+                    CompatibleSockets = StringValue.GetStringValues(new List<string>{"AM4", "AM3", "AM3+", "AM2+", "FM2+", "FM1", "2066", "2011", "1700", "1200" }),
                     FansCount = 1,
                     MaxTdp = 220,
                     Name = "Fortis 5 140mm",
@@ -862,11 +859,8 @@ new DesktopPcProduct
                     MaxCoolerHeightmm = 140,
                     MaxFanCount = 4,
                     MaxRadiatorSizemm = 140,
-                    SupportedMoboSizes = new List<string>{MotherboardSizes.StandardAtx, MotherboardSizes.MiniATX},
+                    SupportedMoboSizes = StringValue.GetStringValues(new List<string>{MotherboardSizes.StandardAtx, MotherboardSizes.MiniATX}),
                 },
-                Widthmm = 340,
-                Heightmm = 488,
-                Lenghtmm = 325,
                 Manufacturer = "HP",
                 PowerConsumption = 300,
             },
@@ -919,7 +913,7 @@ new DesktopPcProduct
                     VramSizeGB = 8,
                     VramType = GpuVramTypes.GDDR6.ToString(),
                     BusWidth = 256,
-                    PortsList = new(){"HDMI", "Display Port", "DVI"}
+                    PortsList = StringValue.GetStringValues(new(){"HDMI", "Display Port", "DVI"})
                 },
                 Images = new List<Image>
                 {
@@ -957,7 +951,7 @@ new DesktopPcProduct
                 Cooler = new Cooler
                 {
                     Manufacturer = "SilentiumPC",
-                    CompatibleSockets = new List<string>{"AM4", "AM3", "AM3+", "AM2+", "FM2+", "FM1", "2066", "2011", "1700", "1200" },
+                    CompatibleSockets = StringValue.GetStringValues(new List<string>{"AM4", "AM3", "AM3+", "AM2+", "FM2+", "FM1", "2066", "2011", "1700", "1200" }),
                     FansCount = 1,
                     MaxTdp = 220,
                     Name = "Air 5 140mm",
@@ -974,11 +968,8 @@ new DesktopPcProduct
                     MaxCoolerHeightmm = 140,
                     MaxFanCount = 4,
                     MaxRadiatorSizemm = 140,
-                    SupportedMoboSizes = new List<string>{MotherboardSizes.StandardAtx, MotherboardSizes.MiniATX},
+                    SupportedMoboSizes = StringValue.GetStringValues(new List<string>{MotherboardSizes.StandardAtx, MotherboardSizes.MiniATX}),
                 },
-                Widthmm = 175,
-                Heightmm = 361,
-                Lenghtmm = 380,
                 Manufacturer = "Acer",
                 PowerConsumption = 500,
             },
@@ -1119,7 +1110,7 @@ new MonitorProduct
                 Manufacturer = "Acer",
                 Name = "Nitro VG240YBMIIX czarny",
                 PanelSizeInch = 23,
-                Ports = new List<string>{ GpuPorts.VGA.ToString(), GpuPorts.DispalyPort.ToString()},
+                Ports = StringValue.GetStringValues(new List<string>{ GpuPorts.VGA.ToString(), GpuPorts.DispalyPort.ToString()}),
                 Contrast = 1000,
                 PanelType = "LED,IPS",
                 RefreshRateHz = 75,
@@ -1143,7 +1134,7 @@ new MonitorProduct
                 Manufacturer = "LG",
                 Name = "24GN600-B",
                 PanelSizeInch = 23,
-                Ports = new List<string>{ GpuPorts.VGA.ToString(), GpuPorts.DispalyPort.ToString()},
+                Ports = StringValue.GetStringValues(new List<string>{ GpuPorts.VGA.ToString(), GpuPorts.DispalyPort.ToString()}),
                 Contrast = 1000,
                 PanelType = "IPS",
                 RefreshRateHz = 144,
@@ -1167,7 +1158,7 @@ new MonitorProduct
                 Manufacturer = "Samsung",
                 Name = "Odyssey F24G35TFWUX",
                 PanelSizeInch = 23,
-                Ports = new List<string>{ GpuPorts.VGA.ToString(), GpuPorts.DispalyPort.ToString()},
+                Ports = StringValue.GetStringValues(new List<string>{ GpuPorts.VGA.ToString(), GpuPorts.DispalyPort.ToString()}),
                 Contrast = 4000,
                 PanelType = "IPS",
                 RefreshRateHz = 144,
@@ -1226,7 +1217,7 @@ new LaptopProduct
                     VramSizeGB = 12,
                     VramType = GpuVramTypes.GDDR6.ToString(),
                     BusWidth = 192,
-                    PortsList = new() {"HDMI", "Display Port" }
+                    PortsList = StringValue.GetStringValues(new() {"HDMI", "Display Port" })
                 },
                 Manufacturer = "MSI",
                 Images = new List<Image>
@@ -1308,7 +1299,7 @@ new LaptopProduct
                     VramSizeGB = 12,
                     VramType = GpuVramTypes.GDDR6.ToString(),
                     BusWidth = 192,
-                    PortsList = new() {"HDMI", "Display Port" }
+                    PortsList = StringValue.GetStringValues(new() {"HDMI", "Display Port" })
                 },
                 Manufacturer = "MSI",
                 Images = new List<Image>
@@ -1390,7 +1381,7 @@ new LaptopProduct
                     VramSizeGB = 12,
                     VramType = GpuVramTypes.GDDR6.ToString(),
                     BusWidth = 192,
-                    PortsList = new() {"HDMI", "Display Port" }
+                    PortsList = StringValue.GetStringValues(new() {"HDMI", "Display Port" })
                 },
                 Manufacturer = "MSI",
                 Images = new List<Image>
@@ -1439,14 +1430,14 @@ new LaptopProduct
         }
         public async Task<List<Product>> GetAllProductsAsync()
         {
-            //foreach (var item in Products)
-            //{
-            //    await productsData.AddProductAsync(item);
-            //}
             return await productsData.GetAllProductsAsync();
         }
         public async Task<List<Product>> GetHighlightedProductsAsync()
         {
+            //foreach (var item in Products)
+            //{
+            //    await productsData.AddProductAsync(item);
+            //}
             return (await productsData.GetAllPublicProductsAsync()).Where(p => p.IsHiglighted).ToList();
         }
         public async Task<ProductsResponse> GetProductsByCategoryAsync(string category, int pageNumber = 1, ProductSortFilterOptions? sortFilterOptions = null, bool isAdmin = false)

@@ -14,9 +14,9 @@ namespace ComputerShop.Shared.Models.Products
         public Gpu Gpu { get; set; }
         public Ram Ram { get; set; }
         public List<Drive> Drives { get; set; }
-        public Psu Psu { get; set; }
-        public int BatteryCapacitymAh { get; set; }
+        public Psu Psu { get; set; }        
         public Motherboard Motherboard { get; set; }
+        public int BatteryCapacitymAh { get; set; }
         public int Widthmm { get; set; }
         public int Heightmm { get; set; }
         public int Lenghtmm { get; set; }

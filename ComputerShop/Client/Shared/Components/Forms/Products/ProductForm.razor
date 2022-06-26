@@ -1,0 +1,129 @@
+﻿@if(Product != null)
+{
+    <EditForm Model="Product">
+        <div class="mb-3">
+            <h5 for="name">Nazwa</h5>
+            <InputText id="name" class="form-control shadow-none" @bind-Value="Product.Name" />
+        </div>
+        <div class="mb-3">
+            <h5 for="manufacturer">Producent</h5>
+            <InputText id="manufacturer" class="form-control shadow-none" @bind-Value="Product.Manufacturer" />
+        </div>
+        <div class="mb-3">
+            <h5 for="category">Kategoria</h5>
+            <InputText id="category" class="form-control shadow-none" @bind-Value="Product.Category" />
+        </div>
+        <div class="mb-3">
+            <h5 for="description">Opis</h5>
+            <InputTextArea id="description" class="form-control shadow-none" @bind-Value="Product.Description" />
+        </div>
+        <div class="mb-3">
+            <h5 for="price">Cena</h5>
+            <InputNumber id="price" class="form-control shadow-none" @bind-Value="Product.Price" />
+        </div>
+        <div class="mb-3 d-flex">
+            <h5 for="ispublic">Widoczny dla użytkowników</h5>
+            <InputCheckbox id="ispublic" class="form-check-input shadow-none ms-2" @bind-Value="Product.IsPublic" />
+        </div>
+        <div class="mb-3 d-flex">
+            <h5 for="ishiglighted">Wyróżniony</h5>
+            <InputCheckbox id="ishiglighted" class="form-check-input shadow-none ms-2" @bind-Value="Product.IsHiglighted" />
+        </div>
+        <div class="mb-3 d-flex">
+            <h5 for="isremoved">Usunięty</h5>
+            <InputCheckbox id="isremoved" class="form-check-input shadow-none ms-2" @bind-Value="Product.IsRemoved" />
+        </div>
+        <div class="mb-3 d-flex">
+            <h5 for="isavaliable">Dostępny</h5>
+            <InputCheckbox id="isavaliable" class="form-check-input shadow-none ms-2" @bind-Value="Product.IsAvaliable" />
+        </div>
+        <div class="mb-3">
+            <h5 for="warantymonths">Długość gwarancji</h5>
+            <InputNumber id="warantymonths" class="form-control shadow-none" @bind-Value="Product.WarantyMonths" />
+        </div>
+        <div class="mb-3">
+            <h5>Zdjęcia</h5>
+            <ListImageForm List="Product.Images" />
+        </div>
+
+        @if (Product is IDesktopPcProduct)
+        {
+            <DesktopPcProductForm />
+        }
+        else if (Product is ICpuProduct)
+        {
+            <CpuProductForm />
+        }
+        else if (Product is IDesktopPsuProduct)
+        {
+            <DesktopPsuProductForm />
+        }
+        else if (Product is ILaptopProduct)
+        {
+            <LaptopProductForm />
+        }
+        else if (Product is IDesktopGpuProduct)
+        {
+            <DesktopGpuProductForm />
+        }
+        else if (Product is IDesktopMotherboardProduct)
+        {
+            <MotherboardProductForm />
+        }
+        else if (Product is IRamProduct)
+        {
+            <RamProductForm />
+        }
+        else if (Product is IHddProduct)
+        {
+            <HddProductForm />
+        }
+        else if (Product is ISsdProduct)
+        {
+            <SsdProductForm />
+        }
+        else if (Product is IComputerCaseProduct)
+        {
+            <DesktopCaseProduct />
+        }
+        else if (Product is IDesktopCoolerProduct)
+        {
+            <DesktopCoolerProductFrom />
+        }
+        else if (Product is IComputerMouseProduct)
+        {
+            <ComputerMouseProductForm />
+        }
+        else if (Product is IKeyboardProduct)
+        {
+            <KeyboardProductForm />
+        }
+        else if (Product is IHeadphonesProduct)
+        {
+            <HeadphonesProductForm />
+        }
+        else if (Product is IMonitorProduct)
+        {
+            <MonitorProductForm />
+        }
+        else if (Product is ICableProduct)
+        {
+            <CableProductForm />
+        }
+
+        <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-primary shadow-none" @onclick="OnBtnClickAsync">Zapisz</button>
+        </div>
+    </EditForm>
+}
+
+
+@code{
+    [CascadingParameter] public IProduct? Product { get; set; }
+    [Parameter] public EventCallback OnSubmited { get; set; }
+
+    private async Task OnBtnClickAsync()
+    {
+        await OnSubmited.InvokeAsync();
+    }
+}

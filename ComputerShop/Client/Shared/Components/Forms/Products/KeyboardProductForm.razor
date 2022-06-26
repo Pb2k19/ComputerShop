@@ -1,0 +1,40 @@
+﻿@if (keyboard != null)
+{
+    <div class="mb-3">
+        <h5 for="keyboardtype">Rodzaj</h5>
+        <InputText id="keyboardtype" class="form-control shadow-none" @bind-Value="keyboard.KeyboardType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="size">Rozmiar</h5>
+        <InputText id="size" class="form-control shadow-none" @bind-Value="keyboard.Size" />
+    </div>
+    <div class="mb-3">
+        <h5 for="color">Kolor</h5>
+        <InputText id="color" class="form-control shadow-none" @bind-Value="keyboard.Color" />
+    </div>
+    <div class="mb-3">
+        <h5 for="weightg">Waga</h5>
+        <InputNumber id="weightg" class="form-control shadow-none" @bind-Value="keyboard.Weightg" />
+    </div>
+    <div class="mb-3">
+        <h5 for="interface">Interfejs</h5>
+        <InputText id="interface" class="form-control shadow-none" @bind-Value="keyboard.Interface" />
+    </div>
+    <div class="mb-3 d-flex">
+        <h5 for="iswireless">Bezprzewodowa</h5>
+        <InputCheckbox id="iswireless" class="form-check-input shadow-none ms-2" @bind-Value="keyboard.IsWireless" />
+    </div>
+    <DimensionsForm Product="Product" />
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IKeyboardProduct? keyboard;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IKeyboardProduct)
+            keyboard = Product as IKeyboardProduct;
+        base.OnParametersSet();
+    }
+}

@@ -3,7 +3,7 @@
     <ul class="m-0 p-0" style="list-style: none;">
         @foreach (var item in List)
         {
-            <li class="m-0">@item</li>
+            <li class="m-0">@item.Value</li>
         }
     </ul>
 }
@@ -13,5 +13,5 @@ else
 }
 
 @code {
-    [Parameter] public List<string>? List { get; set; }
+    [Parameter] public List<StringValue>? List { get; set; }
 }

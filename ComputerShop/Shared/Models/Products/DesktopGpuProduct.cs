@@ -16,8 +16,8 @@ namespace ComputerShop.Shared.Models.Products
         public int VramSizeGB { get; set; }
         public int Tdp { get; set; }
         public int Lenghtmm { get; set; }
-        public List<string> PortsList { get; set; }
+        public List<StringValue> PortsList { get; set; } = new();
         public int BusWidth { get; set; }
-        public List<string> PowerConnectors { get; set; }
+        public List<StringValue> PowerConnectors { get; set; } = new();
     }
 }

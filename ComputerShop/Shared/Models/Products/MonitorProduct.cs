@@ -18,7 +18,7 @@ namespace ComputerShop.Shared.Models.Products
         public int Contrast { get; set; }
         public int RefreshRateHz { get; set; }
         public int ResponseTimems { get; set; }
-        public List<string> Ports { get; set; }
+        public List<StringValue> Ports { get; set; } = new();
         public int Widthmm { get; set; }
         public int Heightmm { get; set; }
         public int Lenghtmm { get; set; }

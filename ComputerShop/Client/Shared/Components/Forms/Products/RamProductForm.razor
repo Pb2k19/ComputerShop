@@ -1,0 +1,31 @@
+﻿@if (ram != null)
+{
+    <div class="mb-3">
+        <h5 for="modulesnumber">Liczba modułów</h5>
+        <InputNumber id="modulesnumber" class="form-control shadow-none" @bind-Value="ram.ModulesNumber" />
+    </div>
+    <div class="mb-3">
+        <h5 for="frequencymhz">Taktowanie</h5>
+        <InputNumber id="frequencymhz" class="form-control shadow-none" @bind-Value="ram.FrequencyMHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="latencycl">Opóźnienia</h5>
+        <InputNumber id="latencycl" class="form-control shadow-none" @bind-Value="ram.LatencyCL" />
+    </div>
+    <div class="mb-3">
+        <h5 for="ramtechnology">Technologia</h5>
+        <InputText id="ramtechnology" class="form-control shadow-none" @bind-Value="ram.RamTechnology" />
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IRamProduct? ram;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IRamProduct)
+            ram = Product as IRamProduct;
+        base.OnParametersSet();
+    }
+}

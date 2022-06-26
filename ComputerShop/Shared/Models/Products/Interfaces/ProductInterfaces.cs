@@ -1,5 +1,6 @@
 ﻿using ComputerShop.Shared.Models.ComputerComponents;
 using ComputerShop.Shared.Models.Interfaces;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Shared.Models.Products.Interfaces
 {
@@ -41,7 +42,7 @@ namespace ComputerShop.Shared.Models.Products.Interfaces
         public new string Name { get; set; }
         public new string Manufacturer { get; set; }
         public string SupportedSocket { get; set; }
-        public List<string> SupportedChipsets { get; set; }
+        public List<StringValue> SupportedChipsets { get; set; }
     }
     public interface ISsdProduct : IProduct, ISsd
     {
@@ -105,7 +106,7 @@ namespace ComputerShop.Shared.Models.Products.Interfaces
         public int Contrast { get; set; }
         public int RefreshRateHz { get; set; }
         public int ResponseTimems { get; set; }
-        public List<string> Ports { get; set; }
+        public List<StringValue> Ports { get; set; }
     }
     public interface ICableProduct : IProduct
     {

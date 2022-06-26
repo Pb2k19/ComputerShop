@@ -1,0 +1,39 @@
+﻿@if (hdd != null)
+{
+    <div class="mb-3">
+        <h5 for="rpm">RPM</h5>
+        <InputNumber id="rpm" class="form-control shadow-none" @bind-Value="hdd.Rpm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="interface">Interfejs</h5>
+        <InputText id="interface" class="form-control shadow-none" @bind-Value="hdd.Interface" />
+    </div>
+    <div class="mb-3">
+        <h5 for="readspeedmbs">Szybkość odczytu</h5>
+        <InputNumber id="readspeedmbs" class="form-control shadow-none" @bind-Value="hdd.ReadSpeedMBs" />
+    </div>
+    <div class="mb-3">
+        <h5 for="writespeedmbs">Szybkość zapisu</h5>
+        <InputNumber id="writespeedmbs" class="form-control shadow-none" @bind-Value="hdd.WriteSpeedMBs" />
+    </div>
+    <div class="mb-3">
+        <h5 for="type">Typ</h5>
+        <InputText id="type" class="form-control shadow-none" @bind-Value="hdd.Type" />
+    </div>
+    <div class="mb-3">
+        <h5 for="capacitygb">Pojemność</h5>
+        <InputNumber id="capacitygb" class="form-control shadow-none" @bind-Value="hdd.CapacityGB" />
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IHddProduct? hdd;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IHddProduct)
+            hdd = Product as IHddProduct;
+        base.OnParametersSet();
+    }
+}

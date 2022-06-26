@@ -1,0 +1,47 @@
+﻿@if (psu != null)
+{
+    <div class="mb-3">
+        <h5 for="pcie8pincount">Liczba złączy PCIE 8 PIN</h5>
+        <InputNumber id="pcie8pincount" class="form-control shadow-none" @bind-Value="psu.Pcie8pinCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="pcie6pincount">Liczba złączy PCIE 6 PIN</h5>
+        <InputNumber id="pcie6pincount" class="form-control shadow-none" @bind-Value="psu.Pcie6pinCount" />
+    </div>
+    <div class="mb-3 d-flex">
+        <h5 for="ismodular">Modularny</h5>
+        <InputCheckbox id="ismodular" class="form-check-input shadow-none ms-2" @bind-Value="psu.IsModular" />
+    </div>
+    <div class="mb-3">
+        <h5 for="fanscount">Liczba wentyaltorów</h5>
+        <InputNumber id="fanscount" class="form-control shadow-none" @bind-Value="psu.FansCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="certificate">Certyfikat</h5>
+        <InputNumber id="certificate" class="form-control shadow-none" @bind-Value="psu.Certificate" />
+    </div>
+    <div class="mb-3">
+        <h5 for="power">Moc</h5>
+        <InputNumber id="power" class="form-control shadow-none" @bind-Value="psu.Power" />
+    </div>
+    <div class="mb-3">
+        <h5 for="satacount">Wspierane chipsety</h5>
+        <InputNumber id="satacount" class="form-control shadow-none" @bind-Value="psu.SataCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="protections">Wspierane chipsety</h5>
+        <ListForm List="psu.Protections" />
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IDesktopPsuProduct? psu;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IDesktopPsuProduct)
+            psu = Product as IDesktopPsuProduct;
+        base.OnParametersSet();
+    }
+}

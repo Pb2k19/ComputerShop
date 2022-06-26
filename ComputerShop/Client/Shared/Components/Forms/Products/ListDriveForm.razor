@@ -1,0 +1,76 @@
+﻿@using ComputerShop.Shared.Models.ComputerComponents
+
+@if (List != null)
+{
+    if (List.Count > 0)
+        foreach (var (drive, i) in List.Select((item, i) => (item, i)))
+        {
+            <div class="d-flex">
+                <h4>Dysk @i</h4>
+                <span class="fa fas fa-times text-black ms-5 cursorHand text-end" @onclick="() => RemoveItem(drive)"></span>
+            </div>
+            <div class="mb-2">
+                <div class="mb-3">
+                    <h5>Interfejs</h5>
+                    <InputText class="form-control shadow-none" @bind-Value="drive.Interface" />
+                </div>
+                <div class="mb-3">
+                    <h5>Szybkość odczytu</h5>
+                    <InputNumber class="form-control shadow-none" @bind-Value="drive.ReadSpeedMBs" />
+                </div>
+                <div class="mb-3">
+                    <h5>Szybkość zapisu</h5>
+                    <InputNumber class="form-control shadow-none" @bind-Value="drive.WriteSpeedMBs" />
+                </div>
+                <div class="mb-3">
+                    <h5>Typ</h5>
+                    <InputText id="type" class="form-control shadow-none" @bind-Value="drive.Type" />
+                </div>
+                <div class="mb-3">
+                    <h5>Pojemność</h5>
+                    <InputNumber class="form-control shadow-none" @bind-Value="drive.CapacityGB" />
+                </div>
+                @if (drive is ISsd)
+                {
+                    <div class="mb-3">
+                        <h5>TBW</h5>
+                        <InputNumber class="form-control shadow-none" @bind-Value="((ISsd)drive).Tbw" />
+                    </div>
+                }
+                else if (drive is IHdd)
+                {
+                    <div class="mb-3">
+                        <h5>RPM</h5>
+                        <InputNumber class="form-control shadow-none" @bind-Value="((IHdd)drive).Rpm" />
+                    </div>
+                }
+            </div>
+        }
+    else
+    {
+        <span class="me-2">Brak dysków - dodaj je =></span>
+    }
+    <div class="d-flex">
+        <button class="btn btn-primary text-end" @onclick="AddNewHdd">Dodaj HDD</button>
+        <button class="btn btn-primary text-end" @onclick="AddNewSsd">Dodaj SSD</button>
+    </div>
+}
+    
+
+@code
+{  
+    [Parameter] public List<Drive>? List { get; set; }
+
+    private void RemoveItem(Drive item)
+    {
+        List?.Remove(item);
+    }
+    private void AddNewSsd()
+    {
+        List?.Add(new Ssd { Interface = string.Empty, Manufacturer= string.Empty, Type = string.Empty } );
+    }
+    private void AddNewHdd()
+    {
+        List?.Add(new Hdd { Interface = string.Empty, Manufacturer = string.Empty, Type = string.Empty });
+    }
+}

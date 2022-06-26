@@ -10,7 +10,7 @@ namespace ComputerShop.Shared.Models.Products
         }
         public int FansCount { get; set; }
         public int MaxTdp { get; set; }
-        public List<string> CompatibleSockets { get; set; }
+        public List<StringValue> CompatibleSockets { get; set; } = new();
         public string CoolerType { get; set; }
         public int Sizemm { get; set; }
     }

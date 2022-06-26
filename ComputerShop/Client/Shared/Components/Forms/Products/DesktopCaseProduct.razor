@@ -1,0 +1,44 @@
+﻿@if (computerCase != null)
+{
+    <div class="mb-3">
+        <h5>Wspierane rozmiary płyt głównych</h5>
+        <ListForm List="computerCase.SupportedMoboSizes" />
+    </div>
+    <div class="mb-3">
+        <h5 for="usbports">Liczba portów USB</h5>
+        <InputNumber id="usbports" class="form-control shadow-none" @bind-Value="computerCase.UsbPorts" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxfancount">Maskymalna liczba wentyalktorów</h5>
+        <InputNumber id="maxfancount" class="form-control shadow-none" @bind-Value="computerCase.MaxFanCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxcoolerheightmm">Maksymalna wysokość chłodzenia CPU</h5>
+        <InputNumber id="maxcoolerheightmm" class="form-control shadow-none" @bind-Value="computerCase.MaxCoolerHeightmm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxradiatorsizemm">Maksymalna wielkość radiatora</h5>
+        <InputNumber id="maxradiatorsizemm" class="form-control shadow-none" @bind-Value="computerCase.MaxRadiatorSizemm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxgpulenghtmm">Maksymalna długość GPU</h5>
+        <InputNumber id="maxgpulenghtmm" class="form-control shadow-none" @bind-Value="computerCase.MaxGpuLenghtmm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="color">Kolor</h5>
+        <InputText id="color" class="form-control shadow-none" @bind-Value="computerCase.Color" />
+    </div>
+    <DimensionsForm Product="Product"/>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IComputerCaseProduct? computerCase;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IComputerCaseProduct)
+            computerCase = Product as IComputerCaseProduct;
+        base.OnParametersSet();
+    }
+}

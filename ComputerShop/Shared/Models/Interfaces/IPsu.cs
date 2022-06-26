@@ -1,4 +1,6 @@
-﻿namespace ComputerShop.Shared.Models.Interfaces
+﻿using ComputerShop.Shared.Models.Products;
+
+namespace ComputerShop.Shared.Models.Interfaces
 {
     public interface IPsu
     {
@@ -15,6 +17,6 @@
         public bool IsModular { get; set; }
         public int FansCount { get; set; }
         public string Certificate { get; set; }
-        public List<string> Protections { get; set; }
+        public List<StringValue> Protections { get; set; }
     }
 }

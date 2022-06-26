@@ -1,0 +1,44 @@
+﻿@if (headphones != null)
+{
+    <div class="mb-3 d-flex">
+        <h5 for="iswireless">Bezprzewodowe</h5>
+        <InputCheckbox id="iswireless" class="form-check-input shadow-none ms-2" @bind-Value="headphones.IsWireless" />
+    </div>
+    <div class="mb-3">
+        <h5 for="headphonestype">Typ słuchawek</h5>
+        <InputText id="headphonestype" class="form-control shadow-none" @bind-Value="headphones.HeadphonesType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="impedanceohm">Impedancja</h5>
+        <InputNumber id="impedanceohm" class="form-control shadow-none" @bind-Value="headphones.ImpedanceOhm" />
+    </div>
+    <div class="mb-3">
+        <h5 for="weightg">Waga</h5>
+        <InputNumber id="weightg" class="form-control shadow-none" @bind-Value="headphones.Weightg" />
+    </div>
+    <div class="mb-3">
+        <h5 for="minfrequencyresponsehz">Minimalna częstotliwość</h5>
+        <InputNumber id="minfrequencyresponsehz" class="form-control shadow-none" @bind-Value="headphones.MinFrequencyResponseHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxfrequencyresponsekhz">Maksymalna częstotliwość</h5>
+        <InputNumber id="maxfrequencyresponsekhz" class="form-control shadow-none" @bind-Value="headphones.MaxFrequencyResponsekHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="interface">Złącze</h5>
+        <InputText id="interface" class="form-control shadow-none" @bind-Value="headphones.Interface" />
+    </div>
+    <DimensionsForm Product="Product"/>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IHeadphonesProduct? headphones;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IHeadphonesProduct)
+            headphones = Product as IHeadphonesProduct;
+        base.OnParametersSet();
+    }
+}

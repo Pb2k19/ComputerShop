@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Interfaces;
 using ComputerShop.Shared.Models.Products;
 using ComputerShop.Shared.Models.User;
 using Microsoft.AspNetCore.Components;
@@ -19,7 +20,7 @@ namespace ComputerShop.Client.Pages
         private List<UserModel> users = new();
         private List<OrderModel> orders = new();
         bool isFirstLoad = true;
-
+        IProduct? product = new DesktopGpuProduct() { PowerConnectors = StringValue.GetStringValues(new() { "8pin"}) };
         public async Task ChangeViewAsync(string? path)
         {
             if (path != null && path.Equals(Page) && !isFirstLoad)

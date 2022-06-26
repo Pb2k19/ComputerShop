@@ -1,0 +1,35 @@
+﻿@if (desktopCooler != null)
+{
+    <div class="mb-3">
+        <h5 for="fanscount">Liczba wentyaltorów</h5>
+        <InputNumber id="fanscount" class="form-control shadow-none" @bind-Value="desktopCooler.FansCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxtdp">Maksymalne TDP</h5>
+        <InputNumber id="maxtdp" class="form-control shadow-none" @bind-Value="desktopCooler.MaxTdp" />
+    </div>
+    <div class="mb-3">
+        <h5>Wspierane sockety</h5>
+        <ListForm List="desktopCooler.CompatibleSockets" />
+    </div>
+    <div class="mb-3">
+        <h5 for="coolertype">Rodzaj chłodzenia</h5>
+        <InputNumber id="coolertype" class="form-control shadow-none" @bind-Value="desktopCooler.CoolerType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="sizemm">Rozmiar</h5>
+        <InputNumber id="sizemm" class="form-control shadow-none" @bind-Value="desktopCooler.Sizemm" />
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IDesktopCoolerProduct? desktopCooler;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IDesktopCoolerProduct)
+            desktopCooler = Product as IDesktopCoolerProduct;
+        base.OnParametersSet();
+    }
+}

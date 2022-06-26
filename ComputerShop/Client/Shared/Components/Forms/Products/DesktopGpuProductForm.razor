@@ -1,0 +1,51 @@
+﻿@if (gpu != null)
+{
+    <div class="mb-3">
+        <h5 for="chipmanufacturer">Producent układu</h5>
+        <InputText id="chipmanufacturer" class="form-control shadow-none" @bind-Value="gpu.ChipManufacturer" />
+    </div>
+    <div class="mb-3">
+        <h5 for="frequencymhz">Taktowanie rdzenia</h5>
+        <InputNumber id="frequencymhz" class="form-control shadow-none" @bind-Value="gpu.FrequencyMHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="vramtype">Typ pamięci</h5>
+        <InputText id="vramtype" class="form-control shadow-none" @bind-Value="gpu.VramType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="vramsizegb">Rozmiar pamięci</h5>
+        <InputNumber id="vramsizegb" class="form-control shadow-none" @bind-Value="gpu.VramSizeGB" />
+    </div>
+    <div class="mb-3">
+        <h5 for="tdp">TDP</h5>
+        <InputNumber id="tdp" class="form-control shadow-none" @bind-Value="gpu.Tdp" />
+    </div>
+    <div class="mb-3">
+        <h5 for="lenghtmm">Długość</h5>
+        <InputNumber id="lenghtmm" class="form-control shadow-none" @bind-Value="gpu.Lenghtmm" />
+    </div>
+    <div class="mb-3">
+        <h5>Porty</h5>
+        <ListForm List="gpu.PortsList" />
+    </div>
+    <div class="mb-3">
+        <h5 for="buswidth">Szerokość magistrali pamięci</h5>
+        <InputNumber id="buswidth" class="form-control shadow-none" @bind-Value="gpu.BusWidth" />
+    </div>
+    <div class="mb-3">
+        <h5 for="powerconnectors">Złącza zasilania</h5>
+        <ListForm List="gpu.PowerConnectors" />
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IDesktopGpuProduct? gpu;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IDesktopGpuProduct)
+            gpu = Product as IDesktopGpuProduct;
+        base.OnParametersSet();
+    }
+}

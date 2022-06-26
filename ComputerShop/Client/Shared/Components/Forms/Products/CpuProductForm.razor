@@ -1,0 +1,43 @@
+﻿@if (cpuProduct != null)
+{
+    <div class="mb-3">
+        <h5 for="frequencymhz">Taktowanie</h5>
+        <InputNumber id="frequencymhz" class="form-control shadow-none" @bind-Value="cpuProduct.FrequencyMHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="tdp">TDP</h5>
+        <InputNumber id="tdp" class="form-control shadow-none" @bind-Value="cpuProduct.Tdp" />
+    </div>
+    <div class="mb-3">
+        <h5 for="connectora">Liczba wątków</h5>
+        <InputNumber id="connectora" class="form-control shadow-none" @bind-Value="cpuProduct.ThreadsCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="threadscount">Liczba rdzeni</h5>
+        <InputNumber id="threadscount" class="form-control shadow-none" @bind-Value="cpuProduct.CoresCount" />
+    </div>
+    <div class="mb-3">
+        <h5 for="l3cachemb">Wielkość pamięci L3</h5>
+        <InputNumber id="l3cachemb" class="form-control shadow-none" @bind-Value="cpuProduct.L3CacheMB" />
+    </div>
+    <div class="mb-3">
+        <h5 for="supportedsocket">Wspierany socket</h5>
+        <InputText id="supportedsocket" class="form-control shadow-none" @bind-Value="cpuProduct.SupportedSocket" />
+    </div>
+    <div class="mb-3">
+        <h5>Wspierane chipsety</h5>
+        <ListForm List="cpuProduct.SupportedChipsets"/>
+    </div>
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private ICpuProduct? cpuProduct;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is ICpuProduct)
+            cpuProduct = Product as ICpuProduct;
+        base.OnParametersSet();
+    }
+}

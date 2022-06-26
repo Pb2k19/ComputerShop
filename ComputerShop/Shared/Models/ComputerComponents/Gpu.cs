@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models.Interfaces;
+using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Shared.Models
 {
@@ -12,7 +13,7 @@ namespace ComputerShop.Shared.Models
         public int Tdp { get; set; }
         public string ChipManufacturer { get; set; }
         public int MemoryFrequencyMHz { get; set; }
-        public List<string> PortsList { get; set; }
+        public List<StringValue> PortsList { get; set; } = new();
         public int BusWidth { get; set; }
     }
     public enum GpuPorts

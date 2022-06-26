@@ -1,0 +1,48 @@
+﻿@if (computerMouse != null)
+{
+    <div class="mb-3">
+        <h5 for="weightg">Waga</h5>
+        <InputNumber id="weightg" class="form-control shadow-none" @bind-Value="computerMouse.Weightg" />
+    </div>
+    <div class="mb-3 d-flex">
+        <h5 for="iswireless">Bezprzewodowa</h5>
+        <InputCheckbox id="iswireless" class="form-check-input shadow-none ms-2" @bind-Value="computerMouse.IsWireless" />
+    </div>
+    <div class="mb-3">
+        <h5 for="sensor">Sensor</h5>
+        <InputText id="sensor" class="form-control shadow-none" @bind-Value="computerMouse.Sensor" />
+    </div>
+    <div class="mb-3">
+        <h5 for="sensortype">SensorType</h5>
+        <InputText id="sensortype" class="form-control shadow-none" @bind-Value="computerMouse.SensorType" />
+    </div>
+    <div class="mb-3">
+        <h5 for="interface">Interfejs</h5>
+        <InputText id="interface" class="form-control shadow-none" @bind-Value="computerMouse.Interface" />
+    </div>
+    <div class="mb-3">
+        <h5 for="color">Kolor</h5>
+        <InputText id="color" class="form-control shadow-none" @bind-Value="computerMouse.Color" />
+    </div>
+    <div class="mb-3">
+        <h5 for="pollingratehz">Odświeżanie</h5>
+        <InputNumber id="pollingratehz" class="form-control shadow-none" @bind-Value="computerMouse.PollingRateHz" />
+    </div>
+    <div class="mb-3">
+        <h5 for="maxdpi">Max DPI</h5>
+        <InputNumber id="maxdpi" class="form-control shadow-none" @bind-Value="computerMouse.MaxDpi" />
+    </div>
+    <DimensionsForm Product="Product" />
+}
+
+@code {
+    [CascadingParameter] public IProduct? Product { get; set; }
+    private IComputerMouseProduct? computerMouse;
+
+    protected override void OnParametersSet()
+    {
+        if (Product != null && Product is IComputerMouseProduct)
+            computerMouse = Product as IComputerMouseProduct;
+        base.OnParametersSet();
+    }
+}

@@ -1,0 +1,35 @@
+﻿@if (List != null)
+{
+    if (List.Count > 0)
+        foreach (var item in List)
+        {
+            <div class="d-flex align-items-center mb-3">
+                <h5>Key</h5>
+                <InputText class="form-control shadow-none" @bind-Value="item.Key" />
+                <h5>Value</h5>
+                <InputText class="form-control shadow-none" @bind-Value="item.Value" />
+                <span class="fa fas fa-times text-black ms-2 cursorHand" @onclick="() => RemoveItem(item.Value)"></span>
+            </div>
+        }
+    else
+    {
+        <span class="me-2">Brak danych - dodaj je =></span>
+    }
+    <button class="btn btn-primary text-end" @onclick="AddNewItem">Dodaj</button>
+}
+
+@code
+{
+    [Parameter] public List<KeyValue>? List { get; set; }
+
+    private void RemoveItem(string key)
+    {
+        var x = List?.FirstOrDefault(s => s.Key.Equals(key));
+        if (x != null)
+            List?.Remove(x);
+    }
+    private void AddNewItem()
+    {
+        List?.Add(new KeyValue { Key = string.Empty, Value = string.Empty});
+    }
+}

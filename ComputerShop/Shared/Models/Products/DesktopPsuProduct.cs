@@ -16,6 +16,6 @@ namespace ComputerShop.Shared.Models.Products
         public string Certificate { get; set; }
         public int Power { get; set; }
         public int SataCount { get; set; }
-        public List<string> Protections { get; set; } = new();
+        public List<StringValue> Protections { get; set; } = new();
     }
 }

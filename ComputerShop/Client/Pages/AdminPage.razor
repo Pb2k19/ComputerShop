@@ -100,6 +100,10 @@
                 }
                 break;
             case "edit-products":
+                <CascadingValue Value="product">
+                    <ProductForm/> 
+                </CascadingValue>
+                               
                 foreach (var item in products)
                 {
                     <h4>@item.Id</h4>

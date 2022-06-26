@@ -18,9 +18,9 @@ namespace ComputerShop.Shared.Models.Products
         public string Chipset { get; set; }
         public int UsbCCount { get; set; }
         public int Usb3Gen1Count { get; set; }
-        public int Usb3Gen2Count { get; set; }
-        public string Size { get; set; }
+        public int Usb3Gen2Count { get; set; }        
         public int Usb2Count { get; set; }
+        public string Size { get; set; }
     }
 
     public static class MotherboardSizes
