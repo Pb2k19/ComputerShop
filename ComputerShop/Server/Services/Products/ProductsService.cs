@@ -141,7 +141,9 @@ namespace ComputerShop.Server.Services.Products
             catch (Exception ex)
             {
                 return new SimpleServiceResponse() { Message = ex.Message, Success = false };
-            } 
+            }
+            if (newProduct.Images.Count == 0)
+                newProduct.Images.Add(new Image() { Location = "images/default_image.png" });
             try
             {
                 await productsData.AddProductAsync(newProduct);
