@@ -49,7 +49,26 @@ namespace ComputerShop.Client.Pages
                 iD = null;
             else
                 iD = invoiceDetails;
-            await OrderService.AddOrderAsync(await CartService.GetAllCartItemsAsync(), deliveryDetails, iD);
+            var result = await OrderService.AddOrderAsync(await CartService.GetAllCartItemsAsync(), deliveryDetails, iD);
+            if (result == null || !result.Success)
+            {
+                return;
+            }                
+            if (result?.Data.State == OrderStates.InPreparation)
+                NavigationManager.NavigateTo("/sucess-order");
+            else
+            {
+                var result2 = await PaymentService.CreateCheckoutAsync(productCartItems, result?.Data?.Id ?? string.Empty);
+                if (result2 == null || !result2.Success)
+                {
+                    NavigationManager.NavigateTo($"/sucess-order/{result?.Data.Id}/{result2?.Message}");
+                    return;
+                }
+                else
+                {
+                    NavigationManager.NavigateTo(result2.Data);
+                }
+            }
             await CartService.ClearCartAsync();
         }
         protected void NextStep()

@@ -108,6 +108,28 @@ namespace ComputerShop.Server.Services.Order
             }
         }
 
+        public async Task<ServiceResponse<OrderModel>> GetOrderForUserByEmailAsync(string email)
+        {
+            try
+            {
+                string? userId = (await userData.GetAnyUserByEmailAsync(email))?.Id;
+                OrderModel? order;
+                if (!string.IsNullOrWhiteSpace(userId))
+                    order = await userData.GetFirstUnpaidOrderAsync(userId);
+                else
+                    return new ServiceResponse<OrderModel> { Success = false, Message = "Nie znaleziono zamówienia" };
+
+                if (order != null)
+                    return new ServiceResponse<OrderModel> { Data = order, Success = true };
+                else
+                    return new ServiceResponse<OrderModel> { Success = false, Message = "Nie znaleziono zamówienia" };
+            }
+            catch (MongoDB.Driver.MongoException ex)
+            {
+                return new ServiceResponse<OrderModel> { Success = false, Message = ex.Message };
+            }
+        }
+
         public async Task<SimpleServiceResponse> UpdateOrderAsync(OrderModel order)
         {
             try

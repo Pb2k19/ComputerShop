@@ -1,10 +1,12 @@
 ﻿using ComputerShop.Server.Services.Products;
+using ComputerShop.Server.Services.User;
 using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.Interfaces;
 using ComputerShop.Shared.Models.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace ComputerShop.Server.Controllers
 {
@@ -13,9 +15,11 @@ namespace ComputerShop.Server.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductsService productsService;
-        public ProductsController(IProductsService productsService)
+        private readonly IUserService userService;
+        public ProductsController(IProductsService productsService, IUserService userService)
         {
             this.productsService = productsService;
+            this.userService = userService;
         }
 
         [HttpGet("getProductById/{id}")]
@@ -55,6 +59,13 @@ namespace ComputerShop.Server.Controllers
         [HttpGet, Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAllProducts()
         {
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
+            if (!response.Success)
+                return Unauthorized(new ServiceResponse<List<Product>> { Message = response.Message, Success = false });
+            Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized(new ServiceResponse<List<Product>> { Message = response.Message, Success = false });
+
             ServiceResponse<List<Product>> serviceResponse = new()
             {
                 Data = await productsService.GetAllProductsAsync()
@@ -76,6 +87,16 @@ namespace ComputerShop.Server.Controllers
         public async Task<ActionResult<ServiceResponse<ProductsResponse>>> GetProductsByCategoryUrlAsync(ProductSortFilterOptions? sortFilterOptions, [FromRoute] string category, [FromRoute] int page)
         {
             var isAdmin = User.IsInRole("Admin");
+            if (isAdmin)
+            {
+                SimpleServiceResponse response = userService.ValidateJWT(Request);
+                if (!response.Success)
+                    return Unauthorized(new ServiceResponse<ProductsResponse> { Message = response.Message, Success = false });
+                Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (userId == null)
+                    return Unauthorized(new ServiceResponse<ProductsResponse> { Message = response.Message, Success = false });
+            }
+
             ServiceResponse<ProductsResponse> serviceResponse = new()
             {
                 Data = await productsService.GetProductsByCategoryAsync(category, page, sortFilterOptions, isAdmin)
@@ -89,6 +110,16 @@ namespace ComputerShop.Server.Controllers
             if (text.Length > 128)
                 return BadRequest();
             var isAdmin = User.IsInRole("Admin");
+            if(isAdmin)
+            {
+                SimpleServiceResponse response = userService.ValidateJWT(Request);
+                if (!response.Success)
+                    return Unauthorized(new ServiceResponse<ProductsResponse> { Message = response.Message, Success = false });
+                Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (userId == null)
+                    return Unauthorized(new ServiceResponse<ProductsResponse> { Message = response.Message, Success = false });
+            }
+
             ServiceResponse<ProductsResponse> serviceResponse = new()
             {
                 Data = await productsService.FindProductsByTextAsync(text, page, sortFilterOptions, isAdmin)
@@ -103,24 +134,46 @@ namespace ComputerShop.Server.Controllers
             {
                 Data = await productsService.GetProductsSuggestionsByTextAsync(text)
             };
+
             return Ok(serviceResponse);
         }
 
         [HttpPost("addProduct"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<SimpleServiceResponse>> AddProduct(StringValue productJson, [FromRoute] string category)
         {
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
+            if (!response.Success)
+                return Unauthorized(new ServiceResponse<List<Product>> { Message = response.Message, Success = false });
+            Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized(new ServiceResponse<List<Product>> { Message = response.Message, Success = false });
+
             return Ok(await productsService.AddProductAsync(productJson.Value, category));
         }
 
         [HttpPost("editProduct/{category}"), Authorize(Roles ="Admin")]
         public async Task<ActionResult<ServiceResponse<Product>>> EditProduct(StringValue productJson,[FromRoute] string category)
         {
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
+            if (!response.Success)
+                return Unauthorized(new ServiceResponse<List<Product>> { Message = response.Message, Success = false });
+            Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized(new ServiceResponse<List<Product>> { Message = response.Message, Success = false });
+
             return Ok(await productsService.UpdateProductAsync(productJson.Value, category));
         }
 
         [HttpPost("addComment/{productId}"), Authorize]
         public async Task<ActionResult<ServiceResponse<Product>>> AddComment(Comment comment, [FromRoute] string productId)
         {
+            SimpleServiceResponse response = userService.ValidateJWT(Request);
+            if (!response.Success)
+                return Unauthorized(new ServiceResponse<List<Product>> { Message = response.Message, Success = false });
+            Claim? userId = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized(new ServiceResponse<List<Product>> { Message = response.Message, Success = false });
+
             return Ok(await productsService.AddCommentToProductAsync(comment, productId));
         }
     }

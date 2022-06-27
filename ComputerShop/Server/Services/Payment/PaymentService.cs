@@ -12,16 +12,12 @@ namespace ComputerShop.Server.Services.Payment
     public class PaymentService : IPaymentService
     {
         private readonly IOrderService orderService;
-        private readonly IProductsService productsService;
-        private readonly IUserService userService;
         private readonly string siteUrl;
         private readonly string stripeSecret;
 
-        public PaymentService(IConfiguration configuration, IOrderService orderService, IProductsService productsService, IUserService userService)
+        public PaymentService(IConfiguration configuration, IOrderService orderService)
         {            
             this.orderService = orderService;
-            this.productsService = productsService;
-            this.userService = userService;
             StripeConfiguration.ApiKey = configuration["Settings:StripeApiKey"];
             siteUrl = configuration["Settings:PageUrl"];
             stripeSecret = configuration["Settings:StripeSecret"];
@@ -48,7 +44,7 @@ namespace ComputerShop.Server.Services.Payment
             SessionCreateOptions options = new()
             {
                 CustomerEmail = email,
-                CancelUrl = $"{siteUrl}/card",
+                CancelUrl = $"{siteUrl}/cart",
                 SuccessUrl = $"{siteUrl}/sucess-order",
                 Mode = "payment",
             };
@@ -57,7 +53,7 @@ namespace ComputerShop.Server.Services.Payment
             return sessionService.Create(options);
         }
 
-        public async Task<SimpleServiceResponse> FulfillOrder(HttpRequest request, string orderId)
+        public async Task<SimpleServiceResponse> FulfillOrder(HttpRequest request)
         {
             string requestBody = await new StreamReader(request.Body).ReadToEndAsync();
             string stripeSingature = request.Headers["Stripe-Signature"];
@@ -67,7 +63,7 @@ namespace ComputerShop.Server.Services.Payment
                 if(stripeEvent.Type.Equals(Events.CheckoutSessionCompleted))
                 {
                     Session session = (Session)stripeEvent.Data.Object;
-                    var orderResponse = await orderService.GetOrderAsync(orderId);
+                    var orderResponse = await orderService.GetOrderForUserByEmailAsync(session.CustomerEmail);
                     if(!orderResponse.Success)
                         return new SimpleServiceResponse { Message = orderResponse.Message, Success = false };
                     if (orderResponse.Data is null)

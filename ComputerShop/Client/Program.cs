@@ -11,6 +11,7 @@ using ComputerShop.Client;
 using Blazored.LocalStorage;
 using Blazored.Toast;
 using ComputerShop.Client.Services.UserDetails;
+using ComputerShop.Client.Services.PaymentService;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -24,6 +25,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserDetailsService, UserDetailsService>();
 builder.Services.AddScoped<IUserHelper, UserHelper>();
 builder.Services.AddScoped<IWishListService, WishListService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();

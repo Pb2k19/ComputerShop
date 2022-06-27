@@ -10,5 +10,6 @@ namespace ComputerShop.Server.Services.Order
         Task<SimpleServiceResponse> UpdateOrderAsync(OrderModel order);
         Task<ServiceResponse<List<OrderModel>>> GetAllOrdersForUserAsync();
         Task<ServiceResponse<List<OrderModel>>> GetAllOrdersAsync();
+        Task<ServiceResponse<OrderModel>> GetOrderForUserByEmailAsync(string email);
     }
 }

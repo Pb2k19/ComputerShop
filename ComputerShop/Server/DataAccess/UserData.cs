@@ -36,6 +36,10 @@ namespace ComputerShop.Server.DataAccess
         {
             return (await GetUserByIdAsync(userId)).Orders.FirstOrDefault(o => o.Id.Equals(orderId));
         }
+        public async Task<OrderModel?> GetFirstUnpaidOrderAsync(string userId)
+        {
+            return (await GetUserByIdAsync(userId)).Orders.OrderByDescending(o => o.OrderDate).FirstOrDefault(o => o.State == OrderStates.Unpaid);
+        }
         public async Task UpdateOrderAsync(OrderModel order)
         {
             var user = (await GetAllUsersAsync()).FirstOrDefault(u => u.Orders.Any(o => o.Id.Equals(order.Id)));
@@ -59,6 +63,11 @@ namespace ComputerShop.Server.DataAccess
         public async Task<RegisteredUser?> GetRegisteredUserByEmailAsync(string email)
         {
             return (await users.FindAsync(x => x is RegisteredUser && x.Email.Equals(email))).FirstOrDefault() as RegisteredUser;
+        }
+
+        public async Task<RegisteredUser?> GetAnyUserByEmailAsync(string email)
+        {
+            return (await users.FindAsync(x => x.Email.Equals(email))).FirstOrDefault() as RegisteredUser;
         }
 
         public async Task<RegisteredUser?> GetRegisteredUserByIdAsync(string id)

@@ -14,5 +14,7 @@ namespace ComputerShop.Server.DataAccess
         Task UpdateOrderAsync(OrderModel order);
         Task UpdateOrderAsync(OrderModel order, string userId);
         Task UpdateUserAsync(UserModel user);
+        Task<OrderModel?> GetFirstUnpaidOrderAsync(string userId);
+        Task<RegisteredUser?> GetAnyUserByEmailAsync(string email);
     }
 }

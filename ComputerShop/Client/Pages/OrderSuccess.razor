@@ -1,0 +1,15 @@
+﻿@page "/sucess-order"
+
+<div class="text-center">
+    <h3>Dziękujemy - Twoje zamówienie zostało dodane!</h3>
+    <AuthorizeView>
+        <Authorized>
+            <span><a href="/account/orders" class="text-primary">Kliknij</a> aby zobaczyć swoje zamówienia</span>
+        </Authorized>
+    </AuthorizeView>
+</div>
+
+
+@code {
+
+}
