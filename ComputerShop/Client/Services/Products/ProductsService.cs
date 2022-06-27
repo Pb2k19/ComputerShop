@@ -16,7 +16,7 @@ namespace ComputerShop.Client.Services.Products
         }
         public async Task<ProductsResponse> GetAllByCategoryAsync(ProductSortFilterOptions sortFilterOptions, string category, int page)
         {
-            using var response = await httpClient.PostAsJsonAsync($"api/products/getByCategory/{category}/{page}", sortFilterOptions);
+            var response = await httpClient.PostAsJsonAsync($"api/products/getByCategory/{category}/{page}", sortFilterOptions);
             var result = await response.Content.ReadFromJsonAsync<ServiceResponse<ProductsResponse>>();
             if (result?.Success ?? false)
                 return result?.Data ?? new ProductsResponse();

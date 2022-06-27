@@ -25,7 +25,8 @@ namespace ComputerShop.Server.Controllers
         [HttpGet("getProductById/{id}")]
         public async Task<ActionResult<ServiceResponse<Product>>> GetProductByIdAsync([FromRoute] string id)
         {
-            Product? product = await productsService.GetProductByIdAsync(id);
+            var isAdmin = User.IsInRole("Admin");
+            Product? product = await productsService.GetProductByIdAsync(id, isAdmin);
             ServiceResponse<object> serviceResponse = new();
             if (product == null)
             {
