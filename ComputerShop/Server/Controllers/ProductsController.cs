@@ -138,7 +138,7 @@ namespace ComputerShop.Server.Controllers
             return Ok(serviceResponse);
         }
 
-        [HttpPost("addProduct"), Authorize(Roles = "Admin")]
+        [HttpPost("addProduct/{category}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<SimpleServiceResponse>> AddProduct(StringValue productJson, [FromRoute] string category)
         {
             SimpleServiceResponse response = userService.ValidateJWT(Request);

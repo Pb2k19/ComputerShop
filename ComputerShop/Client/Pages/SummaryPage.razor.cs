@@ -52,6 +52,7 @@ namespace ComputerShop.Client.Pages
             var result = await OrderService.AddOrderAsync(await CartService.GetAllCartItemsAsync(), deliveryDetails, iD);
             if (result == null || !result.Success)
             {
+                NavigationManager.NavigateTo($"/sucess-order/{result?.Data?.Id ?? "BrakId"}/{result?.Message}");
                 return;
             }                
             if (result?.Data.State == OrderStates.InPreparation)
@@ -62,7 +63,6 @@ namespace ComputerShop.Client.Pages
                 if (result2 == null || !result2.Success)
                 {
                     NavigationManager.NavigateTo($"/sucess-order/{result?.Data.Id}/{result2?.Message}");
-                    return;
                 }
                 else
                 {

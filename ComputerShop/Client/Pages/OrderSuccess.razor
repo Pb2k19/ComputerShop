@@ -1,15 +1,27 @@
 ﻿@page "/sucess-order"
+@page "/sucess-order/{OrderId}/{Message}"
 
 <div class="text-center">
-    <h3>Dziękujemy - Twoje zamówienie zostało dodane!</h3>
-    <AuthorizeView>
-        <Authorized>
-            <span><a href="/account/orders" class="text-primary">Kliknij</a> aby zobaczyć swoje zamówienia</span>
-        </Authorized>
-    </AuthorizeView>
+    @if (string.IsNullOrEmpty(Message))
+    {
+        <h3>Dziękujemy - Twoje zamówienie zostało dodane!</h3>
+        <AuthorizeView>
+            <Authorized>
+                <span><a href="/account/orders" class="text-primary">Kliknij</a> aby zobaczyć swoje zamówienia</span>
+            </Authorized>
+        </AuthorizeView>
+    }
+    else
+    {
+        <h2>Zamówienie @OrderId</h2>
+        <h3>Coś poszło nie tak przy tworzeniu zamówienia</h3>
+        <span>@Message</span>
+    }
+
 </div>
 
 
 @code {
-
+    [Parameter] public string? OrderId { get; set; }
+    [Parameter] public string? Message { get; set; }
 }

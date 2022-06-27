@@ -62,7 +62,13 @@ namespace ComputerShop.Client.Pages
                         {
                             editedProduct = await ProductHelper.GetProductByCategoryAndIdAsync(ProductsService, Category, ProductId);
                             if (editedProduct == null)
+                            {
                                 NavigationManager.NavigateTo("/admin");
+                            }
+                            else
+                            {
+                                editedProduct.PriceBeforeDiscount = editedProduct.Price;
+                            }
                         }
                     }
                     break;
@@ -81,11 +87,19 @@ namespace ComputerShop.Client.Pages
         public async Task SaveEditedProduct()
         {
             var re = await ProductsService.EditProductAsync(editedProduct);
+            if (re.Success)
+                ToastService.ShowSuccess("Zaktualizowano produkt");
+            else
+                ToastService.ShowError(re.Message, "Coś poszło nie tak");
         }
 
         public async Task SaveNewProduct()
         {
             var re = await ProductsService.AddProductAsync(newProduct);
+            if (re.Success)
+                ToastService.ShowSuccess("Dodano produkt");
+            else
+                ToastService.ShowError(re.Message, "Coś poszło nie tak");
         }
 
         protected void CategorySelected(int value)

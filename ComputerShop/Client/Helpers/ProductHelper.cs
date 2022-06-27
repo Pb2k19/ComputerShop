@@ -49,7 +49,7 @@ namespace ComputerShop.Client.Helpers
                 "monitor" => new MonitorProduct(),
                 "cabel" => new CableProduct(),
                 "cooler" => new DesktopCoolerProduct(),
-                "mouse" => new DesktopCoolerProduct(),
+                "mouse" => new ComputerMouseProduct(),
                 _ => new Product(),
             };
         }
