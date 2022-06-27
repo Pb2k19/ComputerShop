@@ -50,11 +50,18 @@
                         </div>
                         <div class="row align-items-center">
                             <div class="col-auto">
-                                <button type="button"
-                                        class="btn btn-outline-dark shadow-none cart-button"
-                                        @onclick="e => AddProductToCart(product.Id, product.Price)">
-                                    <span class="fas-icon fas fa-shopping-cart align-middle" aria-hidden="true"></span>
-                                </button>
+                                @if (product.IsAvaliable)
+                                {
+                                    <button type="button"
+                                            class="btn btn-outline-dark shadow-none cart-button"
+                                            @onclick="e => AddProductToCart(product.Id, product.Price)">
+                                        <span class="fas-icon fas fa-shopping-cart align-middle" aria-hidden="true"></span>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <span>Produkt akutalnie niedostępny</span>
+                                }
                             </div>
                             <div class="col">
                                 @if (product.Price < product.PriceBeforeDiscount)
@@ -73,6 +80,6 @@
 else
 {
     <div class="container h-100" style="height: 200px">
-        <h3>Brak danych produktów</h3>
+        <h3>Brak produktów</h3>
     </div>
 }

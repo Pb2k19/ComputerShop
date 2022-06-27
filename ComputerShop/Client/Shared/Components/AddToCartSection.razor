@@ -9,25 +9,32 @@
             <div class="d-flex justify-content-end align-items-center">
                 <h3 style="color: #0b5ed7; font-size: 2rem;">-@discountPerc%&ensp;</h3>
                 <h3 class="text-muted text-decoration-line-through">@Product.PriceBeforeDiscount zł</h3>
-            </div>           
+            </div>
         }
         <h3 style="font-size: 2.25rem;" class="text-end">@Product.Price zł</h3>
         <div class="d-flex justify-content-end align-items-center">
-            <div>
-                <div class="shadow h-100 justify-content-end" style=" max-width: 125px;">
-                    <NumericUpDown InitValue="Quantity" MaxValue="99" MinValue="1" OnValueChanged="OnValueChanged"/>
+            @if (Product.IsAvaliable && !Product.IsRemoved)
+            {
+                <div>
+                    <div class="shadow h-100 justify-content-end" style=" max-width: 125px;">
+                        <NumericUpDown InitValue="Quantity" MaxValue="99" MinValue="1" OnValueChanged="OnValueChanged" />
+                    </div>
                 </div>
-            </div>
-            <div>
-                <button @onclick="OnButtonClick"
-                        type="button"
-                        class="btn btn-primary shadow-none btn-lg ms-1">
-                    Do koszyka
-                </button>
-            </div>
+                <div>
+                    <button @onclick="OnButtonClick"
+                            type="button"
+                            class="btn btn-primary shadow-none btn-lg ms-1">
+                        Do koszyka
+                    </button>
+                </div>
+            }
+            else
+            {
+                <span>Produkt akutalnie niedostępny</span>
+            }
         </div>
 
-        @if (!Product.IsRemoved)
+        @if (!Product.IsRemoved && Product.IsAvaliable)
          {
              <div class="mt-4 text-center">
                 @if ((today.DayOfWeek == DayOfWeek.Friday || today.DayOfWeek == DayOfWeek.Saturday
@@ -42,12 +49,6 @@
                  else
                  {
                      <h5>Zamów teraz, aby odbrać pojutrze</h5>
-                 }
-                 @if(Product.Price > MinPriceForFreeShipping)
-                 {
-                    <div class="text-center">
-                        <h5>Darmowa dostawa!</h5>
-                    </div>
                  }
                  <AuthorizeView>
                      <Authorized>

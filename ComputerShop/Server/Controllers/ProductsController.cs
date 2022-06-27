@@ -1,8 +1,10 @@
 ﻿using ComputerShop.Server.Services.Products;
 using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Interfaces;
 using ComputerShop.Shared.Models.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ComputerShop.Server.Controllers
 {
@@ -93,6 +95,7 @@ namespace ComputerShop.Server.Controllers
             };
             return Ok(serviceResponse);
         }
+
         [HttpGet("getProductSuggestions/{text}")]
         public async Task<ActionResult<ServiceResponse<List<string>>>> GetProductSuggestionsByTextAsync([FromRoute] string text)
         {
@@ -101,6 +104,24 @@ namespace ComputerShop.Server.Controllers
                 Data = await productsService.GetProductsSuggestionsByTextAsync(text)
             };
             return Ok(serviceResponse);
+        }
+
+        [HttpPost("addProduct"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<SimpleServiceResponse>> AddProduct(StringValue productJson, [FromRoute] string category)
+        {
+            return Ok(await productsService.AddProductAsync(productJson.Value, category));
+        }
+
+        [HttpPost("editProduct/{category}"), Authorize(Roles ="Admin")]
+        public async Task<ActionResult<ServiceResponse<Product>>> EditProduct(StringValue productJson,[FromRoute] string category)
+        {
+            return Ok(await productsService.UpdateProductAsync(productJson.Value, category));
+        }
+
+        [HttpPost("addComment/{productId}"), Authorize]
+        public async Task<ActionResult<ServiceResponse<Product>>> AddComment(Comment comment, [FromRoute] string productId)
+        {
+            return Ok(await productsService.AddCommentToProductAsync(comment, productId));
         }
     }
 }

@@ -5,13 +5,13 @@ namespace ComputerShop.Shared.Models
 {
     public class Gpu : IGpu
     {
-        public string Manufacturer { get; set; }
-        public string Name { get; set; }
-        public string VramType { get; set; }
+        public string Manufacturer { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string VramType { get; set; } = string.Empty;
         public int VramSizeGB { get; set; }
         public int FrequencyMHz { get; set; }
         public int Tdp { get; set; }
-        public string ChipManufacturer { get; set; }
+        public string ChipManufacturer { get; set; } = string.Empty;
         public int MemoryFrequencyMHz { get; set; }
         public List<StringValue> PortsList { get; set; } = new();
         public int BusWidth { get; set; }

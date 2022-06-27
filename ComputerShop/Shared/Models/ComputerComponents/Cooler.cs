@@ -5,13 +5,13 @@ namespace ComputerShop.Shared.Models.ComputerComponents
 {
     public class Cooler : ICooler
     {
-        public string Name { get; set; }
-        public string Manufacturer { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Manufacturer { get; set; } = string.Empty;
         public int FansCount { get; set; }
         public int MaxTdp { get; set; }
         public List<StringValue> CompatibleSockets { get; set; } = new();
         public int Sizemm { get; set; }
-        public string CoolerType {get;set;}
+        public string CoolerType {get;set;} = string.Empty;
     }
 
     public static class CoolerTypes

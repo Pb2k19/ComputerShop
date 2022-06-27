@@ -13,7 +13,7 @@ namespace ComputerShop.Shared.Models.Products
         public int ThreadsCount { get; set; }
         public int CoresCount { get; set; }
         public int L3CacheMB { get; set; }
-        public string SupportedSocket { get; set; }
+        public string SupportedSocket { get; set; } = string.Empty;
         public List<StringValue> SupportedChipsets { get; set; } = new();
     }
 }

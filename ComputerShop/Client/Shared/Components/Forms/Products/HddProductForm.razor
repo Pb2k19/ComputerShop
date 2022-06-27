@@ -27,7 +27,7 @@
 }
 
 @code {
-    [CascadingParameter] public IProduct? Product { get; set; }
+    [CascadingParameter] public Product? Product { get; set; }
     private IHddProduct? hdd;
 
     protected override void OnParametersSet()

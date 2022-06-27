@@ -47,7 +47,7 @@
 }
 
 @code {
-    [CascadingParameter] public IProduct? Product { get; set; }
+    [CascadingParameter] public Product? Product { get; set; }
     private IDesktopMotherboardProduct? motherboard;
 
     protected override void OnParametersSet()

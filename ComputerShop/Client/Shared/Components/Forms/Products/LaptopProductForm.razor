@@ -147,7 +147,7 @@
     </div>
 
     <h4>Rozmiary</h4>
-    <DimensionsForm Product="Product" />
+    <DimensionsForm />
 
     <h4>Drives</h4>
     <ListDriveForm List="laptop.Drives"/>
@@ -172,7 +172,7 @@
 }
 
 @code {
-    [CascadingParameter] public IProduct? Product { get; set; }
+    [CascadingParameter] public Product? Product { get; set; }
     private ILaptopProduct? laptop;
 
     protected override void OnParametersSet()

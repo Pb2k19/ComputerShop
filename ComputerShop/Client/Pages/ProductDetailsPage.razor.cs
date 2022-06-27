@@ -29,9 +29,14 @@ namespace ComputerShop.Client.Pages
             base.OnInitialized();
         }
 
-        protected void AddComment()
+        protected async Task AddCommentAsync()
         {
-
+            if (comment != null && currentProdcut != null)
+            {
+                await ProductsService.AddCommentAsync(comment, currentProdcut.Id);
+                currentProdcut.Comments.Add(comment);
+            }                
+            comment = new();
         }
 
         protected async Task OnListItemClick(int num)

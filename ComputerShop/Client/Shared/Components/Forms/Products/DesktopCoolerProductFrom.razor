@@ -14,7 +14,7 @@
     </div>
     <div class="mb-3">
         <h5 for="coolertype">Rodzaj chłodzenia</h5>
-        <InputNumber id="coolertype" class="form-control shadow-none" @bind-Value="desktopCooler.CoolerType" />
+        <InputText id="coolertype" class="form-control shadow-none" @bind-Value="desktopCooler.CoolerType" />
     </div>
     <div class="mb-3">
         <h5 for="sizemm">Rozmiar</h5>
@@ -23,7 +23,7 @@
 }
 
 @code {
-    [CascadingParameter] public IProduct? Product { get; set; }
+    [CascadingParameter] public Product? Product { get; set; }
     private IDesktopCoolerProduct? desktopCooler;
 
     protected override void OnParametersSet()

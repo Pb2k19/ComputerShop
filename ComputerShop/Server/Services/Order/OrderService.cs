@@ -37,7 +37,7 @@ namespace ComputerShop.Server.Services.Order
             if (cartSum != productsSum)
                 return new ServiceResponse<OrderModel> { Success = false, Message = "Cena uległa zmianie" };
 
-            OrderModel order = new() { CartItems = cartItems, State = OrderStates.Unpaid, Total = cartSum, DeliveryDetails = deliveryDetails, InvoiceDetails = invoiceDetails };
+            OrderModel order = new() { CartItems = cartItems, State = deliveryDetails.DeliveryMethod.Equals("Przy odbiorze") ? OrderStates.InPreparation : OrderStates.Unpaid, Total = cartSum, DeliveryDetails = deliveryDetails, InvoiceDetails = invoiceDetails };
             order.SetId();
             UserModel? user;
 

@@ -12,8 +12,8 @@ namespace ComputerShop.Server.Services.Products
         Task<ProductsResponse> GetProductsByCategoryAsync(string category, int pageNumber = 1, ProductSortFilterOptions? sortFilterOptions = null, bool isAdmin = false);
         Task<ProductsResponse> FindProductsByTextAsync(string text, int pageNumber = 1, ProductSortFilterOptions? sortFilterOptions = null, bool isAdmin = false);
         Task<List<string>> GetProductsSuggestionsByTextAsync(string text);
-        Task<SimpleServiceResponse> AddProductAsync(Product product);
+        Task<SimpleServiceResponse> AddProductAsync(string productJson, string category);
         Task<SimpleServiceResponse> AddCommentToProductAsync(Comment comment, string productId);
-        Task<SimpleServiceResponse> UpdateProductAsync(Product product);
+        Task<SimpleServiceResponse> UpdateProductAsync(string productJson, string category);
     }
 }

@@ -5,8 +5,8 @@ namespace ComputerShop.Shared.Models.ComputerComponents
 {
     public class DesktopCase : IComputerCase
     {
-        public string Name { get; set; }
-        public string Manufacturer { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Manufacturer { get; set; } = string.Empty;
         public int Lenghtmm { get; set; }
         public int Heightmm { get; set; }
         public int Widthmm { get; set; }
@@ -16,6 +16,6 @@ namespace ComputerShop.Shared.Models.ComputerComponents
         public int MaxCoolerHeightmm { get; set; }
         public int MaxRadiatorSizemm { get; set; }
         public int MaxGpuLenghtmm { get; set; }
-        public string Color { get; set; }
+        public string Color { get; set; } = string.Empty;
     }
 }

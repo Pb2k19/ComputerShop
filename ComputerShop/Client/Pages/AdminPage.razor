@@ -1,6 +1,7 @@
 ﻿@attribute [Authorize(Roles = "Admin")]
 @page "/admin"
 @page "/admin/{Page}"
+@page "/admin/{Page}/{Category}/{ProductId}"
 @inject IOrderService OrderService
 @inject IToastService ToastService
 @inject IUserService UserService
@@ -99,17 +100,59 @@
                     </div>
                 }
                 break;
-            case "edit-products":
-                <CascadingValue Value="product">
-                    <ProductForm/> 
-                </CascadingValue>
-                               
-                foreach (var item in products)
+            case "product-list":
+                <h2>Lista produktów</h2>
+                <div class="row p-3 pb-1 mb-0 text-center">
+                    <div class="col-3">
+                        <span>Producent</span>
+                    </div>
+                    <div class="col-4">
+                        <span>Nazwa</span>
+                    </div>
+                    <div class="col-3">
+                        <span>Id</span>
+                    </div>
+                    <div class="col-2">
+                    </div>
+                </div>
+                @foreach (var product in products)
                 {
-                    <h4>@item.Id</h4>
+                    <div class="row p-3 mb-2 rounded border border-1 shadow text-center">
+                        <div class="col-3">
+                            <span>@product.Manufacturer</span>
+                        </div>
+                        <div class="col-4">
+                            <span>@product.Name</span>
+                        </div>
+                        <div class="col-3">
+                            <span>@product.Id</span>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-primary text-center" @onclick="()=>EditProduct(product.Id, product.Category)">Edytuj</button>
+                        </div>
+                    </div>
                 }
                 break;
+            case "edit-product":
+                <CascadingValue Value="editedProduct">
+                    <ProductForm OnSubmited="SaveEditedProduct" />
+                </CascadingValue>
+                break;
+            default:
+                <div class="d-flex w-100 justify-content-center">
+                    <h3>Wybierz kategorię produktu</h3>
+                     <DropdownMenu ChangeTitleToSelectedValue="true"
+                          OnMouseOverEnabled="false"
+                          Items="ProductHelper.GetCategories()"
+                          TItem="string"
+                          OnSelected="CategorySelected"
+                          ButtonClassCss="form-control shadow-none btn border border-1">
+                     </DropdownMenu>
+                </div>
+                <CascadingValue Value="newProduct">
+                    <ProductForm OnSubmited="SaveNewProduct" />
+                </CascadingValue>
+                break;
         }
-
     </div>
 </div>

@@ -1,5 +1,8 @@
 ﻿using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Interfaces;
 using ComputerShop.Shared.Models.Products;
+using ComputerShop.Shared.Models.Products.Interfaces;
+using Newtonsoft.Json;
 
 namespace ComputerShop.Server.Helpers
 {
@@ -43,6 +46,29 @@ namespace ComputerShop.Server.Helpers
                 products = FilterManufacturers(products, sortFilterOptions.Manufacturers);
             products = PriceFilter(products, sortFilterOptions.PriceMax, sortFilterOptions.PriceMin);
             return SortProducts(ref products, sortFilterOptions.SortOption); ;
+        }
+        public virtual Product? DeserializePorduct(string category, string json)
+        {
+            return category.ToLower() switch
+            {
+                "pc" => JsonConvert.DeserializeObject<DesktopPcProduct>(json),
+                "psu" => JsonConvert.DeserializeObject<DesktopPsuProduct>(json),
+                "gpu" => JsonConvert.DeserializeObject<DesktopGpuProduct>(json),
+                "laptop" => JsonConvert.DeserializeObject<LaptopProduct>(json),
+                "cpu" => JsonConvert.DeserializeObject<CpuProduct>(json),
+                "motherboard" => JsonConvert.DeserializeObject<MotherboardProduct>(json),
+                "ram" => JsonConvert.DeserializeObject<RamProduct>(json),
+                "hdd" => JsonConvert.DeserializeObject<HddProduct>(json),
+                "ssd" => JsonConvert.DeserializeObject<SsdProduct>(json),
+                "case" => JsonConvert.DeserializeObject<DesktopCaseProduct>(json),
+                "keyboard" => JsonConvert.DeserializeObject<KeyboardProduct>(json),
+                "headphones" => JsonConvert.DeserializeObject<HeadphonesProduct>(json),
+                "monitor" => JsonConvert.DeserializeObject<MonitorProduct>(json),
+                "cabel" => JsonConvert.DeserializeObject<CableProduct>(json),
+                "cooler" => JsonConvert.DeserializeObject<DesktopCoolerProduct>(json),
+                "mouse" => JsonConvert.DeserializeObject<DesktopCoolerProduct>(json),
+                _ => null,
+            };
         }
     }
 }

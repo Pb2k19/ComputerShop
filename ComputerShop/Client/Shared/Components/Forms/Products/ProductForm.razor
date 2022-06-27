@@ -111,6 +111,9 @@
             <CableProductForm />
         }
 
+        <h4>Dodatkowe informacje</h4>
+        <ListKeyValue List="Product.ExtraInfo"></ListKeyValue>
+
         <div class="d-flex justify-content-end mt-3">
             <button type="submit" class="btn btn-primary shadow-none" @onclick="OnBtnClickAsync">Zapisz</button>
         </div>
@@ -119,10 +122,15 @@
 
 
 @code{
-    [CascadingParameter] public IProduct? Product { get; set; }
+    [CascadingParameter] public Product? Product { get; set; }
     [Parameter] public EventCallback OnSubmited { get; set; }
 
-    private async Task OnBtnClickAsync()
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+        }
+
+        private async Task OnBtnClickAsync()
     {
         await OnSubmited.InvokeAsync();
     }

@@ -65,7 +65,7 @@ namespace ComputerShop.Server.Services.Products
                 Name = "Kabel Jack 3.5mm - Jack 3.5mm 1,5m",
                 WarantyMonths = 24,
                 Description = "Unitek Y-C922ABK to kabel przekazujący sygnał audio, który umożliwia podłączenie urządzenia wyposażonego w gniazdo minijack 3,5mm do innego urządzenia posiadającego również gniazdo minijack 3,5mm. Dzięki temu możliwe jest podłączenie np. komputera lub smartfona do wieży Hi-Fi.",
-                Images = new(){ new Image{Location = "https://cdn.x-kom.pl/i/setup/images/prod/big/product-new-big,,pr_2016_9_14_14_37_38_962.jpg"} },
+                Images = new(){ new Image() },
                 IsPublic = true,
             },
             new DesktopCaseProduct
@@ -1538,13 +1538,22 @@ new LaptopProduct
             }
             return products;
         }
-        public async Task<SimpleServiceResponse> AddProductAsync(Product product)
+        public async Task<SimpleServiceResponse> AddProductAsync(string productJson, string category)
         {
-            if (product is null)
-                return new SimpleServiceResponse() { Message = "Produkt nie może mieć wartości null", Success = false };
+            Product? newProduct;
             try
             {
-                await productsData.AddProductAsync(product);
+                newProduct = productHelper.DeserializePorduct(category, productJson);
+                if (newProduct is null)
+                    return new SimpleServiceResponse() { Message = "Nie można dodać produktu", Success = false };
+            }
+            catch (Exception ex)
+            {
+                return new SimpleServiceResponse() { Message = ex.Message, Success = false };
+            } 
+            try
+            {
+                await productsData.AddProductAsync(newProduct);
                 return new SimpleServiceResponse() { Success = true };
             }
             catch (MongoException ex)
@@ -1560,16 +1569,25 @@ new LaptopProduct
             if (product == null)
                 return new SimpleServiceResponse() { Message = "Produkt nie może mieć wartości null", Success = false };
             product.Comments.Add(comment);
-            await UpdateProductAsync(product);
+            await productsData.UpdateProductAsync(product);
             return new SimpleServiceResponse() { Success = true };
         }
-        public async Task<SimpleServiceResponse> UpdateProductAsync(Product product)
+        public async Task<SimpleServiceResponse> UpdateProductAsync(string productJson, string category)
         {
-            if (product is null)
-                return new SimpleServiceResponse() { Message = "Produkt nie może mieć wartości null", Success = false };
+            Product? editProduct;
             try
             {
-                await productsData.UpdateProductAsync(product);
+                editProduct = productHelper.DeserializePorduct(category, productJson);
+                if (editProduct is null)
+                    return new SimpleServiceResponse() { Message = "Nie można dodać produktu", Success = false };
+            }
+            catch (Exception ex)
+            {
+                return new SimpleServiceResponse() { Message = ex.Message, Success = false };
+            }
+            try
+            {
+                await productsData.UpdateProductAsync(editProduct);
                 return new SimpleServiceResponse() { Success = true };
             }
             catch (MongoException ex)

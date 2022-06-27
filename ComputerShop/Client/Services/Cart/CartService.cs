@@ -26,6 +26,14 @@ namespace ComputerShop.Client.Services.Cart
             return await OpenCartAsync();
         }
 
+        public async Task ClearCartAsync()
+        {
+            var items = await GetAllCartItemsAsync();
+            items.Clear();
+            await localStorageService.SetItemAsync(Key, items);
+            OnUpdate?.Invoke();
+        }
+
         public async Task<SimpleServiceResponse> AddItemToCartAsync(CartItem item)
         {
             if (item == null || string.IsNullOrWhiteSpace(item.ProductId) || item.Quantity < 1)

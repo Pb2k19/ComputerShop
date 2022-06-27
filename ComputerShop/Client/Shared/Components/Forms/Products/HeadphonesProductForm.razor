@@ -28,11 +28,11 @@
         <h5 for="interface">Złącze</h5>
         <InputText id="interface" class="form-control shadow-none" @bind-Value="headphones.Interface" />
     </div>
-    <DimensionsForm Product="Product"/>
+    <DimensionsForm/>
 }
 
 @code {
-    [CascadingParameter] public IProduct? Product { get; set; }
+    [CascadingParameter] public Product? Product { get; set; }
     private IHeadphonesProduct? headphones;
 
     protected override void OnParametersSet()

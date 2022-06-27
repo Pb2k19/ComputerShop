@@ -28,11 +28,11 @@
         <h5 for="color">Kolor</h5>
         <InputText id="color" class="form-control shadow-none" @bind-Value="computerCase.Color" />
     </div>
-    <DimensionsForm Product="Product"/>
+    <DimensionsForm />
 }
 
 @code {
-    [CascadingParameter] public IProduct? Product { get; set; }
+    [CascadingParameter] public Product? Product { get; set; }
     private IComputerCaseProduct? computerCase;
 
     protected override void OnParametersSet()

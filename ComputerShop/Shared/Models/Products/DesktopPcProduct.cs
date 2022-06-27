@@ -10,14 +10,14 @@ namespace ComputerShop.Shared.Models.Products
         {
             Category = "PC";
         }
-        public Cpu Cpu { get; set; }
-        public Ram Ram { get; set; }
-        public Gpu Gpu { get; set; }
-        public Psu Psu { get; set; }
-        public Motherboard Motherboard { get; set; }
-        public DesktopCase DesktopCase { get; set; }
-        public Cooler Cooler { get; set; }
-        public List<Drive> Drives{ get; set; }
+        public Cpu Cpu { get; set; } = new();
+        public Ram Ram { get; set; } = new();
+        public Gpu Gpu { get; set; } = new();
+        public Psu Psu { get; set; } = new();
+        public Motherboard Motherboard { get; set; } = new();
+        public DesktopCase DesktopCase { get; set; } = new();
+        public Cooler Cooler { get; set; } = new();
+        public List<Drive> Drives { get; set; } = new();
         public int PowerConsumption { get; set; }
     }
 }

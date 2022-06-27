@@ -11,6 +11,6 @@ namespace ComputerShop.Shared.Models.Products
         public int ModulesNumber { get; set; }
         public int FrequencyMHz { get; set; }
         public int LatencyCL { get; set; }
-        public string RamTechnology { get; set; }
+        public string RamTechnology { get; set; } = string.Empty;
     }
 }

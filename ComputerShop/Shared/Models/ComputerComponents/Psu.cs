@@ -4,7 +4,7 @@ namespace ComputerShop.Shared.Models
 {
     public class Psu : IPsu
     {
-        public string Manufacturer { get; set; }
+        public string Manufacturer { get; set; } = string.Empty;
         public int Power { get; set; }
     }
     public static class PsuCertificates

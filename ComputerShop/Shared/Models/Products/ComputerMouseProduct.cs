@@ -10,10 +10,10 @@ namespace ComputerShop.Shared.Models.Products
         }
         public int Weightg {get; set;}
         public bool IsWireless { get; set; }
-        public string Sensor { get; set; }
-        public string Interface { get; set; }
-        public string SensorType { get; set; }
-        public string Color { get; set; }
+        public string Sensor { get; set; } = string.Empty;
+        public string Interface { get; set; } = string.Empty;
+        public string SensorType { get; set; } = string.Empty;
+        public string Color { get; set; } = string.Empty;
         public int PollingRateHz { get; set; }
         public int Widthmm { get; set; }
         public int Heightmm { get; set; }

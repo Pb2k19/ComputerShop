@@ -50,6 +50,7 @@ namespace ComputerShop.Client.Pages
             else
                 iD = invoiceDetails;
             await OrderService.AddOrderAsync(await CartService.GetAllCartItemsAsync(), deliveryDetails, iD);
+            await CartService.ClearCartAsync();
         }
         protected void NextStep()
         {

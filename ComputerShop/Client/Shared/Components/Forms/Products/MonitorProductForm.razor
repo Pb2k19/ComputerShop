@@ -40,11 +40,11 @@
         <h5>TDP</h5>
         <ListForm List="monitor.Ports" />
     </div>
-    <DimensionsForm Product="Product" />
+    <DimensionsForm />
 }
 
 @code {
-    [CascadingParameter] public IProduct? Product { get; set; }
+    [CascadingParameter] public Product? Product { get; set; }
     private IMonitorProduct? monitor;
 
     protected override void OnParametersSet()

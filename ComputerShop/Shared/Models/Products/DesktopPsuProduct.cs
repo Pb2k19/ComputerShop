@@ -13,7 +13,7 @@ namespace ComputerShop.Shared.Models.Products
         public int Pcie6pinCount { get; set; }
         public bool IsModular { get; set; }
         public int FansCount { get; set; }
-        public string Certificate { get; set; }
+        public string Certificate { get; set; } = string.Empty;
         public int Power { get; set; }
         public int SataCount { get; set; }
         public List<StringValue> Protections { get; set; } = new();

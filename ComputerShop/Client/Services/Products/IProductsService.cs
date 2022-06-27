@@ -1,4 +1,5 @@
 ﻿using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Interfaces;
 using ComputerShop.Shared.Models.Products;
 
 namespace ComputerShop.Client.Services.Products
@@ -13,5 +14,8 @@ namespace ComputerShop.Client.Services.Products
         Task<List<Product>> GetProductsByIdListAsync(List<string> id);
         Task<T?> GetProductByIdAsync<T>(string id) where T : Product;
         Task<List<string>> GetProductSuggestionsAsync(string text);
+        Task<SimpleServiceResponse> AddProductAsync<T>(T? product) where T : IProduct;
+        Task<SimpleServiceResponse> EditProductAsync<T>(T? product) where T : IProduct;
+        Task<SimpleServiceResponse> AddCommentAsync(Comment product, string productId);
     }
 }

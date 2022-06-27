@@ -9,8 +9,8 @@ namespace ComputerShop.Shared.Models.Products
             Category = "Monitor";
         }
         public int PanelSizeInch {get; set;}
-        public string AspectRatio { get; set; }
-        public string PanelType { get; set; }
+        public string AspectRatio { get; set; } = string.Empty;
+        public string PanelType { get; set; } = string.Empty;
         public int ResolutionXpx { get; set; }
         public int ResolutionYpx { get; set; }
         public decimal SrgbColorSpacePerc { get; set; }

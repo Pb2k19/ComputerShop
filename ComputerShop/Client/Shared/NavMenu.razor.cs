@@ -24,7 +24,7 @@ namespace ComputerShop.Client.Shared
             new NavigationItem{Name = "Myszy", Path = "categories/mouse" },
             new NavigationItem{Name = "Klawiatury", Path = "categories/keyboard" },
             new NavigationItem{Name = "Słuchawki", Path = "categories/headphones" },
-            new NavigationItem{Name = "Monitory", Path = "categories/montior" },
+            new NavigationItem{Name = "Monitory", Path = "categories/monitor" },
         });
         readonly NavigationItems ComponentsList = new(new List<NavigationItem>
         {

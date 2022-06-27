@@ -52,6 +52,11 @@ namespace ComputerShop.Client.Pages
             NavigationManager?.NavigateTo("summary");
         }
 
+        protected async void ClearCartAsync()
+        {
+            await CartService.ClearCartAsync();
+        }
+
         private void UpdatePrice()
         {
             total = 0;

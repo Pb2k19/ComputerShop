@@ -1,4 +1,4 @@
-﻿@if (Comment != null && OnValidSubmit != null)
+﻿@if (Comment != null)
 {
     <EditForm Model="Comment" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
@@ -36,7 +36,7 @@
 
 @code{
     [Parameter] public Comment? Comment { get; set; }
-    [Parameter] public Action? OnValidSubmit { get; set; }
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
     List<int> scores = new() { 1, 2, 3, 4, 5 };
 
     private void SetScore(int score)

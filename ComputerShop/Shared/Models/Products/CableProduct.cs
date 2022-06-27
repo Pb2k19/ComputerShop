@@ -9,9 +9,9 @@ namespace ComputerShop.Shared.Models.Products
             Category = "Cabel";
         }
         public int Lenghtmm {get; set;}
-        public string CabelType { get; set; }
-        public string ConnectorA { get; set; }
-        public string ConnectorB { get; set; }
-        public string Color { get; set; }
+        public string CabelType { get; set; } = string.Empty;
+        public string ConnectorA { get; set; } = string.Empty;
+        public string ConnectorB { get; set; } = string.Empty;
+        public string Color { get; set; } = string.Empty;
     }
 }

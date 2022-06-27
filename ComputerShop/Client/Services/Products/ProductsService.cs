@@ -1,5 +1,7 @@
 ﻿using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.Interfaces;
 using ComputerShop.Shared.Models.Products;
+using Newtonsoft.Json;
 using System.Net.Http.Json;
 
 namespace ComputerShop.Client.Services.Products
@@ -73,6 +75,41 @@ namespace ComputerShop.Client.Services.Products
             if(result?.Success ?? false)
                 return result?.Data ?? new List<Product>();
             return new List<Product>();
+        }
+
+        public async Task<SimpleServiceResponse> EditProductAsync<T>(T? product) where T : IProduct
+        {
+            if(product == null)
+                return new SimpleServiceResponse { Message = "Produkt nie może mieć wartości null", Success = false };
+
+            StringValue productJson = new() { Value = JsonConvert.SerializeObject(product) };
+            using var response = await httpClient.PostAsJsonAsync($"api/products/editProduct/{product.Category}", productJson);
+            var result = await response.Content.ReadFromJsonAsync<SimpleServiceResponse>();
+            if (result == null)
+                return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
+            return result;
+        }
+
+        public async Task<SimpleServiceResponse> AddProductAsync<T>(T? product) where T : IProduct
+        {
+            if (product == null)
+                return new SimpleServiceResponse { Message = "Produkt nie może mieć wartości null", Success = false };
+
+            StringValue productJson = new() { Value = JsonConvert.SerializeObject(product) };
+            using var response = await httpClient.PostAsJsonAsync($"api/products/addProduct/{product.Category}", productJson);
+            var result = await response.Content.ReadFromJsonAsync<ServiceResponse<List<Product>>>();
+            if (result == null)
+                return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
+            return result;
+        }
+
+        public async Task<SimpleServiceResponse> AddCommentAsync(Comment product, string productId)
+        {
+            using var response = await httpClient.PostAsJsonAsync($"api/products/addComment/{productId}", product);
+            var result = await response.Content.ReadFromJsonAsync<SimpleServiceResponse>();
+            if (result == null)
+                return new SimpleServiceResponse { Message = "Coś poszło nie tak", Success = false };
+            return result;
         }
     }
 }

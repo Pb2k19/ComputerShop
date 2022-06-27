@@ -13,14 +13,14 @@ namespace ComputerShop.Shared.Models.Products
         public int RamSlotsCount { get; set; }
         public int M2SlotsCount { get; set; }
         public int SataConnectorsCount { get; set; }
-        public string Socket { get; set; }
-        public string RamType { get; set; }
-        public string Chipset { get; set; }
+        public string Socket { get; set; } = string.Empty;
+        public string RamType { get; set; } = string.Empty;
+        public string Chipset { get; set; } = string.Empty;
         public int UsbCCount { get; set; }
         public int Usb3Gen1Count { get; set; }
         public int Usb3Gen2Count { get; set; }        
         public int Usb2Count { get; set; }
-        public string Size { get; set; }
+        public string Size { get; set; } = string.Empty;
     }
 
     public static class MotherboardSizes

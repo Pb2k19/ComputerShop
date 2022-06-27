@@ -2,7 +2,7 @@
 {
     public class StringValue
     {
-        public string Value { get; set; }
+        public string Value { get; set; } = string.Empty;
 
         public static List<StringValue> GetStringValues(List<string> strings)
         {
