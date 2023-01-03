@@ -29,7 +29,7 @@ namespace ComputerShop.Server.Services.WishList
                     await userService.UpdateUserAsync(user);
                     return new SimpleServiceResponse();
                 }
-                catch (MongoDB.Driver.MongoException)
+                catch (Exception)
                 {
                     return new SimpleServiceResponse { Message = "Nie można dodać produktu", Success = false };
                 }
@@ -63,7 +63,7 @@ namespace ComputerShop.Server.Services.WishList
                     await userService.UpdateUserAsync(user);
                     return new SimpleServiceResponse();
                 }
-                catch (MongoDB.Driver.MongoException)
+                catch (Exception)
                 {
                     return new SimpleServiceResponse { Message = "Nie można dodać produktu", Success = false };
                 }

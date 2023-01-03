@@ -135,7 +135,7 @@ namespace ComputerShop.Server.Services.User
                 await userData.UpdateUserAsync(user);
                 return new SimpleServiceResponse { Success = true };
             }
-            catch(MongoDB.Driver.MongoException ex)
+            catch(Exception ex)
             {
                 return new SimpleServiceResponse { Success = false, Message = ex.Message };
             }
@@ -147,7 +147,7 @@ namespace ComputerShop.Server.Services.User
                 await userData.CreateUser(user);
                 return new SimpleServiceResponse { Success = true };
             }
-            catch (MongoDB.Driver.MongoException ex)
+            catch (Exception ex)
             {
                 return new SimpleServiceResponse { Success = false, Message = ex.Message };
             }
