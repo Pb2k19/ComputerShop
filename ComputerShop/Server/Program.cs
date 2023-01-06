@@ -7,8 +7,6 @@ using System.Security.Cryptography;
 using ComputerShop.Server.Services.WishList;
 using ComputerShop.Server.DataAccess;
 using ComputerShop.Server.Services.UserDetails;
-using ComputerShop.Server.Services.Payment;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +16,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Server1")));
-
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserDetailsService, UserDetailsService>();
 builder.Services.AddScoped<IProductsService, ProductsService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IWishListService, WishListService>();
 

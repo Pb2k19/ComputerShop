@@ -1,9 +1,7 @@
 ﻿using ComputerShop.Server.DataAccess;
 using ComputerShop.Server.Helpers;
 using ComputerShop.Shared.Models;
-using ComputerShop.Shared.Models.ComputerComponents;
 using ComputerShop.Shared.Models.Products;
-using MongoDB.Driver;
 
 namespace ComputerShop.Server.Services.Products
 {
@@ -149,7 +147,7 @@ namespace ComputerShop.Server.Services.Products
                 await productsData.AddProductAsync(newProduct);
                 return new SimpleServiceResponse() { Success = true };
             }
-            catch (MongoException ex)
+            catch (Exception ex)
             {
                 return new SimpleServiceResponse() { Success = false, Message = ex.Message };
             }
@@ -183,7 +181,7 @@ namespace ComputerShop.Server.Services.Products
                 await productsData.UpdateProductAsync(editProduct);
                 return new SimpleServiceResponse() { Success = true };
             }
-            catch (MongoException ex)
+            catch (Exception ex)
             {
                 return new SimpleServiceResponse() { Success = false, Message = ex.Message };
             }

@@ -21,23 +21,17 @@ namespace ComputerShop.Client.Shared
 
         readonly NavigationItems PeripheryList = new(new List<NavigationItem> 
         {
-            new NavigationItem{Name = "Myszy", Path = "categories/mouse" },
-            new NavigationItem{Name = "Klawiatury", Path = "categories/keyboard" },
-            new NavigationItem{Name = "Słuchawki", Path = "categories/headphones" },
-            new NavigationItem{Name = "Monitory", Path = "categories/monitor" },
+            new NavigationItem{Name = "Myszy", Path = "categories/myszka" },
+            new NavigationItem{Name = "Klawiatury", Path = "categories/klawiatura" },
         });
         readonly NavigationItems ComponentsList = new(new List<NavigationItem>
         {
-            new NavigationItem { Name = "Procesory", Path = "categories/cpu" },
-            new NavigationItem { Name = "Karty graficzne", Path = "categories/gpu" },
-            new NavigationItem { Name = "Płyty główne", Path = "categories/motherboard" },
+            new NavigationItem { Name = "Procesory", Path = "categories/procesor" },
+            new NavigationItem { Name = "Karty graficzne", Path = "categories/karta graficzna" },
+            new NavigationItem { Name = "Płyty główne", Path = "categories/płyta główna" },
             new NavigationItem { Name = "Ram", Path = "categories/ram" },
-            new NavigationItem { Name = "Zasilacze", Path = "categories/psu" },
-            new NavigationItem { Name = "Dyski HDD", Path = "categories/hdd" },
-            new NavigationItem { Name = "Dyski SSD", Path = "categories/ssd" },
-            new NavigationItem { Name = "Obudowy", Path = "categories/case" },
-            new NavigationItem { Name = "Chłodzenie", Path = "categories/cooler" },
-            new NavigationItem { Name = "Przewody", Path = "categories/cabel" },
+            new NavigationItem { Name = "Dyski HDD", Path = "categories/dysk" },
+            new NavigationItem { Name = "Chłodzenie", Path = "categories/chłodzenie" },
         });
         readonly NavigationItems AccountOptions = new(new List<NavigationItem>
         {

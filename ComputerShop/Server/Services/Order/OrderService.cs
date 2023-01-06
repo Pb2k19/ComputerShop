@@ -102,7 +102,7 @@ namespace ComputerShop.Server.Services.Order
                 else
                     return new ServiceResponse<OrderModel> { Success = false, Message = "Nie znaleziono zamówienia" };
             }
-            catch (MongoDB.Driver.MongoException ex)
+            catch (Exception ex)
             {
                 return new ServiceResponse<OrderModel> { Success = false, Message = ex.Message };
             }
@@ -124,7 +124,7 @@ namespace ComputerShop.Server.Services.Order
                 else
                     return new ServiceResponse<OrderModel> { Success = false, Message = "Nie znaleziono zamówienia" };
             }
-            catch (MongoDB.Driver.MongoException ex)
+            catch (Exception ex)
             {
                 return new ServiceResponse<OrderModel> { Success = false, Message = ex.Message };
             }

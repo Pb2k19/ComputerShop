@@ -1,33 +1,143 @@
 ﻿using ComputerShop.Shared.Models.User;
-using MongoDB.Driver;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace ComputerShop.Server.DataAccess
 {
     public class UserData : IUserData
     {
-        private readonly IMongoCollection<UserModel> users;
+        string connectionString;
 
-        public UserData(IDbConnection dbConnection)
+        public UserData(IConfiguration configuration)
         {
-            users = dbConnection.UserCollection;
+            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
         public async Task<List<UserModel>> GetAllUsersAsync()
         {
-            return (await users.FindAsync(_ => true)).ToList();
+            string query =
+            """ 
+            Select * from [Sklep].[dbo].[UserModel]
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            await Task.Run(() => dataAdapter.Fill(table));
+
+            return GetUsers(table);
         }
         public async Task<UserModel> GetUserByIdAsync(string id)
         {
-            return (await users.FindAsync(x => x.Id.Equals(id))).FirstOrDefault();
+            string query =
+            $""" 
+            exec user_by_id {id}
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            await Task.Run(() => dataAdapter.Fill(table));
+
+            return GetUser(table);
         }
         public Task CreateUser(UserModel user)
         {
-            return users.InsertOneAsync(user);
+            string query =
+            $""" 
+            exec create_user {user.Email}, {user.CreationDate}
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            return Task.Run(() => dataAdapter.Fill(table));
         }
         public Task UpdateUserAsync(UserModel user)
         {
-            FilterDefinition<UserModel>? filter = Builders<UserModel>.Filter.Eq(nameof(UserModel.Id), user.Id);
-            return users.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert = true });
+            string query =
+            $""" 
+            exec update_user {user.Id}, {user.Email}, {user.CreationDate}
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            return Task.Run(() => dataAdapter.Fill(table));
         }
+
+        public async Task<RegisteredUser?> GetRegisteredUserByEmailAsync(string email)
+        {
+            string query =
+            $""" 
+            exec get_registered_user_by_email {email}
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            await Task.Run(() => dataAdapter.Fill(table));
+
+            return GetRegisteredUser(table);
+        }
+
+        public async Task<RegisteredUser?> GetAnyUserByEmailAsync(string email)
+        {
+            string query =
+            $""" 
+            exec get_any_user_by_email {email}
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            await Task.Run(() => dataAdapter.Fill(table));
+
+            return GetRegisteredUser(table);
+        }
+
+        public async Task<RegisteredUser?> GetRegisteredUserByIdAsync(string id)
+        {
+            string query =
+            $""" 
+            exec get_registered_user_by_id {id}
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            await Task.Run(() => dataAdapter.Fill(table));
+
+            return GetRegisteredUser(table);
+        }
+
         public async Task<OrderModel?> GetOrderAsync(string id)
         {
             return (await GetAllUsersAsync()).Select(u => u.Orders.FirstOrDefault(o => o.Id.Equals(id))).FirstOrDefault();
@@ -60,19 +170,59 @@ namespace ComputerShop.Server.DataAccess
             await UpdateUserAsync(user);
         }
 
-        public async Task<RegisteredUser?> GetRegisteredUserByEmailAsync(string email)
+
+        private List<UserModel> GetUsers(DataTable data)
         {
-            return (await users.FindAsync(x => x is RegisteredUser && x.Email.Equals(email))).FirstOrDefault() as RegisteredUser;
+            UserModel user = new();
+            List<UserModel> users = new();
+
+            for (int i = 0; i < data.Rows.Count; i++)
+            {
+                user = new()
+                {
+                    Orders = new(), //tmp
+
+                    CreationDate = DateTime.Parse(data.Rows[i]["CreationDate"].ToString()),
+                    Email = data.Rows[i]["Email"].ToString(),
+                    Id = data.Rows[i]["id"].ToString()
+                };
+                users.Add(user);
+            }
+
+            return users;
         }
 
-        public async Task<RegisteredUser?> GetAnyUserByEmailAsync(string email)
+        private UserModel GetUser(DataTable data)
         {
-            return (await users.FindAsync(x => x.Email.Equals(email))).FirstOrDefault() as RegisteredUser;
+            UserModel user = new()
+            {
+                Orders = new(), //tmp
+
+                CreationDate = DateTime.Parse(data.Rows[0]["CreationDate"].ToString()),
+                Email = data.Rows[0]["Email"].ToString(),
+                Id = data.Rows[0]["id"].ToString()
+            };
+
+            return user;
         }
 
-        public async Task<RegisteredUser?> GetRegisteredUserByIdAsync(string id)
+        private RegisteredUser GetRegisteredUser(DataTable data)
         {
-            return (await users.FindAsync(x => x is RegisteredUser && x.Id.Equals(id))).FirstOrDefault() as RegisteredUser;
+            RegisteredUser user = new()
+            {
+                Orders = new(), //tmp
+                WishList = new(), //tmp
+                DeliveryDetails = new(), //tmp
+                InvoiceDetails = new(), //tmp
+
+                Password = data.Rows[0]["password"].ToString(),
+                Role = data.Rows[0]["Role"].ToString(),
+                CreationDate = DateTime.Parse(data.Rows[0]["CreationDate"].ToString()),
+                Email = data.Rows[0]["Email"].ToString(),
+                Id = data.Rows[0]["id"].ToString()
+            };
+
+            return user;
         }
     }
 }
