@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Globalization;
+using System.Text;
 
 namespace ComputerShop.Server.DataAccess
 {
@@ -58,7 +59,7 @@ namespace ComputerShop.Server.DataAccess
                 RegisteredUser registeredUser = (RegisteredUser)user;
                 query =
                 $""" 
-                exec create_registered_user '{registeredUser.Email}', '{registeredUser.CreationDate}', null, '{registeredUser.DeliveryDetails?.PostCode}', '{registeredUser.DeliveryDetails?.City}', '{registeredUser.DeliveryDetails?.Street}',
+                exec create_registered_user '{registeredUser.Email}', '{registeredUser.CreationDate}', '{registeredUser.DeliveryDetails.Name}', '{registeredUser.DeliveryDetails?.PostCode}', '{registeredUser.DeliveryDetails?.City}', '{registeredUser.DeliveryDetails?.Street}',
                 '{registeredUser.DeliveryDetails?.HouseNumber}', '{registeredUser.DeliveryDetails?.PhoneNumber}', '{registeredUser.DeliveryDetails?.DeliveryMethod}', '{registeredUser.InvoiceDetails?.IsBusiness}', '{registeredUser.InvoiceDetails?.Nip}', '{registeredUser.Password}', '{registeredUser.Role}'
                 """;
             }
@@ -71,14 +72,18 @@ namespace ComputerShop.Server.DataAccess
             }
 
             DataTable table = new();
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
                 using var connection = new SqlConnection(connectionString);
                 using var command = new SqlCommand(query, connection);
                 using var dataAdapter = new SqlDataAdapter(command);
 
-                command.CommandType = CommandType.StoredProcedure;
+                command.CommandType = CommandType.Text;
                 dataAdapter.Fill(table);
+
+                await UpdateOrderItems(user);
+                if (user is RegisteredUser)
+                    await UpdatWishListItemsAsync((RegisteredUser)user);
             });
         }
         public Task UpdateUserAsync(UserModel user)
@@ -90,7 +95,7 @@ namespace ComputerShop.Server.DataAccess
                 RegisteredUser registeredUser = (RegisteredUser)user;
                 query =
                 $""" 
-                exec create_registered_user '{registeredUser.Id}', '{registeredUser.Email}', '{registeredUser.CreationDate}', null, '{registeredUser.DeliveryDetails?.PostCode}', '{registeredUser.DeliveryDetails?.City}', '{registeredUser.DeliveryDetails?.Street}',
+                exec update_registered_user '{registeredUser.Id}', '{registeredUser.Email}', '{registeredUser.CreationDate}', '{registeredUser.DeliveryDetails.Name}', '{registeredUser.DeliveryDetails?.PostCode}', '{registeredUser.DeliveryDetails?.City}', '{registeredUser.DeliveryDetails?.Street}',
                 '{registeredUser.DeliveryDetails?.HouseNumber}', '{registeredUser.DeliveryDetails?.PhoneNumber}', '{registeredUser.DeliveryDetails?.DeliveryMethod}', '{registeredUser.InvoiceDetails?.IsBusiness}', '{registeredUser.InvoiceDetails?.Nip}', '{registeredUser.Password}', '{registeredUser.Role}'
                 """;
             }
@@ -102,15 +107,21 @@ namespace ComputerShop.Server.DataAccess
                 """;
             }
 
+            return Task.Run(async () =>
+            {
+                DataTable table = new();
 
-            DataTable table = new();
+                using var connection = new SqlConnection(connectionString);
+                using var command = new SqlCommand(query, connection);
+                using var dataAdapter = new SqlDataAdapter(command);
 
-            using var connection = new SqlConnection(connectionString);
-            using var command = new SqlCommand(query, connection);
-            using var dataAdapter = new SqlDataAdapter(command);
+                command.CommandType = CommandType.Text;
+                dataAdapter.Fill(table);
 
-            command.CommandType = CommandType.Text;
-            return Task.Run(() => dataAdapter.Fill(table));
+                await UpdateOrderItems(user);
+                if (user is RegisteredUser)
+                    await UpdatWishListItemsAsync((RegisteredUser)user);
+            });
         }
 
         public async Task<RegisteredUser?> GetRegisteredUserByEmailAsync(string email)
@@ -121,13 +132,15 @@ namespace ComputerShop.Server.DataAccess
             """;
 
             DataTable table = new();
+            await Task.Run(() =>
+            {
+                using var connection = new SqlConnection(connectionString);
+                using var command = new SqlCommand(query, connection);
+                using var dataAdapter = new SqlDataAdapter(command);
 
-            using var connection = new SqlConnection(connectionString);
-            using var command = new SqlCommand(query, connection);
-            using var dataAdapter = new SqlDataAdapter(command);
-
-            command.CommandType = CommandType.Text;
-            await Task.Run(() => dataAdapter.Fill(table));
+                command.CommandType = CommandType.Text;
+                dataAdapter.Fill(table);
+            });
 
             return await GetRegisteredUser(table);
         }
@@ -140,13 +153,15 @@ namespace ComputerShop.Server.DataAccess
             """;
 
             DataTable table = new();
+            await Task.Run(() =>
+            {
+                using var connection = new SqlConnection(connectionString);
+                using var command = new SqlCommand(query, connection);
+                using var dataAdapter = new SqlDataAdapter(command);
 
-            using var connection = new SqlConnection(connectionString);
-            using var command = new SqlCommand(query, connection);
-            using var dataAdapter = new SqlDataAdapter(command);
-
-            command.CommandType = CommandType.Text;
-            await Task.Run(() => dataAdapter.Fill(table));
+                command.CommandType = CommandType.Text;
+                dataAdapter.Fill(table);
+            });
 
             return await GetRegisteredUser(table);
         }
@@ -160,12 +175,15 @@ namespace ComputerShop.Server.DataAccess
 
             DataTable table = new();
 
-            using var connection = new SqlConnection(connectionString);
-            using var command = new SqlCommand(query, connection);
-            using var dataAdapter = new SqlDataAdapter(command);
+            await Task.Run(() =>
+            {
+                using var connection = new SqlConnection(connectionString);
+                using var command = new SqlCommand(query, connection);
+                using var dataAdapter = new SqlDataAdapter(command);
 
-            command.CommandType = CommandType.Text;
-            await Task.Run(() => dataAdapter.Fill(table));
+                command.CommandType = CommandType.Text;
+                dataAdapter.Fill(table);
+            });
 
             return await GetRegisteredUser(table);
         }
@@ -205,7 +223,7 @@ namespace ComputerShop.Server.DataAccess
 
         private async Task<List<UserModel>> GetUsers(DataTable data)
         {
-            UserModel user = new();
+            UserModel user;
             List<UserModel> users = new();
 
             for (int i = 0; i < data.Rows.Count; i++)
@@ -245,13 +263,13 @@ namespace ComputerShop.Server.DataAccess
                 Role = data.Rows[0]["role"].ToString(),
                 CreationDate = DateTime.Parse(data.Rows[0]["creation_date"].ToString()),
                 Email = data.Rows[0]["email"].ToString(),
-                Id = data.Rows[0]["id"].ToString()
+                Id = data.Rows[0]["um_id"].ToString()
             };
 
             user.WishList = await GetWishList(user.Id);
             user.Orders = await GetOrders(user.Id);
             user.DeliveryDetails = await GetDeliveryDetails(user.Id);
-            user.InvoiceDetails = new();
+            user.InvoiceDetails = await GetInvoiceDetails(user.Id);
 
             return user;
         }
@@ -417,6 +435,60 @@ namespace ComputerShop.Server.DataAccess
             }
 
             return items;
+        }
+
+        public async Task UpdateOrderItems(UserModel user)
+        {
+            StringBuilder stringBuilder = new();
+
+            foreach (var item in user.Orders)
+            {
+                stringBuilder.Append(
+                """
+
+                """);
+            }
+
+            string query = stringBuilder.ToString();
+
+            await Task.Run(() =>
+            {
+                DataTable table = new();
+
+                using var connection = new SqlConnection(connectionString);
+                using var command = new SqlCommand(query, connection);
+                using var dataAdapter = new SqlDataAdapter(command);
+
+                command.CommandType = CommandType.Text;
+                dataAdapter.Fill(table);
+            });
+        }
+
+        public async Task UpdatWishListItemsAsync(RegisteredUser user)
+        {
+            StringBuilder stringBuilder = new();
+
+            foreach (var item in user.WishList.List)
+            {
+                stringBuilder.Append(
+                """
+
+                """);
+            }
+
+            string query = stringBuilder.ToString();
+
+            await Task.Run(() =>
+            {
+                DataTable table = new();
+
+                using var connection = new SqlConnection(connectionString);
+                using var command = new SqlCommand(query, connection);
+                using var dataAdapter = new SqlDataAdapter(command);
+
+                command.CommandType = CommandType.Text;
+                dataAdapter.Fill(table);
+            });
         }
     }
 }
