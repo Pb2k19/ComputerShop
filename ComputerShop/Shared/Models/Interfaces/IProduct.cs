@@ -1,13 +1,9 @@
 ﻿using ComputerShop.Shared.Models.Products;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace ComputerShop.Shared.Models.Interfaces
 {
     public interface IProduct
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Name { get; set; }
         public string Manufacturer { get; set; }

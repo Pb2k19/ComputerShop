@@ -49,7 +49,7 @@ namespace ComputerShop.Server.DataAccess
         {
             string query =
             $""" 
-            exec product_by_id {id}
+            exec product_by_id '{id}'
             """;
 
             DataTable table = new();
@@ -67,7 +67,7 @@ namespace ComputerShop.Server.DataAccess
         {
             string query =
             $""" 
-            exec product_by_id_and_is_public {id}
+            exec product_by_id_and_is_public '{id}'
             """;
 
             DataTable table = new();
@@ -85,8 +85,8 @@ namespace ComputerShop.Server.DataAccess
         {
             string query =
             $""" 
-            exec insert_product {product.Name}, {product.Manufacturer}, {product.Description}, {product.Category}, {product.Price}, {product.PriceBeforeDiscount}, 
-                {product.IsPublic}, {product.IsRemoved}, {product.IsAvaliable}, {product.IsHiglighted}, {product.CareationDate}, {product.LastUpdateDate}, {product.WarantyMonths}
+            exec insert_product '{product.Name}', '{product.Manufacturer}', '{product.Description}', '{product.Category}', '{product.Price}', '{product.PriceBeforeDiscount}', 
+                '{product.IsPublic}', '{product.IsRemoved}', '{product.IsAvaliable}', '{product.IsHiglighted}', '{product.CareationDate}', '{product.LastUpdateDate}', '{product.WarantyMonths}', '{product.Images.FirstOrDefault().Location}'
             """;
 
             DataTable table = new();
@@ -102,8 +102,8 @@ namespace ComputerShop.Server.DataAccess
         {
             string query =
             $""" 
-            exec update_product {product.Name}, {product.Manufacturer}, {product.Description}, {product.Category}, {product.Price}, {product.PriceBeforeDiscount}, 
-                {product.IsPublic}, {product.IsRemoved}, {product.IsAvaliable}, {product.IsHiglighted}, {product.CareationDate}, {product.LastUpdateDate}, {product.WarantyMonths}
+            exec update_product '{product.Name}', '{product.Manufacturer}', '{product.Description}', '{product.Category}', '{product.Price}', '{product.PriceBeforeDiscount}', 
+                '{product.IsPublic}', '{product.IsRemoved}', '{product.IsAvaliable}', '{product.IsHiglighted}', '{product.CareationDate}', '{product.LastUpdateDate}', '{product.WarantyMonths}', '{product.Images.FirstOrDefault().Location}'
             """;
 
             DataTable table = new();
@@ -130,7 +130,7 @@ namespace ComputerShop.Server.DataAccess
                     CareationDate = Convert.ToDateTime(data.Rows[i]["creation_date"].ToString()),
                     Category = data.Rows[i]["category"].ToString(),
                     Id = data.Rows[i]["p_id"].ToString(),
-                    Images = new() { new Shared.Models.Image() }, //tmp
+                    Images = new() { new Shared.Models.Image { Location = data.Rows[i]["image"].ToString() } },
                     IsAvaliable = Convert.ToBoolean(data.Rows[i]["is_avaliable"]),
                     IsHiglighted = Convert.ToBoolean(data.Rows[i]["is_highlighted"]),
                     IsPublic = Convert.ToBoolean(data.Rows[i]["is_public"]),
@@ -158,7 +158,7 @@ namespace ComputerShop.Server.DataAccess
                 CareationDate = Convert.ToDateTime(data.Rows[0]["creation_date"].ToString()),
                 Category = data.Rows[0]["category"].ToString(),
                 Id = data.Rows[0]["p_id"].ToString(),
-                Images = new() { new Shared.Models.Image()}, //tmp
+                Images = new() { new Shared.Models.Image { Location = data.Rows[0]["image"].ToString() } },
                 IsAvaliable = Convert.ToBoolean(data.Rows[0]["is_avaliable"]),
                 IsHiglighted = Convert.ToBoolean(data.Rows[0]["is_highlighted"]),
                 IsPublic = Convert.ToBoolean(data.Rows[0]["is_public"]),

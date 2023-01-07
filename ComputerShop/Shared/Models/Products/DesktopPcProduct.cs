@@ -1,6 +1,5 @@
 ﻿using ComputerShop.Shared.Models.ComputerComponents;
 using ComputerShop.Shared.Models.Products.Interfaces;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace ComputerShop.Shared.Models.Products
 {

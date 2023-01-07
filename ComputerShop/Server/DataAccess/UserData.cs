@@ -1,11 +1,13 @@
 ﻿using ComputerShop.Shared.Models.User;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Globalization;
 
 namespace ComputerShop.Server.DataAccess
 {
     public class UserData : IUserData
     {
+        private readonly CultureInfo decimalConvertionInfo = new CultureInfo("en-US");
         string connectionString;
 
         public UserData(IConfiguration configuration)
@@ -28,13 +30,13 @@ namespace ComputerShop.Server.DataAccess
             command.CommandType = CommandType.Text;
             await Task.Run(() => dataAdapter.Fill(table));
 
-            return GetUsers(table);
+            return await GetUsers(table);
         }
         public async Task<UserModel> GetUserByIdAsync(string id)
         {
             string query =
             $""" 
-            exec user_by_id {id}
+            exec user_by_id '{id}'
             """;
 
             DataTable table = new();
@@ -46,30 +48,60 @@ namespace ComputerShop.Server.DataAccess
             command.CommandType = CommandType.Text;
             await Task.Run(() => dataAdapter.Fill(table));
 
-            return GetUser(table);
+            return await GetUser(table);
         }
         public Task CreateUser(UserModel user)
         {
-            string query =
-            $""" 
-            exec create_user {user.Email}, {user.CreationDate}
-            """;
+            string query = string.Empty;
+            if (user is RegisteredUser)
+            {
+                RegisteredUser registeredUser = (RegisteredUser)user;
+                query =
+                $""" 
+                exec create_registered_user '{registeredUser.Email}', '{registeredUser.CreationDate}', null, '{registeredUser.DeliveryDetails?.PostCode}', '{registeredUser.DeliveryDetails?.City}', '{registeredUser.DeliveryDetails?.Street}',
+                '{registeredUser.DeliveryDetails?.HouseNumber}', '{registeredUser.DeliveryDetails?.PhoneNumber}', '{registeredUser.DeliveryDetails?.DeliveryMethod}', '{registeredUser.InvoiceDetails?.IsBusiness}', '{registeredUser.InvoiceDetails?.Nip}', '{registeredUser.Password}', '{registeredUser.Role}'
+                """;
+            }
+            else
+            {
+                query =
+                $""" 
+                exec create_user '{user.Email}', '{user.CreationDate}'
+                """;
+            }
 
             DataTable table = new();
+            return Task.Run(() =>
+            {
+                using var connection = new SqlConnection(connectionString);
+                using var command = new SqlCommand(query, connection);
+                using var dataAdapter = new SqlDataAdapter(command);
 
-            using var connection = new SqlConnection(connectionString);
-            using var command = new SqlCommand(query, connection);
-            using var dataAdapter = new SqlDataAdapter(command);
-
-            command.CommandType = CommandType.Text;
-            return Task.Run(() => dataAdapter.Fill(table));
+                command.CommandType = CommandType.StoredProcedure;
+                dataAdapter.Fill(table);
+            });
         }
         public Task UpdateUserAsync(UserModel user)
         {
-            string query =
-            $""" 
-            exec update_user {user.Id}, {user.Email}, {user.CreationDate}
-            """;
+            string query = string.Empty;
+
+            if(user is RegisteredUser)
+            {
+                RegisteredUser registeredUser = (RegisteredUser)user;
+                query =
+                $""" 
+                exec create_registered_user '{registeredUser.Id}', '{registeredUser.Email}', '{registeredUser.CreationDate}', null, '{registeredUser.DeliveryDetails?.PostCode}', '{registeredUser.DeliveryDetails?.City}', '{registeredUser.DeliveryDetails?.Street}',
+                '{registeredUser.DeliveryDetails?.HouseNumber}', '{registeredUser.DeliveryDetails?.PhoneNumber}', '{registeredUser.DeliveryDetails?.DeliveryMethod}', '{registeredUser.InvoiceDetails?.IsBusiness}', '{registeredUser.InvoiceDetails?.Nip}', '{registeredUser.Password}', '{registeredUser.Role}'
+                """;
+            }
+            else
+            {
+                query = 
+                $""" 
+                exec update_user '{user.Id}', '{user.Email}', '{user.CreationDate}'
+                """;
+            }
+
 
             DataTable table = new();
 
@@ -84,8 +116,8 @@ namespace ComputerShop.Server.DataAccess
         public async Task<RegisteredUser?> GetRegisteredUserByEmailAsync(string email)
         {
             string query =
-            $""" 
-            exec get_registered_user_by_email {email}
+            $"""
+            exec get_registered_user_by_email '{email}'
             """;
 
             DataTable table = new();
@@ -97,14 +129,14 @@ namespace ComputerShop.Server.DataAccess
             command.CommandType = CommandType.Text;
             await Task.Run(() => dataAdapter.Fill(table));
 
-            return GetRegisteredUser(table);
+            return await GetRegisteredUser(table);
         }
 
         public async Task<RegisteredUser?> GetAnyUserByEmailAsync(string email)
         {
             string query =
             $""" 
-            exec get_any_user_by_email {email}
+            exec get_any_user_by_email '{email}'
             """;
 
             DataTable table = new();
@@ -116,14 +148,14 @@ namespace ComputerShop.Server.DataAccess
             command.CommandType = CommandType.Text;
             await Task.Run(() => dataAdapter.Fill(table));
 
-            return GetRegisteredUser(table);
+            return await GetRegisteredUser(table);
         }
 
         public async Task<RegisteredUser?> GetRegisteredUserByIdAsync(string id)
         {
             string query =
             $""" 
-            exec get_registered_user_by_id {id}
+            exec get_registered_user_by_id '{id}'
             """;
 
             DataTable table = new();
@@ -135,7 +167,7 @@ namespace ComputerShop.Server.DataAccess
             command.CommandType = CommandType.Text;
             await Task.Run(() => dataAdapter.Fill(table));
 
-            return GetRegisteredUser(table);
+            return await GetRegisteredUser(table);
         }
 
         public async Task<OrderModel?> GetOrderAsync(string id)
@@ -171,7 +203,7 @@ namespace ComputerShop.Server.DataAccess
         }
 
 
-        private List<UserModel> GetUsers(DataTable data)
+        private async Task<List<UserModel>> GetUsers(DataTable data)
         {
             UserModel user = new();
             List<UserModel> users = new();
@@ -180,49 +212,211 @@ namespace ComputerShop.Server.DataAccess
             {
                 user = new()
                 {
-                    Orders = new(), //tmp
-
-                    CreationDate = DateTime.Parse(data.Rows[i]["CreationDate"].ToString()),
-                    Email = data.Rows[i]["Email"].ToString(),
-                    Id = data.Rows[i]["id"].ToString()
+                    CreationDate = DateTime.Parse(data.Rows[i]["creation_date"].ToString()),
+                    Email = data.Rows[i]["email"].ToString(),
+                    Id = data.Rows[i]["um_id"].ToString()
                 };
+                user.Orders = await GetOrders(user.Id);
                 users.Add(user);
             }
 
             return users;
         }
 
-        private UserModel GetUser(DataTable data)
+        private async Task<UserModel> GetUser(DataTable data)
         {
             UserModel user = new()
             {
-                Orders = new(), //tmp
-
-                CreationDate = DateTime.Parse(data.Rows[0]["CreationDate"].ToString()),
-                Email = data.Rows[0]["Email"].ToString(),
-                Id = data.Rows[0]["id"].ToString()
+                CreationDate = DateTime.Parse(data.Rows[0]["creation_date"].ToString()),
+                Email = data.Rows[0]["email"].ToString(),
+                Id = data.Rows[0]["um_id"].ToString()
             };
+
+            user.Orders = await GetOrders(user.Id);
 
             return user;
         }
 
-        private RegisteredUser GetRegisteredUser(DataTable data)
+        private async Task<RegisteredUser> GetRegisteredUser(DataTable data)
         {
             RegisteredUser user = new()
             {
-                Orders = new(), //tmp
-                WishList = new(), //tmp
-                DeliveryDetails = new(), //tmp
-                InvoiceDetails = new(), //tmp
-
                 Password = data.Rows[0]["password"].ToString(),
-                Role = data.Rows[0]["Role"].ToString(),
-                CreationDate = DateTime.Parse(data.Rows[0]["CreationDate"].ToString()),
-                Email = data.Rows[0]["Email"].ToString(),
+                Role = data.Rows[0]["role"].ToString(),
+                CreationDate = DateTime.Parse(data.Rows[0]["creation_date"].ToString()),
+                Email = data.Rows[0]["email"].ToString(),
                 Id = data.Rows[0]["id"].ToString()
             };
 
+            user.WishList = await GetWishList(user.Id);
+            user.Orders = await GetOrders(user.Id);
+            user.DeliveryDetails = await GetDeliveryDetails(user.Id);
+            user.InvoiceDetails = new();
+
             return user;
+        }
+
+        private async Task<List<OrderModel>> GetOrders(string userId)
+        {
+            string query =
+            $""" 
+            exec get_orders_by_user '{userId}' 
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            await Task.Run(() => dataAdapter.Fill(table));
+
+            List<OrderModel> orders = new();
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                var order = new OrderModel
+                {
+                    Id = table.Rows[i]["om_id"].ToString(),
+                    DeliveryDetails = await GetDeliveryDetails(userId),                    
+                    InvoiceDetails = await GetInvoiceDetails(userId),
+                    OrderDate = DateTime.Parse(table.Rows[0]["order_date"].ToString()),
+                    State = table.Rows[i]["state"].ToString(),
+                    Total = decimal.Parse(table.Rows[0]["total"].ToString(), decimalConvertionInfo)
+                };
+                order.CartItems = await GetCartItem(order.Id);
+                orders.Add(order);
+            }
+
+            return orders;
+        }
+
+        private async Task<WishListModel> GetWishList(string userId)
+        {
+            string query =
+            $""" 
+            exec get_whishlisted_products_by_user '{userId}'
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            await Task.Run(() => dataAdapter.Fill(table));
+
+            WishListModel wishlist = new();
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                wishlist.List.Add(new WishListItem
+                {
+                    Date = DateTime.Parse(table.Rows[0]["creation_date"].ToString()),
+                    ProductId = table.Rows[i]["id"].ToString()
+                });
+            }
+
+            return wishlist;
+        }
+
+        private async Task<DeliveryDetails> GetDeliveryDetails(string userId)
+        {
+            string query =
+            $""" 
+            exec get_delivery_details_by_user '{userId}'
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            await Task.Run(() => dataAdapter.Fill(table));
+
+            if (table.Rows.Count == 0)
+                return new DeliveryDetails();
+
+            DeliveryDetails deliveryDetails = new()
+            {
+                City = table.Rows[0]["city"].ToString(),
+                DeliveryMethod = table.Rows[0]["delivery_method"].ToString(),
+                Email = table.Rows[0]["email"].ToString(),
+                HouseNumber = table.Rows[0]["house_number"].ToString(),
+                Name = table.Rows[0]["name"].ToString(),
+                PaymentMethod = "Przy odbiorze",
+                PhoneNumber = table.Rows[0]["phone_number"].ToString(),
+                PostCode = table.Rows[0]["post_code"].ToString(),
+                Street = table.Rows[0]["street"].ToString()
+            };
+
+            return deliveryDetails;
+        }
+
+        private async Task<InvoiceDetails> GetInvoiceDetails(string userId)
+        {
+            string query =
+            $""" 
+            exec get_invoice_details_by_user '{userId}'
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            await Task.Run(() => dataAdapter.Fill(table));
+
+            if (table.Rows.Count == 0)
+                return new InvoiceDetails();
+
+            InvoiceDetails deliveryDetails = new()
+            {
+                City = table.Rows[0]["city"].ToString(),
+                Name = table.Rows[0]["name"].ToString(),
+                Street = table.Rows[0]["street"].ToString(),
+                IsBusiness = Convert.ToBoolean(table.Rows[0]["is_business"].ToString()),
+                Nip = table.Rows[0]["nip"].ToString(),
+            };
+
+            return deliveryDetails;
+        }
+
+        private async Task<List<CartItem>> GetCartItem(string orderId)
+        {
+            string query =
+            $""" 
+            exec get_order_item '{orderId}'
+            """;
+
+            DataTable table = new();
+
+            using var connection = new SqlConnection(connectionString);
+            using var command = new SqlCommand(query, connection);
+            using var dataAdapter = new SqlDataAdapter(command);
+
+            command.CommandType = CommandType.Text;
+            await Task.Run(() => dataAdapter.Fill(table));
+
+            if (table.Rows.Count == 0)
+                return new List<CartItem>();
+
+            List<CartItem> items = new();
+            for (int i = 0; i < table.Rows.Count; i++)
+            {
+                items.Add(new CartItem
+                {
+                    Price = decimal.Parse(table.Rows[0]["price"].ToString(), decimalConvertionInfo),
+                    Quantity = 1,
+                    ProductId = table.Rows[0]["p_id"].ToString()
+                });
+            }
+
+            return items;
         }
     }
 }

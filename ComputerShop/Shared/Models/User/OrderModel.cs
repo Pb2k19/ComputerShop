@@ -1,11 +1,7 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
-namespace ComputerShop.Shared.Models.User
+﻿namespace ComputerShop.Shared.Models.User
 {
     public class OrderModel
     {
-        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.UtcNow;
         public List<CartItem> CartItems { get; set; } = new();
@@ -16,7 +12,7 @@ namespace ComputerShop.Shared.Models.User
 
         public void SetId()
         {
-            Id = ObjectId.GenerateNewId().ToString();
+            Id = new Guid().ToString();
         }
     }
 

@@ -1,9 +1,7 @@
 ﻿using ComputerShop.Shared.Models.Interfaces;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace ComputerShop.Shared.Models.ComputerComponents
 {
-    [BsonKnownTypes(typeof(Ssd), typeof(Hdd))]
     public class Drive : IDrive
     {
         public string Manufacturer { get; set; } = string.Empty;
