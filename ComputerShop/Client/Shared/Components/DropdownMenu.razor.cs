@@ -8,7 +8,7 @@ namespace ComputerShop.Client.Shared.Components
         [Parameter] public RenderFragment? InitTitle { get; set; }
         [Parameter] public EventCallback<int> OnSelected { get; set; }
         [Parameter] public EventCallback OnTitleClick { get; set; }
-        [Parameter] public List<TItem>? Items { get; set; }
+        [Parameter] public IList<TItem>? Items { get; set; }
         [Parameter] public bool ChangeTitleToSelectedValue { get; set; } = true;
         [Parameter] public string ButtonClassCss { get; set; } = "btn-primary";
         [Parameter] public string? Icon { get; set; } = null;

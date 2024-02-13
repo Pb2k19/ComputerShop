@@ -14,10 +14,10 @@ namespace ComputerShop.Client.Pages
         [Parameter] public string? Category { get; set; }
         readonly NavigationItems navigationItems = new(new List<NavigationItem>
         {
-            new NavigationItem { Name = "Dodaj nowy produkt", Path="add-product"},
-            new NavigationItem { Name = "Edytuj produkty", Path="product-list"},
-            new NavigationItem { Name = "Lista użytkowników", Path="user-list"},
-            new NavigationItem { Name = "Lista zamówień", Path="order-list"},
+            new() { Name = "Dodaj nowy produkt", Path="add-product"},
+            new() { Name = "Edytuj produkty", Path="product-list"},
+            new() { Name = "Lista użytkowników", Path="user-list"},
+            new() { Name = "Lista zamówień", Path="order-list"},
         });
         private List<Product> products = new();
         private List<UserModel> users = new();
