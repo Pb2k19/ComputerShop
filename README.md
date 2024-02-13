@@ -4,16 +4,16 @@ This is a web application for computer shop developed using Blazor WebAssembly a
 
 ## Features
 
-* Browse Products: Explore a wide range of computer hardware conveniently categorized for easy navigation.
-* Product Details: View detailed information about each product.
-* Search: Quickly find specific products using the search bar.
-* User Authentication: Secure user authentication and authorization.
-* Shopping Cart: Add desired products to the shopping cart.
-* Wish List: Save your favorite products to a wish list for easy access.
-* Checkout Process: Smooth and intuitive checkout process.
-* Delivery and Invoice Details: Save and manage delivery addresses and invoice details for streamlined purchasing.
-* Product Reviews and Ratings: Share your opinions and experiences by adding reviews and ratings.
-* Admin Panel: Administrators have access to admin panel for managing products, dispay user accounts and orders.
+* Browse Products - Explore a wide range of computer hardware conveniently categorized for easy navigation.
+* Product Details - View detailed information about each product.
+* Search - Quickly find specific products using the search bar.
+* User Authentication - Secure user authentication and authorization.
+* Shopping Cart - Add desired products to the shopping cart.
+* Wish List - Save your favorite products to a wish list for easy access.
+* Checkout Process - Smooth and intuitive checkout process.
+* Delivery and Invoice Details - Save and manage delivery addresses and invoice details for streamlined purchasing.
+* Product Reviews and Ratings - Share your opinions and experiences by adding reviews and ratings.
+* Admin Panel - Administrators have access to admin panel for managing products, dispay user accounts and orders.
 
 
 ## Technologies Used
