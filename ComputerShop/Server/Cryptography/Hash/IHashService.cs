@@ -3,6 +3,7 @@
 public interface IHashService
 {
     public string AlgorithmName { get; }
+    public string CreateHashString(byte[] password);
     public byte[] CreateHash(byte[] password);
-    public bool VerifyHash(byte[] password, byte[] hash);
+    public bool VerifyHash(byte[] password, string hash);
 }

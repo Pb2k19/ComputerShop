@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
 
 namespace ComputerShop.Server.Cryptography.Hash;
 
@@ -23,15 +24,28 @@ public class SimpleHashService : IHashService
         AlgorithmName = algorithmName;
     }
 
+    public string CreateHashString(byte[] password)
+    {
+        return Base64UrlEncoder.Encode(CreateHash(password));
+    }
+
     public byte[] CreateHash(byte[] password)
     {
         using HashAlgorithm hashAlgorithm = GetAlgorithm(AlgorithmName);
         return hashAlgorithm.ComputeHash(password);
     }
 
+    public bool VerifyHash(byte[] password, string hash)
+    {
+        byte[] hashBytes = Base64UrlEncoder.DecodeBytes(hash);
+
+        return VerifyHash(password, hashBytes);
+    }
+
     public bool VerifyHash(byte[] password, byte[] hash)
     {
-        return CryptographicOperations.FixedTimeEquals(password, hash);
+        byte[] calculatedHash = CreateHash(password);
+        return CryptographicOperations.FixedTimeEquals(calculatedHash, hash);
     }
 
     private static HashAlgorithm GetAlgorithm(string hashName)
