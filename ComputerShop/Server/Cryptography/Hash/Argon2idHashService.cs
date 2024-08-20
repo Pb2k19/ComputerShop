@@ -8,10 +8,15 @@ namespace ComputerShop.Server.Cryptography.Hash
     {
         public string AlgorithmName => "Argon2id";
 
-        public byte[] CreateHash(byte[] password)
+        public (byte[] hash, byte[] salt) CreateHash(byte[] password)
         {
             byte[] salt = RandomNumberGenerator.GetBytes(32);
-            return PasswordHash.ArgonHashBinary(password, salt, PasswordHash.StrengthArgon.Interactive);
+            return CreateHash(password, salt);
+        }
+
+        public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt)
+        {
+            return (PasswordHash.ArgonHashBinary(password, salt, PasswordHash.StrengthArgon.Interactive), salt);
         }
 
         public string CreateHashString(byte[] password)

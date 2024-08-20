@@ -13,18 +13,23 @@ public class PBKDF2Service : IHashService
     public string CreateHashString(byte[] password)
     {
         byte[] salt = RandomNumberGenerator.GetBytes(SaltLength);
-        byte[] result = CreateHash(password, salt);
+        byte[] result = CreateHashCore(password, salt);
 
         return $"PBKDF2{Separator}{NumberOfIterations}{Separator}{Base64UrlEncoder.Encode(salt)}{Separator}{Base64UrlEncoder.Encode(result)}";
     }
 
-    public byte[] CreateHash(byte[] password)
+    public (byte[] hash, byte[] salt) CreateHash(byte[] password)
     {
         byte[] salt = RandomNumberGenerator.GetBytes(SaltLength);
         return CreateHash(password, salt);
     }
 
-    public byte[] CreateHash(byte[] password, byte[] salt)
+    public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt)
+    {
+        return (CreateHashCore(password, salt), salt);
+    }
+
+    public byte[] CreateHashCore(byte[] password, byte[] salt)
     {
         using Rfc2898DeriveBytes hash = new(password, salt, NumberOfIterations, HashAlgorithmName.SHA512);
         return hash.GetBytes(ResultLength);
@@ -33,7 +38,7 @@ public class PBKDF2Service : IHashService
     public bool VerifyHash(byte[] password, string hash)
     {
         string[] hashParts = hash.Split(Separator);
-        byte[] calculatedHash = CreateHash(password, Base64UrlEncoder.DecodeBytes(hashParts[2]));
+        byte[] calculatedHash = CreateHashCore(password, Base64UrlEncoder.DecodeBytes(hashParts[2]));
 
         return CryptographicOperations.FixedTimeEquals(calculatedHash, Base64UrlEncoder.DecodeBytes(hashParts[3]));
     }

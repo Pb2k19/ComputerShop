@@ -26,13 +26,18 @@ public class SimpleHashService : IHashService
 
     public string CreateHashString(byte[] password)
     {
-        return Base64UrlEncoder.Encode(CreateHash(password));
+        return Base64UrlEncoder.Encode(CreateHash(password).hash);
     }
 
-    public byte[] CreateHash(byte[] password)
+    public (byte[] hash, byte[] salt) CreateHash(byte[] password)
+    {
+        return CreateHash(password, Array.Empty<byte>());
+    }
+
+    public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt)
     {
         using HashAlgorithm hashAlgorithm = GetAlgorithm(AlgorithmName);
-        return hashAlgorithm.ComputeHash(password);
+        return (hashAlgorithm.ComputeHash(password), Array.Empty<byte>());
     }
 
     public bool VerifyHash(byte[] password, string hash)
@@ -44,7 +49,7 @@ public class SimpleHashService : IHashService
 
     public bool VerifyHash(byte[] password, byte[] hash)
     {
-        byte[] calculatedHash = CreateHash(password);
+        byte[] calculatedHash = CreateHash(password).hash;
         return CryptographicOperations.FixedTimeEquals(calculatedHash, hash);
     }
 
