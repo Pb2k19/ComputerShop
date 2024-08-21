@@ -40,6 +40,23 @@ public class SimpleHashAlgorithm : IHashAlgorithm
         return (hashAlgorithm.ComputeHash(password), Array.Empty<byte>());
     }
 
+    public (byte[] hash, byte[] salt) CreateHash(byte[] password, int length)
+    {
+        return CreateHash(password, Array.Empty<byte>(), length);
+    }
+
+    public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt, int length)
+    {
+        int algorithmOutputLength = GetAlgorithmOutputBytesLength(AlgorithmName);
+
+        if (algorithmOutputLength < length)
+            throw new ArgumentException("Selected length is too long for selected algorithm", nameof(length));
+
+        (byte[] result, salt) = CreateHash(password, Array.Empty<byte>(), length);
+
+        return (result[..length], salt);
+    }
+
     public bool VerifyHash(byte[] password, string hash)
     {
         byte[] hashBytes = Base64UrlEncoder.DecodeBytes(hash);
@@ -62,6 +79,19 @@ public class SimpleHashAlgorithm : IHashAlgorithm
             SHA2_512Name => SHA512.Create(),
             SHA1Name => SHA1.Create(),
             MD5Name => MD5.Create(),
+            _ => throw new ArgumentException("Unsupported algorithm", nameof(hashName)),
+        };
+    }
+
+    private static int GetAlgorithmOutputBytesLength(string hashName)
+    {
+        return hashName switch
+        {
+            SHA2_256Name => 256 / 8,
+            SHA2_384Name => 384 / 8,
+            SHA2_512Name => 512 / 8,
+            SHA1Name => 160 / 8,
+            MD5Name => 128 / 8,
             _ => throw new ArgumentException("Unsupported algorithm", nameof(hashName)),
         };
     }

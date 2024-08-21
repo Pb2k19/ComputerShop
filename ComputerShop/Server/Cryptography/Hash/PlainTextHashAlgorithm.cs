@@ -17,6 +17,16 @@ public class PlainTextHashAlgorithm : IHashAlgorithm
         return (password, Array.Empty<byte>());
     }
 
+    public (byte[] hash, byte[] salt) CreateHash(byte[] password, int length)
+    {
+        return CreateHash(password, Array.Empty<byte>(), length);
+    }
+
+    public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt, int length)
+    {
+        return (password[..length], Array.Empty<byte>());
+    }
+
     public string CreateHashString(byte[] password)
     {
         return Encoding.UTF8.GetString(password);

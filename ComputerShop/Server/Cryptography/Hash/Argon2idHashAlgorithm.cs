@@ -6,17 +6,29 @@ namespace ComputerShop.Server.Cryptography.Hash
 {
     public class Argon2idHashAlgorithm : IHashAlgorithm
     {
+        public const int DefaultSaltLength = 32, DefaultHashOutputLength = 16;
+
         public string AlgorithmName => "Argon2id";
 
         public (byte[] hash, byte[] salt) CreateHash(byte[] password)
         {
-            byte[] salt = RandomNumberGenerator.GetBytes(32);
-            return CreateHash(password, salt);
+            return CreateHash(password, DefaultHashOutputLength);
+        }
+
+        public (byte[] hash, byte[] salt) CreateHash(byte[] password, int length)
+        {
+            byte[] salt = RandomNumberGenerator.GetBytes(DefaultSaltLength);
+            return CreateHash(password, salt, length);
         }
 
         public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt)
         {
-            return (PasswordHash.ArgonHashBinary(password, salt, PasswordHash.StrengthArgon.Interactive), salt);
+            return CreateHash(password, salt, DefaultHashOutputLength);
+        }
+
+        public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt, int length)
+        {
+            return (PasswordHash.ArgonHashBinary(password, salt, PasswordHash.StrengthArgon.Interactive, length, PasswordHash.ArgonAlgorithm.Argon_2ID13), salt);
         }
 
         public string CreateHashString(byte[] password)
