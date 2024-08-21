@@ -1,6 +1,6 @@
 ﻿namespace ComputerShop.Server.Cryptography.Hash;
 
-public interface IHashService
+public interface IHashAlgorithm
 {
     public string AlgorithmName { get; }
     public string CreateHashString(byte[] password);

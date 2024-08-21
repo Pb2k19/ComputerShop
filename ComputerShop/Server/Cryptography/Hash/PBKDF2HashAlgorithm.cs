@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace ComputerShop.Server.Cryptography.Hash;
 
-public class PBKDF2Service : IHashService
+public class PBKDF2HashAlgorithm : IHashAlgorithm
 {
     public const int NumberOfIterations = 210_000, SaltLength = 32, ResultLength = 64;
     public const char Separator = '$';

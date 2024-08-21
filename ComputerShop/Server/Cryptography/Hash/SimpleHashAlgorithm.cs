@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace ComputerShop.Server.Cryptography.Hash;
 
-public class SimpleHashService : IHashService
+public class SimpleHashAlgorithm : IHashAlgorithm
 {
     public const string
         SHA2_256Name = "SHA-256",
@@ -14,12 +14,12 @@ public class SimpleHashService : IHashService
 
     public string AlgorithmName { get; private set; }
 
-    public SimpleHashService()
+    public SimpleHashAlgorithm()
     {
         AlgorithmName = SHA2_512Name;
     }
 
-    public SimpleHashService(string algorithmName)
+    public SimpleHashAlgorithm(string algorithmName)
     {
         AlgorithmName = algorithmName;
     }

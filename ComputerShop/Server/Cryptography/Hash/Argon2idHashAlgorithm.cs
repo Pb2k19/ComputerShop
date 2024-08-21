@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ComputerShop.Server.Cryptography.Hash
 {
-    public class Argon2idHashService : IHashService
+    public class Argon2idHashAlgorithm : IHashAlgorithm
     {
         public string AlgorithmName => "Argon2id";
 

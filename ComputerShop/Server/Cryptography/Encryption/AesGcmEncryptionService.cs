@@ -8,11 +8,11 @@ public class AesGcmEncryptionService : IEncryption
 {
     public const char Separator = '$';
 
-    private readonly IHashService hashService;
+    private readonly IHashAlgorithm hashAlgorithm;
 
-    public AesGcmEncryptionService(IHashService hashService)
+    public AesGcmEncryptionService(IHashAlgorithm hashAlgorithm)
     {
-        this.hashService = hashService;
+        this.hashAlgorithm = hashAlgorithm;
     }
 
     public string Encrypt(byte[] plainText, byte[] key)
@@ -28,11 +28,11 @@ public class AesGcmEncryptionService : IEncryption
             byte[] nonce = RandomNumberGenerator.GetBytes(AesGcm.NonceByteSizes.MaxSize);
             byte[] tag = new byte[AesGcm.TagByteSizes.MaxSize];
             byte[] cipherText = new byte[plainText.Length];
-            (key, byte[] salt) = hashService.CreateHash(key);
+            (key, byte[] salt) = hashAlgorithm.CreateHash(key);
 
             aes.Encrypt(nonce, plainText, cipherText, tag);
 
-            return $"AesGcm{Separator}{hashService.AlgorithmName}{Separator}{Base64UrlEncoder.Encode(salt)}{Separator}{Base64UrlEncoder.Encode(nonce)}{Separator}{Base64UrlEncoder.Encode(tag)}{Separator}{Base64UrlEncoder.Encode(cipherText)}";
+            return $"AesGcm{Separator}{hashAlgorithm.AlgorithmName}{Separator}{Base64UrlEncoder.Encode(salt)}{Separator}{Base64UrlEncoder.Encode(nonce)}{Separator}{Base64UrlEncoder.Encode(tag)}{Separator}{Base64UrlEncoder.Encode(cipherText)}";
 
         }
         finally
@@ -47,7 +47,7 @@ public class AesGcmEncryptionService : IEncryption
         {
             string[] splited = cipher.Split(Separator);
 
-            (key, _) = hashService.CreateHash(key, Base64UrlEncoder.DecodeBytes(splited[2]));
+            (key, _) = hashAlgorithm.CreateHash(key, Base64UrlEncoder.DecodeBytes(splited[2]));
 
             using AesGcm aes = new(key);
             byte[] plainText = new byte[cipher.Length];
