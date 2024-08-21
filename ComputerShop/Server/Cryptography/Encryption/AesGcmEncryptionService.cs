@@ -7,6 +7,7 @@ namespace ComputerShop.Server.Cryptography.Encryption;
 public class AesGcmEncryptionService : IEncryption
 {
     public const char Separator = '$';
+    public const int KeyLengthBytes = 256 / 8;
 
     private readonly IHashAlgorithm hashAlgorithm;
 
@@ -19,16 +20,17 @@ public class AesGcmEncryptionService : IEncryption
     {
         try
         {
+            (key, byte[] salt) = hashAlgorithm.CreateHash(key, KeyLengthBytes);
+
             if (plainText is null || plainText.Length <= 0)
                 throw new ArgumentException("CipherText is null or empty", nameof(plainText));
-            if (key is null || key.Length != 32)
+            if (key is null || key.Length != KeyLengthBytes)
                 throw new ArgumentException($"Key length is incorrect - {(key is not null ? key.Length : "null")}. Correct length is 32 (256bit)", nameof(key));
 
             using AesGcm aes = new(key);
             byte[] nonce = RandomNumberGenerator.GetBytes(AesGcm.NonceByteSizes.MaxSize);
             byte[] tag = new byte[AesGcm.TagByteSizes.MaxSize];
             byte[] cipherText = new byte[plainText.Length];
-            (key, byte[] salt) = hashAlgorithm.CreateHash(key);
 
             aes.Encrypt(nonce, plainText, cipherText, tag);
 
@@ -47,7 +49,7 @@ public class AesGcmEncryptionService : IEncryption
         {
             string[] splited = cipher.Split(Separator);
 
-            (key, _) = hashAlgorithm.CreateHash(key, Base64UrlEncoder.DecodeBytes(splited[2]));
+            (key, _) = hashAlgorithm.CreateHash(key, Base64UrlEncoder.DecodeBytes(splited[2]), KeyLengthBytes);
 
             using AesGcm aes = new(key);
             byte[] plainText = new byte[cipher.Length];
