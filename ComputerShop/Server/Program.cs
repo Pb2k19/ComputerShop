@@ -1,13 +1,13 @@
-using ComputerShop.Server.Services.User;
-using ComputerShop.Server.Services.Products;
+using ComputerShop.Server.DataAccess;
 using ComputerShop.Server.Services.Order;
+using ComputerShop.Server.Services.Payment;
+using ComputerShop.Server.Services.Products;
+using ComputerShop.Server.Services.User;
+using ComputerShop.Server.Services.UserDetails;
+using ComputerShop.Server.Services.WishList;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
-using ComputerShop.Server.Services.WishList;
-using ComputerShop.Server.DataAccess;
-using ComputerShop.Server.Services.UserDetails;
-using ComputerShop.Server.Services.Payment;
 
 var builder = WebApplication.CreateBuilder(args);
 
