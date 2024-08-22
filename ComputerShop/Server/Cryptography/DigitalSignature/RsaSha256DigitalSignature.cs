@@ -7,11 +7,16 @@ public class RsaSha256DigitalSignature : IDigitalSignature
 {
     public SigningCredentials GetSigningCredentials(IConfiguration configuration)
     {
+        return new(GetSecurityKey(configuration), SecurityAlgorithms.RsaSha256);
+    }
+
+    public SecurityKey GetSecurityKey(IConfiguration configuration)
+    {
         string rsaPem = configuration["Settings:TokenPrivateRSA"];
 
         using RSA rsa = RSA.Create();
         rsa.ImportFromPem(rsaPem);
 
-        return new(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
+        return new RsaSecurityKey(rsa);
     }
 }

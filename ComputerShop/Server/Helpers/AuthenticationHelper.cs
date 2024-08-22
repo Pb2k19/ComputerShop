@@ -1,4 +1,5 @@
-﻿using ComputerShop.Server.Models;
+﻿using ComputerShop.Server.Cryptography.DigitalSignature;
+using ComputerShop.Server.Models;
 using ComputerShop.Shared.Models;
 using ComputerShop.Shared.Models.User;
 using Microsoft.IdentityModel.Tokens;
@@ -91,7 +92,7 @@ namespace ComputerShop.Server.Helpers
         #endregion
 
         #region Token
-        public Token CreateToken(IConfiguration configuration, RegisteredUser user)
+        public Token CreateToken(IDigitalSignature digitalSignature, IConfiguration configuration, RegisteredUser user)
         {
             Token token = new();
             string confKey = configuration.GetSection("Settings:Token").Value;
@@ -110,14 +111,9 @@ namespace ComputerShop.Server.Helpers
                 new Claim(CustomClaims.Fingerprint, fingerprint.FingerprintHash),
             };
 
-            var eccPem = configuration["Settings:TokenPrivateEC"];
+            SigningCredentials credentials = digitalSignature.GetSigningCredentials(configuration);
 
-            var key = ECDsa.Create();
-            key.ImportECPrivateKey(Convert.FromBase64String(eccPem), out _);
-
-            SigningCredentials credentials = new(new ECDsaSecurityKey(key), SecurityAlgorithms.EcdsaSha256Signature);
-
-            var jwtSecurityToken = new JwtSecurityToken(
+            JwtSecurityToken jwtSecurityToken = new(
                 expires: DateTime.UtcNow.AddHours(24),
                 claims: claims,
                 signingCredentials: credentials);

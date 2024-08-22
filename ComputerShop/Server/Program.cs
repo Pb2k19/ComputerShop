@@ -1,3 +1,4 @@
+using ComputerShop.Server.Cryptography.DigitalSignature;
 using ComputerShop.Server.Cryptography.Hash;
 using ComputerShop.Server.DataAccess;
 using ComputerShop.Server.Services.Order;
@@ -7,8 +8,6 @@ using ComputerShop.Server.Services.User;
 using ComputerShop.Server.Services.UserDetails;
 using ComputerShop.Server.Services.WishList;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +17,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 
-builder.Services.AddSingleton<IHashAlgorithm, PBKDF2HashAlgorithm>();
+builder.Services.AddScoped<IHashAlgorithm, PBKDF2HashAlgorithm>();
+builder.Services.AddScoped<IDigitalSignature, EcdsaDigitalSignature>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserDetailsService, UserDetailsService>();
@@ -35,14 +35,11 @@ builder.Services.AddSingleton<IUserData, UserData>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var eccPem = builder.Configuration["Settings:TokenPrivateEC"];
-using var key = ECDsa.Create();
-key.ImportECPrivateKey(Convert.FromBase64String(eccPem), out _);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(bearerOptions =>
 {
     bearerOptions.TokenValidationParameters = new()
     {
-        IssuerSigningKey = new ECDsaSecurityKey(key),
+        IssuerSigningKey = new EcdsaDigitalSignature().GetSecurityKey(builder.Configuration),
         ValidateAudience = false,
         ValidateIssuerSigningKey = true,
         ValidateIssuer = false,

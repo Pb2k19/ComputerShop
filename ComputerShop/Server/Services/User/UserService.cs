@@ -1,4 +1,5 @@
-﻿using ComputerShop.Server.Cryptography.Hash;
+﻿using ComputerShop.Server.Cryptography.DigitalSignature;
+using ComputerShop.Server.Cryptography.Hash;
 using ComputerShop.Server.DataAccess;
 using ComputerShop.Server.Helpers;
 using ComputerShop.Server.Models;
@@ -17,13 +18,15 @@ namespace ComputerShop.Server.Services.User
         private readonly IHttpContextAccessor contextAccessor;
         private readonly IUserData userData;
         private readonly IHashAlgorithm hashAlgorithm;
+        private readonly IDigitalSignature digitalSignature;
 
-        public UserService(IConfiguration configuration, IHttpContextAccessor contextAccessor, IUserData userData, IHashAlgorithm hashAlgorithm)
+        public UserService(IConfiguration configuration, IHttpContextAccessor contextAccessor, IUserData userData, IHashAlgorithm hashAlgorithm, IDigitalSignature digitalSignature)
         {
             this.configuration = configuration;
             this.contextAccessor = contextAccessor;
             this.userData = userData;
             this.hashAlgorithm = hashAlgorithm;
+            this.digitalSignature = digitalSignature;
         }
         public async Task<List<UserModel>> GetAllUsersAsync()
         {
@@ -64,7 +67,7 @@ namespace ComputerShop.Server.Services.User
                 Token token;
                 try
                 {
-                    token = authentication.CreateToken(configuration, user);
+                    token = authentication.CreateToken(digitalSignature, configuration, user);
                 }
                 catch
                 {
