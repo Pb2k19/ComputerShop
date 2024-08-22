@@ -1,3 +1,4 @@
+using ComputerShop.Server.Cryptography.Hash;
 using ComputerShop.Server.DataAccess;
 using ComputerShop.Server.Services.Order;
 using ComputerShop.Server.Services.Payment;
@@ -16,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
+
+builder.Services.AddSingleton<IHashAlgorithm, PBKDF2HashAlgorithm>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserDetailsService, UserDetailsService>();

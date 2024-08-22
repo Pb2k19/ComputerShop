@@ -39,27 +39,6 @@ namespace ComputerShop.Server.Helpers
         }
         #endregion
 
-        #region Hash
-        public async Task<string> CreateHash(string password)
-        {
-            string hash = string.Empty;
-            await Task.Run(() => hash = BCrypt.Net.BCrypt.EnhancedHashPassword(password, 15, BCrypt.Net.HashType.SHA512));
-            return hash;
-        }
-        public async Task<bool> VerifyHash(string password, string passwordFromDb)
-        {
-            bool result = false;
-            await Task.Run(() => result = BCrypt.Net.BCrypt.EnhancedVerify(password, passwordFromDb, BCrypt.Net.HashType.SHA512));
-            return result;
-        }
-        public bool QuickHashCheck(string hash)
-        {
-            if (string.IsNullOrEmpty(hash) || hash.Length < 60)
-                return false;
-            return true;
-        }
-        #endregion
-
         #region PasswordPolicy
         public SimpleServiceResponse PasswordPolicyCheck(Register register)
         {
@@ -143,7 +122,7 @@ namespace ComputerShop.Server.Helpers
                 claims: claims,
                 signingCredentials: credentials);
 
-            token.TokenValue = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);            
+            token.TokenValue = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             token.SecureFgpBase64 = fingerprint.FingerprintBase64;
 
             if (!token.QuickTokenCheck())

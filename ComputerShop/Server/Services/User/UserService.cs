@@ -1,25 +1,29 @@
-﻿using ComputerShop.Shared.Models;
-using ComputerShop.Shared.Models.User;
-using ComputerShop.Server.Models;
-using ComputerShop.Server.Helpers;
-using System.Security.Principal;
-using System.Security.Claims;
+﻿using ComputerShop.Server.Cryptography.Hash;
 using ComputerShop.Server.DataAccess;
+using ComputerShop.Server.Helpers;
+using ComputerShop.Server.Models;
+using ComputerShop.Shared.Models;
+using ComputerShop.Shared.Models.User;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Text;
 
 namespace ComputerShop.Server.Services.User
 {
     public class UserService : IUserService
     {
-        private AuthenticationHelper authentication = new();
+        private readonly AuthenticationHelper authentication = new();
         private readonly IConfiguration configuration;
         private readonly IHttpContextAccessor contextAccessor;
         private readonly IUserData userData;
+        private readonly IHashAlgorithm hashAlgorithm;
 
-        public UserService(IConfiguration configuration, IHttpContextAccessor contextAccessor, IUserData userData)
+        public UserService(IConfiguration configuration, IHttpContextAccessor contextAccessor, IUserData userData, IHashAlgorithm hashAlgorithm)
         {
             this.configuration = configuration;
             this.contextAccessor = contextAccessor;
             this.userData = userData;
+            this.hashAlgorithm = hashAlgorithm;
         }
         public async Task<List<UserModel>> GetAllUsersAsync()
         {
@@ -28,7 +32,7 @@ namespace ComputerShop.Server.Services.User
         public async Task<bool> UserExists(string email)
         {
             email = email.ToLower();
-            var users = await userData.GetAllUsersAsync();            
+            var users = await userData.GetAllUsersAsync();
             return users.Any(x => x.Email.ToLower().Equals(email) && x is RegisteredUser);
         }
         public async Task<RegisteredUser?> GetRegisteredUser(string email)
@@ -46,16 +50,16 @@ namespace ComputerShop.Server.Services.User
         }
         public async Task<ServiceResponse<Token>> LoginAsync(Login login)
         {
-            if(login == null || string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
+            if (login == null || string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
             {
                 return new ServiceResponse<Token> { Message = "Podane wartości nie mogą być puste", Success = false };
             }
             RegisteredUser? user = await GetRegisteredUser(login.Email);
-            if(user == null)
+            if (user == null)
             {
                 return new ServiceResponse<Token> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
             }
-            if(await authentication.VerifyHash(login.Password, user.Password))
+            if (hashAlgorithm.VerifyHash(Encoding.UTF8.GetBytes(login.Password), user.Password))
             {
                 Token token;
                 try
@@ -91,22 +95,14 @@ namespace ComputerShop.Server.Services.User
             RegisteredUser user = new()
             {
                 Email = register.Email,
-                Password = await authentication.CreateHash(register.Password)
+                Password = hashAlgorithm.CreateHashString(Encoding.UTF8.GetBytes(register.Password))
             };
-            if (!authentication.QuickHashCheck(user.Password))
-            {
-                return new SimpleServiceResponse
-                {
-                    Success = false,
-                    Message = "Coś poszło nie tak"
-                };
-            }
             return await AddUserAsync(user);
         }
         public async Task<SimpleServiceResponse> ChangePasswordAsync(ChangePassword changePassword)
         {
             string? userId = GetUserId();
-            if(userId == null)
+            if (userId == null)
                 return new ServiceResponse<Token> { Message = "Coś poszło nie tak - nie można zmienić hasła", Success = false };
             SimpleServiceResponse response = authentication.PasswordPolicyCheck(changePassword);
             if (!response.Success)
@@ -117,16 +113,14 @@ namespace ComputerShop.Server.Services.User
             List<Task> tasks = new();
             string newHash = string.Empty;
             bool verify = false;
-            tasks.Add(Task.Run(async () => { verify = await authentication.VerifyHash(changePassword.CurrentPassword, user.Password); }));
-            tasks.Add(Task.Run(async () => { newHash = await authentication.CreateHash(changePassword.Password); }));
+            tasks.Add(Task.Run(() => { verify = hashAlgorithm.VerifyHash(Encoding.UTF8.GetBytes(changePassword.CurrentPassword), user.Password); }));
+            tasks.Add(Task.Run(() => { newHash = hashAlgorithm.CreateHashString(Encoding.UTF8.GetBytes(changePassword.Password)); }));
             await Task.WhenAll(tasks);
-            if(!verify)
+            if (!verify)
                 return new SimpleServiceResponse { Message = "Aktualne hasło jest nieprawidłowe", Success = false };
-            if(!authentication.QuickHashCheck(newHash))
-                return new ServiceResponse<Token> { Message = "Coś poszło nie tak - nie można zmienić hasła", Success = false };
             user.Password = newHash;
             await userData.UpdateUserAsync(user);
-            return new SimpleServiceResponse { Message = "Hasło zostało zmienione", Success = true};
+            return new SimpleServiceResponse { Message = "Hasło zostało zmienione", Success = true };
         }
         public async Task<SimpleServiceResponse> UpdateUserAsync(UserModel user)
         {
@@ -135,7 +129,7 @@ namespace ComputerShop.Server.Services.User
                 await userData.UpdateUserAsync(user);
                 return new SimpleServiceResponse { Success = true };
             }
-            catch(MongoDB.Driver.MongoException ex)
+            catch (MongoDB.Driver.MongoException ex)
             {
                 return new SimpleServiceResponse { Success = false, Message = ex.Message };
             }
@@ -162,7 +156,7 @@ namespace ComputerShop.Server.Services.User
         internal bool Validate(HttpRequest request)
         {
             IIdentity? identity = GetUserIdentity();
-            if(identity == null)
+            if (identity == null)
                 return false;
             if (request.Cookies.TryGetValue("__Secure-Fgp", out string? cookie))
             {
