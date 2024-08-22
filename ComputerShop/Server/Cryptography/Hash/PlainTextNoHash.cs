@@ -3,7 +3,7 @@ using System.Text;
 
 namespace ComputerShop.Server.Cryptography.Hash;
 
-public class PlainTextHashAlgorithm : IHashAlgorithm
+public class PlainTextNoHash : IHashAlgorithm
 {
     public string AlgorithmName => "PlainText";
 
