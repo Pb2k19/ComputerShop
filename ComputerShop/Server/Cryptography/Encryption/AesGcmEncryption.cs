@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace ComputerShop.Server.Cryptography.Encryption;
 
-public class AesGcmEncryptionService : IEncryption
+public class AesGcmEncryption : IEncryption
 {
     public const char Separator = '$';
 
