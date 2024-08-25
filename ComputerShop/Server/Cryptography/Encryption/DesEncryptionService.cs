@@ -1,5 +1,4 @@
-﻿using ComputerShop.Server.Cryptography.Hash;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 
 namespace ComputerShop.Server.Cryptography.Encryption;
@@ -7,23 +6,16 @@ namespace ComputerShop.Server.Cryptography.Encryption;
 public class DesGcmEncryptionService : IEncryption
 {
     public const char Separator = '$';
-    public const int IvLength = 8, KeyLengthBytes = 192 / 8;
+    public const int IvLength = 8;
 
-    private readonly IHashAlgorithm hashService;
-
-    public DesGcmEncryptionService(IHashAlgorithm hashService)
-    {
-        this.hashService = hashService;
-    }
+    public int KeyLengthBytes { get; } = 192 / 8;
 
     public string Encrypt(byte[] plainText, byte[] key)
     {
         try
         {
-            (key, byte[] salt) = hashService.CreateHash(key, KeyLengthBytes);
-
             if (plainText is null || plainText.Length <= 0)
-                throw new ArgumentException("CipherText is null or empty", nameof(plainText));
+                throw new ArgumentException("Plain text is null or empty", nameof(plainText));
             if (key is null || key.Length != KeyLengthBytes)
                 throw new ArgumentException($"Key length is incorrect - {(key is not null ? key.Length : "null")}. Correct length is 8 (64bit)", nameof(key));
 
@@ -31,7 +23,7 @@ public class DesGcmEncryptionService : IEncryption
             byte[] iv = RandomNumberGenerator.GetBytes(IvLength);
             byte[] cipherText = aes.EncryptCbc(plainText, iv);
 
-            return $"DesCbc{Separator}{hashService.AlgorithmName}{Separator}{Base64UrlEncoder.Encode(salt)}{Separator}{Base64UrlEncoder.Encode(iv)}{Separator}{Base64UrlEncoder.Encode(cipherText)}";
+            return $"DesCbc{Separator}{Base64UrlEncoder.Encode(iv)}{Separator}{Base64UrlEncoder.Encode(cipherText)}";
         }
         finally
         {
@@ -39,17 +31,21 @@ public class DesGcmEncryptionService : IEncryption
         }
     }
 
-    public byte[] Decrypt(string cipher, byte[] key)
+    public byte[] Decrypt(string encrypted, byte[] key)
     {
         try
         {
-            string[] splited = cipher.Split(Separator);
+            string[] splited = encrypted.Split(Separator);
 
-            (key, _) = hashService.CreateHash(key, Base64UrlEncoder.DecodeBytes(splited[2]), KeyLengthBytes);
+            if (encrypted is null || encrypted.Length <= 0)
+                throw new ArgumentException("Encrypted text is null or empty", nameof(encrypted));
+            if (key is null || key.Length != KeyLengthBytes)
+                throw new ArgumentException($"Key length is incorrect - {(key is not null ? key.Length : "null")}. Correct length is 8 (64bit)", nameof(key));
+
 
             using DES aes = DES.Create();
-            byte[] iv = Base64UrlEncoder.DecodeBytes(splited[3]);
-            byte[] cipherBytes = Base64UrlEncoder.DecodeBytes(splited[4]);
+            byte[] iv = Base64UrlEncoder.DecodeBytes(splited[1]);
+            byte[] cipherBytes = Base64UrlEncoder.DecodeBytes(splited[2]);
 
             return aes.DecryptCbc(iv, cipherBytes);
         }

@@ -2,6 +2,7 @@
 
 public interface IEncryption
 {
-    byte[] Decrypt(string cipherText, byte[] key);
+    public int KeyLengthBytes { get; }
+    byte[] Decrypt(string encrypted, byte[] key);
     string Encrypt(byte[] plainText, byte[] key);
 }
