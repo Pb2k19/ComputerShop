@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace ComputerShop.Server.Cryptography.Encryption;
 
-public class DesGcmEncryptionService : IEncryption
+public class DesCbcEncryption : IEncryption
 {
     public const char Separator = '$';
     public const int IvLength = 8;
