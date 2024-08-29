@@ -38,7 +38,7 @@ namespace ComputerShop.Server.Cryptography.Hash
 
         public bool VerifyHash(byte[] password, string hash)
         {
-            return PasswordHash.ArgonHashStringVerify(password, Encoding.UTF8.GetBytes(hash));
+            return PasswordHash.ArgonHashStringVerify(Encoding.UTF8.GetBytes(hash), password);
         }
     }
 }
