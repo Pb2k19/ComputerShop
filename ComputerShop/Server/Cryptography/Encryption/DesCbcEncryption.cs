@@ -8,7 +8,7 @@ public class DesCbcEncryption : IEncryption
     public const char Separator = '$';
     public const int IvLength = 8;
 
-    public int KeyLengthBytes { get; } = 192 / 8;
+    public int KeyLengthBytes { get; } = 64 / 8;
 
     public string Encrypt(byte[] plainText, byte[] key)
     {
@@ -19,9 +19,10 @@ public class DesCbcEncryption : IEncryption
             if (key is null || key.Length != KeyLengthBytes)
                 throw new ArgumentException($"Key length is incorrect - {(key is not null ? key.Length : "null")}. Correct length is 8 (64bit)", nameof(key));
 
-            using DES aes = DES.Create();
+            using DES des = DES.Create();
+            des.Key = key;
             byte[] iv = RandomNumberGenerator.GetBytes(IvLength);
-            byte[] cipherText = aes.EncryptCbc(plainText, iv);
+            byte[] cipherText = des.EncryptCbc(plainText, iv);
 
             return $"DesCbc{Separator}{Base64UrlEncoder.Encode(iv)}{Separator}{Base64UrlEncoder.Encode(cipherText)}";
         }
@@ -42,12 +43,12 @@ public class DesCbcEncryption : IEncryption
             if (key is null || key.Length != KeyLengthBytes)
                 throw new ArgumentException($"Key length is incorrect - {(key is not null ? key.Length : "null")}. Correct length is 8 (64bit)", nameof(key));
 
-
-            using DES aes = DES.Create();
+            using DES des = DES.Create();
+            des.Key = key;
             byte[] iv = Base64UrlEncoder.DecodeBytes(splited[1]);
             byte[] cipherBytes = Base64UrlEncoder.DecodeBytes(splited[2]);
 
-            return aes.DecryptCbc(iv, cipherBytes);
+            return des.DecryptCbc(cipherBytes, iv);
         }
         finally
         {
