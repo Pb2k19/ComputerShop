@@ -5,7 +5,7 @@ namespace ComputerShop.Server.Cryptography.Hash;
 
 public class PBKDF2HashAlgorithm : IHashAlgorithm
 {
-    public const int NumberOfIterations = 210_000, DefaultSaltLength = 32, DefaultResultLength = 32;
+    public const int NumberOfIterations = 600_000, DefaultSaltLength = 32, DefaultResultLength = 32;
     public const char Separator = '$';
 
     public string AlgorithmName => "PBKDF2";
@@ -41,7 +41,7 @@ public class PBKDF2HashAlgorithm : IHashAlgorithm
 
     public byte[] CreateHashCore(byte[] password, byte[] salt, int length = DefaultResultLength)
     {
-        using Rfc2898DeriveBytes hash = new(password, salt, NumberOfIterations, HashAlgorithmName.SHA512);
+        using Rfc2898DeriveBytes hash = new(password, salt, NumberOfIterations, HashAlgorithmName.SHA256);
         return hash.GetBytes(length);
     }
 
