@@ -13,7 +13,7 @@ public class RsaAlgorithm : IEncryption
         using RSACryptoServiceProvider rsa = new();
         try
         {
-            rsa.FromXmlString(Encoding.UTF8.GetString(key));
+            rsa.ImportFromPem(Encoding.UTF8.GetChars(key));
 
             return rsa.Decrypt(Base64UrlEncoder.DecodeBytes(encrypted), true);
         }
@@ -29,7 +29,7 @@ public class RsaAlgorithm : IEncryption
         using RSACryptoServiceProvider rsa = new();
         try
         {
-            rsa.FromXmlString(Encoding.UTF8.GetString(key));
+            rsa.ImportFromPem(Encoding.UTF8.GetChars(key));
 
             byte[] encryptedData = rsa.Encrypt(plainText, true);
 
