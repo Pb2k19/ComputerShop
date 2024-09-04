@@ -12,47 +12,33 @@ public class DesCbcEncryption : IEncryption
 
     public string Encrypt(byte[] plainText, byte[] key)
     {
-        try
-        {
-            if (plainText is null || plainText.Length <= 0)
-                throw new ArgumentException("Plain text is null or empty", nameof(plainText));
-            if (key is null || key.Length != KeyLengthBytes)
-                throw new ArgumentException($"Key length is incorrect - {(key is not null ? key.Length : "null")}. Correct length is 8 (64bit)", nameof(key));
+        if (plainText is null)
+            throw new ArgumentException("Plain text is null", nameof(plainText));
+        if (key is null || key.Length != KeyLengthBytes)
+            throw new ArgumentException($"Key length is incorrect - {(key is not null ? key.Length : "null")}. Correct length is 8 (64bit)", nameof(key));
 
-            using DES des = DES.Create();
-            des.Key = key;
-            byte[] iv = RandomNumberGenerator.GetBytes(IvLength);
-            byte[] cipherText = des.EncryptCbc(plainText, iv);
+        using DES des = DES.Create();
+        des.Key = key;
+        byte[] iv = RandomNumberGenerator.GetBytes(IvLength);
+        byte[] cipherText = des.EncryptCbc(plainText, iv);
 
-            return $"DesCbc{Separator}{Base64UrlEncoder.Encode(iv)}{Separator}{Base64UrlEncoder.Encode(cipherText)}";
-        }
-        finally
-        {
-            CryptographicOperations.ZeroMemory(key);
-        }
+        return $"DesCbc{Separator}{Base64UrlEncoder.Encode(iv)}{Separator}{Base64UrlEncoder.Encode(cipherText)}";
     }
 
     public byte[] Decrypt(string encrypted, byte[] key)
     {
-        try
-        {
-            string[] splited = encrypted.Split(Separator);
+        string[] splited = encrypted.Split(Separator);
 
-            if (encrypted is null || encrypted.Length <= 0)
-                throw new ArgumentException("Encrypted text is null or empty", nameof(encrypted));
-            if (key is null || key.Length != KeyLengthBytes)
-                throw new ArgumentException($"Key length is incorrect - {(key is not null ? key.Length : "null")}. Correct length is 8 (64bit)", nameof(key));
+        if (encrypted is null)
+            throw new ArgumentException("Encrypted text is null", nameof(encrypted));
+        if (key is null || key.Length != KeyLengthBytes)
+            throw new ArgumentException($"Key length is incorrect - {(key is not null ? key.Length : "null")}. Correct length is 8 (64bit)", nameof(key));
 
-            using DES des = DES.Create();
-            des.Key = key;
-            byte[] iv = Base64UrlEncoder.DecodeBytes(splited[1]);
-            byte[] cipherBytes = Base64UrlEncoder.DecodeBytes(splited[2]);
+        using DES des = DES.Create();
+        des.Key = key;
+        byte[] iv = Base64UrlEncoder.DecodeBytes(splited[1]);
+        byte[] cipherBytes = Base64UrlEncoder.DecodeBytes(splited[2]);
 
-            return des.DecryptCbc(cipherBytes, iv);
-        }
-        finally
-        {
-            CryptographicOperations.ZeroMemory(key);
-        }
+        return des.DecryptCbc(cipherBytes, iv);
     }
 }

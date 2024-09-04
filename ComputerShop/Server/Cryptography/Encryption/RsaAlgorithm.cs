@@ -6,39 +6,23 @@ namespace ComputerShop.Server.Cryptography.Encryption;
 
 public class RsaAlgorithm : IEncryption
 {
-    public int KeyLengthBytes { get; } = 2048;
+    public int KeyLengthBytes { get; } = 2048 / 8;
 
     public byte[] Decrypt(string encrypted, byte[] key)
     {
         using RSACryptoServiceProvider rsa = new();
-        try
-        {
-            rsa.ImportFromPem(Encoding.UTF8.GetChars(key));
+        rsa.ImportFromPem(Encoding.UTF8.GetChars(key));
 
-            return rsa.Decrypt(Base64UrlEncoder.DecodeBytes(encrypted), true);
-        }
-        finally
-        {
-            rsa.PersistKeyInCsp = false;
-            CryptographicOperations.ZeroMemory(key);
-        }
+        return rsa.Decrypt(Base64UrlEncoder.DecodeBytes(encrypted), true);
     }
 
     public string Encrypt(byte[] plainText, byte[] key)
     {
         using RSACryptoServiceProvider rsa = new();
-        try
-        {
-            rsa.ImportFromPem(Encoding.UTF8.GetChars(key));
+        rsa.ImportFromPem(Encoding.UTF8.GetChars(key));
 
-            byte[] encryptedData = rsa.Encrypt(plainText, true);
+        byte[] encryptedData = rsa.Encrypt(plainText, true);
 
-            return Base64UrlEncoder.Encode(encryptedData);
-        }
-        finally
-        {
-            rsa.PersistKeyInCsp = false;
-            CryptographicOperations.ZeroMemory(key);
-        }
+        return Base64UrlEncoder.Encode(encryptedData);
     }
 }
