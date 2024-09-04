@@ -6,7 +6,8 @@ using ComputerShop.Benchmarks;
 var passwordStorageResult = BenchmarkRunner.Run<PasswordStorageBenchmark>();
 var passwordValidationResult = BenchmarkRunner.Run<PasswordValidationBenchmark>();
 var encryptionValidationResult = BenchmarkRunner.Run<EncryptionBenchmark>();
-var DecryptionValidationResult = BenchmarkRunner.Run<DecryptionBenchmark>();
+var decryptionValidationResult = BenchmarkRunner.Run<DecryptionBenchmark>();
+var tokenDigitalSignatureBenchmark = BenchmarkRunner.Run<TokenDigitalSignatureBenchmark>();
 
 #else
 
