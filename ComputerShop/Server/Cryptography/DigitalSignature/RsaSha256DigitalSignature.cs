@@ -24,7 +24,7 @@ public class RsaSha256DigitalSignature : IDigitalSignature
 
     public SecurityKey GetSecurityKey(string pem)
     {
-        using RSA rsa = RSA.Create();
+        RSA rsa = RSA.Create();
         rsa.ImportFromPem(pem);
 
         return new RsaSecurityKey(rsa);
