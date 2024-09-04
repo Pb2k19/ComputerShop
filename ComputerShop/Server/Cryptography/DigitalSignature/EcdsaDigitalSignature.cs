@@ -10,12 +10,22 @@ public class EcdsaDigitalSignature : IDigitalSignature
         return new(GetSecurityKey(configuration), SecurityAlgorithms.EcdsaSha256Signature);
     }
 
+    public SigningCredentials GetSigningCredentials(string pem)
+    {
+        return new(GetSecurityKey(pem), SecurityAlgorithms.EcdsaSha256Signature);
+    }
+
     public SecurityKey GetSecurityKey(IConfiguration configuration)
     {
         string eccPem = configuration["Settings:TokenPrivateEC"];
 
+        return GetSecurityKey(eccPem);
+    }
+
+    public SecurityKey GetSecurityKey(string pem)
+    {
         ECDsa key = ECDsa.Create();
-        key.ImportFromPem(eccPem);
+        key.ImportFromPem(pem);
 
         return new ECDsaSecurityKey(key);
     }
