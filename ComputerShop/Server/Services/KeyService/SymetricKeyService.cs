@@ -18,6 +18,12 @@ public class SymetricKeyService : IKeyService
         this.hash = hash;
     }
 
+    public SymetricKeyService(byte[] key, IHashAlgorithm hash)
+    {
+        this.key = key;
+        this.hash = hash;
+    }
+
     public (byte[] key, byte[] salt) GetEncryptionKey(int keyLength, string str)
     {
         return hash.CreateHash(CreateKeySource(str), keyLength);
