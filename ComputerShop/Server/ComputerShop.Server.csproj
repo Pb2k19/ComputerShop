@@ -23,9 +23,5 @@
     <ProjectReference Include="..\Shared\ComputerShop.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Cryptography\Signing\" />
-  </ItemGroup>
-
 
 </Project>
