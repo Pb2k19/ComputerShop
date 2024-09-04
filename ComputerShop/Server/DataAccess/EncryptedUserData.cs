@@ -3,6 +3,7 @@ using ComputerShop.Server.Services.KeyService;
 using ComputerShop.Shared.Models.User;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace ComputerShop.Server.DataAccess;
@@ -62,25 +63,33 @@ public class EncryptedUserData : IUserData
         if (order is null)
             return null;
 
-        return DecryptOrder(order, keyService.GetDecryptionKey(encryption.KeyLengthBytes, user.Id, GetSalt(order.InvoiceDetails.City)).key);
+        return DecryptOrder(order, keyService.GetDecryptionKey(encryption.KeyLengthBytes, user.Email, GetSalt(order.InvoiceDetails.City)).key);
     }
 
     public async Task<OrderModel?> GetOrderAsync(string orderId, string userId)
     {
-        var order = (await GetUserByIdAsync(userId)).Orders.FirstOrDefault(o => o.Id.Equals(orderId));
+        var user = await GetUserByIdAsync(userId);
+        if (user is null)
+            return null;
+
+        var order = user.Orders.FirstOrDefault(o => o.Id.Equals(orderId));
         if (order is null)
             return null;
 
-        return DecryptOrder(order, keyService.GetDecryptionKey(encryption.KeyLengthBytes, userId, GetSalt(order.InvoiceDetails.City)).key);
+        return DecryptOrder(order, keyService.GetDecryptionKey(encryption.KeyLengthBytes, user.Email, GetSalt(order.InvoiceDetails.City)).key);
     }
 
     public async Task<OrderModel?> GetFirstUnpaidOrderAsync(string userId)
     {
-        var order = (await GetUserByIdAsync(userId)).Orders.OrderByDescending(o => o.OrderDate).FirstOrDefault(o => o.State == OrderStates.Unpaid);
+        var user = await GetUserByIdAsync(userId);
+        if (user is null)
+            return null;
+
+        var order = user.Orders.OrderByDescending(o => o.OrderDate).FirstOrDefault(o => o.State == OrderStates.Unpaid);
         if (order is null)
             return null;
 
-        return DecryptOrder(order, keyService.GetDecryptionKey(encryption.KeyLengthBytes, userId, GetSalt(order.InvoiceDetails.City)).key);
+        return DecryptOrder(order, keyService.GetDecryptionKey(encryption.KeyLengthBytes, user.Email, GetSalt(order.InvoiceDetails.City)).key);
     }
 
     public async Task UpdateOrderAsync(OrderModel order)
@@ -135,37 +144,52 @@ public class EncryptedUserData : IUserData
     #region Encrypt / Decrypt
     private UserModel EncryptUser(UserModel user)
     {
-        (byte[] key, byte[] salt) = keyService.GetEncryptionKey(encryption.KeyLengthBytes, user.Id);
+        (byte[] key, byte[] salt) = keyService.GetEncryptionKey(encryption.KeyLengthBytes, user.Email);
 
-        UserModel encryptedUser = new()
+        try
         {
-            Id = user.Id,
-            Email = user.Email,
-            CreationDate = user.CreationDate,
-            Orders = EncryptOrders(user.Orders, key, salt),
-        };
+            UserModel encryptedUser = new()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                CreationDate = user.CreationDate,
+                Orders = EncryptOrders(user.Orders, key, salt),
+            };
 
-        return encryptedUser;
+            return encryptedUser;
+
+        }
+        finally
+        {
+            CryptographicOperations.ZeroMemory(key);
+        }
     }
 
     private RegisteredUser EncryptUser(RegisteredUser user)
     {
-        (byte[] key, byte[] salt) = keyService.GetEncryptionKey(encryption.KeyLengthBytes, user.Id);
+        (byte[] key, byte[] salt) = keyService.GetEncryptionKey(encryption.KeyLengthBytes, user.Email);
 
-        RegisteredUser encryptedUser = new()
+        try
         {
-            CreationDate = user.CreationDate,
-            WishList = user.WishList,
-            Email = user.Email,
-            Id = user.Id,
-            Password = user.Password,
-            Role = user.Role,
-            Orders = EncryptOrders(user.Orders, key, salt),
-            InvoiceDetails = EncryptInvoiceDetails(user.InvoiceDetails, key, salt),
-            DeliveryDetails = EncryptDeliveryDetailsDetails(user.DeliveryDetails, key, salt),
-        };
+            RegisteredUser encryptedUser = new()
+            {
+                CreationDate = user.CreationDate,
+                WishList = user.WishList,
+                Email = user.Email,
+                Id = user.Id,
+                Password = user.Password,
+                Role = user.Role,
+                Orders = EncryptOrders(user.Orders, key, salt),
+                InvoiceDetails = EncryptInvoiceDetails(user.InvoiceDetails, key, salt),
+                DeliveryDetails = EncryptDeliveryDetailsDetails(user.DeliveryDetails, key, salt),
+            };
 
-        return encryptedUser;
+            return encryptedUser;
+        }
+        finally
+        {
+            CryptographicOperations.ZeroMemory(key);
+        }
     }
 
     private List<OrderModel> EncryptOrders(List<OrderModel> orders, byte[] key, byte[] salt)
@@ -230,17 +254,25 @@ public class EncryptedUserData : IUserData
         if (x is null)
             return user;
 
-        byte[] key = keyService.GetDecryptionKey(encryption.KeyLengthBytes, user.Id, GetSalt(x)).key;
+        byte[] key = keyService.GetDecryptionKey(encryption.KeyLengthBytes, user.Email, GetSalt(x)).key;
 
-        UserModel decryptedUser = new()
+        try
         {
-            Id = user.Id,
-            Email = user.Email,
-            CreationDate = user.CreationDate,
-            Orders = DecryptOrders(user.Orders, key),
-        };
+            UserModel decryptedUser = new()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                CreationDate = user.CreationDate,
+                Orders = DecryptOrders(user.Orders, key),
+            };
 
-        return decryptedUser;
+            return decryptedUser;
+
+        }
+        finally
+        {
+            CryptographicOperations.ZeroMemory(key);
+        }
     }
 
     private RegisteredUser DecryptUser(RegisteredUser user)
@@ -253,22 +285,29 @@ public class EncryptedUserData : IUserData
         if (string.IsNullOrEmpty(x))
             return user;
 
-        byte[] key = keyService.GetDecryptionKey(encryption.KeyLengthBytes, user.Id, GetSalt(x)).key;
+        byte[] key = keyService.GetDecryptionKey(encryption.KeyLengthBytes, user.Email, GetSalt(x)).key;
 
-        RegisteredUser decryptedUser = new()
+        try
         {
-            CreationDate = user.CreationDate,
-            WishList = user.WishList,
-            Email = user.Email,
-            Id = user.Id,
-            Password = user.Password,
-            Role = user.Role,
-            Orders = DecryptOrders(user.Orders, key),
-            InvoiceDetails = DecryptInvoiceDetails(user.InvoiceDetails, key),
-            DeliveryDetails = DecryptDeliveryDetailsDetails(user.DeliveryDetails, key),
-        };
+            RegisteredUser decryptedUser = new()
+            {
+                CreationDate = user.CreationDate,
+                WishList = user.WishList,
+                Email = user.Email,
+                Id = user.Id,
+                Password = user.Password,
+                Role = user.Role,
+                Orders = DecryptOrders(user.Orders, key),
+                InvoiceDetails = DecryptInvoiceDetails(user.InvoiceDetails, key),
+                DeliveryDetails = DecryptDeliveryDetailsDetails(user.DeliveryDetails, key),
+            };
 
-        return decryptedUser;
+            return decryptedUser;
+        }
+        finally
+        {
+            CryptographicOperations.ZeroMemory(key);
+        }
     }
 
     private List<OrderModel> DecryptOrders(List<OrderModel> orders, byte[] key)
