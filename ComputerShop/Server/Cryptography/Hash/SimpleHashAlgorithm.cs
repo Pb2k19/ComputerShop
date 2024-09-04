@@ -52,7 +52,7 @@ public class SimpleHashAlgorithm : IHashAlgorithm
         if (algorithmOutputLength < length)
             throw new ArgumentException("Selected length is too long for selected algorithm", nameof(length));
 
-        (byte[] result, salt) = CreateHash(password, Array.Empty<byte>(), length);
+        (byte[] result, salt) = CreateHash(password, Array.Empty<byte>());
 
         return (result[..length], salt);
     }

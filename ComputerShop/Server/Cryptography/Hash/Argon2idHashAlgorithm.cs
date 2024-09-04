@@ -6,7 +6,7 @@ namespace ComputerShop.Server.Cryptography.Hash
 {
     public class Argon2idHashAlgorithm : IHashAlgorithm
     {
-        public const int DefaultSaltLength = 32, DefaultHashOutputLength = 16;
+        public const int DefaultSaltLength = 16, DefaultHashOutputLength = 16;
 
         public string AlgorithmName => "Argon2id";
 

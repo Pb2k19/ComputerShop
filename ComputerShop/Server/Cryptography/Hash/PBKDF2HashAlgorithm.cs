@@ -26,7 +26,7 @@ public class PBKDF2HashAlgorithm : IHashAlgorithm
     public (byte[] hash, byte[] salt) CreateHash(byte[] password, int length)
     {
         byte[] salt = RandomNumberGenerator.GetBytes(DefaultSaltLength);
-        return CreateHash(password, salt);
+        return CreateHash(password, salt, length);
     }
 
     public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt)
