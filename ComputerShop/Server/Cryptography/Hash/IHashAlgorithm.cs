@@ -3,10 +3,10 @@
 public interface IHashAlgorithm
 {
     public string AlgorithmName { get; }
-    public string CreateHashString(byte[] password);
-    public (byte[] hash, byte[] salt) CreateHash(byte[] password);
-    public (byte[] hash, byte[] salt) CreateHash(byte[] password, int length);
-    public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt);
-    public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt, int length);
-    public bool VerifyHash(byte[] password, string hash);
+    public string PasswordStorage(byte[] password);
+    public (byte[] hash, byte[] salt) KeyDerivation(byte[] password);
+    public (byte[] hash, byte[] salt) KeyDerivation(byte[] password, int length);
+    public (byte[] hash, byte[] salt) KeyDerivation(byte[] password, byte[] salt);
+    public (byte[] hash, byte[] salt) KeyDerivation(byte[] password, byte[] salt, int length);
+    public bool VerifyPassword(byte[] password, string hash);
 }

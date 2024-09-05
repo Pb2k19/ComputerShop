@@ -62,7 +62,7 @@ namespace ComputerShop.Server.Services.User
             {
                 return new ServiceResponse<Token> { Message = "Adres email lub hasło jest nieprawidłowe", Success = false };
             }
-            if (hashAlgorithm.VerifyHash(Encoding.UTF8.GetBytes(login.Password), user.Password))
+            if (hashAlgorithm.VerifyPassword(Encoding.UTF8.GetBytes(login.Password), user.Password))
             {
                 Token token;
                 try
@@ -98,7 +98,7 @@ namespace ComputerShop.Server.Services.User
             RegisteredUser user = new()
             {
                 Email = register.Email,
-                Password = hashAlgorithm.CreateHashString(Encoding.UTF8.GetBytes(register.Password))
+                Password = hashAlgorithm.PasswordStorage(Encoding.UTF8.GetBytes(register.Password))
             };
             return await AddUserAsync(user);
         }
@@ -116,8 +116,8 @@ namespace ComputerShop.Server.Services.User
             List<Task> tasks = new();
             string newHash = string.Empty;
             bool verify = false;
-            tasks.Add(Task.Run(() => { verify = hashAlgorithm.VerifyHash(Encoding.UTF8.GetBytes(changePassword.CurrentPassword), user.Password); }));
-            tasks.Add(Task.Run(() => { newHash = hashAlgorithm.CreateHashString(Encoding.UTF8.GetBytes(changePassword.Password)); }));
+            tasks.Add(Task.Run(() => { verify = hashAlgorithm.VerifyPassword(Encoding.UTF8.GetBytes(changePassword.CurrentPassword), user.Password); }));
+            tasks.Add(Task.Run(() => { newHash = hashAlgorithm.PasswordStorage(Encoding.UTF8.GetBytes(changePassword.Password)); }));
             await Task.WhenAll(tasks);
             if (!verify)
                 return new SimpleServiceResponse { Message = "Aktualne hasło jest nieprawidłowe", Success = false };

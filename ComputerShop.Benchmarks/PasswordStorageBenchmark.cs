@@ -29,42 +29,42 @@ public class PasswordStorageBenchmark
     [Benchmark]
     public string SHA1_Benchmark()
     {
-        return sha1.CreateHashString(PasswordForBenchmarkBytes);
+        return sha1.PasswordStorage(PasswordForBenchmarkBytes);
     }
 
     [Benchmark]
     public string MD5_Benchmark()
     {
-        return md5.CreateHashString(PasswordForBenchmarkBytes);
+        return md5.PasswordStorage(PasswordForBenchmarkBytes);
     }
 
     [Benchmark]
     public string SHA2_256_Benchmark()
     {
-        return sha256.CreateHashString(PasswordForBenchmarkBytes);
+        return sha256.PasswordStorage(PasswordForBenchmarkBytes);
     }
 
     [Benchmark]
     public string SHA2_384_Benchmark()
     {
-        return sha256.CreateHashString(PasswordForBenchmarkBytes);
+        return sha256.PasswordStorage(PasswordForBenchmarkBytes);
     }
 
     [Benchmark]
     public string SHA2_512_Benchmark()
     {
-        return sha512.CreateHashString(PasswordForBenchmarkBytes);
+        return sha512.PasswordStorage(PasswordForBenchmarkBytes);
     }
 
     [Benchmark(Baseline = true)]
     public string PBKDF2_Benchmark()
     {
-        return pbkdf2.CreateHashString(PasswordForBenchmarkBytes);
+        return pbkdf2.PasswordStorage(PasswordForBenchmarkBytes);
     }
 
     [Benchmark]
     public string Argon2id_Benchmark()
     {
-        return argon2id.CreateHashString(PasswordForBenchmarkBytes);
+        return argon2id.PasswordStorage(PasswordForBenchmarkBytes);
     }
 }

@@ -32,48 +32,48 @@ public class PasswordValidationBenchmark
     [Benchmark]
     public bool PlainText_Benchmark()
     {
-        return plainText.VerifyHash(PasswordForBenchmarkBytes, PasswordForBenchmark);
+        return plainText.VerifyPassword(PasswordForBenchmarkBytes, PasswordForBenchmark);
     }
 
     [Benchmark]
     public bool SHA1_Benchmark()
     {
-        return sha1.VerifyHash(PasswordForBenchmarkBytes, Sha1Hash);
+        return sha1.VerifyPassword(PasswordForBenchmarkBytes, Sha1Hash);
     }
 
     [Benchmark]
     public bool MD5_Benchmark()
     {
-        return md5.VerifyHash(PasswordForBenchmarkBytes, MD5Hash);
+        return md5.VerifyPassword(PasswordForBenchmarkBytes, MD5Hash);
     }
 
     [Benchmark]
     public bool SHA2_256_Benchmark()
     {
-        return sha256.VerifyHash(PasswordForBenchmarkBytes, SHA256Hash);
+        return sha256.VerifyPassword(PasswordForBenchmarkBytes, SHA256Hash);
     }
 
     [Benchmark]
     public bool SHA2_384_Benchmark()
     {
-        return sha384.VerifyHash(PasswordForBenchmarkBytes, SHA384Hash);
+        return sha384.VerifyPassword(PasswordForBenchmarkBytes, SHA384Hash);
     }
 
     [Benchmark]
     public bool SHA2_512_Benchmark()
     {
-        return sha512.VerifyHash(PasswordForBenchmarkBytes, SHA512Hash);
+        return sha512.VerifyPassword(PasswordForBenchmarkBytes, SHA512Hash);
     }
 
     [Benchmark(Baseline = true)]
     public bool PBKDF2_Benchmark()
     {
-        return pbkdf2.VerifyHash(PasswordForBenchmarkBytes, PBKDF2Hash);
+        return pbkdf2.VerifyPassword(PasswordForBenchmarkBytes, PBKDF2Hash);
     }
 
     [Benchmark]
     public bool Argon2id_Benchmark()
     {
-        return argon2id.VerifyHash(PasswordForBenchmarkBytes, Argon2idHash);
+        return argon2id.VerifyPassword(PasswordForBenchmarkBytes, Argon2idHash);
     }
 }

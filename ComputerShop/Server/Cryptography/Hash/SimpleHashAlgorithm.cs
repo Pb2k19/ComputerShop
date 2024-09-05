@@ -24,40 +24,50 @@ public class SimpleHashAlgorithm : IHashAlgorithm
         AlgorithmName = algorithmName;
     }
 
-    public string CreateHashString(byte[] password)
+    public string PasswordStorage(byte[] password)
     {
-        return Base64UrlEncoder.Encode(CreateHash(password).hash);
+        return Base64UrlEncoder.Encode(KeyDerivation(password).hash);
     }
 
-    public (byte[] hash, byte[] salt) CreateHash(byte[] password)
+    public (byte[] hash, byte[] salt) KeyDerivation(byte[] password)
     {
-        return CreateHash(password, Array.Empty<byte>());
+        return KeyDerivation(password, Array.Empty<byte>());
     }
 
-    public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt)
+    public (byte[] hash, byte[] salt) KeyDerivation(byte[] password, byte[] salt)
     {
         using HashAlgorithm hashAlgorithm = GetAlgorithm(AlgorithmName);
         return (hashAlgorithm.ComputeHash(password), Array.Empty<byte>());
     }
 
-    public (byte[] hash, byte[] salt) CreateHash(byte[] password, int length)
+    public (byte[] hash, byte[] salt) KeyDerivation(byte[] password, int length)
     {
-        return CreateHash(password, Array.Empty<byte>(), length);
+        return KeyDerivation(password, Array.Empty<byte>(), length);
     }
 
-    public (byte[] hash, byte[] salt) CreateHash(byte[] password, byte[] salt, int length)
+    public (byte[] hash, byte[] salt) KeyDerivation(byte[] password, byte[] salt, int length)
     {
         int algorithmOutputLength = GetAlgorithmOutputBytesLength(AlgorithmName);
 
-        if (algorithmOutputLength < length)
-            throw new ArgumentException("Selected length is too long for selected algorithm", nameof(length));
+        (byte[] result, salt) = KeyDerivation(password, Array.Empty<byte>());
 
-        (byte[] result, salt) = CreateHash(password, Array.Empty<byte>());
+        if (algorithmOutputLength < length)
+        {
+            byte[] resultTmp = new byte[length];
+
+            result.CopyTo(resultTmp, 0);
+            for (int i = password.Length; i < resultTmp.Length; i++)
+            {
+                resultTmp[i] = 61; // 61 -> =
+            }
+
+            return (resultTmp, salt);
+        }
 
         return (result[..length], salt);
     }
 
-    public bool VerifyHash(byte[] password, string hash)
+    public bool VerifyPassword(byte[] password, string hash)
     {
         byte[] hashBytes = Base64UrlEncoder.DecodeBytes(hash);
 
@@ -66,7 +76,7 @@ public class SimpleHashAlgorithm : IHashAlgorithm
 
     public bool VerifyHash(byte[] password, byte[] hash)
     {
-        byte[] calculatedHash = CreateHash(password).hash;
+        byte[] calculatedHash = KeyDerivation(password).hash;
         return CryptographicOperations.FixedTimeEquals(calculatedHash, hash);
     }
 

@@ -26,12 +26,12 @@ public class SymetricKeyService : IKeyService
 
     public (byte[] key, byte[] salt) GetEncryptionKey(int keyLength, string str)
     {
-        return hash.CreateHash(CreateKeySource(str), keyLength);
+        return hash.KeyDerivation(CreateKeySource(str), keyLength);
     }
 
     public (byte[] key, byte[] salt) GetEncryptionKey(int keyLength, string str, byte[] salt)
     {
-        return hash.CreateHash(CreateKeySource(str), salt, keyLength);
+        return hash.KeyDerivation(CreateKeySource(str), salt, keyLength);
     }
 
     public (byte[] key, byte[] salt) GetDecryptionKey(int keyLength, string str)
