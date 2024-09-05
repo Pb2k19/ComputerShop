@@ -7,7 +7,7 @@ var passwordValidationResult = BenchmarkRunner.Run<PasswordValidationBenchmark>(
 var encryptionValidationResult = BenchmarkRunner.Run<EncryptionBenchmark>();
 var decryptionValidationResult = BenchmarkRunner.Run<DecryptionBenchmark>();
 var tokenDigitalSignatureBenchmark = BenchmarkRunner.Run<TokenDigitalSignatureBenchmark>();
-var registerUserBenchmark = BenchmarkRunner.Run<RegisterUserBenchmark>();
+var addUserBenchmark = BenchmarkRunner.Run<AddUserBenchmark>();
 
 #else
 using ComputerShop.Benchmarks;
@@ -56,6 +56,6 @@ Console.WriteLine(Encoding.UTF8.GetString(decryptionBenchmark.AesDecryption_Benc
 Console.WriteLine(Encoding.UTF8.GetString(decryptionBenchmark.DesDecryption_Benchmark()));
 Console.WriteLine(Encoding.UTF8.GetString(decryptionBenchmark.RsaDecryption_Benchmark()));
 
-RegisterUserBenchmark registerUserBenchmark = new();
-await registerUserBenchmark.UserService_AesEncryption_Argon2idPassword();
+AddUserBenchmark addUserBenchmark = new();
+await addUserBenchmark.UserService_AesEncryption_Argon2idPassword();
 #endif
