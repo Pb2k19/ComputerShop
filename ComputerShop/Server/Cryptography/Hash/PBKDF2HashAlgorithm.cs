@@ -10,14 +10,6 @@ public class PBKDF2HashAlgorithm : IHashAlgorithm
 
     public string AlgorithmName => "PBKDF2";
 
-    public string PasswordStorage(byte[] password)
-    {
-        byte[] salt = RandomNumberGenerator.GetBytes(DefaultSaltLength);
-        byte[] result = KeyDerivationCore(password, salt);
-
-        return $"PBKDF2{Separator}{NumberOfIterations}{Separator}{Base64UrlEncoder.Encode(salt)}{Separator}{Base64UrlEncoder.Encode(result)}";
-    }
-
     public (byte[] hash, byte[] salt) KeyDerivation(byte[] password)
     {
         return KeyDerivation(password, DefaultResultLength);
@@ -41,8 +33,15 @@ public class PBKDF2HashAlgorithm : IHashAlgorithm
 
     public byte[] KeyDerivationCore(byte[] password, byte[] salt, int length = DefaultResultLength)
     {
-        using Rfc2898DeriveBytes hash = new(password, salt, NumberOfIterations, HashAlgorithmName.SHA256);
-        return hash.GetBytes(length);
+        return Rfc2898DeriveBytes.Pbkdf2(password, salt, NumberOfIterations, HashAlgorithmName.SHA256, length);
+    }
+
+    public string PasswordStorage(byte[] password)
+    {
+        byte[] salt = RandomNumberGenerator.GetBytes(DefaultSaltLength);
+        byte[] result = KeyDerivationCore(password, salt);
+
+        return $"PBKDF2{Separator}{NumberOfIterations}{Separator}{Base64UrlEncoder.Encode(salt)}{Separator}{Base64UrlEncoder.Encode(result)}";
     }
 
     public bool VerifyPassword(byte[] password, string hash)
