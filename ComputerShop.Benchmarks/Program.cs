@@ -10,7 +10,6 @@ var tokenDigitalSignatureBenchmark = BenchmarkRunner.Run<TokenDigitalSignatureBe
 var addUserBenchmark = BenchmarkRunner.Run<AddUserBenchmark>();
 
 #else
-using ComputerShop.Benchmarks;
 using ComputerShop.Server.Cryptography.Hash;
 using System.Text;
 
@@ -24,38 +23,52 @@ IHashAlgorithm
     pbkdf2 = new PBKDF2HashAlgorithm(),
     argon2id = new Argon2idHashAlgorithm();
 
-string passwordForBenchmark = "Pa$$w0rd@Bench0";
+
+string passwordForBenchmark = "X_5y>%6ZQ";
 
 Console.WriteLine(passwordForBenchmark);
-Console.WriteLine(sha1.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
 Console.WriteLine(md5.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha1.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha256.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha384.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha512.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(pbkdf2.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(argon2id.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine();
+
+passwordForBenchmark = "Pa$$w0rds123!@#";
+
+Console.WriteLine(passwordForBenchmark);
+Console.WriteLine(md5.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha1.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha256.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha384.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha512.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(pbkdf2.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(argon2id.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine();
+
+passwordForBenchmark = "admin1234";
+
+Console.WriteLine(passwordForBenchmark);
+Console.WriteLine(md5.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha1.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha256.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha384.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha512.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(pbkdf2.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(argon2id.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine();
+
+passwordForBenchmark = "4>P6n%";
+
+Console.WriteLine(passwordForBenchmark);
+Console.WriteLine(md5.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
+Console.WriteLine(sha1.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
 Console.WriteLine(sha256.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
 Console.WriteLine(sha384.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
 Console.WriteLine(sha512.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
 Console.WriteLine(pbkdf2.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
 Console.WriteLine(argon2id.PasswordStorage(Encoding.UTF8.GetBytes(passwordForBenchmark)));
 
-var x = new PasswordValidationBenchmark();
-Console.WriteLine(x.PlainText_Benchmark());
-Console.WriteLine(x.MD5_Benchmark());
-Console.WriteLine(x.SHA1_Benchmark());
-Console.WriteLine(x.SHA2_256_Benchmark());
-Console.WriteLine(x.SHA2_384_Benchmark());
-Console.WriteLine(x.SHA2_512_Benchmark());
-Console.WriteLine(x.PBKDF2_Benchmark());
-Console.WriteLine(x.Argon2id_Benchmark());
-
-EncryptionBenchmark encryptionBenchmark = new();
-DecryptionBenchmark decryptionBenchmark = new();
-
-Console.WriteLine(encryptionBenchmark.AesEncryption_Benchmark());
-Console.WriteLine(encryptionBenchmark.DesEncryption_Benchmark());
-Console.WriteLine(encryptionBenchmark.RsaEncryption_Benchmark());
-
-Console.WriteLine(Encoding.UTF8.GetString(decryptionBenchmark.AesDecryption_Benchmark()));
-Console.WriteLine(Encoding.UTF8.GetString(decryptionBenchmark.DesDecryption_Benchmark()));
-Console.WriteLine(Encoding.UTF8.GetString(decryptionBenchmark.RsaDecryption_Benchmark()));
-
-AddUserBenchmark addUserBenchmark = new();
-await addUserBenchmark.UserService_AesEncryption_Argon2idPassword();
 #endif
