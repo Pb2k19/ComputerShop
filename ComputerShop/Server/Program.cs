@@ -2,7 +2,6 @@ using ComputerShop.Server.Cryptography.DigitalSignature;
 using ComputerShop.Server.Cryptography.Hash;
 using ComputerShop.Server.DataAccess;
 using ComputerShop.Server.Services.Order;
-using ComputerShop.Server.Services.Payment;
 using ComputerShop.Server.Services.Products;
 using ComputerShop.Server.Services.User;
 using ComputerShop.Server.Services.UserDetails;
@@ -23,10 +22,8 @@ builder.Services.AddScoped<IDigitalSignature, EcdsaDigitalSignature>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserDetailsService, UserDetailsService>();
 builder.Services.AddScoped<IProductsService, ProductsService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IWishListService, WishListService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddSingleton<IDbConnection, DbConnection>();
 builder.Services.AddSingleton<IProductData, ProductData>();

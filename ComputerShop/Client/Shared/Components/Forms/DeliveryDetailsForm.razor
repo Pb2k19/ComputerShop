@@ -75,7 +75,7 @@
 
 @code {
     public List<string> DeliveryMethods { get; set; } = new List<string> { "Kurier", "Poczta", "Odbiór osobisty" };
-    public List<string> PaymentMethods { get; set; } = new List<string> { "Karta", "Przy odbiorze" };
+    public List<string> PaymentMethods { get; set; } = new List<string> { "Przy odbiorze" };
     [Parameter] public DeliveryDetails? DeliveryDetails { get; set; }
     [Parameter] public Action? OnValidSubmit { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Zapisz";

@@ -1,6 +1,6 @@
 ﻿using ComputerShop.Client.Helpers;
-using ComputerShop.Shared.Models.User;
 using ComputerShop.Shared.Models.Products;
+using ComputerShop.Shared.Models.User;
 
 namespace ComputerShop.Client.Pages
 {
@@ -24,7 +24,7 @@ namespace ComputerShop.Client.Pages
             deliveryDetails = new();
             invoiceDetails = new();
             if (state?.User?.Identity?.IsAuthenticated ?? false)
-            {                
+            {
                 var reD = await UserDetails.GetDeliveryDetailsAsync();
                 if (reD?.Success ?? false)
                     deliveryDetails = reD.Data ?? new();
@@ -54,21 +54,10 @@ namespace ComputerShop.Client.Pages
             {
                 NavigationManager.NavigateTo($"/sucess-order/{result?.Data?.Id ?? "BrakId"}/{result?.Message}");
                 return;
-            }                
+            }
             if (result?.Data.State == OrderStates.InPreparation)
                 NavigationManager.NavigateTo("/sucess-order");
-            else
-            {
-                var result2 = await PaymentService.CreateCheckoutAsync(productCartItems, result?.Data?.Id ?? string.Empty);
-                if (result2 == null || !result2.Success)
-                {
-                    NavigationManager.NavigateTo($"/sucess-order/{result?.Data.Id}/{result2?.Message}");
-                }
-                else
-                {
-                    NavigationManager.NavigateTo(result2.Data);
-                }
-            }
+
             await CartService.ClearCartAsync();
         }
         protected void NextStep()
