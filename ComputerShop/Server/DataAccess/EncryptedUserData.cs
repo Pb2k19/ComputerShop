@@ -14,6 +14,7 @@ public class EncryptedUserData : IUserData
     private readonly IEncryption encryption;
     private readonly IKeyService keyService;
 
+
     public EncryptedUserData(IDbConnection dbConnection, IEncryption encryption, IKeyService keyService)
     {
         users = dbConnection.UserCollection;
@@ -34,20 +35,12 @@ public class EncryptedUserData : IUserData
 
     public Task CreateUser(UserModel user)
     {
-        if (user is RegisteredUser)
-            return users.InsertOneAsync(EncryptUser((RegisteredUser)user));
-        else
             return users.InsertOneAsync(EncryptUser(user));
     }
 
     public Task UpdateUserAsync(UserModel user)
     {
-        UserModel encryptedUser;
-
-        if (user is RegisteredUser)
-            encryptedUser = EncryptUser((RegisteredUser)user);
-        else
-            encryptedUser = EncryptUser(user);
+        UserModel encryptedUser = EncryptUser(user);
 
         FilterDefinition<UserModel>? filter = Builders<UserModel>.Filter.Eq(nameof(UserModel.Id), encryptedUser.Id);
         return users.ReplaceOneAsync(filter, encryptedUser, new ReplaceOptions { IsUpsert = true });
@@ -144,6 +137,9 @@ public class EncryptedUserData : IUserData
     #region Encrypt / Decrypt
     private UserModel EncryptUser(UserModel user)
     {
+        if (user is RegisteredUser)
+            return EncryptUser((RegisteredUser)user);
+
         (byte[] key, byte[] salt) = keyService.GetEncryptionKey(encryption.KeyLengthBytes, user.Email);
 
         try
@@ -248,6 +244,9 @@ public class EncryptedUserData : IUserData
 
     private UserModel DecryptUser(UserModel user)
     {
+        if(user is RegisteredUser)
+            return DecryptUser((RegisteredUser)user);
+
         string? x = user.Orders.FirstOrDefault()?.DeliveryDetails.City;
         x ??= user.Orders.FirstOrDefault()?.InvoiceDetails.City;
 
@@ -384,21 +383,11 @@ public class EncryptedUserData : IUserData
         return Base64UrlEncoder.DecodeBytes(splited[1]);
     }
 
-    private string GetEncryptedPart(string encrypted)
-    {
-        string[] splited = encrypted.Split("$$");
-
-        if (splited.Length <= 2)
-            return string.Empty;
-
-        return splited[2];
-    }
-
     private string Decrypt(string encrypted, byte[] key)
     {
         string[] splited = encrypted.Split("$$");
 
-        return Encoding.UTF8.GetString(encryption.Decrypt(GetEncryptedPart(splited.Length <= 2 ? splited[0] : splited[2]), key));
+        return Encoding.UTF8.GetString(encryption.Decrypt(splited.Length <= 2 ? splited[0] : splited[2], key));
     }
     #endregion
 }
