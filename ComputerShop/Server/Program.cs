@@ -1,6 +1,8 @@
 using ComputerShop.Server.Cryptography.DigitalSignature;
+using ComputerShop.Server.Cryptography.Encryption;
 using ComputerShop.Server.Cryptography.Hash;
 using ComputerShop.Server.DataAccess;
+using ComputerShop.Server.Services.KeyService;
 using ComputerShop.Server.Services.Order;
 using ComputerShop.Server.Services.Products;
 using ComputerShop.Server.Services.User;
@@ -16,8 +18,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 
-builder.Services.AddScoped<IHashAlgorithm, PBKDF2HashAlgorithm>();
+builder.Services.AddScoped<IHashAlgorithm, Argon2idHashAlgorithm>();
 builder.Services.AddScoped<IDigitalSignature, EcdsaDigitalSignature>();
+builder.Services.AddScoped<IEncryption, AesGcmEncryption>();
+builder.Services.AddScoped<IKeyService, SymetricKeyService>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserDetailsService, UserDetailsService>();
@@ -27,7 +31,7 @@ builder.Services.AddScoped<IWishListService, WishListService>();
 
 builder.Services.AddSingleton<IDbConnection, DbConnection>();
 builder.Services.AddSingleton<IProductData, ProductData>();
-builder.Services.AddSingleton<IUserData, UserData>();
+builder.Services.AddScoped<IUserData, EncryptedUserData>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
