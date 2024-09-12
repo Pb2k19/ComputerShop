@@ -34,12 +34,6 @@ public class SimpleHashAlgorithm : IHashAlgorithm
         return KeyDerivation(password, Array.Empty<byte>());
     }
 
-    public (byte[] hash, byte[] salt) KeyDerivation(byte[] password, byte[] salt)
-    {
-        using HashAlgorithm hashAlgorithm = GetAlgorithm(AlgorithmName);
-        return (hashAlgorithm.ComputeHash(password), Array.Empty<byte>());
-    }
-
     public (byte[] hash, byte[] salt) KeyDerivation(byte[] password, int length)
     {
         return KeyDerivation(password, Array.Empty<byte>(), length);
@@ -78,6 +72,12 @@ public class SimpleHashAlgorithm : IHashAlgorithm
     {
         byte[] calculatedHash = KeyDerivation(password).hash;
         return CryptographicOperations.FixedTimeEquals(calculatedHash, hash);
+    }
+
+    public (byte[] hash, byte[] salt) KeyDerivation(byte[] password, byte[] salt)
+    {
+        using HashAlgorithm hashAlgorithm = GetAlgorithm(AlgorithmName);
+        return (hashAlgorithm.ComputeHash(password), Array.Empty<byte>());
     }
 
     private static HashAlgorithm GetAlgorithm(string hashName)
