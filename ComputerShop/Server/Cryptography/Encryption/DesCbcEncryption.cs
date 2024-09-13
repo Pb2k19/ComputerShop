@@ -27,13 +27,12 @@ public class DesCbcEncryption : IEncryption
 
     public byte[] Decrypt(string encrypted, byte[] key)
     {
-        string[] splited = encrypted.Split(Separator);
-
         if (encrypted is null)
             throw new ArgumentException("Encrypted text is null", nameof(encrypted));
         if (key is null || key.Length != KeyLengthBytes)
             throw new ArgumentException($"Key length is incorrect - {(key is not null ? key.Length : "null")}. Correct length is 8 (64bit)", nameof(key));
 
+        string[] splited = encrypted.Split(Separator);
         using DES des = DES.Create();
         des.Key = key;
         byte[] iv = Base64UrlEncoder.DecodeBytes(splited[1]);
